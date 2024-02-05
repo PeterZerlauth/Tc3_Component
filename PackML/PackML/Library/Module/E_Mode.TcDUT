@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="E_Mode" Id="{af7e14f4-c735-0cd5-014a-67da90d850bd}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_Mode :
+(
+	Invalid 		:= 0,
+	Production		:= 1,
+	Maintenance		:= 2,
+	Manual 			:= 3,
+	UserMode01		:= 4,
+	UserMode02		:= 5,
+	UserMode03		:= 6,
+	UserMode04		:= 7,
+	UserMode05		:= 8,
+	UserMode06		:= 9,
+	UserMode07		:= 10,
+	UserMode08		:= 11,
+	UserMode09		:= 12,
+	UserMode10		:= 13,
+	UserMode11		:= 14,
+	UserMode12		:= 15,
+	UserMode13		:= 16,
+	UserMode14		:= 17,
+	UserMode15		:= 18,
+	UserMode16		:= 19,
+	UserMode17		:= 20,
+	UserMode18		:= 21,
+	UserMode19		:= 22,
+	UserMode20		:= 23,
+	UserMode21		:= 24,
+	UserMode22		:= 25,
+	UserMode23		:= 26,
+	UserMode24		:= 27,
+	UserMode25		:= 28,
+	UserMode26		:= 29,
+	UserMode27		:= 30,
+	UserMode28		:= 31
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

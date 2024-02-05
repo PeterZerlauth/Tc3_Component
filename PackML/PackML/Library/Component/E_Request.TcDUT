@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="E_Request" Id="{d3b20770-b5da-468b-8276-148bae048ad0}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_Request :
+(
+    Undefined   := 0,
+    Reset       := 1,
+    Start       := 2,
+    Stop        := 3,
+    Hold        := 4,
+    Unhold      := 5,
+    Suspend     := 6,
+    Unsuspend   := 7,
+    Abort       := 8,
+    Clear       := 9,
+	Complete	:= 10
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

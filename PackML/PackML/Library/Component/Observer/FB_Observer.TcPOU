@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Observer" Id="{52aee6c6-b98c-4cb9-9b9b-2f523841c4cc}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'no_explicit_call'} 
+FUNCTION_BLOCK PUBLIC FB_Observer IMPLEMENTS I_Observer
+VAR
+	pList: 			POINTER TO I_Component;
+	nLength:		DINT;
+	aList:			POINTER TO POINTER TO ARRAY [0..100] OF I_Component:=ADR(pList);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FB_exit" Id="{8920c8e0-5709-4e5e-a21f-0871704cdcd1}">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
+VAR_INPUT
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Clear();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Attach" Id="{a96df4cc-8cea-4396-beb7-115ce888674b}">
+      <Declaration><![CDATA[METHOD M_Attach : BOOL
+VAR_INPUT
+	Object: 	I_Component;
+END_VAR
+VAR
+	pOldList: 	POINTER TO I_Component;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Object <> 0 THEN
+	// First Item
+	IF pList = 0 THEN
+		nLength:= nLength + 1;
+		pList:= __NEW(POINTER TO I_Component,DINT_TO_UDINT(nLength));
+	ELSE
+		// Item already in List
+		IF M_Find(Object) = -1 THEN
+			// backup 
+			pOldList:= pList;
+			// new Length
+			nLength:= nLength + 1;
+			// new pointer
+			pList:= __NEW(POINTER TO I_Component,DINT_TO_UDINT(nLength));
+			// restore
+			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Component)*DINT_TO_UDINT(nLength -1));
+			// delete old
+			__DELETE(pOldList);
+		ELSE
+			M_Attach:= FALSE;	
+			RETURN;
+		END_IF
+	END_IF
+	IF pList = 0 THEN
+		RETURN;
+	END_IF
+	// add new Object
+	pList[nLength-1]:= Object;
+	M_Attach:= TRUE;
+ELSE
+	M_Attach:= FALSE;	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Clear" Id="{307f5dd9-2a35-4b04-93bb-a7de0406e653}">
+      <Declaration><![CDATA[METHOD M_Clear
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF pList <> 0 THEN
+	nLength:= 0;
+	__DELETE(pList);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Detach" Id="{6e982e5c-8b12-4999-bbf2-06e2eebe2934}">
+      <Declaration><![CDATA[METHOD M_Detach : BOOL
+VAR_INPUT
+	Object: 	I_Component;
+END_VAR
+VAR
+	pOldList:			POINTER TO I_Component;
+	nPosition: 			DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Object <> 0 THEN
+	// First Item
+	IF nLength >= 0 THEN
+		// Item already in List
+		nPosition:= M_Find(Object);
+		IF nPosition <> -1 THEN
+			// backup 
+			pOldList:= pList;
+			// new Length
+			nLength:= nLength -1;
+			// new pointer
+			pList:= __NEW(POINTER TO I_Component,DINT_TO_UDINT(nLength));
+			// restore lower part
+			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Component) * DINT_TO_UDINT(nPosition));
+			//pList[nPosition]:= iObject;
+			Memcpy(pList + (SIZEOF(POINTER TO I_Component)*nPosition),pOldList + (SIZEOF(POINTER TO I_Component)*(nPosition + 1)), SIZEOF(POINTER TO I_Component) * DINT_TO_UDINT(nLength - nPosition));
+			// delete old
+			__DELETE(pOldList);
+		ELSE
+			M_Detach:= FALSE;	
+			RETURN;
+		END_IF
+	ELSE
+		M_Detach:= FALSE;	
+		RETURN;
+	END_IF
+	M_Detach:= TRUE;
+ELSE
+	M_Detach:= FALSE;	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Find" Id="{315829c2-37f1-487f-acb0-fff200e1a3d8}">
+      <Declaration><![CDATA[METHOD M_Find : DINT
+VAR_INPUT
+	Object: 	I_Component;
+END_VAR
+VAR
+	nIndex: 	UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Object already in List
+M_Find := -1;
+WHILE nIndex < nLength DO
+    IF (pList[nIndex] = Object) THEN
+        M_Find := nIndex;
+        RETURN;
+    END_IF
+	nIndex := nIndex + 1;
+END_WHILE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Index" Id="{6e332950-284b-4ced-bcaa-31bfc1d4668b}">
+      <Declaration><![CDATA[METHOD M_Index : I_Component
+VAR_INPUT
+	Index: 	DINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Index <= nLength THEN
+	M_Index:= pList[Index];
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Notify" Id="{3d3fb67b-dd6a-440b-9c1c-e8b43c7588bf}">
+      <Declaration><![CDATA[METHOD M_Notify : BOOL
+VAR_INPUT
+	stEvent:	ST_Event;
+END_VAR
+
+VAR
+	nIndex: 	INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[WHILE nIndex < nLength DO
+	pList[nIndex].P_Event.P_Observer.M_Notify(stEvent);
+	nIndex:= nIndex + 1; 
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Length" Id="{8da11863-b503-4855-a3f1-c1f64dac07a1}">
+      <Declaration><![CDATA[PROPERTY P_Length : DINT
+]]></Declaration>
+      <Get Name="Get" Id="{81573980-0484-490c-84fc-be91d0b14826}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Length:= nLength;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="FB_Observer">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Observer.FB_exit">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Observer.M_Attach">
+      <LineId Id="216" Count="30" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Observer.M_Clear">
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Observer.M_Detach">
+      <LineId Id="175" Count="28" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Observer.M_Find">
+      <LineId Id="66" Count="8" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Observer.M_Index">
+      <LineId Id="23" Count="1" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Observer.M_Notify">
+      <LineId Id="43" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="40" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Observer.P_Length.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

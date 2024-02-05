@@ -1,0 +1,746 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Component" Id="{4a8fdfc8-695a-4bb4-a889-b0289c0a194c}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'reflection'} 
+FUNCTION_BLOCK FB_Component IMPLEMENTS I_Component
+VAR_INPUT
+	fbInfo:						FB_Info(sInstancePath, eState);
+	fbEvent:					FB_Event(THIS^);
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+    {attribute 'hide'}
+	{attribute 'instance-path'} 
+    {attribute 'noinit'}
+    sInstancePath:				STRING(255);	
+	eStateRequest:				E_State;
+	eState:						E_State;
+    {attribute 'hide'}
+	eStatePrevious:				E_State;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// Get Infos
+fbInfo();
+
+// Events
+fbEvent();
+
+// Handle PackML requests and states
+CASE eState OF
+	E_State.Undefined:
+		IF M_Undefined() THEN
+			eState:= E_State.Aborting;					
+		END_IF
+
+	E_State.Clearing:
+		IF M_Clearing() THEN
+			eState:= E_State.Stopped;			
+		END_IF	
+
+	E_State.Stopped:
+		IF M_Stopped() THEN
+			eState:= E_State.Resetting;				
+		END_IF
+		CASE eStateRequest OF
+			E_State.Resetting, E_State.Idle:
+				eState:= E_State.Resetting;					
+			E_State.Aborted, E_State.Aborting:
+				eState:= E_State.Aborting;						
+		END_CASE
+	E_State.Starting:
+		IF M_Starting() THEN
+			eState:= E_State.Execute;	
+		END_IF
+		CASE eStateRequest OF
+			E_State.Stopping, E_State.Stopped:
+				eState:= E_State.Stopping;					
+			E_State.Aborting, E_State.Aborted:
+				eState:= E_State.Aborting;						
+		END_CASE			
+
+	E_State.Idle:
+		CASE eStateRequest OF
+			E_State.Starting, E_State.Execute:
+				eState:= E_State.Starting;
+			E_State.Stopping, E_State.Stopped:
+				eState:= E_State.Stopping;					
+			E_State.Aborting, E_State.Aborted:
+				eState:= E_State.Aborting;						
+		END_CASE			
+
+	E_State.Suspend:
+		IF M_Suspend() THEN
+			eState:= E_State.Unsuspending;			
+		END_IF
+		CASE eStateRequest OF
+			E_State.Starting, E_State.Execute, E_State.Unsuspending:
+				eState:= E_State.Starting;
+			E_State.Stopping, E_State.Stopped:
+				eState:= E_State.Stopping;					
+			E_State.Aborting, E_State.Aborted:
+				eState:= E_State.Aborting;						
+		END_CASE		
+
+	E_State.Execute:
+		IF M_Execute() THEN
+			eState:= E_State.Completing;			
+		END_IF
+		CASE eStateRequest OF
+			E_State.Suspending, E_State.Suspend:
+				eState:= E_State.Suspending;
+			E_State.Holding, E_State.Held:
+				eState:= E_State.Holding;
+		 	E_State.Completing, E_State.Complete:
+				eState:= E_State.Completing;
+			E_State.Stopping, E_State.Stopped:
+				eState:= E_State.Stopping;					
+			E_State.Aborting, E_State.Aborted:
+				eState:= E_State.Aborting;						
+		END_CASE		
+		
+	E_State.Stopping:
+		IF M_Stopping() THEN
+			eState:= E_State.Stopped;	
+		END_IF
+		CASE eStateRequest OF	
+			E_State.Aborting, E_State.Aborted:
+				eState:= E_State.Aborting;						
+		END_CASE		
+	
+	E_State.Aborting:
+		IF M_Aborting() THEN
+			eState:= E_State.Aborted;	
+		END_IF
+		
+	E_State.Aborted:
+		IF M_Aborted() THEN
+			eState:= E_State.Clearing;					
+		END_IF
+		CASE eStateRequest OF
+			E_State.Clearing, E_State.Stopped, E_State.Idle:
+				eState:= E_State.Clearing;					
+		END_CASE		
+	
+	E_State.Holding:
+		IF M_Holding() THEN
+			eState:= E_State.Held;	
+		END_IF
+		CASE eStateRequest OF
+			E_State.Stopping, E_State.Stopped:
+				eState:= E_State.Stopping;					
+			E_State.Aborting, E_State.Aborted:
+				eState:= E_State.Aborting;						
+		END_CASE		
+		
+	E_State.Held:
+		IF M_Held() THEN
+			eState:= E_State.Unholding;			
+		END_IF
+		CASE eStateRequest OF
+			E_State.Stopping, E_State.Stopped:
+				eState:= E_State.Stopping;					
+			E_State.Aborting, E_State.Aborted:
+				eState:= E_State.Aborting;						
+		END_CASE		
+		
+	E_State.Unholding:
+		IF M_Unholding() THEN
+			eState:= E_State.Execute;
+		END_IF	
+		CASE eStateRequest OF
+			E_State.Stopping, E_State.Stopped:
+				eState:= E_State.Stopping;					
+			E_State.Aborting, E_State.Aborted:
+				eState:= E_State.Aborting;						
+		END_CASE	
+		
+	E_State.Suspending:
+		IF M_Suspending() THEN
+			eState:= E_State.Suspend;
+		END_IF
+		CASE eStateRequest OF
+			E_State.Stopping, E_State.Stopped:
+				eState:= E_State.Stopping;					
+			E_State.Aborting, E_State.Aborted:
+				eState:= E_State.Aborting;						
+		END_CASE	
+		
+	E_State.Unsuspending:
+		IF M_Unsuspending() THEN
+			eState:= E_State.Execute;
+		END_IF
+		CASE eStateRequest OF
+			E_State.Stopping, E_State.Stopped:
+				eState:= E_State.Stopping;					
+			E_State.Aborting, E_State.Aborted:
+				eState:= E_State.Aborting;						
+		END_CASE	
+		
+	E_State.Resetting:
+		IF M_Resetting() THEN
+			eState:= E_State.Idle;
+		END_IF
+		CASE eStateRequest OF
+			E_State.Stopping, E_State.Stopped:
+				eState:= E_State.Stopping;					
+			E_State.Aborting, E_State.Aborted:
+				eState:= E_State.Aborting;						
+		END_CASE	
+		
+	E_State.Completing:
+		IF M_Completing() THEN
+			eState:= E_State.Complete;
+		END_IF
+		CASE eStateRequest OF
+			E_State.Stopping, E_State.Stopped:
+				eState:= E_State.Stopping;					
+			E_State.Aborting, E_State.Aborted:
+				eState:= E_State.Aborting;						
+		END_CASE	
+		
+	E_State.Complete:
+		IF M_Complete() THEN
+			eState:= E_State.Resetting;		
+		END_IF
+		CASE eStateRequest OF
+			E_State.Resetting, E_State.Idle:
+				eState:= E_State.Stopping;		
+			E_State.Stopping, E_State.Stopped:
+				eState:= E_State.Stopping;					
+			E_State.Aborting, E_State.Aborted:
+				eState:= E_State.Aborting;						
+		END_CASE		
+END_CASE
+CASE eState OF
+	E_State.Resetting:
+		M_Reset();
+END_CASE
+eStateRequest:= eState;
+
+// Detect state changed
+IF eStatePrevious <> eState THEN
+	M_StateChanged();
+	eStatePrevious:= eState;	
+END_IF
+]]></ST>
+    </Implementation>
+    <Folder Name="States" Id="{bb7123de-6478-4234-9ee4-651df2b9bc25}" />
+    <Method Name="M_Aborted" Id="{851e7e88-c79a-42ec-971c-1651bbdcd922}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborted : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Aborted
+M_Aborted:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Aborting" Id="{2544540d-284d-4bb6-9092-9fb2d57b609d}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Aborting
+M_Aborting:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Clearing" Id="{7ca46105-e5ff-4ca0-9f27-b897928eeabb}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Clearing : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Clearing
+M_Clearing:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Complete" Id="{36dec38b-240d-4516-a167-d73475e82b56}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Complete : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Complete
+M_Complete:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Completing" Id="{d7947499-dc81-4824-8eb2-1f31346a18c9}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Completing
+M_Completing:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Execute" Id="{7b4271f8-8ab7-4ecd-8059-762441f55350}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Execute]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Held" Id="{897a0d48-e739-4f14-8313-6cf76e869ecc}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Held : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Held
+M_Held:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Holding" Id="{7537786e-be59-43f8-af14-91fbd68626c4}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Holding : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Holding
+M_Holding:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Idle" Id="{9f0f7190-6eb5-4f18-a951-5893e9af72d3}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Idle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Idle]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Request" Id="{ccb3d941-e869-469e-bebe-469135ac244b}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Request : BOOL
+VAR_INPUT
+	eRequest:	E_Request;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE eRequest OF
+	E_Request.Undefined:
+		M_Request:= FALSE;
+		
+	E_Request.Complete:
+		eStateRequest:= E_State.Completing;
+		M_Request:= eState = E_State.Complete;
+		
+	E_Request.Clear:
+		eStateRequest:= E_State.Clearing;
+		M_Request:= eState = E_State.Stopped;
+		
+	E_Request.Reset:
+		eStateRequest:= E_State.Resetting;
+		M_Request:= eState = E_State.Idle;
+	
+	E_Request.Start, E_Request.Unhold, E_Request.Unsuspend:
+		eStateRequest:= E_State.Execute;
+		M_Request:= eState = E_State.Execute;
+		
+	E_Request.Stop:
+		eStateRequest:= E_State.Stopping;	
+		M_Request:= eState = E_State.Stopped;
+		
+	E_Request.Hold:;
+		eStateRequest:= E_State.Held;	
+		M_Request:= eState = E_State.Held;
+		
+	E_Request.Suspend:;
+		eStateRequest:= E_State.Suspend;	
+		M_Request:= eState = E_State.Suspend;
+		
+	E_Request.Abort:
+		eStateRequest:= E_State.Aborted;	
+		M_Request:= eState = E_State.Aborted;
+		
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{086635ef-5800-4505-9adb-437f3dabe309}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Resetting" Id="{ef3b38ac-7092-48f4-bd93-3280fba28638}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Resetting
+M_Resetting:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Starting" Id="{0a285b28-e7e5-4050-bddf-636ff865dc31}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Starting
+M_Starting:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_StateChanged" Id="{fed7d462-efbd-4bae-956c-60dd99530457}">
+      <Declaration><![CDATA[METHOD PROTECTED M_StateChanged : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stopped" Id="{3035f166-5ee3-4891-8715-c804b18a321e}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopped : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Clearing]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stopping" Id="{044bf6dd-28e6-4ae0-8f4c-d70b321a375a}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Stopping
+M_Stopping:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Suspend" Id="{a3699799-24ae-4f9f-afe8-4644b106fc28}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Suspend : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Suspend
+M_Suspend:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Suspending" Id="{d734c7b7-046c-4574-8d27-bb51a30e04e7}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Suspending : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Suspending
+M_Suspending:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Undefined" Id="{54f2b561-b89f-47f6-a504-ad1a94f7dafa}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Undefined : BOOL;
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Undefined
+M_Undefined:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Unholding" Id="{169fe3b1-c782-410c-a757-900a6ea2c822}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Unholding : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Unholding
+M_Unholding:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Unsuspending" Id="{a44bfedf-60a0-4908-9b14-58843306f08b}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Unsuspending : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Unsuspending
+M_Unsuspending:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Event" Id="{3b935d9d-6278-4dc9-a359-4ee7f1c69123}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Event : I_Event]]></Declaration>
+      <Get Name="Get" Id="{29792270-b47c-4141-a645-41c0781f774b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Event:= fbEvent;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Info" Id="{6e421f29-8ecf-4944-bc3a-6ca6205a23ab}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Info : I_Info]]></Declaration>
+      <Get Name="Get" Id="{f1bd3bb2-b46e-4fac-8458-ce900be7323b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Info:= fbInfo;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="FB_Component">
+      <LineId Id="266" Count="0" />
+      <LineId Id="176" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="265" Count="0" />
+      <LineId Id="264" Count="0" />
+      <LineId Id="178" Count="0" />
+      <LineId Id="263" Count="0" />
+      <LineId Id="173" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="195" Count="1" />
+      <LineId Id="128" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="127" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="197" Count="1" />
+      <LineId Id="71" Count="1" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="40" Count="1" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="311" Count="0" />
+      <LineId Id="202" Count="3" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="80" Count="2" />
+      <LineId Id="312" Count="4" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="206" Count="1" />
+      <LineId Id="317" Count="6" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="125" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="208" Count="1" />
+      <LineId Id="324" Count="0" />
+      <LineId Id="331" Count="3" />
+      <LineId Id="325" Count="5" />
+      <LineId Id="103" Count="0" />
+      <LineId Id="124" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="43" Count="1" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="335" Count="1" />
+      <LineId Id="150" Count="0" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="46" Count="1" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="210" Count="1" />
+      <LineId Id="337" Count="2" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="50" Count="1" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="348" Count="0" />
+      <LineId Id="355" Count="3" />
+      <LineId Id="212" Count="0" />
+      <LineId Id="262" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="222" Count="1" />
+      <LineId Id="359" Count="0" />
+      <LineId Id="366" Count="3" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="261" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="53" Count="1" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="370" Count="4" />
+      <LineId Id="224" Count="0" />
+      <LineId Id="260" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="375" Count="4" />
+      <LineId Id="230" Count="0" />
+      <LineId Id="259" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="380" Count="4" />
+      <LineId Id="236" Count="0" />
+      <LineId Id="258" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="63" Count="1" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="385" Count="4" />
+      <LineId Id="242" Count="0" />
+      <LineId Id="257" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="390" Count="4" />
+      <LineId Id="250" Count="0" />
+      <LineId Id="256" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="148" Count="1" />
+      <LineId Id="395" Count="0" />
+      <LineId Id="401" Count="0" />
+      <LineId Id="400" Count="0" />
+      <LineId Id="396" Count="3" />
+      <LineId Id="140" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="402" Count="1" />
+      <LineId Id="405" Count="0" />
+      <LineId Id="404" Count="0" />
+      <LineId Id="308" Count="0" />
+      <LineId Id="307" Count="0" />
+      <LineId Id="273" Count="0" />
+      <LineId Id="269" Count="0" />
+      <LineId Id="272" Count="0" />
+      <LineId Id="270" Count="1" />
+      <LineId Id="160" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Aborted">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Aborting">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Clearing">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Complete">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Completing">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Execute">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Held">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Holding">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Idle">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Request">
+      <LineId Id="9" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="50" Count="1" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="11" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Reset">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Resetting">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Starting">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_StateChanged">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Stopped">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Stopping">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Suspend">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Suspending">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Undefined">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Unholding">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Unsuspending">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.P_Event.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.P_Info.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

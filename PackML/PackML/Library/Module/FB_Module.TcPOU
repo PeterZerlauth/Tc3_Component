@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Module" Id="{6efc89f0-d4cb-4064-87fe-b3e7e4565c24}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Module EXTENDS FB_Component
+VAR_INPUT
+
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	eModeRequest:		E_Mode;
+	eMode:				E_Mode:= E_Mode.Production;
+	fbMembers:			FB_ListComponent;
+	fbSequence:			FB_Sequence;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+eModeRequest:= eMode;
+
+fbSequence();]]></ST>
+    </Implementation>
+    <Folder Name="States" Id="{694a9d1e-9320-4b44-8304-915301819906}" />
+    <Method Name="M_Aborted" Id="{5cc65874-0c3c-4298-85a3-7eb8d34e685a}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborted : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Aborted
+M_Aborted:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Aborting" Id="{4137189c-0971-4c12-a5b6-47ba6c3766a3}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Aborting
+M_Aborting:= fbMembers.M_Request(E_Request.Abort);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Clearing" Id="{a353efe8-12af-4cfc-8e69-786be3addc99}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Clearing : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Clearing
+M_Clearing:= fbMembers.M_Request(E_Request.Clear);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Complete" Id="{97634e0f-45d6-438e-90d7-7896fbbf9ce2}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Complete : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Complete
+M_Complete:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Completing" Id="{fcb6d010-3165-45e1-8a6f-cb79f1eec644}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Completing
+M_Completing:= fbMembers.M_Request(E_Request.Complete);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Execute" Id="{d73349b5-c08d-463d-8fb5-2d4cb4794852}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Execute]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Held" Id="{9e88bf5a-9a56-4904-8196-609d4a903e1c}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Held : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Held
+M_Held:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Holding" Id="{8f3c7cf5-18ae-41bd-8eca-8f65d3921256}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Holding : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Holding
+M_Holding:= fbMembers.M_Request(E_Request.Hold);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Idle" Id="{838ca72f-2882-4242-890d-f663c9d3c934}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Idle : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Idle]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Resetting" Id="{7f3c15bc-e2e2-4813-b65f-91bf523f06d5}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL
+VAR_INPUT
+END_VAR
+//VAR
+//	nIndex:			INT;
+//END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Resetting:= fbMembers.M_Request(E_Request.Reset);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Starting" Id="{4fce565f-5b90-45c7-b47a-faee7d898863}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Starting
+M_Starting:= fbMembers.M_Request(E_Request.Start);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stopped" Id="{c022d80d-00b1-4ca3-b021-86ddac8c1b65}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopped : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Clearing]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stopping" Id="{a4c0cecb-8066-49d7-9132-9db02d1685c7}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Stopping
+M_Stopping:= fbMembers.M_Request(E_Request.Stop);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Suspend" Id="{93d437a8-af94-4275-988d-d418879a3eba}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Suspend : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Suspend
+M_Suspend:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Suspending" Id="{5ce121bd-2afe-458e-9451-bee510074a7d}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Suspending : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Suspending
+M_Suspending:= fbMembers.M_Request(E_Request.Suspend);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Undefined" Id="{f814a8bd-88db-48e5-bfcd-620cc07dc33b}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Undefined : BOOL;
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Undefined
+M_Undefined:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Unholding" Id="{6c1d57a2-69be-47f1-95a4-dbf22943b480}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Unholding : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Unholding
+M_Unholding:=  fbMembers.M_Request(E_Request.Unhold);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Unsuspending" Id="{54f278e5-e069-4dd0-af59-c1d0761b5154}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Unsuspending : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Unsuspending
+M_Unsuspending:= fbMembers.M_Request(E_Request.Unsuspend);]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Members" Id="{94c83afe-74d0-4324-9009-a24e30be9780}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Members : I_ListComponent]]></Declaration>
+      <Get Name="Get" Id="{cb7807db-db9c-4909-9916-d70287c7c2b9}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Members:= fbMembers;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="FB_Module">
+      <LineId Id="9" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="35" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Aborted">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Aborting">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Clearing">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Complete">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Completing">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Execute">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Held">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Holding">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Idle">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Resetting">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Starting">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Stopped">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Stopping">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Suspend">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Suspending">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Undefined">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Unholding">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Unsuspending">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.P_Members.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

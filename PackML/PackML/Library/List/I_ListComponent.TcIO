@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_ListComponent" Id="{ab8205a2-82ac-4799-980f-541526123c48}">
+    <Declaration><![CDATA[INTERFACE I_ListComponent
+]]></Declaration>
+    <Method Name="M_Add" Id="{31416f6e-5c2d-4ce2-873c-dc73b1cfa758}">
+      <Declaration><![CDATA[METHOD M_Add : BOOL
+VAR_INPUT
+	Object: 	I_Component;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="M_Add2" Id="{6feb45da-afae-443c-97cf-c0840048d361}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Add2 : BOOL
+VAR_INPUT
+	Parent: 	I_Component;
+	Object: 	I_Component;
+END_VAR
+
+]]></Declaration>
+    </Method>
+    <Method Name="M_Clear" Id="{bec35183-59fd-4e05-8c88-04323521ec68}">
+      <Declaration><![CDATA[METHOD M_Clear : BOOL
+]]></Declaration>
+    </Method>
+    <Method Name="M_Find" Id="{9f020047-7fe7-44c3-b7ac-d3f89fe85683}">
+      <Declaration><![CDATA[METHOD M_Find : DINT
+VAR_INPUT
+	Object: 	I_Component;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="M_Index" Id="{aa739692-a960-4472-8c48-c3bba57fc92f}">
+      <Declaration><![CDATA[METHOD M_Index : I_Component
+VAR_INPUT
+	Index: 	DINT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Remove" Id="{6961a1f7-e686-48a7-b56a-c7aec47523ba}">
+      <Declaration><![CDATA[METHOD M_Remove : BOOL
+VAR_INPUT
+	Object: 	I_Component;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="M_Request" Id="{92387029-bdad-43b6-9627-c14b089e9780}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Request : BOOL
+VAR_INPUT
+	eRequest:		E_Request;
+END_VAR]]></Declaration>
+    </Method>
+    <Property Name="P_Length" Id="{49615258-7cc8-4370-999e-56e1024f4c79}">
+      <Declaration><![CDATA[PROPERTY P_Length : DINT
+]]></Declaration>
+      <Get Name="Get" Id="{ec48dc05-e74e-4cfe-acf2-317ea9ff6055}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

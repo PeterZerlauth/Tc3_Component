@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_Module01" Id="{3744d03d-359c-4ab8-84fb-4ea93b7a5162}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Module01 EXTENDS FB_Module
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	fbComponent1:				FB_Component;
+	fbComponent2:				FB_Component;
+	fbComponent3:				FB_Component;
+	fbComponent4:				FB_Component;
+	bEvent: 					BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+fbComponent1();
+fbComponent2();
+fbComponent3();
+fbComponent4();
+
+
+
+IF bEvent THEN
+	bEvent:= FALSE;
+	fbEvent.M_Add('Test');
+	fbEvent.M_Add('Test2');
+	fbEvent.M_Add('Test3');
+	P_Event.M_Error('First Error Abort',1);
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="M_Execute" Id="{bb8ad7c1-55ef-4293-a36e-35ec9a7b3bf1}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Execute();
+
+case fbSequence.nNumber of
+	
+	0:
+		fbSequence.M_Await('First step', T#0S, TRUE, 10);
+	
+	
+	10:
+		fbSequence.M_Await('Secound step', T#0S, TRUE, 20);
+	
+	
+	20:
+
+		fbSequence.M_Await('Last step', T#0S, TRUE, 0);
+		M_Execute:= TRUE;
+
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Undefined" Id="{714c485c-83a6-4af2-a706-fec3f6b598e5}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Undefined : BOOL;
+VAR_INPUT
+END_VAR
+VAR
+	
+	nIndex: INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF SUPER^.M_Undefined() THEN
+	fbMembers.M_Add2(THIS^, fbComponent1);
+	fbMembers.M_Add2(THIS^, fbComponent2);
+	fbMembers.M_Add2(THIS^, fbComponent3);
+	fbMembers.M_Add2(THIS^, fbComponent4);
+
+	M_Undefined:= TRUE;
+END_IF
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Module01">
+      <LineId Id="9" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="16" Count="2" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="47" Count="3" />
+      <LineId Id="54" Count="2" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="41" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module01.M_Execute">
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="22" Count="7" />
+      <LineId Id="12" Count="1" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module01.M_Undefined">
+      <LineId Id="24" Count="0" />
+      <LineId Id="31" Count="3" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="22" Count="1" />
+      <LineId Id="21" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
