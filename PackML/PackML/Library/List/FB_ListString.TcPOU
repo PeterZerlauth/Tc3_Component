@@ -107,7 +107,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Index <= nLength THEN
-	M_Index:= pList^[Index];
+	M_Index:= pList[Index];
 END_IF]]></ST>
       </Implementation>
     </Method>

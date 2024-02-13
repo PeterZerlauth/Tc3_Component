@@ -39,7 +39,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[WHILE nIndex < nLength DO
-	M_Arguments:= Concat(Concat(M_Arguments, pList^[nIndex]^), '$N');
+	M_Arguments:= Concat(Concat(M_Arguments, pList[nIndex]), '$N');
 	nIndex:= nIndex + 1;
 END_WHILE]]></ST>
       </Implementation>

@@ -34,6 +34,21 @@ CASE eState OF
 		IF M_Undefined() THEN
 			eState:= E_State.Aborting;					
 		END_IF
+		
+	E_State.Aborting:
+		IF M_Aborting() THEN
+			eState:= E_State.Aborted;	
+		END_IF
+		
+	E_State.Aborted:
+		IF M_Aborted() THEN
+			eState:= E_State.Clearing;					
+		END_IF
+		// Handle request
+		CASE eStateRequest OF
+			E_State.Clearing, E_State.Stopped, E_State.Idle:
+				eState:= E_State.Clearing;					
+		END_CASE	
 
 	E_State.Clearing:
 		IF M_Clearing() THEN
@@ -44,24 +59,29 @@ CASE eState OF
 		IF M_Stopped() THEN
 			eState:= E_State.Resetting;				
 		END_IF
+		// Handle request
 		CASE eStateRequest OF
 			E_State.Resetting, E_State.Idle:
 				eState:= E_State.Resetting;					
 			E_State.Aborted, E_State.Aborting:
 				eState:= E_State.Aborting;						
 		END_CASE
-	E_State.Starting:
-		IF M_Starting() THEN
-			eState:= E_State.Execute;	
+		
+	E_State.Resetting:
+		IF M_Resetting() THEN
+			eState:= E_State.Idle;
 		END_IF
+		// Handle request
 		CASE eStateRequest OF
 			E_State.Stopping, E_State.Stopped:
 				eState:= E_State.Stopping;					
 			E_State.Aborting, E_State.Aborted:
 				eState:= E_State.Aborting;						
-		END_CASE			
-
+		END_CASE	
+		
 	E_State.Idle:
+		M_Idle();
+		// Handle request
 		CASE eStateRequest OF
 			E_State.Starting, E_State.Execute:
 				eState:= E_State.Starting;
@@ -69,25 +89,29 @@ CASE eState OF
 				eState:= E_State.Stopping;					
 			E_State.Aborting, E_State.Aborted:
 				eState:= E_State.Aborting;						
-		END_CASE			
-
-	E_State.Suspend:
-		IF M_Suspend() THEN
-			eState:= E_State.Unsuspending;			
+		END_CASE
+		
+	E_State.Starting:
+		IF M_Starting() THEN
+			eState:= E_State.Execute;	
 		END_IF
+		// Handle request
 		CASE eStateRequest OF
-			E_State.Starting, E_State.Execute, E_State.Unsuspending:
-				eState:= E_State.Starting;
 			E_State.Stopping, E_State.Stopped:
 				eState:= E_State.Stopping;					
 			E_State.Aborting, E_State.Aborted:
 				eState:= E_State.Aborting;						
-		END_CASE		
+		END_CASE			
 
 	E_State.Execute:
 		IF M_Execute() THEN
-			eState:= E_State.Completing;			
+			// Wait for state complete
+			CASE eStateRequest OF
+				E_State.Completing, E_State.Complete:
+					eState:= E_State.Completing;					
+			END_CASE	
 		END_IF
+		// Handle request
 		CASE eStateRequest OF
 			E_State.Suspending, E_State.Suspend:
 				eState:= E_State.Suspending;
@@ -99,35 +123,38 @@ CASE eState OF
 				eState:= E_State.Stopping;					
 			E_State.Aborting, E_State.Aborted:
 				eState:= E_State.Aborting;						
+		END_CASE	
+
+	E_State.Suspend:
+		IF M_Suspend() THEN
+			eState:= E_State.Unsuspending;			
+		END_IF
+		// Handle request
+		CASE eStateRequest OF
+			E_State.Starting, E_State.Execute, E_State.Unsuspending:
+				eState:= E_State.Starting;
+			E_State.Stopping, E_State.Stopped:
+				eState:= E_State.Stopping;					
+			E_State.Aborting, E_State.Aborted:
+				eState:= E_State.Aborting;						
 		END_CASE		
+
 		
 	E_State.Stopping:
 		IF M_Stopping() THEN
 			eState:= E_State.Stopped;	
 		END_IF
+		// Handle request
 		CASE eStateRequest OF	
 			E_State.Aborting, E_State.Aborted:
 				eState:= E_State.Aborting;						
-		END_CASE		
-	
-	E_State.Aborting:
-		IF M_Aborting() THEN
-			eState:= E_State.Aborted;	
-		END_IF
-		
-	E_State.Aborted:
-		IF M_Aborted() THEN
-			eState:= E_State.Clearing;					
-		END_IF
-		CASE eStateRequest OF
-			E_State.Clearing, E_State.Stopped, E_State.Idle:
-				eState:= E_State.Clearing;					
-		END_CASE		
+		END_CASE			
 	
 	E_State.Holding:
 		IF M_Holding() THEN
 			eState:= E_State.Held;	
 		END_IF
+		// Handle request
 		CASE eStateRequest OF
 			E_State.Stopping, E_State.Stopped:
 				eState:= E_State.Stopping;					
@@ -139,6 +166,7 @@ CASE eState OF
 		IF M_Held() THEN
 			eState:= E_State.Unholding;			
 		END_IF
+		// Handle request
 		CASE eStateRequest OF
 			E_State.Stopping, E_State.Stopped:
 				eState:= E_State.Stopping;					
@@ -149,18 +177,20 @@ CASE eState OF
 	E_State.Unholding:
 		IF M_Unholding() THEN
 			eState:= E_State.Execute;
-		END_IF	
+		END_IF
+		// Handle request
 		CASE eStateRequest OF
 			E_State.Stopping, E_State.Stopped:
 				eState:= E_State.Stopping;					
 			E_State.Aborting, E_State.Aborted:
 				eState:= E_State.Aborting;						
-		END_CASE	
+		END_CASE
 		
 	E_State.Suspending:
 		IF M_Suspending() THEN
 			eState:= E_State.Suspend;
 		END_IF
+		// Handle request
 		CASE eStateRequest OF
 			E_State.Stopping, E_State.Stopped:
 				eState:= E_State.Stopping;					
@@ -172,17 +202,7 @@ CASE eState OF
 		IF M_Unsuspending() THEN
 			eState:= E_State.Execute;
 		END_IF
-		CASE eStateRequest OF
-			E_State.Stopping, E_State.Stopped:
-				eState:= E_State.Stopping;					
-			E_State.Aborting, E_State.Aborted:
-				eState:= E_State.Aborting;						
-		END_CASE	
-		
-	E_State.Resetting:
-		IF M_Resetting() THEN
-			eState:= E_State.Idle;
-		END_IF
+		// Handle request
 		CASE eStateRequest OF
 			E_State.Stopping, E_State.Stopped:
 				eState:= E_State.Stopping;					
@@ -194,17 +214,19 @@ CASE eState OF
 		IF M_Completing() THEN
 			eState:= E_State.Complete;
 		END_IF
+		// Handle request
 		CASE eStateRequest OF
 			E_State.Stopping, E_State.Stopped:
 				eState:= E_State.Stopping;					
 			E_State.Aborting, E_State.Aborted:
 				eState:= E_State.Aborting;						
-		END_CASE	
+		END_CASE
 		
 	E_State.Complete:
 		IF M_Complete() THEN
 			eState:= E_State.Resetting;		
 		END_IF
+		// Handle request
 		CASE eStateRequest OF
 			E_State.Resetting, E_State.Idle:
 				eState:= E_State.Stopping;		
@@ -212,17 +234,23 @@ CASE eState OF
 				eState:= E_State.Stopping;					
 			E_State.Aborting, E_State.Aborted:
 				eState:= E_State.Aborting;						
-		END_CASE		
+		END_CASE
+	
 END_CASE
-CASE eState OF
+CASE eStateRequest OF
 	E_State.Resetting:
 		M_Reset();
 END_CASE
-eStateRequest:= eState;
+
+CASE eState OF
+	E_State.Idle, E_State.Complete, E_State.Held, E_State.Suspend, E_State.Aborted, E_State.Stopped:
+		M_Reset();
+END_CASE
 
 // Detect state changed
 IF eStatePrevious <> eState THEN
 	M_StateChanged();
+	eStateRequest:= eState;
 	eStatePrevious:= eState;	
 END_IF
 ]]></ST>
@@ -504,6 +532,11 @@ END_VAR
       <LineId Id="12" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="195" Count="1" />
+      <LineId Id="474" Count="0" />
+      <LineId Id="462" Count="8" />
+      <LineId Id="512" Count="0" />
+      <LineId Id="471" Count="2" />
+      <LineId Id="461" Count="0" />
       <LineId Id="128" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="36" Count="1" />
@@ -512,56 +545,62 @@ END_VAR
       <LineId Id="14" Count="0" />
       <LineId Id="70" Count="0" />
       <LineId Id="197" Count="1" />
+      <LineId Id="511" Count="0" />
       <LineId Id="71" Count="1" />
       <LineId Id="75" Count="0" />
       <LineId Id="74" Count="0" />
       <LineId Id="78" Count="0" />
       <LineId Id="73" Count="0" />
+      <LineId Id="450" Count="0" />
+      <LineId Id="452" Count="3" />
+      <LineId Id="509" Count="0" />
+      <LineId Id="456" Count="4" />
+      <LineId Id="451" Count="0" />
+      <LineId Id="434" Count="0" />
+      <LineId Id="426" Count="0" />
+      <LineId Id="508" Count="0" />
+      <LineId Id="510" Count="0" />
+      <LineId Id="427" Count="6" />
+      <LineId Id="425" Count="0" />
+      <LineId Id="424" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="40" Count="1" />
       <LineId Id="38" Count="0" />
+      <LineId Id="507" Count="0" />
       <LineId Id="311" Count="0" />
       <LineId Id="202" Count="3" />
       <LineId Id="200" Count="0" />
       <LineId Id="39" Count="0" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="80" Count="2" />
-      <LineId Id="312" Count="4" />
+      <LineId Id="435" Count="1" />
+      <LineId Id="496" Count="0" />
+      <LineId Id="485" Count="0" />
+      <LineId Id="490" Count="1" />
+      <LineId Id="484" Count="0" />
+      <LineId Id="438" Count="0" />
+      <LineId Id="497" Count="0" />
+      <LineId Id="439" Count="10" />
+      <LineId Id="316" Count="0" />
       <LineId Id="126" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="106" Count="0" />
       <LineId Id="206" Count="1" />
+      <LineId Id="498" Count="0" />
       <LineId Id="317" Count="6" />
       <LineId Id="88" Count="0" />
-      <LineId Id="125" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="107" Count="0" />
-      <LineId Id="208" Count="1" />
-      <LineId Id="324" Count="0" />
-      <LineId Id="331" Count="3" />
-      <LineId Id="325" Count="5" />
       <LineId Id="103" Count="0" />
       <LineId Id="124" Count="0" />
       <LineId Id="19" Count="0" />
       <LineId Id="43" Count="1" />
       <LineId Id="42" Count="0" />
+      <LineId Id="499" Count="0" />
       <LineId Id="151" Count="0" />
       <LineId Id="335" Count="1" />
       <LineId Id="150" Count="0" />
-      <LineId Id="123" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="46" Count="1" />
-      <LineId Id="45" Count="0" />
-      <LineId Id="122" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="108" Count="0" />
-      <LineId Id="210" Count="1" />
-      <LineId Id="337" Count="2" />
-      <LineId Id="109" Count="0" />
       <LineId Id="48" Count="0" />
       <LineId Id="22" Count="0" />
       <LineId Id="50" Count="1" />
       <LineId Id="49" Count="0" />
+      <LineId Id="500" Count="0" />
       <LineId Id="348" Count="0" />
       <LineId Id="355" Count="3" />
       <LineId Id="212" Count="0" />
@@ -569,6 +608,7 @@ END_VAR
       <LineId Id="23" Count="0" />
       <LineId Id="120" Count="0" />
       <LineId Id="222" Count="1" />
+      <LineId Id="501" Count="0" />
       <LineId Id="359" Count="0" />
       <LineId Id="366" Count="3" />
       <LineId Id="130" Count="0" />
@@ -576,51 +616,54 @@ END_VAR
       <LineId Id="24" Count="0" />
       <LineId Id="53" Count="1" />
       <LineId Id="52" Count="0" />
+      <LineId Id="502" Count="0" />
       <LineId Id="370" Count="4" />
       <LineId Id="224" Count="0" />
       <LineId Id="260" Count="0" />
       <LineId Id="25" Count="0" />
       <LineId Id="56" Count="1" />
       <LineId Id="55" Count="0" />
+      <LineId Id="503" Count="0" />
       <LineId Id="375" Count="4" />
       <LineId Id="230" Count="0" />
       <LineId Id="259" Count="0" />
       <LineId Id="26" Count="0" />
       <LineId Id="60" Count="1" />
       <LineId Id="59" Count="0" />
+      <LineId Id="504" Count="0" />
       <LineId Id="380" Count="4" />
       <LineId Id="236" Count="0" />
-      <LineId Id="258" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="63" Count="1" />
-      <LineId Id="62" Count="0" />
-      <LineId Id="385" Count="4" />
-      <LineId Id="242" Count="0" />
       <LineId Id="257" Count="0" />
       <LineId Id="28" Count="0" />
       <LineId Id="66" Count="0" />
       <LineId Id="68" Count="0" />
       <LineId Id="65" Count="0" />
+      <LineId Id="505" Count="0" />
       <LineId Id="390" Count="4" />
       <LineId Id="250" Count="0" />
       <LineId Id="256" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="121" Count="0" />
       <LineId Id="148" Count="1" />
+      <LineId Id="506" Count="0" />
       <LineId Id="395" Count="0" />
       <LineId Id="401" Count="0" />
       <LineId Id="400" Count="0" />
       <LineId Id="396" Count="3" />
       <LineId Id="140" Count="0" />
+      <LineId Id="475" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="402" Count="1" />
       <LineId Id="405" Count="0" />
       <LineId Id="404" Count="0" />
-      <LineId Id="308" Count="0" />
+      <LineId Id="482" Count="0" />
+      <LineId Id="478" Count="2" />
+      <LineId Id="477" Count="0" />
       <LineId Id="307" Count="0" />
       <LineId Id="273" Count="0" />
       <LineId Id="269" Count="0" />
       <LineId Id="272" Count="0" />
+      <LineId Id="481" Count="0" />
       <LineId Id="270" Count="1" />
       <LineId Id="160" Count="0" />
     </LineIds>

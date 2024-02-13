@@ -10,12 +10,16 @@ VAR
     sInstancePath:				REFERENCE TO STRING(255);
 	eState:						REFERENCE TO E_State;
 	fbReadSymInfo: 				PLC_ReadSymInfoByNameEx;
+	nIndex:						DINT;
 END_VAR
 VAR_STAT
+	nCycle: 					UDINT;
 	nTimestamp: 				ULINT;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF nTimestamp <> F_GetSystemTime() THEN
+      <ST><![CDATA[GETCURTASKINDEXEX(GETCURTASKINDEXEX => nIndex);
+IF nCycle <> TwinCAT_SystemInfoVarList._TaskInfo[nIndex].CycleCount THEN
+	nCycle:= TwinCAT_SystemInfoVarList._TaskInfo[nIndex].CycleCount;
 	nTimestamp:= F_GetSystemTime();
 END_IF
 
@@ -130,7 +134,9 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="FB_Info">
+      <LineId Id="78" Count="0" />
       <LineId Id="48" Count="0" />
+      <LineId Id="72" Count="0" />
       <LineId Id="54" Count="1" />
       <LineId Id="51" Count="0" />
       <LineId Id="18" Count="10" />
