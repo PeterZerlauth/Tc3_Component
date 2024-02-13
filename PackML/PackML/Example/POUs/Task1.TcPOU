@@ -3,7 +3,7 @@
   <POU Name="Task1" Id="{80fd576e-8bda-0001-19b1-22d89fc11873}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM Task1
 VAR
-	fbModule:			FB_Module01;	
+	fbModule:		FB_Module01;	
 	bReset:			BOOL;
 	bStart: 		BOOL;
 	bStop:       	BOOL;
@@ -13,7 +13,6 @@ VAR
     bUnsuspend:  	BOOL;
     bAbort:      	BOOL;
     bClear:      	BOOL;
-
 END_VAR
 ]]></Declaration>
     <Implementation>

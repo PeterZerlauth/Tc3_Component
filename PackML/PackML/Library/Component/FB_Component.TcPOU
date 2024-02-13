@@ -237,21 +237,17 @@ CASE eState OF
 		END_CASE
 	
 END_CASE
+
 CASE eStateRequest OF
 	E_State.Resetting:
 		M_Reset();
 END_CASE
 
-CASE eState OF
-	E_State.Idle, E_State.Complete, E_State.Held, E_State.Suspend, E_State.Aborted, E_State.Stopped:
-		M_Reset();
-END_CASE
-
 // Detect state changed
 IF eStatePrevious <> eState THEN
-	M_StateChanged();
 	eStateRequest:= eState;
 	eStatePrevious:= eState;	
+	M_StateChanged();
 END_IF
 ]]></ST>
     </Implementation>
@@ -653,18 +649,17 @@ END_VAR
       <LineId Id="140" Count="0" />
       <LineId Id="475" Count="0" />
       <LineId Id="30" Count="0" />
+      <LineId Id="534" Count="0" />
       <LineId Id="402" Count="1" />
       <LineId Id="405" Count="0" />
       <LineId Id="404" Count="0" />
-      <LineId Id="482" Count="0" />
-      <LineId Id="478" Count="2" />
-      <LineId Id="477" Count="0" />
       <LineId Id="307" Count="0" />
       <LineId Id="273" Count="0" />
       <LineId Id="269" Count="0" />
+      <LineId Id="535" Count="0" />
+      <LineId Id="533" Count="0" />
       <LineId Id="272" Count="0" />
-      <LineId Id="481" Count="0" />
-      <LineId Id="270" Count="1" />
+      <LineId Id="271" Count="0" />
       <LineId Id="160" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Aborted">

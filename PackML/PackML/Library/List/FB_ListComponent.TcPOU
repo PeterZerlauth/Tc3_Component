@@ -76,8 +76,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Add(Object);
-Parent.P_Event.P_Observer.M_Attach(Object);
-Object.P_Event.P_Observer.M_Attach(Parent);]]></ST>
+Parent.P_Event.P_Observer.M_Attach(Object);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Clear" Id="{3e2c5687-bf15-40f5-99d0-ac9877db5017}">
@@ -214,7 +213,7 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_ListComponent.M_Add2">
       <LineId Id="2" Count="0" />
-      <LineId Id="217" Count="1" />
+      <LineId Id="217" Count="0" />
     </LineIds>
     <LineIds Name="FB_ListComponent.M_Clear">
       <LineId Id="10" Count="0" />

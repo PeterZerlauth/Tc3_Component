@@ -36,7 +36,7 @@ END_VAR
 	// First Item
 	IF pList = 0 THEN
 		nLength:= nLength + 1;
-		pList:= __NEW(POINTER TO STRING(255),DINT_TO_UDINT(nLength));
+		pList:= __NEW(STRING(255),DINT_TO_UDINT(nLength));
 	ELSE
 		// Item already in List
 		IF M_Find(Object) = -1 THEN
@@ -45,9 +45,9 @@ END_VAR
 			// new Length
 			nLength:= nLength + 1;
 			// new pointer
-			pList:= __NEW(POINTER TO STRING(255),DINT_TO_UDINT(nLength));
+			pList:= __NEW(STRING(255),DINT_TO_UDINT(nLength));
 			// restore
-			Memcpy(pList,pOldList, SIZEOF(POINTER TO STRING(255))*DINT_TO_UDINT(nLength -1));
+			Memcpy(pList,pOldList, SIZEOF(STRING(255))*DINT_TO_UDINT(nLength -1));
 			// delete old
 			__DELETE(pOldList);
 		ELSE
@@ -134,9 +134,9 @@ END_VAR]]></Declaration>
 			// new pointer
 			pList:= __NEW(POINTER TO I_Object,DINT_TO_UDINT(nLength));
 			// restore lower part
-			Memcpy(pList,pOldList, SIZEOF(POINTER TO STRING(255)) * DINT_TO_UDINT(nPosition));
+			Memcpy(pList,pOldList, SIZEOF(STRING(255)) * DINT_TO_UDINT(nPosition));
 			//pList[nPosition]:= iObject;
-			Memcpy(pList + (SIZEOF(POINTER TO STRING(255))*nPosition),pOldList + (SIZEOF(POINTER TO STRING(255))*(nPosition + 1)), SIZEOF(POINTER TO STRING(255)) * DINT_TO_UDINT(nLength - nPosition));
+			Memcpy(pList + (SIZEOF(STRING(255))*nPosition),pOldList + (SIZEOF(STRING(255))*(nPosition + 1)), SIZEOF(STRING(255)) * DINT_TO_UDINT(nLength - nPosition));
 			// delete old
 			__DELETE(pOldList);
 		ELSE
