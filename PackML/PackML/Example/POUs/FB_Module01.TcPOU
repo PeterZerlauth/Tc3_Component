@@ -29,7 +29,7 @@ IF bEvent THEN
 	fbEvent.M_Add('Test');
 	fbEvent.M_Add('Test2');
 	fbEvent.M_Add('Test3');
-	P_Event.M_Error('First Error Abort',1);
+	fbEvent.M_Abort('First Error Abort',1);
 END_IF]]></ST>
     </Implementation>
     <Method Name="M_Execute" Id="{bb8ad7c1-55ef-4293-a36e-35ec9a7b3bf1}">

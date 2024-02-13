@@ -29,6 +29,25 @@ END_VAR
         <ST><![CDATA[THIS^.iParent:= iParent;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Abort" Id="{55348828-4763-4c06-9dd1-090fa29a8379}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Abort : BOOL
+VAR_INPUT
+	Message:				STRING(255);
+	ID:						UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+stError.Timestamp:= F_GetSystemTime();
+stError.Message:= Message;
+stError.ID:= ID;
+stError.Arguments:= M_Arguments();
+
+iParent.M_Request(E_Request.Abort);
+fbObserver.M_Notify(E_Request.Abort);
+M_Clear();]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Arguments" Id="{70779266-7b36-4bce-9e6f-049e951fd75a}">
       <Declaration><![CDATA[METHOD INTERNAL M_Arguments : STRING(255)
 VAR_INPUT
@@ -83,6 +102,25 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Stop" Id="{089fbf49-839d-443a-b3f2-2540679d46a9}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Stop : BOOL
+VAR_INPUT
+	Message:				STRING(255);
+	ID:						UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+stError.Timestamp:= F_GetSystemTime();
+stError.Message:= Message;
+stError.ID:= ID;
+stError.Arguments:= M_Arguments();
+
+iParent.M_Request(E_Request.Stop);
+fbObserver.M_Notify(E_Request.Stop);
+M_Clear();]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Warning" Id="{d443b8bb-774e-487e-80a2-79cf66a0376c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Warning : BOOL
 VAR_INPUT
@@ -112,6 +150,16 @@ END_VAR
     <LineIds Name="FB_Event.FB_init">
       <LineId Id="7" Count="0" />
     </LineIds>
+    <LineIds Name="FB_Event.M_Abort">
+      <LineId Id="42" Count="0" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="62" Count="0" />
+    </LineIds>
     <LineIds Name="FB_Event.M_Arguments">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
@@ -132,6 +180,16 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Event.M_Information">
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Event.M_Stop">
+      <LineId Id="42" Count="0" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="62" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Warning">
       <LineId Id="5" Count="0" />
