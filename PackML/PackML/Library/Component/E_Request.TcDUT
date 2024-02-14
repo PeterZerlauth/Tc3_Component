@@ -6,16 +6,13 @@
 TYPE E_Request :
 (
     Undefined   := 0,
-    Reset       := 1,
-    Start       := 2,
-    Stop        := 3,
-    Hold        := 4,
-    Unhold      := 5,
-    Suspend     := 6,
-    Unsuspend   := 7,
-    Abort       := 8,
-    Clear       := 9,
-	Complete	:= 10
+    Start       := 1,
+    Pause       := 2,	
+    Hold      	:= 3,
+	Complete	:= 4,	
+    Stop        := 5,
+	Abort       := 6,
+	Reset       := 7
 );
 END_TYPE
 ]]></Declaration>

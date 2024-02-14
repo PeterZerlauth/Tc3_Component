@@ -3,6 +3,14 @@
   <Itf Name="I_Event" Id="{86200139-fcb7-4d9e-9f1b-6b3e88f31cc6}">
     <Declaration><![CDATA[INTERFACE I_Event EXTENDS I_Object
 ]]></Declaration>
+    <Method Name="M_Abort" Id="{7ce1cd66-528d-482d-8b65-9ae3dbff679e}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Abort : BOOL
+VAR_INPUT
+	Message:				STRING(255);
+	ID:						UDINT;
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="M_Debug" Id="{de8efd53-16f5-0334-02e3-fdd0e4bf084c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Debug : BOOL
 VAR_INPUT
@@ -10,16 +18,16 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Error" Id="{febdfad6-27c4-0149-3c6b-03ac315e35cc}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Error : BOOL
+    <Method Name="M_Information" Id="{a0df6aac-21ac-0b65-3426-2421a14ee702}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Information : BOOL
 VAR_INPUT
 	Message:				STRING(255);
 	ID:						UDINT;
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Information" Id="{a0df6aac-21ac-0b65-3426-2421a14ee702}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Information : BOOL
+    <Method Name="M_Stop" Id="{e735528a-b488-4d64-9f3f-4169f79eb682}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Stop : BOOL
 VAR_INPUT
 	Message:				STRING(255);
 	ID:						UDINT;
@@ -34,6 +42,15 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Property Name="P_Logger" Id="{79c5886e-8d4f-463a-a8f3-e7a7286bafb7}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Logger : I_Logger]]></Declaration>
+      <Get Name="Get" Id="{d72a2fbe-a299-4aee-94b4-9d545177e15c}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{769c2202-eaa4-4a8d-ad42-86a0c8601e68}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
     <Property Name="P_Observer" Id="{71855be2-d7dd-407c-bfc6-2b33d71db9ac}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>
       <Get Name="Get" Id="{06fb4a5b-c62f-47d3-bed0-c50d2d77e5a7}">

@@ -5,8 +5,11 @@
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
+	nEvents:			INT;
+	aEvents:			ARRAY [0..nMaxEvents] OF ST_Event;
 END_VAR
-VAR
+VAR CONSTANT
+	nMaxEvents:			INT:= 50;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -14,9 +17,28 @@ END_VAR
     </Implementation>
     <Method Name="M_Log" Id="{a9f6c2b8-bade-4429-b19a-5b07e920fc4a}">
       <Declaration><![CDATA[METHOD PUBLIC M_Log
+VAR_INPUT
+	stEvent:		ST_Event;
+END_VAR
+VAR 
+	nIndex:			INT;
+END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[WHILE nIndex < nEvents DO
+	nIndex:= nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{5ad5c75b-e49f-474b-8a2b-47dee4cf77ec}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nEvents:= 0;
+MEMSET(ADR(aEvents), 0, SIZEOF(aEvents));
+	]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Logger">
@@ -24,6 +46,11 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Logger.M_Log">
       <LineId Id="4" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="15" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Logger.M_Reset">
+      <LineId Id="5" Count="2" />
     </LineIds>
   </POU>
 </TcPlcObject>

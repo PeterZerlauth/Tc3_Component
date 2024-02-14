@@ -6,23 +6,37 @@
 TYPE E_State :
 (
 	Undefined		:= 0,
-	Clearing		:= 1,
-	Stopped			:= 2,
-	Starting		:= 3,
-	Idle			:= 4,
-	Suspend			:= 5,
-	Execute			:= 6,
-	Stopping		:= 7,
-	Aborting		:= 8,
-	Aborted			:= 9,
-	Holding			:= 10,
-	Held			:= 11,
-	Unholding		:= 12,
-	Suspending		:= 13,
-	Unsuspending	:= 14,
-	Resetting		:= 15,
-	Completing		:= 16,
-	Complete		:= 17
+	Idle			:= 1,
+	
+// Start
+	Starting		:= 2,
+	Execute			:= 3,
+	
+// Pause
+	Pausing			:= 4,
+	Paused			:= 5,
+	Resuming		:= 6,
+	
+// Hold
+	Holding			:= 7,
+	Held			:= 8,
+	Unholding		:= 9,
+	
+// Complete
+	Completing		:= 10,
+	Completed		:= 11,
+
+// Stop
+	Stopping		:= 12,
+	Stopped			:= 13,
+
+// Abort	
+	Aborting		:= 14,
+	Aborted			:= 15,
+
+// Reset
+	Resetting		:= 16
+
 );
 END_TYPE
 ]]></Declaration>

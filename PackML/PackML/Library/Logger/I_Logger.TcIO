@@ -6,7 +6,7 @@
     <Method Name="M_Log" Id="{9bc8e32d-5fed-4962-a72b-a42bbceea32e}">
       <Declaration><![CDATA[METHOD PUBLIC M_Log
 VAR_INPUT
-	Message:			STRING(255);
+	stEvent:		ST_Event;
 END_VAR
 ]]></Declaration>
     </Method>

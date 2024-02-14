@@ -3,14 +3,14 @@
   <POU Name="FB_Event" Id="{59616103-7f2e-4b6f-81bd-583969a36d28}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Event EXTENDS FB_ListString IMPLEMENTS I_Event
 VAR_INPUT
-	bExecute:   		BOOL;
 	fbObserver:			FB_Observer;
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
 	iParent:			I_Component;
-	stError:			ST_Event;
+	iLogger:			I_Logger;
+	stEvent:			ST_Event;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -38,13 +38,17 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[
-stError.Timestamp:= F_GetSystemTime();
-stError.Message:= Message;
-stError.ID:= ID;
-stError.Arguments:= M_Arguments();
+stEvent.Timestamp:= F_GetSystemTime();
+stEvent.Message:= Message;
+stEvent.ID:= ID;
+stEvent.Arguments:= M_Arguments();
 
 iParent.M_Request(E_Request.Abort);
 fbObserver.M_Notify(E_Request.Abort);
+IF iLogger <> 0 THEN
+	iLogger.M_Log(stEvent);
+END_IF
+
 M_Clear();]]></ST>
       </Implementation>
     </Method>
@@ -73,24 +77,6 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Error" Id="{dedc6a92-4fd3-0050-1590-6a55ab6d568e}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Error : BOOL
-VAR_INPUT
-	Message:				STRING(255);
-	ID:						UDINT;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[
-stError.Timestamp:= F_GetSystemTime();
-stError.Message:= Message;
-stError.ID:= ID;
-stError.Arguments:= M_Arguments();
-
-fbObserver.M_Notify(E_State.Aborted);
-M_Clear();]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Information" Id="{d9a244f2-1d6f-434f-aab4-cad6aacbb94f}">
       <Declaration><![CDATA[METHOD PUBLIC M_Information : BOOL
 VAR_INPUT
@@ -111,10 +97,10 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[
-stError.Timestamp:= F_GetSystemTime();
-stError.Message:= Message;
-stError.ID:= ID;
-stError.Arguments:= M_Arguments();
+stEvent.Timestamp:= F_GetSystemTime();
+stEvent.Message:= Message;
+stEvent.ID:= ID;
+stEvent.Arguments:= M_Arguments();
 
 iParent.M_Request(E_Request.Stop);
 fbObserver.M_Notify(E_Request.Stop);
@@ -132,6 +118,25 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
+    <Property Name="P_Logger" Id="{642d0edf-ded0-4248-be29-8384d3180124}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Logger : I_Logger]]></Declaration>
+      <Get Name="Get" Id="{99e41819-eb78-4b29-b3e9-6728532b14b1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Logger:= iLogger;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{be31597a-6e88-476b-aec8-980317d6bc1a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[iLogger:= P_Logger;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="P_Observer" Id="{2b4a3b9d-02d6-46ef-a830-8f731a2ada59}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>
       <Get Name="Get" Id="{d2313d10-2a66-4a0c-9a20-b577c055dab4}">
@@ -158,6 +163,8 @@ END_VAR
       <LineId Id="74" Count="0" />
       <LineId Id="63" Count="0" />
       <LineId Id="51" Count="0" />
+      <LineId Id="81" Count="2" />
+      <LineId Id="80" Count="0" />
       <LineId Id="62" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Arguments">
@@ -168,15 +175,6 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Event.M_Debug">
       <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Event.M_Error">
-      <LineId Id="42" Count="0" />
-      <LineId Id="56" Count="1" />
-      <LineId Id="54" Count="0" />
-      <LineId Id="61" Count="0" />
-      <LineId Id="63" Count="0" />
-      <LineId Id="51" Count="0" />
-      <LineId Id="62" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Information">
       <LineId Id="5" Count="0" />
@@ -193,6 +191,12 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Event.M_Warning">
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Event.P_Logger.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Event.P_Logger.Set">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.P_Observer.Get">
       <LineId Id="2" Count="0" />

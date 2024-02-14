@@ -19,15 +19,16 @@
     <Released>false</Released>
     <ProjectVersion>0.0.0.0</ProjectVersion>
     <Company>Zerlauth</Company>
-    <Title>OOP_PackML_Base</Title>
-    <DefaultNamespace>OOP_PackML_Base</DefaultNamespace>
-    <Placeholder>OOP_PackML_Base</Placeholder>
+    <Title>MTP</Title>
+    <DefaultNamespace>MTP</DefaultNamespace>
+    <Placeholder>MTP</Placeholder>
     <Author>Peter Zerlauth</Author>
     <PreserveCompiledLibComments>true</PreserveCompiledLibComments>
     <CombineIds>true</CombineIds>
     <DocFormat>reStructuredText</DocFormat>
     <AutoUpdateVisuProfile>true</AutoUpdateVisuProfile>
     <AutoUpdateUmlProfile>true</AutoUpdateUmlProfile>
+    <Description>Module Type Package MTP</Description>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Component" />
@@ -36,8 +37,6 @@
     <Folder Include="Component\Observer" />
     <Folder Include="List" />
     <Folder Include="Logger" />
-    <Folder Include="Logger\LoggerFactory" />
-    <Folder Include="Module" />
     <Folder Include="Object" />
     <Folder Include="Sequence" />
   </ItemGroup>
@@ -100,18 +99,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\I_Logger.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Logger\LoggerFactory\FB_LoggerFactory.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Logger\LoggerFactory\I_LoggerFactory.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Module\E_Mode.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Module\FB_Module.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Object\I_Object.TcIO">
