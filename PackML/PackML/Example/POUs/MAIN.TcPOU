@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="Task1" Id="{80fd576e-8bda-0001-19b1-22d89fc11873}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM Task1
+  <POU Name="MAIN" Id="{80fd576e-8bda-0001-19b1-22d89fc11873}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	fbModule:		FB_Module01;	
 	bReset:			BOOL;
@@ -14,7 +14,9 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbModule();
+      <ST><![CDATA[
+fbSaftey();
+fbModule();
 
 IF bReset THEN
 	bReset:= NOT fbModule.M_Request(E_Request.Reset);
@@ -42,7 +44,8 @@ END_IF
 
 ]]></ST>
     </Implementation>
-    <LineIds Name="Task1">
+    <LineIds Name="MAIN">
+      <LineId Id="360" Count="1" />
       <LineId Id="305" Count="0" />
       <LineId Id="309" Count="24" />
       <LineId Id="37" Count="0" />

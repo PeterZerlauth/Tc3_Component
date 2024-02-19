@@ -162,7 +162,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[WHILE nIndex < nLength DO
-	pList[nIndex].P_Event.P_Observer.M_Notify(eRequest);
+	pList[nIndex].M_Request(eRequest);
 	nIndex:= nIndex + 1; 
 END_WHILE]]></ST>
       </Implementation>

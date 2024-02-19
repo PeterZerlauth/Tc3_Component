@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_Alarm" Id="{6b962909-8df1-4dcd-be8b-465f6b091a91}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Alarm IMPLEMENTS I_Logger
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	nLength:		INT;
+	aEvent:			ARRAY [0..nMax] OF ST_Event;
+END_VAR
+VAR CONSTANT
+	nMax:			INT:= 99;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Find" Id="{1cfa321c-140c-45bd-9dda-bac3538adfc3}">
+      <Declaration><![CDATA[METHOD M_Find : DINT
+VAR_INPUT
+	stEvent	: 		ST_Event;
+END_VAR
+VAR
+	nIndex: 	DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Object already in List
+M_Find := -1;
+WHILE nIndex < nLength DO
+    IF (aEvent[nIndex].Source = stEvent.Source) 
+		AND_THEN (aEvent[nIndex].EventType = stEvent.EventType) 
+		AND_THEN (aEvent[nIndex].Message = stEvent.Message) THEN
+			M_Find := nIndex;
+			RETURN;
+    END_IF
+	nIndex := nIndex + 1;
+END_WHILE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Log" Id="{22357804-3270-478e-9b42-7d8931f13ab7}">
+      <Declaration><![CDATA[METHOD M_Log
+VAR_INPUT
+	stEvent	: 		ST_Event;
+END_VAR
+
+VAR
+	nIndex: DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (nIndex:= M_Find(stEvent)) = -1 THEN
+	aEvent[nLength]:= stEvent;
+	nLength:= nLength + 1;
+ELSE
+	aEvent[nIndex]:= stEvent;	
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Alarm">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Alarm.M_Find">
+      <LineId Id="66" Count="3" />
+      <LineId Id="81" Count="1" />
+      <LineId Id="70" Count="4" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Alarm.M_Log">
+      <LineId Id="15" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="17" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -3,10 +3,13 @@
   <DUT Name="ST_Event" Id="{424f55e5-b514-4649-8354-f5dfeb5cecd2}">
     <Declaration><![CDATA[TYPE ST_Event :
 STRUCT
+	Source:			I_Component;
+	EventType:		E_Event;
 	Timestamp:   	ULINT;
 	ID:				UDINT;
 	Message:		STRING(255);
 	Arguments:		STRING(255);
+	Active:		BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

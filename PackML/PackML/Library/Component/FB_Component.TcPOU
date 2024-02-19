@@ -5,11 +5,13 @@
 FUNCTION_BLOCK FB_Component IMPLEMENTS I_Component
 VAR_INPUT
 	fbInfo:						FB_Info(sInstancePath, eState);
+	fbObserver:					FB_Observer;
 	fbEvent:					FB_Event(THIS^);
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	stComponent:				ST_Component;
     {attribute 'hide'}
 	{attribute 'instance-path'} 
     {attribute 'noinit'}
@@ -21,78 +23,84 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Get Infos
-fbInfo();
-
-// Events
+      <ST><![CDATA[fbInfo();
+fbObserver();
 fbEvent();
 
 // Handle Module Type Package states
 CASE eState OF
 	E_State.Undefined:
-		IF M_Undefined() THEN
+		IF M_Initialise() THEN
 			eState:= E_State.Idle;					
 		END_IF
 		
 	E_State.Resetting:
+		CASE eRequest OF
+			E_Request.Stop:
+				fbObserver.M_Notify(E_Request.Stop);
+				eState:= E_State.Stopping;					
+			E_Request.Abort:
+				fbObserver.M_Notify(E_Request.Abort);
+				eState:= E_State.Aborting;						
+		END_CASE	
 		IF M_Resetting() THEN
 			eState:= E_State.Idle;
 		END_IF
-		CASE eRequest OF
-			E_Request.Stop:
-				eState:= E_State.Stopping;					
-			E_Request.Abort:
-				eState:= E_State.Aborting;						
-		END_CASE	
 		
 	E_State.Idle:
-		M_Idle();
 		CASE eRequest OF
 			E_Request.Start:
 				eState:= E_State.Starting;
 			E_Request.Stop:
+				fbObserver.M_Notify(E_Request.Stop);
 				eState:= E_State.Stopping;					
 			E_Request.Abort:
+				fbObserver.M_Notify(E_Request.Abort);
 				eState:= E_State.Aborting;						
 		END_CASE
+		M_Idle();
 		
 	E_State.Starting:
-		IF M_Starting() THEN
-			eState:= E_State.Execute;	
-		END_IF
 		CASE eRequest OF
 			E_Request.Stop:
+				fbObserver.M_Notify(E_Request.Stop);
 				eState:= E_State.Stopping;					
 			E_Request.Abort:
+				fbObserver.M_Notify(E_Request.Abort);
 				eState:= E_State.Aborting;						
-		END_CASE			
+		END_CASE	
+		IF M_Starting() THEN
+			eState:= E_State.Execute;	
+		END_IF		
 
 	E_State.Execute:
-		IF M_Execute() THEN
-			CASE eRequest OF
-				E_Request.Complete:
-					eState:= E_State.Completing;					
-			END_CASE	
-		END_IF
 		CASE eRequest OF
 			E_Request.Pause:
 				eState:= E_State.Pausing;		
 			E_Request.Hold:
 				eState:= E_State.Holding;		
 			E_Request.Stop:
+				fbObserver.M_Notify(E_Request.Stop);
 				eState:= E_State.Stopping;					
 			E_Request.Abort:
+				fbObserver.M_Notify(E_Request.Abort);
 				eState:= E_State.Aborting;						
-		END_CASE		
+		END_CASE	
+		IF M_Execute() THEN
+			CASE eRequest OF
+				E_Request.Complete:
+					eState:= E_State.Completing;					
+			END_CASE	
+		END_IF
 		
 	E_State.Stopping:
-		IF M_Stopping() THEN
-			eState:= E_State.Stopped;	
-		END_IF
 		CASE eRequest OF	
 			E_Request.Abort:
 				eState:= E_State.Aborting;						
 		END_CASE	
+		IF M_Stopping() THEN
+			eState:= E_State.Stopped;	
+		END_IF
 
 	E_State.Stopped:
 		IF M_Stopped() THEN
@@ -116,95 +124,111 @@ CASE eState OF
 		END_IF
 		
 	E_State.Pausing:
+		CASE eRequest OF
+			E_Request.Stop:
+				fbObserver.M_Notify(E_Request.Stop);
+				eState:= E_State.Stopping;					
+			E_Request.Abort:
+				fbObserver.M_Notify(E_Request.Abort);
+				eState:= E_State.Aborting;						
+		END_CASE	
 		IF M_Pausing() THEN
 			eState:= E_State.Paused;
 		END_IF
-		CASE eRequest OF
-			E_Request.Hold:
-				eState:= E_State.Stopping;					
-			E_Request.Abort:
-				eState:= E_State.Aborting;						
-		END_CASE		
-		
+	
 	E_State.Paused:
-		IF M_Paused() THEN
-			eState:= E_State.Resuming;			
-		END_IF
 		CASE eRequest OF
 			E_Request.Stop:
+				fbObserver.M_Notify(E_Request.Stop);
 				eState:= E_State.Stopping;					
 			E_Request.Abort:
+				fbObserver.M_Notify(E_Request.Abort);
 				eState:= E_State.Aborting;						
-		END_CASE		
+		END_CASE	
+		IF M_Paused() THEN
+			eState:= E_State.Resuming;			
+		END_IF	
 		
 	E_State.Resuming:
+		CASE eRequest OF
+			E_Request.Stop:
+				fbObserver.M_Notify(E_Request.Stop);
+				eState:= E_State.Stopping;					
+			E_Request.Abort:
+				fbObserver.M_Notify(E_Request.Abort);
+				eState:= E_State.Aborting;					
+		END_CASE
 		IF M_Resuming() THEN
 			eState:= E_State.Execute;
 		END_IF
-		CASE eRequest OF
-			E_Request.Stop:
-				eState:= E_State.Stopping;					
-			E_Request.Abort:	
-				eState:= E_State.Aborting;						
-		END_CASE
 
 	E_State.Holding:
+		CASE eRequest OF
+			E_Request.Stop:
+				fbObserver.M_Notify(E_Request.Stop);
+				eState:= E_State.Stopping;					
+			E_Request.Abort:
+				fbObserver.M_Notify(E_Request.Abort);
+				eState:= E_State.Aborting;						
+		END_CASE
 		IF M_Holding() THEN
 			eState:= E_State.Held;
 		END_IF
-		CASE eRequest OF
-			E_Request.Hold:
-				eState:= E_State.Stopping;					
-			E_Request.Abort:
-				eState:= E_State.Aborting;						
-		END_CASE		
-		
+
 	E_State.Held:
-		IF M_Held() THEN
-			eState:= E_State.Unholding;			
-		END_IF
 		CASE eRequest OF
 			E_Request.Stop:
+				fbObserver.M_Notify(E_Request.Stop);
 				eState:= E_State.Stopping;					
 			E_Request.Abort:
-				eState:= E_State.Aborting;						
-		END_CASE		
+				fbObserver.M_Notify(E_Request.Abort);
+				eState:= E_State.Aborting;					
+		END_CASE
+		IF M_Held() THEN
+			eState:= E_State.Unholding;			
+		END_IF	
 		
 	E_State.Unholding:
+		CASE eRequest OF
+			E_Request.Stop:
+				fbObserver.M_Notify(E_Request.Stop);
+				eState:= E_State.Stopping;					
+			E_Request.Abort:
+				fbObserver.M_Notify(E_Request.Abort);
+				eState:= E_State.Aborting;							
+		END_CASE
 		IF M_Unholding() THEN
 			eState:= E_State.Execute;
 		END_IF
-		CASE eRequest OF
-			E_Request.Stop:
-				eState:= E_State.Stopping;					
-			E_Request.Abort:	
-				eState:= E_State.Aborting;						
-		END_CASE
 		
 	E_State.Completing:
+		CASE eRequest OF
+			E_Request.Stop:
+				fbObserver.M_Notify(E_Request.Stop);
+				eState:= E_State.Stopping;					
+			E_Request.Abort:
+				fbObserver.M_Notify(E_Request.Abort);
+				eState:= E_State.Aborting;						
+		END_CASE
 		IF M_Completing() THEN
 			eState:= E_State.Completed;
 		END_IF
-		CASE eRequest OF
-			E_Request.Stop:	
-				eState:= E_State.Stopping;					
-			E_Request.Abort:	
-				eState:= E_State.Aborting;						
-		END_CASE
 		
 	E_State.Completed:
+		CASE eRequest OF
+			E_Request.Stop:
+				fbObserver.M_Notify(E_Request.Stop);
+				eState:= E_State.Stopping;					
+			E_Request.Abort:
+				fbObserver.M_Notify(E_Request.Abort);
+				eState:= E_State.Aborting;						
+		END_CASE
 		IF M_Completed() THEN
 			CASE eRequest OF
 				E_Request.Reset:	
 					eState:= E_State.Resetting;
 			END_CASE
 		END_IF
-		CASE eRequest OF
-			E_Request.Stop:	
-				eState:= E_State.Stopping;					
-			E_Request.Abort:	
-				eState:= E_State.Aborting;						
-		END_CASE
 	
 END_CASE
 
@@ -304,6 +328,16 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// State Idle]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Initialise" Id="{54f2b561-b89f-47f6-a504-ad1a94f7dafa}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL;
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Undefined
+M_Initialise:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Paused" Id="{5d4d1306-287a-427e-996c-3f6f19decdf3}" FolderPath="States\Pause\">
@@ -414,16 +448,6 @@ END_VAR
 M_Stopping:= True;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Undefined" Id="{54f2b561-b89f-47f6-a504-ad1a94f7dafa}" FolderPath="States\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Undefined : BOOL;
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Undefined
-M_Undefined:= True;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Unholding" Id="{498cf474-9c66-43f0-b599-499b1410052f}" FolderPath="States\Hold\">
       <Declaration><![CDATA[METHOD PROTECTED M_Unholding : BOOL
 VAR_INPUT
@@ -456,39 +480,19 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="P_Observer" Id="{2b4a3b9d-02d6-46ef-a830-8f731a2ada59}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>
+      <Get Name="Get" Id="{d2313d10-2a66-4a0c-9a20-b577c055dab4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Observer:= fbObserver;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <LineIds Name="FB_Component">
-      <LineId Id="887" Count="11" />
-      <LineId Id="1051" Count="0" />
-      <LineId Id="1053" Count="3" />
-      <LineId Id="1058" Count="4" />
-      <LineId Id="1052" Count="0" />
-      <LineId Id="899" Count="2" />
-      <LineId Id="903" Count="12" />
-      <LineId Id="917" Count="8" />
-      <LineId Id="927" Count="4" />
-      <LineId Id="1101" Count="0" />
-      <LineId Id="1108" Count="1" />
-      <LineId Id="1106" Count="1" />
-      <LineId Id="1102" Count="3" />
-      <LineId Id="1100" Count="0" />
-      <LineId Id="932" Count="4" />
-      <LineId Id="938" Count="24" />
-      <LineId Id="1099" Count="0" />
-      <LineId Id="1065" Count="3" />
-      <LineId Id="1070" Count="10" />
-      <LineId Id="1082" Count="10" />
-      <LineId Id="1094" Count="4" />
-      <LineId Id="1064" Count="0" />
-      <LineId Id="978" Count="4" />
-      <LineId Id="984" Count="10" />
-      <LineId Id="996" Count="10" />
-      <LineId Id="1008" Count="10" />
-      <LineId Id="1020" Count="13" />
-      <LineId Id="1035" Count="10" />
-      <LineId Id="1111" Count="0" />
-      <LineId Id="1047" Count="1" />
-      <LineId Id="1110" Count="0" />
-      <LineId Id="1049" Count="1" />
+      <LineId Id="1338" Count="216" />
       <LineId Id="160" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Aborted">
@@ -520,6 +524,10 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Idle">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Initialise">
+      <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Paused">
@@ -575,10 +583,6 @@ END_VAR
       <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Component.M_Undefined">
-      <LineId Id="9" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
     <LineIds Name="FB_Component.M_Unholding">
       <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
@@ -587,6 +591,9 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.P_Info.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.P_Observer.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

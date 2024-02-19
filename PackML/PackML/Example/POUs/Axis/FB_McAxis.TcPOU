@@ -1,0 +1,616 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_McAxis" Id="{7dc49411-939d-086e-3ba0-db9126827ef0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_McAxis EXTENDS FB_Component IMPLEMENTS I_Axis
+VAR_INPUT
+	bHome:				BOOL;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	// Structs
+	stAxis:							AXIS_REF;
+	stParameter:					ST_AxisParameterSet;
+	stComponents:					ST_AxisComponents;
+	
+	// General
+	fbPower: 						MC_Power;
+	fbReset: 						MC_Reset;
+	fbHome: 						MC_Home;
+
+	// Motion function blocks
+	fbJog:							MC_Jog;
+	fbSetPosition: 					MC_SetPosition;
+	fbMoveAbsolute: 				REFERENCE TO MC_MoveAbsolute := fbMoveAbsolute1;
+	fbMoveAbsolute1: 				MC_MoveAbsolute;
+	fbMoveAbsolute2: 				MC_MoveAbsolute;
+	fbMoveVelocity: 				MC_MoveVelocity;
+	fbMoveRelative: 				MC_MoveRelative;
+	fbHalt: 						MC_Halt;
+	fbStop: 						MC_Stop;
+	
+	// Read function blocks
+	fbReadAxisComponents:			MC_ReadAxisComponents;	
+	fbReadError: 					MC_ReadAxisError;
+	fbReadParameterSet:				MC_ReadParameterSet;	
+	fbReadBoolParameter:			MC_ReadBoolParameter;
+	fbReadParameter: 				MC_ReadParameter;
+	
+	// Write function blocks                            		
+	fbWriteBoolParameter: 			MC_WriteBoolParameter;
+	fbWriteBoolParameterPersistent: MC_WriteBoolParameterPersistent;
+	fbWriteParameter: 				MC_WriteParameter;
+	fbWriteParameterPersistent: 	MC_WriteParameterPersistent;
+END_VAR
+VAR PERSISTENT
+	bCalibration:					BOOL;
+	fHomePosition:					LREAL;
+	fPositionCorrection:			LREAL;
+	fMaximumForce:					LREAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+SUPER^();
+
+stAxis.ReadStatus();
+
+fbPower(Axis:= stAxis);
+	
+fbReset(Axis:= stAxis);
+fbReset.Execute:= FALSE;
+
+fbJog(Axis:= stAxis);
+fbJog.JogForward:= FALSE;
+fbJog.JogBackwards:= FALSE;
+
+fbHome(Axis:= stAxis);
+fbHome.Execute:= FALSE;
+	
+fbSetPosition(Axis:= stAxis);
+fbSetPosition.Execute:= FALSE;
+
+fbMoveAbsolute1(Axis:= stAxis);
+fbMoveAbsolute1.Execute:= FALSE;
+	
+fbMoveAbsolute2(Axis:= stAxis);
+fbMoveAbsolute2.Execute:= FALSE;
+	
+fbMoveRelative(Axis:= stAxis);
+fbMoveRelative.Execute:= FALSE;
+	
+fbMoveVelocity(Axis:= stAxis);
+fbMoveVelocity.Execute:= FALSE;
+
+fbHalt(Axis:= stAxis);
+fbHalt.Execute:= FALSE;
+	
+fbStop(Axis:= stAxis);
+fbStop.Execute:= FALSE;
+	
+fbReadBoolParameter(Axis:= stAxis);
+fbReadBoolParameter.Enable:= FALSE;
+
+fbWriteBoolParameter(Axis:= stAxis);
+fbWriteBoolParameter.Execute:= FALSE;
+
+fbWriteBoolParameterPersistent(Axis:= stAxis);
+fbWriteBoolParameterPersistent.Execute:= FALSE;
+
+fbReadParameter(Axis:= stAxis);
+fbReadParameter.Enable:= FALSE;
+	
+fbWriteParameter(Axis:= stAxis);
+fbWriteParameter.Execute:= FALSE;
+
+fbWriteParameterPersistent(Axis:= stAxis);
+fbWriteParameterPersistent.Execute:= FALSE;
+	
+fbReadParameterSet(Parameter:=stParameter, Axis:= stAxis);
+fbReadParameterSet.Execute:= FALSE;
+
+fbReadAxisComponents(AxisComponents:= stComponents, Axis:= stAxis);
+fbReadError(Axis:= stAxis, Enable:= TRUE);
+
+IF stAxis.Status.NcApplicationRequest THEN
+	M_Home(stParameter.fEncRefPosition, MC_HomingMode.MC_Direct, TRUE);
+END_IF
+
+stAxis.PlcToNc.PositionCorrection:= fPositionCorrection;]]></ST>
+    </Implementation>
+    <Folder Name="Motion" Id="{35718791-19fd-46a5-b6e2-dfab848a97c3}" />
+    <Folder Name="Parameter" Id="{0e484f89-9995-4abb-9390-f90862e0e610}" />
+    <Method Name="M_Calibration" Id="{2d08dbb8-f509-4a21-8547-146941bfe54d}">
+      <Declaration><![CDATA[METHOD M_Calibration : BOOL
+VAR_INPUT
+	fPrePosition:	LREAL;
+	fPosition:		LREAL;
+	fForce:			LREAL;
+	fLimit:			LREAL;
+	bEvaluation:	BOOL;
+END_VAR
+VAR_OUTPUT
+	fDeviation:		LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Halt" Id="{4cc16a25-74cd-4585-8a87-63dca814490d}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_Halt : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbHalt.Execute:= TRUE;
+M_Halt:= stAxis.Status.NotMoving;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Home" Id="{07120cca-6a59-06c1-3fea-8c3d8aa8e99a}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_Home : BOOL
+VAR_INPUT
+	fPosition:					LREAL;
+	eHomingMode:				MC_HomingMode;
+	bClearPositionLag: 			BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbHome.Execute:= TRUE;
+fbHome.Position:= fPosition;
+fbHome.HomingMode:= eHomingMode;
+fbHome.Options.ClearPositionLag:= bClearPositionLag;
+IF fbHome.Done THEN
+	fbReset.Execute:= TRUE;
+	M_Home:= TRUE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Jog" Id="{b284bdba-d8bb-4f13-9f4d-1d097b28a602}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_Jog : BOOL
+VAR_INPUT
+	bPositive:	BOOL;
+	bNegative:	BOOL;
+	eMode:		E_JogMode;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbJog.Mode:= eMode;
+IF bPositive AND NOT bNegative THEN
+	fbJog.JogForward:= TRUE;
+ELSIF bNegative AND NOT bPositive THEN
+	fbJog.JogBackwards:= TRUE;
+END_IF
+M_Jog:= fbJog.Active;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_MoveAbsolute" Id="{d620f725-4545-008a-12b3-203d5ce66fa9}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_MoveAbsolute : BOOL
+VAR_INPUT
+	fPosition:				LREAL;
+	fVelocity:				LREAL;
+	fAcceleration:			LREAL;
+	fDeceleration:			LREAL;
+	fJerk:					LREAL;	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Axis redy?
+IF stAxis.Status.ControlLoopClosed THEN
+	// input changed?
+	IF fPosition <> fbMoveAbsolute.Position OR_ELSE fVelocity <> fbMoveAbsolute.Velocity OR_ELSE fbMoveAbsolute.Acceleration <> fbMoveAbsolute.Acceleration OR_ELSE fDeceleration <> fbMoveAbsolute.Deceleration OR_ELSE fJerk <> fbMoveAbsolute.Jerk THEN
+		IF NOT fbMoveAbsolute1.Busy THEN
+			// select axis 1
+			fbMoveAbsolute:= fbMoveAbsolute1;
+		ELSIF NOT fbMoveAbsolute2.Busy THEN
+			// select axis 2
+			fbMoveAbsolute:= fbMoveAbsolute2;
+		ELSE
+			// command blocked
+			M_MoveAbsolute:= FALSE;
+			RETURN;
+		END_IF
+		// take values
+		fbMoveAbsolute.Execute:= 		TRUE;
+		fbMoveAbsolute.Position:= 		fPosition;
+		fbMoveAbsolute.Velocity:= 		fVelocity;
+		fbMoveAbsolute.Acceleration:= 	fAcceleration;
+		fbMoveAbsolute.Deceleration:= 	fDeceleration;
+		fbMoveAbsolute.Jerk:= 			fJerk;
+		M_MoveAbsolute:= FALSE;
+	ELSE
+		// Done
+		M_MoveAbsolute:= stAxis.Status.InTargetPosition;
+	END_IF
+ELSE
+	M_MoveAbsolute:= FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_MoveRelative" Id="{654b517f-8657-00b1-32c2-f62692e554ae}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_MoveRelative : BOOL
+VAR_INPUT
+	fDistance:				LREAL;
+	fVelocity:				LREAL;
+	fAcceleration:			LREAL;
+	fDeceleration:			LREAL;
+	fJerk:					LREAL;	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbPower.Status THEN
+	fbMoveRelative.Execute:= 			TRUE;
+	fbMoveRelative.Distance:= 			fDistance;
+	fbMoveRelative.Velocity:= 			fVelocity;
+	fbMoveRelative.Acceleration:= 		fAcceleration;
+	fbMoveRelative.Deceleration:= 		fDeceleration;
+	fbMoveRelative.Jerk:= 				fJerk;
+	M_MoveRelative:= 					fbMoveRelative.Done;
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_MoveVelocity" Id="{0af94af4-81a3-0869-12db-9ff6b7bbcb7c}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_MoveVelocity : BOOL
+VAR_INPUT
+	fVelocity:				LREAL;
+	fAcceleration:			LREAL;
+	fDeceleration:			LREAL;
+	fJerk:					LREAL;	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbPower.Status THEN
+	fbMoveVelocity.Execute:= 			TRUE;
+	fbMoveVelocity.Velocity:= 			fVelocity;
+	fbMoveVelocity.Acceleration:= 		fAcceleration;
+	fbMoveVelocity.Deceleration:= 		fDeceleration;
+	fbMoveVelocity.Jerk:= 				fJerk;
+	IF fVelocity >= 0.0 THEN
+		fbMoveVelocity.Direction:= 			MC_Direction.MC_Positive_Direction;
+	ELSE
+		fbMoveVelocity.Direction:= 			MC_Direction.MC_Negative_Direction;	
+	END_IF
+	
+	M_MoveVelocity:= fbMoveVelocity.InVelocity;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_PositionCorrection" Id="{e159e1a2-34f7-4878-8ad9-f231afa9ef1c}">
+      <Declaration><![CDATA[METHOD PUBLIC M_PositionCorrection : BOOL
+VAR_INPUT
+	fPositionCorrection:		LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF stAxis.Status.ControlLoopClosed THEN
+	fbPower.Enable:= FALSE;
+ELSE
+	fbPower.Enable:= TRUE;
+	fPositionCorrection:= fPositionCorrection;
+	M_PositionCorrection:= stAxis.Status.ControlLoopClosed;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Power" Id="{9db91a1a-7adc-09fe-2682-5f77fbb11c72}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Power : BOOL
+VAR_INPUT
+	bOnOff:			BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bOnOff THEN
+	fbReset.Execute:= TRUE;
+	fbPower.Enable:= TRUE;
+	fbPower.Enable_Negative:= TRUE;
+	fbPower.Enable_Positive:= TRUE;
+	fbPower.Override:= 100.0;
+	fbPower.BufferMode:= MC_BufferMode.MC_Aborting;
+	M_ReadParameterSet();
+	M_ReadComponents();
+	M_Power:= stAxis.Status.ControlLoopClosed;
+ELSE
+	fbPower.Enable:= FALSE;
+	M_Power:= NOT stAxis.Status.ControlLoopClosed;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ReadBOOL" Id="{02a60cb8-49c4-4a64-a774-516a4a612dd1}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_ReadBOOL : BOOL
+VAR_INPUT
+	 eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	 bValue:				REFERENCE TO BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReadBoolParameter.Enable:= TRUE;
+fbReadBoolParameter.ParameterNumber:= eParameterNumber;
+fbReadBoolParameter.ReadMode:= E_ReadMode.READMODE_ONCE;
+IF fbReadBoolParameter.Valid THEN
+	IF __ISVALIDREF(bValue) THEN
+		bValue:= fbReadBoolParameter.Value;
+		M_ReadBOOL:= TRUE;		
+	END_IF
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ReadComponents" Id="{1fa6fe63-2c8b-4f6e-8c40-5778e559293e}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_ReadComponents : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReadAxisComponents.Execute:= TRUE;
+M_ReadComponents:= fbReadAxisComponents.Done;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ReadLREAL" Id="{ac8c2ef9-38a7-4edc-89bc-5133d990aec8}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_ReadLREAL : BOOL
+VAR_INPUT
+	 eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	 fValue:				REFERENCE TO LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReadParameter.Enable:= TRUE;
+fbReadParameter.ParameterNumber:= eParameterNumber;
+fbReadParameter.ReadMode:= E_ReadMode.READMODE_ONCE;
+IF fbReadParameter.Valid THEN
+	IF __ISVALIDREF(fValue) THEN
+		fValue:= fbReadParameter.Value;
+		M_ReadLREAL:= TRUE;	
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ReadParameterSet" Id="{1bb636e7-d53c-4c4b-91b9-c85f306fed69}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_ReadParameterSet : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReadParameterSet.Execute:= TRUE;
+M_ReadParameterSet:= fbReadParameterSet.Done;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{c865a8cf-0d8c-0102-24d7-1e9a04b62b14}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReset.Execute:= TRUE;		
+M_Reset:= fbReset.Done;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_SetPosition" Id="{cc2005f3-d40c-43e4-b23d-ad375afbfcac}">
+      <Declaration><![CDATA[METHOD PUBLIC M_SetPosition : BOOL
+VAR_INPUT
+	fPosition:					LREAL;
+	bClearPositionLag: 			BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbSetPosition.Execute:= TRUE;
+fbSetPosition.Position:= fPosition;
+fbSetPosition.Options.ClearPositionLag:= bClearPositionLag;
+M_SetPosition:= fbSetPosition.Done;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stop" Id="{55bb621f-dd36-4b44-9fa9-14be755211b0}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_Stop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbStop.Execute:= TRUE;
+M_Stop:=  stAxis.Status.NotMoving;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_WriteBOOL" Id="{3697379d-8d19-4764-bd73-6f9a4dcf9537}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_WriteBOOL : BOOL
+VAR_INPUT
+	eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	bPersistent:			BOOL;
+	bValue:					BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bPersistent THEN
+	fbWriteBoolParameterPersistent.Execute:= TRUE;
+	fbWriteBoolParameterPersistent.ParameterNumber:= eParameterNumber;
+	fbWriteBoolParameterPersistent.Value:= bValue;
+	IF fbWriteBoolParameterPersistent.Done THEN
+		M_WriteBOOL:= TRUE;
+	END_IF
+ELSE
+	fbWriteBoolParameter.Execute:= TRUE;
+	fbWriteBoolParameter.ParameterNumber:= eParameterNumber;
+	fbWriteBoolParameter.Value:= bValue;
+	IF fbWriteBoolParameter.Done THEN
+		M_WriteBOOL:= TRUE;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_WriteLREAL" Id="{792f0875-e60b-4e8d-a418-ada5e45e3f6f}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_WriteLREAL : BOOL
+VAR_INPUT
+	eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	bPersistent:			BOOL;
+	fValue:					LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bPersistent THEN
+	fbWriteParameterPersistent.Execute:= TRUE;
+	fbWriteParameterPersistent.ParameterNumber:= eParameterNumber;
+	fbWriteParameterPersistent.Value:= fValue;
+	IF fbWriteParameterPersistent.Done THEN
+		M_WriteLREAL:= TRUE;
+	END_IF
+ELSE
+	fbWriteParameter.Execute:= TRUE;
+	fbWriteParameter.ParameterNumber:= eParameterNumber;
+	fbWriteParameter.Value:= fValue;
+	IF fbWriteparameter.Done THEN
+		M_WriteLREAL:= TRUE;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_State" Id="{2c1e2bf5-a065-41c1-bd54-e9eede1f7416}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_State : REFERENCE TO AXIS_REF]]></Declaration>
+      <Get Name="Get" Id="{337bcee7-e9a9-485d-a29c-9a4437048379}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State ref= stAxis;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="FB_McAxis">
+      <LineId Id="1301" Count="2" />
+      <LineId Id="1014" Count="55" />
+      <LineId Id="1071" Count="4" />
+      <LineId Id="1077" Count="0" />
+      <LineId Id="1206" Count="0" />
+      <LineId Id="1205" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_Calibration">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_Halt">
+      <LineId Id="5" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_Home">
+      <LineId Id="5" Count="1" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="16" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_Jog">
+      <LineId Id="6" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="25" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="19" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_MoveAbsolute">
+      <LineId Id="360" Count="0" />
+      <LineId Id="293" Count="0" />
+      <LineId Id="359" Count="0" />
+      <LineId Id="219" Count="0" />
+      <LineId Id="327" Count="0" />
+      <LineId Id="357" Count="0" />
+      <LineId Id="328" Count="0" />
+      <LineId Id="330" Count="0" />
+      <LineId Id="358" Count="0" />
+      <LineId Id="331" Count="1" />
+      <LineId Id="356" Count="0" />
+      <LineId Id="346" Count="0" />
+      <LineId Id="336" Count="0" />
+      <LineId Id="241" Count="0" />
+      <LineId Id="337" Count="6" />
+      <LineId Id="264" Count="0" />
+      <LineId Id="263" Count="0" />
+      <LineId Id="355" Count="0" />
+      <LineId Id="262" Count="0" />
+      <LineId Id="221" Count="0" />
+      <LineId Id="344" Count="1" />
+      <LineId Id="240" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_MoveRelative">
+      <LineId Id="50" Count="0" />
+      <LineId Id="69" Count="4" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="94" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_MoveVelocity">
+      <LineId Id="45" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="35" Count="2" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="28" Count="1" />
+      <LineId Id="31" Count="1" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="46" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_PositionCorrection">
+      <LineId Id="5" Count="1" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_Power">
+      <LineId Id="54" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="55" Count="8" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="34" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_ReadBOOL">
+      <LineId Id="90" Count="3" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="105" Count="1" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_ReadComponents">
+      <LineId Id="5" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_ReadLREAL">
+      <LineId Id="83" Count="3" />
+      <LineId Id="96" Count="1" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_ReadParameterSet">
+      <LineId Id="5" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_Reset">
+      <LineId Id="21" Count="0" />
+      <LineId Id="26" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_SetPosition">
+      <LineId Id="5" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_Stop">
+      <LineId Id="9" Count="0" />
+      <LineId Id="14" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_WriteBOOL">
+      <LineId Id="64" Count="0" />
+      <LineId Id="80" Count="4" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="65" Count="1" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="68" Count="2" />
+      <LineId Id="26" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_WriteLREAL">
+      <LineId Id="112" Count="13" />
+      <LineId Id="26" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.P_State.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

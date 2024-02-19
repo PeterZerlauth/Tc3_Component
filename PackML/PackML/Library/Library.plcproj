@@ -77,6 +77,9 @@
     <Compile Include="Component\Observer\I_Observer.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Component\ST_Component.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -95,7 +98,7 @@
     <Compile Include="List\I_ListString.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logger\FB_Logger.TcPOU">
+    <Compile Include="Logger\FB_ListLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\I_Logger.TcIO">

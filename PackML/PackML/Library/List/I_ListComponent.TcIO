@@ -9,15 +9,6 @@ VAR_INPUT
 	Object: 	I_Component;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="M_Add2" Id="{6feb45da-afae-443c-97cf-c0840048d361}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Add2 : BOOL
-VAR_INPUT
-	Parent: 	I_Component;
-	Object: 	I_Component;
-END_VAR
-
-]]></Declaration>
-    </Method>
     <Method Name="M_Clear" Id="{bec35183-59fd-4e05-8c88-04323521ec68}">
       <Declaration><![CDATA[METHOD M_Clear : BOOL
 ]]></Declaration>

@@ -20,25 +20,44 @@
     <AutoUpdateUmlProfile>true</AutoUpdateUmlProfile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GVLs\GVL.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
     <Compile Include="plcTask1.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Axis\FB_McAxis.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Axis\I_Axis.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_Alarm.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_Module01.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Task1.TcPOU">
+    <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
+    <Folder Include="POUs\Axis" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
-    <PlaceholderReference Include="OOP_PackML_Base">
-      <DefaultResolution>OOP_PackML_Base, * (Zerlauth)</DefaultResolution>
+    <PlaceholderReference Include="MTP">
+      <DefaultResolution>MTP, * (Zerlauth)</DefaultResolution>
+      <Namespace>MTP</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_MC2">
+      <DefaultResolution>Tc2_MC2, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_MC2</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
