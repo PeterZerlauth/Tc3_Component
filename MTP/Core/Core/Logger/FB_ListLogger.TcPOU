@@ -1,18 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_ListString" Id="{4f478d19-1eb0-4f34-9421-08b597d081a7}" SpecialFunc="None">
+  <POU Name="FB_ListLogger" Id="{17a4deeb-3f32-43cf-81dc-5b3250676d65}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'no_explicit_call'} 
-FUNCTION_BLOCK FB_ListString IMPLEMENTS I_ListString
+FUNCTION_BLOCK FB_ListLogger IMPLEMENTS I_Logger
 VAR
-	pList: 			POINTER TO STRING(255);
+	pList: 			POINTER TO I_Logger;
 	nLength:		DINT;
-	aList:			POINTER TO POINTER TO ARRAY [0..100] OF STRING(255):=ADR(pList);
+	{attribute 'conditionalshow'}
+	aList:			POINTER TO POINTER TO ARRAY [0..100] OF I_Logger:=ADR(pList);
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="FB_exit" Id="{bd987a2f-0457-4569-bb70-f6bb86c88b6f}">
+    <Method Name="FB_exit" Id="{f0caa77e-190e-43ae-bb06-07b714b8a18f}">
       <Declaration><![CDATA[METHOD FB_exit : BOOL
 VAR_INPUT
 	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
@@ -22,21 +23,21 @@ END_VAR
         <ST><![CDATA[M_Clear();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Add" Id="{ea3debcd-443d-43e6-b567-66f6b5e3cb51}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Add : BOOL
+    <Method Name="M_Add" Id="{30be55d6-cf17-42ec-bab2-8496ca3e4bb7}">
+      <Declaration><![CDATA[METHOD M_Add : BOOL
 VAR_INPUT
-	Object: 	STRING(255);
+	Object: 	I_Logger;
 END_VAR
 VAR
-	pOldList: 	POINTER TO STRING(255);
+	pOldList: 	POINTER TO I_Logger;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Object <> '' THEN
+        <ST><![CDATA[IF Object <> 0 THEN
 	// First Item
 	IF pList = 0 THEN
 		nLength:= nLength + 1;
-		pList:= __NEW(STRING(255),DINT_TO_UDINT(nLength));
+		pList:= __NEW(POINTER TO I_Logger,DINT_TO_UDINT(nLength));
 	ELSE
 		// Item already in List
 		IF M_Find(Object) = -1 THEN
@@ -45,9 +46,9 @@ END_VAR
 			// new Length
 			nLength:= nLength + 1;
 			// new pointer
-			pList:= __NEW(STRING(255),DINT_TO_UDINT(nLength));
+			pList:= __NEW(POINTER TO I_Object,DINT_TO_UDINT(nLength));
 			// restore
-			Memcpy(pList,pOldList, SIZEOF(STRING(255))*DINT_TO_UDINT(nLength -1));
+			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Logger)*DINT_TO_UDINT(nLength -1));
 			// delete old
 			__DELETE(pOldList);
 		ELSE
@@ -66,9 +67,8 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Clear" Id="{9b61a2bf-b2c0-4a00-be0f-faac4fae98b2}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Clear : BOOL
-
+    <Method Name="M_Clear" Id="{042635b2-72f7-44c7-8bf4-67ae82f26d85}">
+      <Declaration><![CDATA[METHOD M_Clear : bool
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF pList <> 0 THEN
@@ -78,10 +78,10 @@ END_IF
 M_Clear:= True;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Find" Id="{a0712017-1bd6-4a85-bce4-d78b95058f43}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
+    <Method Name="M_Find" Id="{e9786265-621b-4660-a6dc-ed21579016db}">
+      <Declaration><![CDATA[METHOD M_Find : DINT
 VAR_INPUT
-	Object: 	STRING(255);
+	Object: 	I_Logger;
 END_VAR
 VAR
 	nIndex: 	UINT;
@@ -99,8 +99,8 @@ END_WHILE
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Index" Id="{4fa60bad-c3f8-4638-8847-d99493b30103}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Index : STRING(255)
+    <Method Name="M_Index" Id="{7b7372db-f59a-4003-8595-8388e59cf872}">
+      <Declaration><![CDATA[METHOD M_Index : I_Logger
 VAR_INPUT
 	Index: 	DINT;
 END_VAR
@@ -111,17 +111,33 @@ END_VAR
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Remove" Id="{b8847c87-fcaa-470a-84f6-74c98c423418}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Remove : BOOL
+    <Method Name="M_Log" Id="{5899e838-f7bb-4bd0-afae-9740382d88b8}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Log
 VAR_INPUT
-	Object: 	STRING(255);
+	stEvent:		ST_Event;
+END_VAR
+
+VAR
+	nIndex: INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[WHILE nIndex < nLength DO
+	M_Index(nIndex).M_Log(stEvent);
+	nIndex:= nIndex +1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Remove" Id="{39a89d42-848a-463c-b22d-6b58503f39b7}">
+      <Declaration><![CDATA[METHOD M_Remove : BOOL
+VAR_INPUT
+	Object: 	I_Logger;
 END_VAR
 VAR
-	pOldList:			POINTER TO STRING(255);
+	pOldList:			POINTER TO I_Logger;
 	nPosition: 			DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Object <> '' THEN
+        <ST><![CDATA[IF Object <> 0 THEN
 	// First Item
 	IF nLength >= 0 THEN
 		// Item already in List
@@ -132,11 +148,11 @@ END_VAR]]></Declaration>
 			// new Length
 			nLength:= nLength -1;
 			// new pointer
-			pList:= __NEW(POINTER TO I_Object,DINT_TO_UDINT(nLength));
+			pList:= __NEW(POINTER TO I_Logger,DINT_TO_UDINT(nLength));
 			// restore lower part
-			Memcpy(pList,pOldList, SIZEOF(STRING(255)) * DINT_TO_UDINT(nPosition));
+			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Logger) * DINT_TO_UDINT(nPosition));
 			//pList[nPosition]:= iObject;
-			Memcpy(pList + (SIZEOF(STRING(255))*nPosition),pOldList + (SIZEOF(STRING(255))*(nPosition + 1)), SIZEOF(STRING(255)) * DINT_TO_UDINT(nLength - nPosition));
+			Memcpy(pList + (SIZEOF(POINTER TO I_Logger)*nPosition),pOldList + (SIZEOF(POINTER TO I_Logger)*(nPosition + 1)), SIZEOF(POINTER TO I_Logger) * DINT_TO_UDINT(nLength - nPosition));
 			// delete old
 			__DELETE(pOldList);
 		ELSE
@@ -153,10 +169,10 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Length" Id="{7aca605f-7c5c-46b0-9c23-c84c732ac048}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Length : DINT
+    <Property Name="P_Length" Id="{204ffc46-f79a-43c7-8f5e-2f17a96a74ca}">
+      <Declaration><![CDATA[PROPERTY P_Length : DINT
 ]]></Declaration>
-      <Get Name="Get" Id="{ead6107f-034c-4cd2-9d3c-8cd79ec92e98}">
+      <Get Name="Get" Id="{c47e8563-f222-4476-9a6e-349dbc7965b1}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -165,37 +181,41 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <LineIds Name="FB_ListString">
+    <LineIds Name="FB_ListLogger">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListString.FB_exit">
+    <LineIds Name="FB_ListLogger.FB_exit">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListString.M_Add">
+    <LineIds Name="FB_ListLogger.M_Add">
       <LineId Id="164" Count="22" />
       <LineId Id="200" Count="1" />
       <LineId Id="199" Count="0" />
       <LineId Id="187" Count="4" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListString.M_Clear">
+    <LineIds Name="FB_ListLogger.M_Clear">
       <LineId Id="3" Count="2" />
       <LineId Id="2" Count="0" />
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListString.M_Find">
+    <LineIds Name="FB_ListLogger.M_Find">
       <LineId Id="66" Count="8" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListString.M_Index">
+    <LineIds Name="FB_ListLogger.M_Index">
       <LineId Id="23" Count="1" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListString.M_Remove">
+    <LineIds Name="FB_ListLogger.M_Log">
+      <LineId Id="7" Count="2" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ListLogger.M_Remove">
       <LineId Id="132" Count="28" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListString.P_Length.Get">
+    <LineIds Name="FB_ListLogger.P_Length.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

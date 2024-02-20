@@ -4,30 +4,30 @@
     <Declaration><![CDATA[INTERFACE I_ListComponent
 ]]></Declaration>
     <Method Name="M_Add" Id="{31416f6e-5c2d-4ce2-873c-dc73b1cfa758}">
-      <Declaration><![CDATA[METHOD M_Add : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC M_Add : BOOL
 VAR_INPUT
 	Object: 	I_Component;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="M_Clear" Id="{bec35183-59fd-4e05-8c88-04323521ec68}">
-      <Declaration><![CDATA[METHOD M_Clear : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC M_Clear : BOOL
 ]]></Declaration>
     </Method>
     <Method Name="M_Find" Id="{9f020047-7fe7-44c3-b7ac-d3f89fe85683}">
-      <Declaration><![CDATA[METHOD M_Find : DINT
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
 VAR_INPUT
 	Object: 	I_Component;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="M_Index" Id="{aa739692-a960-4472-8c48-c3bba57fc92f}">
-      <Declaration><![CDATA[METHOD M_Index : I_Component
+      <Declaration><![CDATA[METHOD PUBLIC M_Index : I_Component
 VAR_INPUT
 	Index: 	DINT;
 END_VAR
 ]]></Declaration>
     </Method>
     <Method Name="M_Remove" Id="{6961a1f7-e686-48a7-b56a-c7aec47523ba}">
-      <Declaration><![CDATA[METHOD M_Remove : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC M_Remove : BOOL
 VAR_INPUT
 	Object: 	I_Component;
 END_VAR]]></Declaration>

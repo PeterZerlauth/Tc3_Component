@@ -3,14 +3,6 @@
   <Itf Name="I_Event" Id="{86200139-fcb7-4d9e-9f1b-6b3e88f31cc6}">
     <Declaration><![CDATA[INTERFACE I_Event EXTENDS I_Object
 ]]></Declaration>
-    <Method Name="M_Abort" Id="{7ce1cd66-528d-482d-8b65-9ae3dbff679e}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Abort : BOOL
-VAR_INPUT
-	Message:				STRING(255);
-	ID:						UDINT;
-END_VAR
-]]></Declaration>
-    </Method>
     <Method Name="M_Debug" Id="{de8efd53-16f5-0334-02e3-fdd0e4bf084c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Debug : BOOL
 VAR_INPUT
@@ -18,16 +10,17 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Information" Id="{a0df6aac-21ac-0b65-3426-2421a14ee702}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Information : BOOL
+    <Method Name="M_Error" Id="{7ce1cd66-528d-482d-8b65-9ae3dbff679e}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Error : BOOL
 VAR_INPUT
 	Message:				STRING(255);
 	ID:						UDINT;
+	Severity:				E_Severity;
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Stop" Id="{e735528a-b488-4d64-9f3f-4169f79eb682}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Stop : BOOL
+    <Method Name="M_Information" Id="{a0df6aac-21ac-0b65-3426-2421a14ee702}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Information : BOOL
 VAR_INPUT
 	Message:				STRING(255);
 	ID:						UDINT;

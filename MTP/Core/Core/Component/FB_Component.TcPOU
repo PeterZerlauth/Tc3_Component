@@ -235,7 +235,7 @@ END_CASE
 // Detect state changed
 IF eStatePrevious <> eState THEN
 	eStatePrevious:= eState;
-	M_StateChanged();
+	M_OnStateChanged();
 END_IF
 eRequest:= E_Request.Undefined;
 
@@ -340,6 +340,24 @@ END_VAR
 M_Initialise:= True;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_OnNotify" Id="{a99268d9-5398-44f2-992c-940f05706df3}">
+      <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
+VAR_INPUT
+	eRequest:		E_Request;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Request(eRequest);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_OnStateChanged" Id="{fed7d462-efbd-4bae-956c-60dd99530457}">
+      <Declaration><![CDATA[METHOD PROTECTED M_OnStateChanged : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Paused" Id="{5d4d1306-287a-427e-996c-3f6f19decdf3}" FolderPath="States\Pause\">
       <Declaration><![CDATA[METHOD PROTECTED M_Paused : BOOL
 VAR_INPUT
@@ -419,15 +437,6 @@ END_VAR
 M_Starting:= True;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_StateChanged" Id="{fed7d462-efbd-4bae-956c-60dd99530457}">
-      <Declaration><![CDATA[METHOD PROTECTED M_StateChanged : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Stopped" Id="{3035f166-5ee3-4891-8715-c804b18a321e}" FolderPath="States\Stop\">
       <Declaration><![CDATA[METHOD PROTECTED M_Stopped : BOOL
 VAR_INPUT
@@ -492,7 +501,7 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="FB_Component">
-      <LineId Id="1338" Count="216" />
+      <LineId Id="1575" Count="216" />
       <LineId Id="160" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Aborted">
@@ -528,6 +537,12 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Component.M_Initialise">
       <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_OnNotify">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_OnStateChanged">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Paused">
@@ -570,9 +585,6 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Component.M_Starting">
       <LineId Id="9" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_StateChanged">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Stopped">

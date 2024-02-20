@@ -29,7 +29,7 @@ IF bEvent THEN
 	fbComponent1.fbEvent.M_Add('Test');
 	fbComponent1.fbEvent.M_Add('Test2');
 	fbComponent1.fbEvent.M_Add('Test3');
-	fbComponent1.fbEvent.M_Abort('First Error Abort',1);
+	fbComponent1.fbEvent.M_Error('First Error Abort', 1 ,E_Severity.Abort);
 END_IF]]></ST>
     </Implementation>
     <Method Name="M_Initialise" Id="{714c485c-83a6-4af2-a706-fec3f6b598e5}">

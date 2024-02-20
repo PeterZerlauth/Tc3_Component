@@ -4,8 +4,9 @@
     <Declaration><![CDATA[{attribute 'no_explicit_call'} 
 FUNCTION_BLOCK FB_ListObject IMPLEMENTS I_ListObject
 VAR
-	pList: 			POINTER TO I_Object;
 	nLength:		DINT;
+	pList: 			POINTER TO I_Object;
+	{attribute 'conditionalshow'}
 	aList:			POINTER TO POINTER TO ARRAY [0..100] OF I_Object:=ADR(pList);
 END_VAR
 ]]></Declaration>
@@ -23,7 +24,7 @@ END_VAR
       </Implementation>
     </Method>
     <Method Name="M_Add" Id="{573e88b0-086d-4607-8280-9e200d874ce5}">
-      <Declaration><![CDATA[METHOD M_Add : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC M_Add : BOOL
 VAR_INPUT
 	Object: 	I_Object;
 END_VAR
@@ -67,7 +68,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Clear" Id="{5185d8d5-9632-41dd-9f2f-711936332e5b}">
-      <Declaration><![CDATA[METHOD M_Clear : bool
+      <Declaration><![CDATA[METHOD PUBLIC M_Clear : bool
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF pList <> 0 THEN
@@ -78,7 +79,7 @@ M_Clear:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Find" Id="{4c0f1cf5-9a17-45e4-a85a-c781ed972a27}">
-      <Declaration><![CDATA[METHOD M_Find : DINT
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
 VAR_INPUT
 	Object: 	I_Object;
 END_VAR
@@ -99,7 +100,7 @@ END_WHILE
       </Implementation>
     </Method>
     <Method Name="M_Index" Id="{919bdfbb-db0e-4a7f-8ca8-f758ff962a94}">
-      <Declaration><![CDATA[METHOD M_Index : I_Object
+      <Declaration><![CDATA[METHOD PUBLIC M_Index : I_Object
 VAR_INPUT
 	Index: 	DINT;
 END_VAR
@@ -111,7 +112,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Remove" Id="{e9807c5c-b966-4419-87bc-84d068abfb2d}">
-      <Declaration><![CDATA[METHOD M_Remove : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC M_Remove : BOOL
 VAR_INPUT
 	Object: 	I_Object;
 END_VAR
@@ -153,7 +154,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Length" Id="{d45b982f-4b97-465f-bb53-55cc6ad8a8d4}">
-      <Declaration><![CDATA[PROPERTY P_Length : DINT
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Length : DINT
 ]]></Declaration>
       <Get Name="Get" Id="{9d0b7376-3a4d-4a08-aa02-0d3f8f110cdd}">
         <Declaration><![CDATA[VAR

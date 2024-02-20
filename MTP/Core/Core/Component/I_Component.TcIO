@@ -3,6 +3,12 @@
   <Itf Name="I_Component" Id="{84a5f8f6-b81b-4747-a25d-2c3abe61b573}">
     <Declaration><![CDATA[INTERFACE I_Component EXTENDS I_Object
 ]]></Declaration>
+    <Method Name="M_OnNotify" Id="{e7af5b28-84d1-47bb-bd50-90d772841703}">
+      <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
+VAR_INPUT
+	eRequest:		E_Request;
+END_VAR]]></Declaration>
+    </Method>
     <Method Name="M_Request" Id="{5bce4574-fbb8-4134-a60e-e5f2d429768c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Request : BOOL
 VAR_INPUT

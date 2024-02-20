@@ -8,7 +8,7 @@
     <DownloadApplicationInfo>true</DownloadApplicationInfo>
     <WriteProductVersion>false</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
-    <Name>Library</Name>
+    <Name>Core</Name>
     <ProgramVersion>3.1.4024.0</ProgramVersion>
     <Application>{83dea455-3cb0-4661-8d1a-f0b533fc27b9}</Application>
     <TypeSystem>{8aefb04c-7e59-4770-8677-19ef8ae6a899}</TypeSystem>
@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\Event\E_Event.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Component\Event\E_Severity.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Component\Event\FB_Event.TcPOU">
@@ -129,7 +132,7 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Library.tmc">
+    <None Include="Core.tmc">
       <SubType>Content</SubType>
     </None>
   </ItemGroup>
