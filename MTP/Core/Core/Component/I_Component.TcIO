@@ -34,5 +34,11 @@ END_VAR
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
+    <Property Name="P_State" Id="{fc5b448a-f6ff-4097-a0bf-2f1ddd20a12f}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_State : E_State]]></Declaration>
+      <Get Name="Get" Id="{4b4e2bb1-6415-4e70-856a-2683a8f3f5ab}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
   </Itf>
 </TcPlcObject>

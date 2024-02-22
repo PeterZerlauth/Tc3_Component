@@ -4,7 +4,7 @@
     <Declaration><![CDATA[{attribute 'reflection'} 
 FUNCTION_BLOCK FB_Component IMPLEMENTS I_Component
 VAR_INPUT
-	fbInfo:						FB_Info(sInstancePath, eState);
+	fbInfo:						FB_Info(sInstancePath);
 	fbObserver:					FB_Observer;
 	fbEvent:					FB_Event(THIS^);
 END_VAR
@@ -226,7 +226,7 @@ END_CASE
 CASE eState OF
 	E_State.Aborted, E_State.Stopped, E_State.Completed:;
 ELSE		
-	M_Active();
+	this^.M_Running();
 END_CASE
 
 // Detect state changed
@@ -266,15 +266,6 @@ END_VAR
       <Implementation>
         <ST><![CDATA[// State Aborting
 M_Aborting:= True;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Active" Id="{b0e728db-ca35-4629-abea-b5b6a70abf0b}" FolderPath="States\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Active
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Completed" Id="{36dec38b-240d-4516-a167-d73475e82b56}" FolderPath="States\Complete\">
@@ -462,6 +453,15 @@ END_VAR
 M_Resuming:= True;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Running" Id="{b0e728db-ca35-4629-abea-b5b6a70abf0b}" FolderPath="States\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Running
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Starting" Id="{0a285b28-e7e5-4050-bddf-636ff865dc31}" FolderPath="States\Start\">
       <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL
 VAR_INPUT
@@ -535,63 +535,19 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="P_State" Id="{c747533f-000a-4f36-b4ba-f00b2fbb73f7}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_State : E_State]]></Declaration>
+      <Get Name="Get" Id="{88d67c77-472d-4a63-bef7-c9cec62b2136}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State:= eState;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <LineIds Name="FB_Component">
-      <LineId Id="1575" Count="13" />
-      <LineId Id="1590" Count="1" />
-      <LineId Id="1593" Count="10" />
-      <LineId Id="1605" Count="1" />
-      <LineId Id="1608" Count="0" />
-      <LineId Id="1910" Count="0" />
-      <LineId Id="1909" Count="0" />
-      <LineId Id="1609" Count="1" />
-      <LineId Id="1893" Count="0" />
-      <LineId Id="1612" Count="2" />
-      <LineId Id="1616" Count="1" />
-      <LineId Id="1619" Count="12" />
-      <LineId Id="1633" Count="2" />
-      <LineId Id="1912" Count="0" />
-      <LineId Id="1911" Count="0" />
-      <LineId Id="1637" Count="21" />
-      <LineId Id="1908" Count="0" />
-      <LineId Id="1907" Count="0" />
-      <LineId Id="1659" Count="12" />
-      <LineId Id="1905" Count="1" />
-      <LineId Id="1672" Count="5" />
-      <LineId Id="1679" Count="1" />
-      <LineId Id="1682" Count="8" />
-      <LineId Id="1692" Count="1" />
-      <LineId Id="1695" Count="0" />
-      <LineId Id="1904" Count="0" />
-      <LineId Id="1903" Count="0" />
-      <LineId Id="1696" Count="7" />
-      <LineId Id="1705" Count="1" />
-      <LineId Id="1708" Count="8" />
-      <LineId Id="1718" Count="1" />
-      <LineId Id="1721" Count="8" />
-      <LineId Id="1731" Count="1" />
-      <LineId Id="1734" Count="0" />
-      <LineId Id="1901" Count="0" />
-      <LineId Id="1900" Count="0" />
-      <LineId Id="1735" Count="7" />
-      <LineId Id="1744" Count="1" />
-      <LineId Id="1747" Count="8" />
-      <LineId Id="1757" Count="1" />
-      <LineId Id="1760" Count="8" />
-      <LineId Id="1770" Count="1" />
-      <LineId Id="1773" Count="0" />
-      <LineId Id="1895" Count="1" />
-      <LineId Id="1774" Count="6" />
-      <LineId Id="1894" Count="0" />
-      <LineId Id="1781" Count="1" />
-      <LineId Id="1858" Count="0" />
-      <LineId Id="1857" Count="0" />
-      <LineId Id="1861" Count="1" />
-      <LineId Id="1859" Count="1" />
-      <LineId Id="1783" Count="2" />
-      <LineId Id="1892" Count="0" />
-      <LineId Id="1786" Count="2" />
-      <LineId Id="1856" Count="0" />
-      <LineId Id="1855" Count="0" />
+      <LineId Id="2147" Count="213" />
       <LineId Id="160" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Aborted">
@@ -600,9 +556,6 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Component.M_Aborting">
       <LineId Id="9" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Active">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Completed">
@@ -699,6 +652,9 @@ END_VAR
       <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
+    <LineIds Name="FB_Component.M_Running">
+      <LineId Id="5" Count="0" />
+    </LineIds>
     <LineIds Name="FB_Component.M_Starting">
       <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
@@ -722,6 +678,9 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.P_Observer.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.P_State.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

@@ -21,12 +21,6 @@
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Property Name="P_State" Id="{3b30aaf1-6f1c-430a-8646-316ddf003bd2}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_State : E_State]]></Declaration>
-      <Get Name="Get" Id="{6f2cef65-ec24-42fd-84aa-15a27b901d5e}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
     <Property Name="P_Timestamp" Id="{d32c7dd1-ae0e-4b1a-b50b-ce8720cabd0c}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Timestamp : ULINT]]></Declaration>
       <Get Name="Get" Id="{e41a45ff-6cea-4e2b-8499-2e70f12a2058}">

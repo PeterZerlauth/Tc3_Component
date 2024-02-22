@@ -8,7 +8,6 @@ VAR_OUTPUT
 END_VAR
 VAR
     sInstancePath:				REFERENCE TO STRING(255);
-	eState:						REFERENCE TO E_State;
 	fbReadSymInfo: 				PLC_ReadSymInfoByNameEx;
 	nIndex:						DINT;
 END_VAR
@@ -42,13 +41,10 @@ VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
 	sInstancePath:			REFERENCE TO STRING(255);
-	eState:					REFERENCE TO E_State;
-	
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[THIS^.sInstancePath REF= sInstancePath;
-THIS^.eState REF= eState;
 M_Initialize();]]></ST>
       </Implementation>
     </Method>
@@ -111,17 +107,6 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="P_State" Id="{c747533f-000a-4f36-b4ba-f00b2fbb73f7}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_State : E_State]]></Declaration>
-      <Get Name="Get" Id="{88d67c77-472d-4a63-bef7-c9cec62b2136}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_State:= eState;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Property Name="P_Timestamp" Id="{a51f1ff9-c398-4582-9d70-e288f1c0d28c}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Timestamp : ULINT]]></Declaration>
       <Get Name="Get" Id="{ca050bdc-7777-4205-b941-d6aa9ea30447}">
@@ -144,7 +129,6 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Info.FB_init">
       <LineId Id="9" Count="0" />
-      <LineId Id="12" Count="0" />
       <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="FB_Info.M_Initialize">
@@ -161,9 +145,6 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Info.P_Instance.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Info.P_State.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Info.P_Timestamp.Get">
