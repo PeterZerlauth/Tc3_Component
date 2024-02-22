@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_ComponentEX" Id="{67ecce00-b6ba-4016-865f-4a4dfdc94a76}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ComponentEX EXTENDS FB_Component
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	bEvent:			BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();]]></ST>
+    </Implementation>
+    <Method Name="M_Execute" Id="{bba4d435-5736-45bd-97fd-4ceab6f0d012}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF bEvent THEN
+	bEvent:= FALSE;
+	fbEvent.M_Add('Test');
+	fbEvent.M_Add('Test2');
+	fbEvent.M_Add('Test3');
+	fbEvent.M_Error('First Error Abort', 1 ,E_Behaviour.Abort);
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_ComponentEX">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ComponentEX.M_Execute">
+      <LineId Id="11" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="14" Count="2" />
+      <LineId Id="12" Count="1" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

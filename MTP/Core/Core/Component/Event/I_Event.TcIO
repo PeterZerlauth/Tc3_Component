@@ -15,7 +15,7 @@ END_VAR
 VAR_INPUT
 	Message:				STRING(255);
 	ID:						UDINT;
-	Severity:				E_Severity;
+	Behaviour:				E_Behaviour;
 END_VAR
 ]]></Declaration>
     </Method>

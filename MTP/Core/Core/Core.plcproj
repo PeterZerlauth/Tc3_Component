@@ -44,7 +44,7 @@
     <Compile Include="Component\Event\E_Event.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Component\Event\E_Severity.TcDUT">
+    <Compile Include="Component\Event\E_Behaviour.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Component\Event\FB_Event.TcPOU">

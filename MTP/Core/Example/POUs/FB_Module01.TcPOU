@@ -3,6 +3,8 @@
   <POU Name="FB_Module01" Id="{3744d03d-359c-4ab8-84fb-4ea93b7a5162}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Module01 EXTENDS FB_Component
 VAR_INPUT
+	bPowerOn:				BOOL;
+	bFuse1:					BOOL;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -12,8 +14,7 @@ VAR
 	fbComponent1:				FB_Component;
 	fbComponent2:				FB_Component;
 	fbComponent3:				FB_Component;
-	fbComponent4:				FB_Component;
-	bEvent: 					BOOL;
+	fbComponent4:				FB_ComponentEX;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -23,15 +24,31 @@ fbComponent1();
 fbComponent2();
 fbComponent3();
 fbComponent4();
-
-IF bEvent THEN
-	bEvent:= FALSE;
-	fbComponent1.fbEvent.M_Add('Test');
-	fbComponent1.fbEvent.M_Add('Test2');
-	fbComponent1.fbEvent.M_Add('Test3');
-	fbComponent1.fbEvent.M_Error('First Error Abort', 1 ,E_Severity.Abort);
-END_IF]]></ST>
+]]></ST>
     </Implementation>
+    <Method Name="M_Active" Id="{eaffebca-5ff2-4f17-be84-3310a9ace22e}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Active
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Active();
+
+IF NOT bPowerOn THEN
+	fbEvent.M_Add('Test');
+	fbEvent.M_Add('Test2');
+	fbEvent.M_Add('Test3');
+	fbEvent.M_Error('Power not on', 2 ,E_Behaviour.Abort);
+ELSIF NOT bFuse1 THEN
+	fbEvent.M_Add('Test');
+	fbEvent.M_Add('Test2');
+	fbEvent.M_Add('Test3');
+	fbEvent.M_Error('Fuse Triped', 3 ,E_Behaviour.Stop);	
+	
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Initialise" Id="{714c485c-83a6-4af2-a706-fec3f6b598e5}">
       <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL
 VAR_INPUT
@@ -39,6 +56,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF SUPER^.M_Initialise() THEN
+	fbEvent.P_Logger:= fbLogger;
 	fbLogger.M_Add(fbAlarm);
 
 	fbSaftey.fbEvent.P_Logger:= fbLogger;
@@ -80,7 +98,9 @@ END_VAR
 WHILE nIndex < fbObserver.nLength DO
 	fbObserver.M_Index(nIndex).M_Request(E_Request.Reset);
 	nIndex:= nIndex +1;
-END_WHILE]]></ST>
+END_WHILE
+
+fbAlarm.M_Reset();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Starting" Id="{12752945-7cd6-464f-965a-f81c0b828bfd}">
@@ -104,14 +124,24 @@ END_WHILE]]></ST>
       <LineId Id="15" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="16" Count="2" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="49" Count="1" />
-      <LineId Id="54" Count="2" />
-      <LineId Id="51" Count="0" />
       <LineId Id="41" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module01.M_Active">
+      <LineId Id="5" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="18" Count="2" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="24" Count="2" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Initialise">
       <LineId Id="24" Count="0" />
+      <LineId Id="82" Count="0" />
       <LineId Id="77" Count="1" />
       <LineId Id="68" Count="1" />
       <LineId Id="67" Count="0" />
@@ -139,6 +169,8 @@ END_WHILE]]></ST>
     <LineIds Name="FB_Module01.M_Resetting">
       <LineId Id="6" Count="3" />
       <LineId Id="5" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="16" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Starting">
       <LineId Id="12" Count="0" />

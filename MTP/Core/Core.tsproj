@@ -1,16 +1,27 @@
 <?xml version="1.0"?>
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.50">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{5E64EF16-4D41-40C1-A2BB-4BD7E7151BAC}" PersistentType="true">NewEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[NewEventClass_DisplayText]]></DisplayName>
+			<EventId>
+				<Name Id="1">Event</Name>
+				<DisplayName TxtId=""><![CDATA[Event_DisplayText]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+		</DataType>
+	</DataTypes>
 	<Project ProjectGUID="{74E8F419-036C-4967-922D-C405C2CA94D5}" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
 			<Tasks>
-				<Task Id="4" Priority="20" CycleTime="10000000" AmsPort="350" AdtTasks="true">
+				<Task Id="4" Priority="20" CycleTime="10000" AmsPort="350" AdtTasks="true">
 					<Name>plcTask1</Name>
 				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Example" PrjFilePath="Example\Example.plcproj" TmcFilePath="Example\Example.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{1696F3AB-BD35-C8B8-B9D3-0C9DEDD0D18B}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{61865CBF-0EA1-5A62-D47C-BC4AE78B7628}">
 					<Name>Example Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -21,7 +32,7 @@
 								<OTCID>#x02010040</OTCID>
 							</ManualConfig>
 							<Priority>20</Priority>
-							<CycleTime>1000000000</CycleTime>
+							<CycleTime>1000000</CycleTime>
 						</Context>
 					</Contexts>
 					<TaskPouOids>
@@ -30,7 +41,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{71649981-AC0D-4A85-8722-507B2F4142F3}" Name="Core" PrjFilePath="Core\Core.plcproj" TmcFilePath="Core\Core.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Library\Library.tmc" TmcHash="{BFBE3D34-E090-E7DA-DCE3-86394BF47D5F}">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Core\Core.tmc" TmcHash="{BFBE3D34-E090-E7DA-DCE3-86394BF47D5F}">
 					<Name>Core Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>

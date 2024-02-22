@@ -50,13 +50,22 @@ VAR
 	nIndex: DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF (nIndex:= M_Find(stEvent)) = -1 THEN
+        <ST><![CDATA[IF M_Find(stEvent) = -1 THEN
 	aEvent[nLength]:= stEvent;
 	nLength:= nLength + 1;
-ELSE
-	aEvent[nIndex]:= stEvent;	
 END_IF
+
 ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{041430d9-c57b-48d8-9f70-5921ceb30317}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nLength:= 0;
+Tc2_System.MEMSET(adr(aEvent), 0, sizeof(aEvent));]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Alarm">
@@ -69,12 +78,15 @@ END_IF
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Alarm.M_Log">
-      <LineId Id="15" Count="1" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="33" Count="0" />
       <LineId Id="23" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="17" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Alarm.M_Reset">
+      <LineId Id="5" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>

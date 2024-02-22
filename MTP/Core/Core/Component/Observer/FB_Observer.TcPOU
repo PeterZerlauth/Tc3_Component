@@ -6,6 +6,7 @@ FUNCTION_BLOCK PUBLIC FB_Observer IMPLEMENTS I_Observer
 VAR
 	pList: 			POINTER TO I_Component;
 	nLength:		DINT;
+	{attribute 'conditionalshow'}
 	aList:			POINTER TO POINTER TO ARRAY [0..100] OF I_Component:=ADR(pList);
 END_VAR
 ]]></Declaration>
@@ -154,7 +155,7 @@ END_IF]]></ST>
     <Method Name="M_Notify" Id="{3d3fb67b-dd6a-440b-9c1c-e8b43c7588bf}">
       <Declaration><![CDATA[METHOD M_Notify : BOOL
 VAR_INPUT
-	eRequest:		E_Request;
+	eState:				E_State;
 END_VAR
 
 VAR
@@ -162,7 +163,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[WHILE nIndex < nLength DO
-	pList[nIndex].M_OnNotify(eRequest);
+	pList[nIndex].M_OnNotify(eState);
 	nIndex:= nIndex + 1; 
 END_WHILE]]></ST>
       </Implementation>

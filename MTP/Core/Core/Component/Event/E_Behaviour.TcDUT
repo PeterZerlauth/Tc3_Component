@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <DUT Name="E_Severity" Id="{d2151b9b-4367-42a7-936d-7f67fb250d47}">
+  <DUT Name="E_Behaviour" Id="{d2151b9b-4367-42a7-936d-7f67fb250d47}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}
-TYPE E_Severity :
+TYPE E_Behaviour :
 (
     Pause    := 100,
     Hold     := 200,    
