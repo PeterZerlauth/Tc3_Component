@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <GVL Name="GVL" Id="{d2c8887b-6ecf-48d3-87de-d7040ac613e3}">
-    <Declaration><![CDATA[VAR_GLOBAL
-	fbSaftey:		FB_Component;	
-END_VAR]]></Declaration>
-  </GVL>
-</TcPlcObject>

@@ -3,7 +3,7 @@
   <POU Name="MAIN" Id="{80fd576e-8bda-0001-19b1-22d89fc11873}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	fbModule:		FB_Module01;	
+	fbModule1:		FB_Module01;	
 	bReset:			BOOL;
 	bStart: 		BOOL;
     bHold:       	BOOL;
@@ -15,37 +15,36 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-fbSaftey();
-fbModule();
+fbModule1();
 
 IF bReset THEN
-	bReset:= NOT fbModule.M_Request(E_Request.Reset);
+	bReset:= NOT fbModule1.M_Request(E_Request.Reset);
 END_IF
 
 IF bStart THEN
-	bStart:= NOT fbModule.M_Request(E_Request.Start);
+	bStart:= NOT fbModule1.M_Request(E_Request.Start);
 END_IF
 
 IF bStop THEN
-	bStop:= fbModule.M_Request(E_Request.Stop);
+	bStop:= fbModule1.M_Request(E_Request.Stop);
 END_IF
 
 IF bHold THEN
-	bHold:= NOT fbModule.M_Request(E_Request.Hold);
+	bHold:= NOT fbModule1.M_Request(E_Request.Hold);
 END_IF
 
 IF bPause THEN
-	bPause:= NOT fbModule.M_Request(E_Request.Pause);
+	bPause:= NOT fbModule1.M_Request(E_Request.Pause);
 END_IF
 
 IF bAbort THEN
-	bAbort:= NOT fbModule.M_Request(E_Request.Abort);
+	bAbort:= NOT fbModule1.M_Request(E_Request.Abort);
 END_IF
 
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="360" Count="1" />
+      <LineId Id="361" Count="0" />
       <LineId Id="305" Count="0" />
       <LineId Id="309" Count="24" />
       <LineId Id="37" Count="0" />

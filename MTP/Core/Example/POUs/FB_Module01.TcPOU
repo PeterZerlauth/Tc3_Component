@@ -15,6 +15,8 @@ VAR
 	fbComponent2:				FB_Component;
 	fbComponent3:				FB_Component;
 	fbComponent4:				FB_ComponentEX;
+	nIndex:						INT;
+	fbComponent:				ARRAY[1..10000] OF FB_Component;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -24,7 +26,10 @@ fbComponent1();
 fbComponent2();
 fbComponent3();
 fbComponent4();
-]]></ST>
+
+FOR nIndex:= 1 TO 10000 DO 
+	fbComponent[nIndex]();
+END_FOR;]]></ST>
     </Implementation>
     <Method Name="M_Initialise" Id="{714c485c-83a6-4af2-a706-fec3f6b598e5}">
       <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL
@@ -35,10 +40,6 @@ END_VAR
         <ST><![CDATA[IF SUPER^.M_Initialise() THEN
 	fbEvent.P_Logger:= fbLogger;
 	fbLogger.M_Add(fbAlarm);
-
-	fbSaftey.fbEvent.P_Logger:= fbLogger;
-	fbSaftey.fbObserver.M_Attach(THIS^);
-
 
 	fbComponent1.fbEvent.P_Logger:= fbLogger;
 	fbComponent1.fbObserver.M_Attach(THIS^);
@@ -55,6 +56,15 @@ END_VAR
 	fbComponent4.fbEvent.P_Logger:= fbLogger;
 	fbComponent4.fbObserver.M_Attach(THIS^);
 	fbObserver.M_Attach(fbComponent4);
+	
+	FOR nIndex:= 1 TO 10000 DO 
+		fbComponent[nIndex].fbEvent.P_Logger:= fbLogger;
+		fbComponent[nIndex].fbObserver.M_Attach(THIS^);
+		fbObserver.M_Attach(fbComponent[nIndex]);
+	END_FOR;
+	
+	
+	
 	M_Initialise:= TRUE;
 END_IF
 
@@ -86,9 +96,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.M_Active();
-
-IF NOT bPowerOn THEN
+        <ST><![CDATA[IF NOT bPowerOn THEN
 	fbEvent.M_Add('Test');
 	fbEvent.M_Add('Test2');
 	fbEvent.M_Add('Test3');
@@ -124,14 +132,14 @@ END_WHILE]]></ST>
       <LineId Id="15" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="16" Count="2" />
+      <LineId Id="58" Count="0" />
       <LineId Id="41" Count="0" />
+      <LineId Id="59" Count="1" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Initialise">
       <LineId Id="24" Count="0" />
       <LineId Id="82" Count="0" />
-      <LineId Id="77" Count="1" />
-      <LineId Id="68" Count="1" />
-      <LineId Id="67" Count="0" />
+      <LineId Id="77" Count="0" />
       <LineId Id="66" Count="0" />
       <LineId Id="51" Count="0" />
       <LineId Id="47" Count="0" />
@@ -148,6 +156,11 @@ END_WHILE]]></ST>
       <LineId Id="54" Count="0" />
       <LineId Id="50" Count="0" />
       <LineId Id="45" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="93" Count="1" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="87" Count="3" />
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
       <LineId Id="22" Count="1" />
@@ -160,8 +173,6 @@ END_WHILE]]></ST>
       <LineId Id="16" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Running">
-      <LineId Id="5" Count="0" />
-      <LineId Id="14" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="18" Count="2" />
       <LineId Id="15" Count="0" />

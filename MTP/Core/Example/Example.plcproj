@@ -20,10 +20,6 @@
     <AutoUpdateUmlProfile>true</AutoUpdateUmlProfile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="GVLs\GVL.TcGVL">
-      <SubType>Code</SubType>
-      <LinkAlways>true</LinkAlways>
-    </Compile>
     <Compile Include="plcTask1.TcTTO">
       <SubType>Code</SubType>
     </Compile>
