@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <Itf Name="I_Component" Id="{84a5f8f6-b81b-4747-a25d-2c3abe61b573}">
-    <Declaration><![CDATA[INTERFACE I_Component EXTENDS I_Object
+    <Declaration><![CDATA[INTERFACE I_Component EXTENDS I_Cycle
 ]]></Declaration>
     <Method Name="M_OnNotify" Id="{e7af5b28-84d1-47bb-bd50-90d772841703}">
       <Declaration><![CDATA[METHOD PUBLIC M_OnNotify

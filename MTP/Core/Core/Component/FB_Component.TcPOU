@@ -2,7 +2,7 @@
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Component" Id="{4a8fdfc8-695a-4bb4-a889-b0289c0a194c}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'reflection'} 
-FUNCTION_BLOCK FB_Component IMPLEMENTS I_Component
+FUNCTION_BLOCK FB_Component EXTENDS FB_Cycle IMPLEMENTS I_Component
 VAR_INPUT
 	fbInfo:						FB_Info(sInstancePath);
 	fbObserver:					FB_Observer;
@@ -11,7 +11,6 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	stComponent:				ST_Component;
     {attribute 'hide'}
 	{attribute 'instance-path'} 
     {attribute 'noinit'}
@@ -23,7 +22,64 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbInfo();
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="States" Id="{bb7123de-6478-4234-9ee4-651df2b9bc25}">
+      <Folder Name="Abort" Id="{4cfd24e7-9cc4-4ac8-b9a2-2bb8efd40b81}" />
+      <Folder Name="Complete" Id="{8cc75b46-b5cb-4c11-be2d-3277ffea828d}" />
+      <Folder Name="Hold" Id="{9a0b22b2-44e2-4e39-8bcb-b51e4e344ca7}" />
+      <Folder Name="Pause" Id="{9c64081e-f728-491d-9769-ffa7f6354111}" />
+      <Folder Name="Reset" Id="{fd96e000-8a80-4649-938a-5a51a16ea269}" />
+      <Folder Name="Start" Id="{3013ace2-54b5-4b17-b0c9-5400c34587df}" />
+      <Folder Name="Stop" Id="{a8159361-68bf-4749-870a-300243097586}" />
+    </Folder>
+    <Method Name="M_Aborted" Id="{851e7e88-c79a-42ec-971c-1651bbdcd922}" FolderPath="States\Abort\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborted : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Aborted
+M_Aborted:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Aborting" Id="{2544540d-284d-4bb6-9092-9fb2d57b609d}" FolderPath="States\Abort\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Aborting
+M_Aborting:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Completed" Id="{36dec38b-240d-4516-a167-d73475e82b56}" FolderPath="States\Complete\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completed : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Complete
+M_Completed:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Completing" Id="{d7947499-dc81-4824-8eb2-1f31346a18c9}" FolderPath="States\Complete\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Completing
+M_Completing:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Cycle" Id="{f033fb8d-b449-41cf-8e0e-ae093b3ee161}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbInfo();
 fbObserver();
 fbEvent();
 
@@ -234,58 +290,7 @@ IF eStatePrevious <> eState THEN
 	fbObserver.M_Notify(eState);
 	eStatePrevious:= eState;
 	M_OnStateChanged();
-END_IF
-
-
-]]></ST>
-    </Implementation>
-    <Folder Name="States" Id="{bb7123de-6478-4234-9ee4-651df2b9bc25}">
-      <Folder Name="Abort" Id="{4cfd24e7-9cc4-4ac8-b9a2-2bb8efd40b81}" />
-      <Folder Name="Complete" Id="{8cc75b46-b5cb-4c11-be2d-3277ffea828d}" />
-      <Folder Name="Hold" Id="{9a0b22b2-44e2-4e39-8bcb-b51e4e344ca7}" />
-      <Folder Name="Pause" Id="{9c64081e-f728-491d-9769-ffa7f6354111}" />
-      <Folder Name="Reset" Id="{fd96e000-8a80-4649-938a-5a51a16ea269}" />
-      <Folder Name="Start" Id="{3013ace2-54b5-4b17-b0c9-5400c34587df}" />
-      <Folder Name="Stop" Id="{a8159361-68bf-4749-870a-300243097586}" />
-    </Folder>
-    <Method Name="M_Aborted" Id="{851e7e88-c79a-42ec-971c-1651bbdcd922}" FolderPath="States\Abort\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Aborted : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Aborted
-M_Aborted:= True;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Aborting" Id="{2544540d-284d-4bb6-9092-9fb2d57b609d}" FolderPath="States\Abort\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Aborting
-M_Aborting:= True;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Completed" Id="{36dec38b-240d-4516-a167-d73475e82b56}" FolderPath="States\Complete\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Completed : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Complete
-M_Completed:= TRUE;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Completing" Id="{d7947499-dc81-4824-8eb2-1f31346a18c9}" FolderPath="States\Complete\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Completing
-M_Completing:= True;]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Execute" Id="{7b4271f8-8ab7-4ecd-8059-762441f55350}" FolderPath="States\Start\">
@@ -418,9 +423,18 @@ CASE eRequest OF
     E_Request.Start:
 		M_Request:= eState = E_State.Execute;
     E_Request.Pause:
-		M_Request:= eState = E_State.Paused;
+		IF 	fbEvent.bIngorePause THEN
+			M_Request:= TRUE;
+		ELSE
+			M_Request:= eState = E_State.Paused;
+		END_IF
     E_Request.Hold:
-		M_Request:= eState = E_State.Held;
+		IF 	fbEvent.bIngoreHold THEN
+			M_Request:= TRUE;
+		ELSE
+			M_Request:= eState = E_State.Held;		
+		END_IF
+		
 	E_Request.Complete:
 		M_Request:= eState = E_State.Completed;	
     E_Request.Stop:
@@ -547,7 +561,6 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="FB_Component">
-      <LineId Id="2147" Count="213" />
       <LineId Id="160" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Aborted">
@@ -565,6 +578,10 @@ END_VAR
     <LineIds Name="FB_Component.M_Completing">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Cycle">
+      <LineId Id="6" Count="210" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Execute">
       <LineId Id="5" Count="0" />
@@ -592,10 +609,10 @@ END_VAR
       <LineId Id="48" Count="0" />
       <LineId Id="25" Count="0" />
       <LineId Id="28" Count="0" />
-      <LineId Id="49" Count="0" />
+      <LineId Id="66" Count="0" />
       <LineId Id="29" Count="1" />
       <LineId Id="33" Count="0" />
-      <LineId Id="50" Count="0" />
+      <LineId Id="61" Count="0" />
       <LineId Id="34" Count="1" />
       <LineId Id="38" Count="0" />
       <LineId Id="51" Count="0" />
@@ -630,8 +647,15 @@ END_VAR
       <LineId Id="19" Count="0" />
       <LineId Id="26" Count="0" />
       <LineId Id="20" Count="0" />
+      <LineId Id="43" Count="1" />
+      <LineId Id="42" Count="0" />
       <LineId Id="27" Count="0" />
+      <LineId Id="45" Count="0" />
       <LineId Id="21" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="39" Count="1" />
+      <LineId Id="37" Count="0" />
       <LineId Id="28" Count="0" />
       <LineId Id="22" Count="0" />
       <LineId Id="29" Count="0" />

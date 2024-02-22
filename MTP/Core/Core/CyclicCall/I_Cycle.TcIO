@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Cycle" Id="{e1e2ff06-3bf6-45ba-91e5-14895b5625fb}">
+    <Declaration><![CDATA[INTERFACE I_Cycle EXTENDS I_Object
+]]></Declaration>
+  </Itf>
+</TcPlcObject>

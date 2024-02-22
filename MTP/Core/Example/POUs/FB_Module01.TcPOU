@@ -18,19 +18,29 @@ VAR
 	nIndex:						INT;
 	fbComponent:				ARRAY[1..10000] OF FB_Component;
 END_VAR
-]]></Declaration>
+					]]></Declaration>
     <Implementation>
-      <ST><![CDATA[SUPER^();
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Cycle" Id="{655447dc-389e-494a-be91-78d8a111b7aa}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Cycle();
 
-fbComponent1();
-fbComponent2();
-fbComponent3();
-fbComponent4();
+
+fbComponent1.M_Cycle();
+fbComponent2.M_Cycle();
+fbComponent3.M_Cycle();
+fbComponent4.M_Cycle();
 
 FOR nIndex:= 1 TO 10000 DO 
-	fbComponent[nIndex]();
+	fbComponent[nIndex].M_Cycle();
 END_FOR;]]></ST>
-    </Implementation>
+      </Implementation>
+    </Method>
     <Method Name="M_Initialise" Id="{714c485c-83a6-4af2-a706-fec3f6b598e5}">
       <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL
 VAR_INPUT
@@ -129,12 +139,11 @@ END_WHILE]]></ST>
     </Method>
     <LineIds Name="FB_Module01">
       <LineId Id="9" Count="0" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="16" Count="2" />
-      <LineId Id="58" Count="0" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="59" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_Module01.M_Cycle">
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="8" />
+      <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Initialise">
       <LineId Id="24" Count="0" />

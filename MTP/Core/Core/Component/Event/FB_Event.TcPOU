@@ -3,6 +3,8 @@
   <POU Name="FB_Event" Id="{59616103-7f2e-4b6f-81bd-583969a36d28}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Event EXTENDS FB_ListString IMPLEMENTS I_Event
 VAR_INPUT
+	bIngoreHold:			BOOL:= TRUE;
+	bIngorePause:			BOOL:= TRUE;
 END_VAR
 VAR_OUTPUT
 END_VAR
