@@ -15,7 +15,7 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-fbModule1();
+fbModule1.M_Cycle();
 
 IF bReset THEN
 	bReset:= NOT fbModule1.M_Request(E_Request.Reset);

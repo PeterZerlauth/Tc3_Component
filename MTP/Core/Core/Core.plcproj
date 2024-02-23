@@ -37,6 +37,7 @@
     <Folder Include="Component\Observer" />
     <Folder Include="List" />
     <Folder Include="Logger" />
+    <Folder Include="CyclicCall" />
     <Folder Include="Object" />
     <Folder Include="Sequence" />
   </ItemGroup>
@@ -80,7 +81,10 @@
     <Compile Include="Component\Observer\I_Observer.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Component\ST_Component.TcDUT">
+    <Compile Include="CyclicCall\FB_Cycle.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CyclicCall\I_Cycle.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">
