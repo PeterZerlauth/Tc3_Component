@@ -3,6 +3,7 @@
   <DUT Name="E_Event" Id="{d479932f-3152-0429-3151-e64105f27552}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}
+{attribute 'to_string'}
 TYPE E_Event :
 (
 	Verbose			:= 0,

@@ -3,8 +3,10 @@
   <DUT Name="E_Request" Id="{d3b20770-b5da-468b-8276-148bae048ad0}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}
+{attribute 'to_string'}
 TYPE E_Request :
 (
+	{attribute 'hide'}
     Undefined   := 0,
 	Reset       := 1,
     Start       := 2,

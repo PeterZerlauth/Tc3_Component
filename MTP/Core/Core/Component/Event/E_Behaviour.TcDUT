@@ -3,6 +3,7 @@
   <DUT Name="E_Behaviour" Id="{d2151b9b-4367-42a7-936d-7f67fb250d47}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}
+{attribute 'to_string'}
 TYPE E_Behaviour :
 (
     Pause    := 100,

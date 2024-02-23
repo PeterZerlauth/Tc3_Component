@@ -3,8 +3,10 @@
   <DUT Name="E_State" Id="{acc0bb97-da91-4632-ac2a-7e54b3136591}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}
+{attribute 'to_string'}
 TYPE E_State :
 (
+	{attribute 'hide'}
 	Undefined		:= 0,
 	Idle			:= 1,
 	
