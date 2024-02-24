@@ -4,18 +4,22 @@
     <Declaration><![CDATA[{attribute 'reflection'} 
 FUNCTION_BLOCK FB_Component EXTENDS FB_Cycle IMPLEMENTS I_Component
 VAR_INPUT
-	fbInfo:						FB_Info(sInstancePath);
-	fbObserver:					FB_Observer;
-	fbEvent:					FB_Event(THIS^);
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	fbInfo:						FB_Info(sInstancePath);
+	fbObserver:					FB_Observer;
+	fbEvent:					FB_Event(THIS^);
     {attribute 'hide'}
 	{attribute 'instance-path'} 
     {attribute 'noinit'}
-    sInstancePath:				STRING(255);	
+    sInstancePath:				STRING(255);
+	{ attribute 'TcHmiSymbol' }
+	{attribute 'OPC.UA.DA' := '1'}
 	eRequest:					E_Request;
+	{attribute 'OPC.UA.DA' := '1'}
+	{ attribute 'TcHmiSymbol' }
 	eState:						E_State;
     {attribute 'hide'}
 	eStatePrevious:				E_State;
