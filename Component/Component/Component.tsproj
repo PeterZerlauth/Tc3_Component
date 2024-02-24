@@ -21,7 +21,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Example" PrjFilePath="Example\Example.plcproj" TmcFilePath="Example\Example.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{1D1FD38F-FC4B-AEA7-669F-1105AEEC5718}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{AA3A7636-17B9-1599-A9AB-924A0FB5D9BF}">
 					<Name>Example Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -37,6 +37,10 @@
 						<Var>
 							<Name>M001.fbSensor2.Input</Name>
 							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>M001.fbAnalog1.Input</Name>
+							<Type>INT</Type>
 						</Var>
 					</Vars>
 					<Contexts>
