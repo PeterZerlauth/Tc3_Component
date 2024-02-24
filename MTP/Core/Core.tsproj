@@ -11,7 +11,7 @@
 			</EventId>
 		</DataType>
 	</DataTypes>
-	<Project ProjectGUID="{74E8F419-036C-4967-922D-C405C2CA94D5}" Target64Bit="true" ShowHideConfigurations="#x6">
+	<Project ProjectGUID="{74E8F419-036C-4967-922D-C405C2CA94D5}" TargetNetId="192.0.0.10.1.1" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
 			<Tasks>
 				<Task Id="4" Priority="20" CycleTime="250000" AmsPort="350" AdtTasks="true">
@@ -21,9 +21,24 @@
 		</System>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Example" PrjFilePath="Example\Example.plcproj" TmcFilePath="Example\Example.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{21652B77-968E-9B72-B98E-D7C3BB5A9B65}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{1D1FD38F-FC4B-AEA7-669F-1105AEEC5718}">
 					<Name>Example Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="1">
+						<Name>plcTask1 Inputs</Name>
+						<Var>
+							<Name>M001.fbPowerOn.Input</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>M001.fbFuse1.Input</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>M001.fbSensor2.Input</Name>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
 					<Contexts>
 						<Context>
 							<Id>0</Id>
@@ -40,9 +55,9 @@
 					</TaskPouOids>
 				</Instance>
 			</Project>
-			<Project GUID="{71649981-AC0D-4A85-8722-507B2F4142F3}" Name="Core" PrjFilePath="Core\Core.plcproj" TmcFilePath="Core\Core.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Core\Core.tmc" TmcHash="{5F4B0F1B-A32E-D8D3-87A9-D1026DBDEE4B}">
-					<Name>Core Instance</Name>
+			<Project GUID="{71649981-AC0D-4A85-8722-507B2F4142F3}" Name="Tc3_Component" PrjFilePath="Tc3_Component\Tc3_Component.plcproj" TmcFilePath="Tc3_Component\Tc3_Component.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Core\Core.tmc" TmcHash="{633963A6-0A21-9319-609A-4F5F303EF594}">
+					<Name>Tc3_Component Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
 						<Context>

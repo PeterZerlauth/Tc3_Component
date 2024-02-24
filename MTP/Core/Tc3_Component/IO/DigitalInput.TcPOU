@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="DigitalInput" Id="{8904ca26-c33a-0d5e-01bd-927c832f4cd0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK DigitalInput IMPLEMENTS I_DigitalInput
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	ID:				STRING(25);
+	Input			AT%I*: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{bc5bb0ce-93c3-0bde-1d49-3a327da4d83a}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	ID:			String(25);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[this^.ID:= ID;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_ID" Id="{d2592e33-0c09-00ed-2a19-2a2ac1387854}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_ID : String(25)]]></Declaration>
+      <Get Name="Get" Id="{db03f916-1db4-0ef0-2610-a102e9e38d81}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_ID:= ID;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Value" Id="{eb10c2b4-f572-0e2d-2bec-edb3aca0020c}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Value : bool]]></Declaration>
+      <Get Name="Get" Id="{0af5f71f-a62f-0bc9-1f1b-442ea0defb72}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Value:= Input;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="DigitalInput">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="DigitalInput.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="DigitalInput.P_ID.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DigitalInput.P_Value.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_AnalogOutput" Id="{38394b15-c89b-01d7-29f2-baf89f85219c}">
+    <Declaration><![CDATA[INTERFACE I_AnalogOutput EXTENDS I_Channel
+]]></Declaration>
+    <Property Name="P_Value" Id="{b9f26c74-154a-0c1d-067b-bd0be1905f18}">
+      <Declaration><![CDATA[PROPERTY P_Value : LREAL]]></Declaration>
+      <Set Name="Set" Id="{41b2dbf6-3383-00bd-3a95-7b759629dfb1}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+  </Itf>
+</TcPlcObject>

@@ -8,7 +8,7 @@
     <DownloadApplicationInfo>true</DownloadApplicationInfo>
     <WriteProductVersion>false</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
-    <Name>Core</Name>
+    <Name>Tc3_Component</Name>
     <ProgramVersion>3.1.4024.0</ProgramVersion>
     <Application>{83dea455-3cb0-4661-8d1a-f0b533fc27b9}</Application>
     <TypeSystem>{8aefb04c-7e59-4770-8677-19ef8ae6a899}</TypeSystem>
@@ -19,16 +19,17 @@
     <Released>false</Released>
     <ProjectVersion>0.0.0.0</ProjectVersion>
     <Company>Zerlauth</Company>
-    <Title>MTP</Title>
-    <DefaultNamespace>MTP</DefaultNamespace>
-    <Placeholder>MTP</Placeholder>
+    <Title>Tc3_Component</Title>
+    <DefaultNamespace>Tc3_Component</DefaultNamespace>
+    <Placeholder>Tc3_Component</Placeholder>
     <Author>Peter Zerlauth</Author>
     <PreserveCompiledLibComments>true</PreserveCompiledLibComments>
     <CombineIds>true</CombineIds>
     <DocFormat>reStructuredText</DocFormat>
     <AutoUpdateVisuProfile>true</AutoUpdateVisuProfile>
     <AutoUpdateUmlProfile>true</AutoUpdateUmlProfile>
-    <Description>Module Type Package MTP</Description>
+    <Description>ISA88 State Model with Observer and Events</Description>
+    <ObjectRepresentation>base64</ObjectRepresentation>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Component" />
@@ -38,6 +39,7 @@
     <Folder Include="List" />
     <Folder Include="Logger" />
     <Folder Include="CyclicCall" />
+    <Folder Include="IO" />
     <Folder Include="Object" />
     <Folder Include="Sequence" />
   </ItemGroup>
@@ -87,6 +89,33 @@
     <Compile Include="CyclicCall\I_Cycle.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IO\DigitalInput.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IO\AnalogInput.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IO\DigitalOutput.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IO\AnalogOutput.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IO\I_Channel.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IO\I_DigitalInput.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IO\I_AnalogInput.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IO\I_DigitalOutput.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IO\I_AnalogOutput.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -105,7 +134,7 @@
     <Compile Include="List\I_ListString.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logger\FB_ListLogger.TcPOU">
+    <Compile Include="Logger\FB_LoggerFactory.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\I_Logger.TcIO">
@@ -136,7 +165,7 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core.tmc">
+    <None Include="Tc3_Component.tmc">
       <SubType>Content</SubType>
     </None>
   </ItemGroup>

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_ListLogger" Id="{17a4deeb-3f32-43cf-81dc-5b3250676d65}" SpecialFunc="None">
+  <POU Name="FB_LoggerFactory" Id="{17a4deeb-3f32-43cf-81dc-5b3250676d65}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'no_explicit_call'} 
-FUNCTION_BLOCK FB_ListLogger IMPLEMENTS I_Logger
+FUNCTION_BLOCK FB_LoggerFactory IMPLEMENTS I_Logger
 VAR
 	pList: 			POINTER TO I_Logger;
 	nLength:		DINT;
@@ -116,7 +116,6 @@ END_IF]]></ST>
 VAR_INPUT
 	stEvent:		ST_Event;
 END_VAR
-
 VAR
 	nIndex: INT;
 END_VAR]]></Declaration>
@@ -181,41 +180,41 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <LineIds Name="FB_ListLogger">
+    <LineIds Name="FB_LoggerFactory">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListLogger.FB_exit">
+    <LineIds Name="FB_LoggerFactory.FB_exit">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListLogger.M_Add">
+    <LineIds Name="FB_LoggerFactory.M_Add">
       <LineId Id="164" Count="22" />
       <LineId Id="200" Count="1" />
       <LineId Id="199" Count="0" />
       <LineId Id="187" Count="4" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListLogger.M_Clear">
+    <LineIds Name="FB_LoggerFactory.M_Clear">
       <LineId Id="3" Count="2" />
       <LineId Id="2" Count="0" />
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListLogger.M_Find">
+    <LineIds Name="FB_LoggerFactory.M_Find">
       <LineId Id="66" Count="8" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListLogger.M_Index">
+    <LineIds Name="FB_LoggerFactory.M_Index">
       <LineId Id="23" Count="1" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListLogger.M_Log">
+    <LineIds Name="FB_LoggerFactory.M_Log">
       <LineId Id="7" Count="2" />
       <LineId Id="6" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListLogger.M_Remove">
+    <LineIds Name="FB_LoggerFactory.M_Remove">
       <LineId Id="132" Count="28" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ListLogger.P_Length.Get">
+    <LineIds Name="FB_LoggerFactory.P_Length.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

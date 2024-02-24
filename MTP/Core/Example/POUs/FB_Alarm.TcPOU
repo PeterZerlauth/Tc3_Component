@@ -8,12 +8,8 @@ VAR_OUTPUT
 END_VAR
 VAR
 	nLength:		INT;
-	aEvent:			ARRAY [0..nMax] OF ST_Event;
-END_VAR
-VAR CONSTANT
-	nMax:			INT:= 99;
-END_VAR
-]]></Declaration>
+	aEvent:						ARRAY [0..99] OF ST_Event;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
@@ -28,6 +24,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Object already in List
 M_Find := -1;
+nIndex:= 0;
 WHILE nIndex < nLength DO
     IF (aEvent[nIndex].Source = stEvent.Source) 
 		AND_THEN (aEvent[nIndex].EventType = stEvent.EventType) 
@@ -36,8 +33,7 @@ WHILE nIndex < nLength DO
 			RETURN;
     END_IF
 	nIndex := nIndex + 1;
-END_WHILE
-]]></ST>
+END_WHILE]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Log" Id="{22357804-3270-478e-9b42-7d8931f13ab7}">
@@ -72,18 +68,16 @@ Tc2_System.MEMSET(adr(aEvent), 0, sizeof(aEvent));]]></ST>
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_Alarm.M_Find">
-      <LineId Id="66" Count="3" />
+      <LineId Id="66" Count="1" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="68" Count="1" />
       <LineId Id="81" Count="1" />
       <LineId Id="70" Count="4" />
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Alarm.M_Log">
-      <LineId Id="32" Count="0" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="36" Count="0" />
+      <LineId Id="43" Count="2" />
+      <LineId Id="41" Count="1" />
       <LineId Id="35" Count="0" />
-      <LineId Id="33" Count="0" />
-      <LineId Id="23" Count="0" />
     </LineIds>
     <LineIds Name="FB_Alarm.M_Reset">
       <LineId Id="5" Count="1" />
