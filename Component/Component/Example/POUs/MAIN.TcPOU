@@ -3,7 +3,8 @@
   <POU Name="MAIN" Id="{80fd576e-8bda-0001-19b1-22d89fc11873}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	fbModule1:		FB_Module01;	
+	fbModule1:		FB_Module01;
+	fbEthercat:		FB_Ethercat;
 	bReset:			BOOL;
 	bStart: 		BOOL;
     bHold:       	BOOL;
@@ -16,6 +17,7 @@ END_VAR
     <Implementation>
       <ST><![CDATA[
 fbModule1.M_Cycle();
+fbEthercat.M_Cycle();
 
 IF bReset THEN
 	bReset:= NOT fbModule1.M_Request(E_Request.Reset);
@@ -46,6 +48,7 @@ END_IF
     <LineIds Name="MAIN">
       <LineId Id="361" Count="0" />
       <LineId Id="305" Count="0" />
+      <LineId Id="374" Count="0" />
       <LineId Id="309" Count="24" />
       <LineId Id="37" Count="0" />
     </LineIds>

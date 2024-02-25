@@ -26,7 +26,7 @@ IF bAbort THEN
 	fbEvent.M_Add('Test');
 	fbEvent.M_Add('Test2');
 	fbEvent.M_Add('Test3');
-	fbEvent.M_Error('First Error Abort', 1 ,E_Behaviour.Abort);
+	fbEvent.M_Error('First Error Abort', 'a' ,E_Reaction.Abort);
 END_IF
 
 IF bStop THEN
@@ -34,7 +34,7 @@ IF bStop THEN
 	fbEvent.M_Add('Test');
 	fbEvent.M_Add('Test2');
 	fbEvent.M_Add('Test3');
-	fbEvent.M_Error('First Error Stop', 2 ,E_Behaviour.Stop);
+	fbEvent.M_Error('First Error Stop', 'b' ,E_Reaction.Stop);
 END_IF]]></ST>
       </Implementation>
     </Method>

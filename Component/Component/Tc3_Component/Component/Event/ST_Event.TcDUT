@@ -8,7 +8,7 @@ STRUCT
 	Class:			STRING(255);
 	EventType:		E_Event;
 	Timestamp:   	ULINT;
-	ID:				UDINT;
+	ID:				ID;
 	Message:		STRING(255);
 	Arguments:		STRING(255);
 	Active:			BOOL;

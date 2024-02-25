@@ -53,14 +53,14 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF NOT M001.fbPowerOn.P_Value THEN
 	fbEvent.M_Add(M001.fbPowerOn.P_ID);
-	fbEvent.M_Error('Power not on', 2 ,E_Behaviour.Abort);
+	fbEvent.M_Error('Power not on', 'c' ,E_Reaction.Abort);
 ELSIF NOT M001.fbFuse1.P_Value THEN
 	fbEvent.M_Add(M001.fbFuse1.P_ID);
-	fbEvent.M_Error('Fuse Triped', 3 ,E_Behaviour.Stop);	
+	fbEvent.M_Error('Fuse Triped', '', E_Reaction.Stop);	
 	
 END_IF
 
-fbEvent.M_Warning('My first Warning', 4 );	]]></ST>
+fbEvent.M_Warning('My first Warning', 'd' );	]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Module01">

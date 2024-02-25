@@ -14,8 +14,8 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_Error : BOOL
 VAR_INPUT
 	Message:				STRING(255);
-	ID:						UDINT;
-	Behaviour:				E_Behaviour;
+	ID:						ID;
+	Reaction:				E_Reaction;
 END_VAR
 ]]></Declaration>
     </Method>
@@ -23,7 +23,7 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_Information : BOOL
 VAR_INPUT
 	Message:				STRING(255);
-	ID:						UDINT;
+	ID:						ID;
 END_VAR
 ]]></Declaration>
     </Method>
@@ -31,7 +31,7 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_Warning : BOOL
 VAR_INPUT
 	Message:				STRING(255);
-	ID:						UDINT;
+	ID:						ID;
 END_VAR
 ]]></Declaration>
     </Method>

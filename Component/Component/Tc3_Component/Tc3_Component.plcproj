@@ -38,9 +38,10 @@
     <Folder Include="Component\Observer" />
     <Folder Include="List" />
     <Folder Include="LoggerFactory" />
-    <Folder Include="CyclicCall" />
+    <Folder Include="Cycle" />
     <Folder Include="Logger" />
     <Folder Include="Module" />
+    <Folder Include="System" />
     <Folder Include="Utils" />
     <Folder Include="Object" />
     <Folder Include="Sequence" />
@@ -52,10 +53,13 @@
     <Compile Include="Component\Event\E_Event.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Component\Event\E_Behaviour.TcDUT">
+    <Compile Include="Component\Event\E_Reaction.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Component\Event\FB_Event.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Component\Event\ID.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Component\Event\I_Event.TcIO">
@@ -88,10 +92,10 @@
     <Compile Include="Component\Observer\I_Observer.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CyclicCall\FB_Cycle.TcPOU">
+    <Compile Include="Cycle\FB_Cycle.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CyclicCall\I_Cycle.TcIO">
+    <Compile Include="Cycle\I_Cycle.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">

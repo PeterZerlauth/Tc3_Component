@@ -50,8 +50,34 @@ VAR PERSISTENT
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-SUPER^();
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Motion" Id="{35718791-19fd-46a5-b6e2-dfab848a97c3}" />
+    <Folder Name="Parameter" Id="{0e484f89-9995-4abb-9390-f90862e0e610}" />
+    <Method Name="M_Calibration" Id="{2d08dbb8-f509-4a21-8547-146941bfe54d}">
+      <Declaration><![CDATA[METHOD M_Calibration : BOOL
+VAR_INPUT
+	fPrePosition:	LREAL;
+	fPosition:		LREAL;
+	fForce:			LREAL;
+	fLimit:			LREAL;
+	bEvaluation:	BOOL;
+END_VAR
+VAR_OUTPUT
+	fDeviation:		LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Cycle" Id="{0852f1be-8285-04e9-03b6-228c3ccff121}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Cycle();
 
 stAxis.ReadStatus();
 
@@ -117,24 +143,6 @@ IF stAxis.Status.NcApplicationRequest THEN
 END_IF
 
 stAxis.PlcToNc.PositionCorrection:= fPositionCorrection;]]></ST>
-    </Implementation>
-    <Folder Name="Motion" Id="{35718791-19fd-46a5-b6e2-dfab848a97c3}" />
-    <Folder Name="Parameter" Id="{0e484f89-9995-4abb-9390-f90862e0e610}" />
-    <Method Name="M_Calibration" Id="{2d08dbb8-f509-4a21-8547-146941bfe54d}">
-      <Declaration><![CDATA[METHOD M_Calibration : BOOL
-VAR_INPUT
-	fPrePosition:	LREAL;
-	fPosition:		LREAL;
-	fForce:			LREAL;
-	fLimit:			LREAL;
-	bEvaluation:	BOOL;
-END_VAR
-VAR_OUTPUT
-	fDeviation:		LREAL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Halt" Id="{4cc16a25-74cd-4585-8a87-63dca814490d}" FolderPath="Motion\">
@@ -458,26 +466,14 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_State" Id="{2c1e2bf5-a065-41c1-bd54-e9eede1f7416}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_State : REFERENCE TO AXIS_REF]]></Declaration>
-      <Get Name="Get" Id="{337bcee7-e9a9-485d-a29c-9a4437048379}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_State ref= stAxis;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <LineIds Name="FB_McAxis">
-      <LineId Id="1301" Count="2" />
-      <LineId Id="1014" Count="55" />
-      <LineId Id="1071" Count="4" />
-      <LineId Id="1077" Count="0" />
-      <LineId Id="1206" Count="0" />
       <LineId Id="1205" Count="0" />
     </LineIds>
     <LineIds Name="FB_McAxis.M_Calibration">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_McAxis.M_Cycle">
+      <LineId Id="7" Count="64" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_McAxis.M_Halt">
@@ -608,9 +604,6 @@ END_VAR
     <LineIds Name="FB_McAxis.M_WriteLREAL">
       <LineId Id="112" Count="13" />
       <LineId Id="26" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_McAxis.P_State.Get">
-      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

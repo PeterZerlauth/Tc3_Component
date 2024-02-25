@@ -63,7 +63,7 @@ VAR_INPUT
 END_VAR]]></Declaration>
     </Method>
     <Property Name="P_Error" Id="{dad88242-ece3-0690-3ef3-663828aed181}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Error : E_AdsError]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Error : UDINT]]></Declaration>
       <Get Name="Get" Id="{c3b16e7e-c619-46f6-90fb-a85044e57290}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>

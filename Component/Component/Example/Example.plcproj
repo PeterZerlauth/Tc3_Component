@@ -32,6 +32,9 @@
     <Compile Include="InDevelopment\Axis\I_Axis.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="InDevelopment\Ethercat\FB_Ethercat.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="InDevelopment\FB_ComponentEX.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -50,10 +53,14 @@
     <Folder Include="GVLs" />
     <Folder Include="InDevelopment" />
     <Folder Include="InDevelopment\Axis" />
+    <Folder Include="InDevelopment\Ethercat" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderReference Include="Tc2_EtherCAT">
+      <DefaultResolution>Tc2_EtherCAT, * (Beckhoff Automation GmbH)</DefaultResolution>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_MC2">
       <DefaultResolution>Tc2_MC2, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_MC2</Namespace>
@@ -72,6 +79,7 @@
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Component">
       <DefaultResolution>Tc3_Component, * (Zerlauth)</DefaultResolution>
+      <Namespace>Tc3_Component</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>

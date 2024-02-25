@@ -13,7 +13,7 @@ VAR
 	fbDelete:		FB_FileDelete;
 END_VAR
 VAR_OUTPUT
-	eError:			E_AdsError:= E_AdsError.NOERR;
+	nError:			UDINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -28,7 +28,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[fbWrite();
 IF fbWrite.bExecute THEN
 	IF fbWrite.bError THEN
-		eError:= fbWrite.nErrId;
+		nError:= fbWrite.nErrId;
 		fbWrite.bExecute:= FALSE;
 	ELSIF fbWrite.bBusy THEN
 		;
@@ -67,11 +67,11 @@ IF fbClose.bExecute THEN
 		M_Close:= TRUE;
 	ELSIF fbClose.bError THEN
 		fbClose.bExecute:= FALSE;
-		eError:= fbClose.nErrId;
+		nError:= fbClose.nErrId;
 	ELSIF fbClose.bBusy THEN
 		;
 	ELSE
-		eError:= E_AdsError.NOERR;	
+		nError:= 0;	
 		fbRead.hFile:= 0;
 		fbWrite.hFile:= 0;
 		fbClose.hFile:= 0;
@@ -161,7 +161,7 @@ END_VAR
         <ST><![CDATA[fbLoad();
 IF fbLoad.bExecute THEN
 	IF fbLoad.bError THEN
-		eError:= fbLoad.nErrId;
+		nError:= fbLoad.nErrId;
 		fbLoad.bExecute:= FALSE;
 	ELSIF fbLoad.bBusy THEN
 		;
@@ -186,7 +186,7 @@ END_VAR
         <ST><![CDATA[fbOpen();
 IF fbOpen.bExecute THEN
 	IF fbOpen.bError THEN
-		eError:= fbOpen.nErrId;
+		nError:= fbOpen.nErrId;
 		fbOpen.bExecute:= FALSE;
 	ELSIF fbOpen.bBusy THEN
 		;
@@ -214,7 +214,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[fbRead();
 IF fbRead.bExecute THEN
 	IF fbRead.bError THEN
-		eError:= fbRead.nErrId;
+		nError:= fbRead.nErrId;
 		fbRead.bExecute:= FALSE;
 	ELSIF fbRead.bBusy THEN
 		;
@@ -240,7 +240,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[fbWrite();
 IF fbWrite.bExecute THEN
 	IF fbWrite.bError THEN
-		eError:= fbWrite.nErrId;
+		nError:= fbWrite.nErrId;
 		fbWrite.bExecute:= FALSE;
 	ELSIF fbWrite.bBusy THEN
 		M_Write:= FALSE;
@@ -257,13 +257,13 @@ END_IF
       </Implementation>
     </Method>
     <Property Name="P_Error" Id="{ffbbfa3b-bbb8-0e33-3bbe-fc5460add55d}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Error : E_AdsError]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Error : UDINT]]></Declaration>
       <Get Name="Get" Id="{d1f272b5-4194-4392-8fbf-75fd0b8023cd}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_Error:= eError;]]></ST>
+          <ST><![CDATA[P_Error:= nError;]]></ST>
         </Implementation>
       </Get>
     </Property>
