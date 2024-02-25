@@ -172,6 +172,10 @@ CASE eState OF
 		END_IF
 
 	E_State.Stopped:
+		CASE eRequest OF
+			E_Request.Abort:
+				eState:= E_State.Aborting;			
+		END_CASE
 		IF M_Stopped() THEN
 			CASE eRequest OF
 				E_Request.Reset:
@@ -451,35 +455,37 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.eRequest:= eRequest;
-CASE eRequest OF
-	E_Request.Undefined:
-		M_Request:= TRUE;
-    E_Request.Start:
-		M_Request:= eState = E_State.Execute;
-    E_Request.Pause:
-		IF 	fbEvent.bIngorePause THEN
+        <ST><![CDATA[IF THIS^.eRequest < eRequest THEN
+	THIS^.eRequest:= eRequest;
+	CASE eRequest OF
+		E_Request.Undefined:
 			M_Request:= TRUE;
-		ELSE
-			M_Request:= eState = E_State.Paused;
-		END_IF
-    E_Request.Hold:
-		IF 	fbEvent.bIngoreHold THEN
-			M_Request:= TRUE;
-		ELSE
-			M_Request:= eState = E_State.Held;		
-		END_IF
-		
-	E_Request.Complete:
-		M_Request:= eState = E_State.Completed;	
-    E_Request.Stop:
-		M_Request:= eState = E_State.Stopped;	
-	E_Request.Abort:
-		M_Request:= eState = E_State.Aborted;	
-	E_Request.Reset:
-		M_Request:= eState = E_State.Idle;		
-
-END_CASE]]></ST>
+		E_Request.Start:
+			M_Request:= eState = E_State.Execute;
+		E_Request.Pause:
+			IF 	fbEvent.bIngorePause THEN
+				M_Request:= TRUE;
+			ELSE
+				M_Request:= eState = E_State.Paused;
+			END_IF
+		E_Request.Hold:
+			IF 	fbEvent.bIngoreHold THEN
+				M_Request:= TRUE;
+			ELSE
+				M_Request:= eState = E_State.Held;		
+			END_IF
+			
+		E_Request.Complete:
+			M_Request:= eState = E_State.Completed;	
+		E_Request.Stop:
+			M_Request:= eState = E_State.Stopped;	
+		E_Request.Abort:
+			M_Request:= eState = E_State.Aborted;	
+		E_Request.Reset:
+			M_Request:= eState = E_State.Idle;		
+	
+	END_CASE
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Resetting" Id="{9e5fa12d-dc9f-0271-3ab1-62fbd4e3c4cb}" FolderPath="States\Reset\">
@@ -628,7 +634,11 @@ END_VAR
       <LineId Id="54" Count="19" />
       <LineId Id="234" Count="1" />
       <LineId Id="233" Count="0" />
-      <LineId Id="74" Count="33" />
+      <LineId Id="74" Count="7" />
+      <LineId Id="258" Count="0" />
+      <LineId Id="262" Count="1" />
+      <LineId Id="257" Count="0" />
+      <LineId Id="82" Count="25" />
       <LineId Id="237" Count="1" />
       <LineId Id="236" Count="0" />
       <LineId Id="108" Count="10" />
@@ -707,32 +717,9 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Component.M_Request">
       <LineId Id="9" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="43" Count="1" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="45" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="39" Count="1" />
-      <LineId Id="37" Count="0" />
-      <LineId Id="28" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="32" Count="0" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="16" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="60" Count="26" />
+      <LineId Id="50" Count="1" />
     </LineIds>
     <LineIds Name="FB_Component.M_Resetting">
       <LineId Id="9" Count="0" />

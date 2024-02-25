@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_File" Id="{c5af9c9f-efd3-0dac-1694-0bf3f0115e8f}">
+    <Declaration><![CDATA[INTERFACE I_File]]></Declaration>
+    <Method Name="M_Append" Id="{9d2d04f4-7c52-0365-0f4c-58a30b665be0}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Append : BOOL
+VAR_INPUT
+	sText:			STRING(255);
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="M_AppendLine" Id="{c0409c40-b1e5-04c2-07ff-84330afd77b0}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AppendLine : BOOL
+VAR_INPUT
+	sText:			STRING(255);
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="M_Close" Id="{fa3ee098-9f06-01f2-2054-dcf746ed4d11}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Close : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Create" Id="{0422d05d-f5be-0cf8-1757-69a1481fabca}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Create : BOOL
+VAR_INPUT
+	sPathName:		T_MaxString;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="M_Delete" Id="{82f9389b-b2d2-0a0e-35e7-95c68308e93e}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Delete : BOOL
+VAR_INPUT
+	sPathName:		T_MaxString;
+END_VAR
+
+]]></Declaration>
+    </Method>
+    <Method Name="M_Load" Id="{8cfcb18d-92ff-0a19-06c8-0c341b690320}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Load : BOOL
+VAR_INPUT
+	sPathName:		T_MaxString;
+	pData:			PVOID;
+	nData:			UDINT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Open" Id="{63916845-40e0-0f52-25d6-6d7e99a01b4a}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Open : BOOL
+VAR_INPUT
+	sPathName:		T_MaxString;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Read" Id="{b0c816d1-c22e-0a06-39be-f87349b84263}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Read : BOOL
+VAR_INPUT
+	Value:		ANY;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="M_Write" Id="{cb742326-4c63-06cc-2e6d-4b6c549af483}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Write : BOOL
+VAR_INPUT
+	Value:		ANY;
+END_VAR]]></Declaration>
+    </Method>
+    <Property Name="P_Error" Id="{dad88242-ece3-0690-3ef3-663828aed181}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Error : E_AdsError]]></Declaration>
+      <Get Name="Get" Id="{c3b16e7e-c619-46f6-90fb-a85044e57290}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

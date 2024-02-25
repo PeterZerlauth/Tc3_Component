@@ -37,11 +37,16 @@
     <Folder Include="Component\Info" />
     <Folder Include="Component\Observer" />
     <Folder Include="List" />
-    <Folder Include="Logger" />
+    <Folder Include="LoggerFactory" />
     <Folder Include="CyclicCall" />
-    <Folder Include="IO" />
+    <Folder Include="Logger" />
+    <Folder Include="Module" />
+    <Folder Include="Utils" />
     <Folder Include="Object" />
     <Folder Include="Sequence" />
+    <Folder Include="Utils\File" />
+    <Folder Include="Utils\Digital" />
+    <Folder Include="Utils\Analog" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\Event\E_Event.TcDUT">
@@ -89,33 +94,6 @@
     <Compile Include="CyclicCall\I_Cycle.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IO\DigitalInput.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IO\AnalogInput.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IO\DigitalOutput.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IO\AnalogOutput.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IO\I_Channel.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IO\I_DigitalInput.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IO\I_AnalogInput.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IO\I_DigitalOutput.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IO\I_AnalogOutput.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -134,10 +112,19 @@
     <Compile Include="List\I_ListString.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logger\FB_LoggerFactory.TcPOU">
+    <Compile Include="LoggerFactory\FB_LoggerFactory.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logger\I_Logger.TcIO">
+    <Compile Include="LoggerFactory\I_Logger.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Logger\FB_Alarm.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Logger\FB_TcLogger.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Module\FB_Module.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Object\I_Object.TcIO">
@@ -147,6 +134,39 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Sequence\I_Sequence.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\Analog\AnalogInput.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\Analog\AnalogOutput.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\Analog\I_AnalogInput.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\Analog\I_AnalogOutput.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\File\FB_File.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\File\I_File.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\Digital\DigitalInput.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\Digital\DigitalOutput.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\Digital\I_Channel.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\Digital\I_DigitalInput.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\Digital\I_DigitalOutput.TcIO">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

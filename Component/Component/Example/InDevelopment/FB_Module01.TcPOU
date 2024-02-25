@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_Module01" Id="{3744d03d-359c-4ab8-84fb-4ea93b7a5162}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Module01 EXTENDS FB_Module
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	fbComponent1:				FB_Component;
+	fbComponent2:				FB_Component;
+	fbComponent3:				FB_Component;
+	fbComponent4:				FB_ComponentEX;
+END_VAR
+					]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Cycle" Id="{655447dc-389e-494a-be91-78d8a111b7aa}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Cycle();
+
+fbComponent1.M_Cycle();
+fbComponent2.M_Cycle();
+fbComponent3.M_Cycle();
+fbComponent4.M_Cycle();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Initialise" Id="{714c485c-83a6-4af2-a706-fec3f6b598e5}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Initialise:= SUPER^.M_Initialise();
+
+M_Attach(fbComponent1);
+M_Attach(fbComponent2);
+M_Attach(fbComponent3);
+M_Attach(fbComponent4);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Running" Id="{eaffebca-5ff2-4f17-be84-3310a9ace22e}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Running
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT M001.fbPowerOn.P_Value THEN
+	fbEvent.M_Add(M001.fbPowerOn.P_ID);
+	fbEvent.M_Error('Power not on', 2 ,E_Behaviour.Abort);
+ELSIF NOT M001.fbFuse1.P_Value THEN
+	fbEvent.M_Add(M001.fbFuse1.P_ID);
+	fbEvent.M_Error('Fuse Triped', 3 ,E_Behaviour.Stop);	
+	
+END_IF
+
+fbEvent.M_Warning('My first Warning', 4 );	]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Module01">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module01.M_Cycle">
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="4" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module01.M_Initialise">
+      <LineId Id="24" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="100" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_Module01.M_Running">
+      <LineId Id="7" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

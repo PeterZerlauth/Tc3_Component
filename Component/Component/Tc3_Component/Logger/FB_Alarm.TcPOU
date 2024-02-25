@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="FB_Alarm" Id="{6b962909-8df1-4dcd-be8b-465f6b091a91}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Alarm" Id="{0de6697e-1d44-0296-1f4b-99ef100b1e6c}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Alarm IMPLEMENTS I_Logger
 VAR_INPUT
 END_VAR
@@ -13,7 +13,7 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="M_Find" Id="{1cfa321c-140c-45bd-9dda-bac3538adfc3}">
+    <Method Name="M_Find" Id="{c7fd1c8c-04f0-0d78-3ad7-f0e13fc431d5}">
       <Declaration><![CDATA[METHOD M_Find : DINT
 VAR_INPUT
 	stEvent	: 		ST_Event;
@@ -36,7 +36,7 @@ WHILE nIndex < nLength DO
 END_WHILE]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Log" Id="{22357804-3270-478e-9b42-7d8931f13ab7}">
+    <Method Name="M_Log" Id="{8d3f3c1a-c9ab-0738-1814-9d0b65b7b611}">
       <Declaration><![CDATA[METHOD M_Log
 VAR_INPUT
 	stEvent	: 		ST_Event;
@@ -54,7 +54,7 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Reset" Id="{041430d9-c57b-48d8-9f70-5921ceb30317}">
+    <Method Name="M_Reset" Id="{e98b1693-4b94-09ac-0147-67fd83f8819f}">
       <Declaration><![CDATA[METHOD PUBLIC M_Reset
 VAR_INPUT
 END_VAR

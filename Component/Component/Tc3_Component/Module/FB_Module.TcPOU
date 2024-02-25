@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="FB_Module01" Id="{3744d03d-359c-4ab8-84fb-4ea93b7a5162}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_Module01 EXTENDS FB_Component
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Module" Id="{0d3fc497-598e-0d21-1617-ce19be6391a0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Module EXTENDS FB_Component
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -10,18 +10,12 @@ VAR
 	fbLogger:					FB_LoggerFactory;
 	fbTcLogger:					FB_TcLogger;
 	fbAlarm:					FB_Alarm;
-	fbComponent1:				FB_Component;
-	fbComponent2:				FB_Component;
-	fbComponent3:				FB_Component;
-	fbComponent4:				FB_ComponentEX;
-	nIndex:						INT;
-	fbComponent:				ARRAY[1..1000] OF FB_Component;
 END_VAR
 					]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="M_Attach" Id="{ed0f0a5a-a1be-4f63-bf1a-cd6def284ca3}">
+    <Method Name="M_Attach" Id="{579d130b-ed70-0843-1869-7cfcfab74d3d}">
       <Declaration><![CDATA[METHOD PUBLIC M_Attach
 VAR_INPUT
 	Component:		I_Component;
@@ -33,25 +27,17 @@ Component.P_Observer.M_Attach(THIS^);
 fbObserver.M_Attach(Component);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Cycle" Id="{655447dc-389e-494a-be91-78d8a111b7aa}">
+    <Method Name="M_Cycle" Id="{ed9a21fb-3ec5-0016-04de-0d3b7ca7722a}">
       <Declaration><![CDATA[METHOD PUBLIC M_Cycle
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Cycle();
-
-fbComponent1.M_Cycle();
-fbComponent2.M_Cycle();
-fbComponent3.M_Cycle();
-fbComponent4.M_Cycle();
-
-FOR nIndex:= 1 TO 1000 DO 
-	fbComponent[nIndex].M_Cycle();
-END_FOR;]]></ST>
+]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Dettach" Id="{01833449-7b04-429a-a301-4e20def83f01}">
+    <Method Name="M_Dettach" Id="{a667402b-5023-09c1-34b6-30ca3f961f61}">
       <Declaration><![CDATA[METHOD PUBLIC M_Dettach
 VAR_INPUT
 	Component:		I_Component;
@@ -63,37 +49,26 @@ Component.P_Observer.M_Detach(THIS^);
 fbObserver.M_Detach(Component);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Initialise" Id="{714c485c-83a6-4af2-a706-fec3f6b598e5}">
+    <Method Name="M_Initialise" Id="{d2ecc479-1ed6-0218-1db6-cf2c288ac295}">
       <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF SUPER^.M_Initialise() THEN
-	fbEvent.P_Logger:= fbLogger;
-	fbLogger.M_Add(fbAlarm);
-	fbLogger.M_Add(fbTcLogger);
+        <ST><![CDATA[M_Initialise:= SUPER^.M_Initialise();
 
-	M_Attach(fbComponent1);
-	M_Attach(fbComponent2);
-	M_Attach(fbComponent3);
-	M_Attach(fbComponent4);
+fbEvent.P_Logger:= fbLogger;
+fbLogger.M_Add(fbAlarm);
+fbLogger.M_Add(fbTcLogger);
 	
 	
-	FOR nIndex:= 1 TO 1000 DO 
-		M_Attach(fbComponent[nIndex]);
-	END_FOR;
-	
-	
-	
-	M_Initialise:= TRUE;
-END_IF
+
 
 
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Resetting" Id="{fa00b107-60e3-427f-9569-a0a34888482b}">
+    <Method Name="M_Resetting" Id="{a610a2e6-39fb-0abb-32e8-2f742935aded}">
       <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL
 VAR_INPUT
 END_VAR
@@ -111,25 +86,16 @@ END_WHILE
 fbAlarm.M_Reset();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Running" Id="{eaffebca-5ff2-4f17-be84-3310a9ace22e}">
+    <Method Name="M_Running" Id="{8879f60a-43a4-0568-363b-e25a42eddf0c}">
       <Declaration><![CDATA[METHOD PROTECTED M_Running
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT M001.fbPowerOn.P_Value THEN
-	fbEvent.M_Add(M001.fbPowerOn.P_ID);
-	fbEvent.M_Error('Power not on', 2 ,E_Behaviour.Abort);
-ELSIF NOT M001.fbFuse1.P_Value THEN
-	fbEvent.M_Add(M001.fbFuse1.P_ID);
-	fbEvent.M_Error('Fuse Triped', 3 ,E_Behaviour.Stop);	
-	
-END_IF
-
-fbEvent.M_Warning('My first Warning', 4 );	]]></ST>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Starting" Id="{12752945-7cd6-464f-965a-f81c0b828bfd}">
+    <Method Name="M_Starting" Id="{5a9fb78b-3ed4-0195-387d-72e3c96a0cbd}">
       <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL
 VAR_INPUT
 END_VAR
@@ -145,59 +111,42 @@ WHILE nIndex < fbObserver.nLength DO
 END_WHILE]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_Module01">
+    <LineIds Name="FB_Module">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module01.M_Attach">
+    <LineIds Name="FB_Module.M_Attach">
       <LineId Id="7" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module01.M_Cycle">
-      <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="7" />
-      <LineId Id="6" Count="0" />
+    <LineIds Name="FB_Module.M_Cycle">
+      <LineId Id="5" Count="1" />
     </LineIds>
-    <LineIds Name="FB_Module01.M_Dettach">
+    <LineIds Name="FB_Module.M_Dettach">
       <LineId Id="7" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module01.M_Initialise">
+    <LineIds Name="FB_Module.M_Initialise">
       <LineId Id="24" Count="0" />
+      <LineId Id="106" Count="0" />
       <LineId Id="82" Count="0" />
       <LineId Id="77" Count="0" />
-      <LineId Id="98" Count="1" />
-      <LineId Id="66" Count="0" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="100" Count="1" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="86" Count="0" />
-      <LineId Id="91" Count="0" />
-      <LineId Id="102" Count="0" />
-      <LineId Id="87" Count="3" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="88" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
       <LineId Id="22" Count="1" />
       <LineId Id="21" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module01.M_Resetting">
+    <LineIds Name="FB_Module.M_Resetting">
       <LineId Id="6" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="16" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module01.M_Running">
-      <LineId Id="7" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="34" Count="0" />
+    <LineIds Name="FB_Module.M_Running">
       <LineId Id="6" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module01.M_Starting">
+    <LineIds Name="FB_Module.M_Starting">
       <LineId Id="12" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
