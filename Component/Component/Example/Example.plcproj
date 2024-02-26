@@ -38,6 +38,13 @@
     <Compile Include="InDevelopment\FB_ComponentEX.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="InDevelopment\FB_ComponentChild.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InDevelopment\FB_JsonLogger.TcPOU">
+      <SubType>Code</SubType>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </Compile>
     <Compile Include="InDevelopment\FB_Module01.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -60,6 +67,7 @@
   <ItemGroup>
     <PlaceholderReference Include="Tc2_EtherCAT">
       <DefaultResolution>Tc2_EtherCAT, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_EtherCAT</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc2_MC2">
       <DefaultResolution>Tc2_MC2, * (Beckhoff Automation GmbH)</DefaultResolution>
@@ -80,6 +88,9 @@
     <PlaceholderReference Include="Tc3_Component">
       <DefaultResolution>Tc3_Component, * (Zerlauth)</DefaultResolution>
       <Namespace>Tc3_Component</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_JsonXml">
+      <DefaultResolution>Tc3_JsonXml, * (Beckhoff Automation GmbH)</DefaultResolution>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>

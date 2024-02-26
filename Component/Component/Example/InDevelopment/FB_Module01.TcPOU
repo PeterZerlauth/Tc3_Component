@@ -9,8 +9,8 @@ END_VAR
 VAR
 	fbComponent1:				FB_Component;
 	fbComponent2:				FB_Component;
-	fbComponent3:				FB_Component;
-	fbComponent4:				FB_ComponentEX;
+	fbComponent3:				FB_ComponentEx;
+	fbComponent4:				FB_ComponentChild;
 END_VAR
 					]]></Declaration>
     <Implementation>

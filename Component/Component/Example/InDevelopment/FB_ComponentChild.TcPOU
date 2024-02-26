@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_ComponentChild" Id="{ad9f1548-4ce5-024e-1f0d-72220a1fdbb1}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ComponentChild EXTENDS FB_Component
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	fbComponent:		FB_ComponentEX;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();]]></ST>
+    </Implementation>
+    <Method Name="M_Cycle" Id="{3011bb02-ac52-0e83-1df7-8050a651d1e3}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Cycle();
+
+fbComponent.M_Cycle();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Initialise" Id="{f6ab3841-4279-0477-217f-e5cb4c5c69c2}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL;
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbObserver.M_Attach(fbComponent);
+fbComponent.P_Observer.M_Attach(THIS^);
+
+M_Initialise:= super^.M_Initialise();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Starting" Id="{38ddd15f-7483-0cfa-19c2-0690c6226f70}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Starting:= super^.M_Starting() and fbComponent.M_Request(E_Request.Start);]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_ComponentChild">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ComponentChild.M_Cycle">
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="1" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ComponentChild.M_Initialise">
+      <LineId Id="5" Count="1" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ComponentChild.M_Starting">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

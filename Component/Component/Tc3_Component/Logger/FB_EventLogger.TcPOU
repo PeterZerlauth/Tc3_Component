@@ -3,6 +3,7 @@
   <POU Name="FB_EventLogger" Id="{0de6697e-1d44-0296-1f4b-99ef100b1e6c}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_EventLogger EXTENDS FB_Cycle IMPLEMENTS I_Logger
 VAR_INPUT
+	eLogLevel:					E_Event;
 END_VAR
 VAR_OUTPUT
 END_VAR
