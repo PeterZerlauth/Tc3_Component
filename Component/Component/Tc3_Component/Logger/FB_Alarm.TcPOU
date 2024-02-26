@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Alarm" Id="{0de6697e-1d44-0296-1f4b-99ef100b1e6c}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_Alarm IMPLEMENTS I_Logger
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Alarm EXTENDS FB_Cycle IMPLEMENTS I_Logger
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -13,6 +13,31 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="M_Cycle" Id="{2604dc42-e042-0a11-3bad-be2964c0960e}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+VAR_INPUT
+END_VAR
+VAR
+	nIndex: 	DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nIndex:= 0;
+WHILE nIndex < nLength DO
+	IF aEvent[nIndex].Active THEN
+		CASE aEvent[nIndex].EventType OF
+			E_Event.Error:;
+			ELSE
+				aEvent[nIndex].Active:= FALSE;		
+		END_CASE		
+	
+	
+	ELSE
+		Tc2_System.MEMSet(ADR(aEvent[nIndex]), 0, SIZEOF(ST_Event));
+	END_IF
+	nIndex := nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Find" Id="{c7fd1c8c-04f0-0d78-3ad7-f0e13fc431d5}">
       <Declaration><![CDATA[METHOD M_Find : DINT
 VAR_INPUT
@@ -58,14 +83,31 @@ END_IF
       <Declaration><![CDATA[METHOD PUBLIC M_Reset
 VAR_INPUT
 END_VAR
-]]></Declaration>
+VAR
+	nIndex: 	DINT;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[nLength:= 0;
-Tc2_System.MEMSET(adr(aEvent), 0, sizeof(aEvent));]]></ST>
+        <ST><![CDATA[nIndex:= 0;
+WHILE nIndex < nLength DO
+	IF 	aEvent[nIndex].Active THEN
+		aEvent[nIndex].Active:= FALSE;
+	END_IF
+	nIndex := nIndex + 1;
+END_WHILE]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Alarm">
       <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Alarm.M_Cycle">
+      <LineId Id="8" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="48" Count="3" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="43" Count="3" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Alarm.M_Find">
       <LineId Id="66" Count="1" />
@@ -80,7 +122,10 @@ Tc2_System.MEMSET(adr(aEvent), 0, sizeof(aEvent));]]></ST>
       <LineId Id="35" Count="0" />
     </LineIds>
     <LineIds Name="FB_Alarm.M_Reset">
-      <LineId Id="5" Count="1" />
+      <LineId Id="10" Count="3" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="6" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

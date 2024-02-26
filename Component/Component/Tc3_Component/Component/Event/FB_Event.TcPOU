@@ -18,7 +18,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[SUPER^();]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{be23ffcc-529d-4010-ace3-b17baed191a5}">
       <Declaration><![CDATA[METHOD FB_init : BOOL

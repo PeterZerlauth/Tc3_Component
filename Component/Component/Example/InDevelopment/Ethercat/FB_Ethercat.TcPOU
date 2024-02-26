@@ -3,16 +3,21 @@
   <POU Name="FB_Ethercat" Id="{26632774-44df-0f9a-1531-badc4b6ed605}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Ethercat EXTENDS FB_Component
 VAR_INPUT
-	NetID			AT%I*: T_AmsNetID;
-	Slaves			AT%I*: 	UINT;
+    NetId 			AT %I*:		T_AmsNetIdArr;
+	Slaves			AT %I*: 	UINT;
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	fbGetMasterState: 			FB_EcGetMasterDevState;
+	fbMasterFrameStatistic:		FB_EcMasterFrameStatistic;
+	fbGetSlaveStates:			FB_EcGetAllSlaveStates;
+	pSlaveState:				POINTER TO Tc2_EtherCAT.ST_EcSlaveState;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[
+]]></ST>
     </Implementation>
     <Method Name="M_Cycle" Id="{5844d1aa-3ea0-0990-1f38-2a22743f5d8b}">
       <Declaration><![CDATA[METHOD PUBLIC M_Cycle
@@ -22,27 +27,35 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Cycle();
 
-fbGetSlaves(sNetId:= NetID); 
+fbGetMasterState(sNetId:= F_CreateAmsNetId(NetId));
+
+fbMasterFrameStatistic(sNetId:= F_CreateAmsNetId(NetId));
+
+
+IF pSlaveState = 0 THEN
+		pSlaveState:= __NEW(BYTE, (SIZEOF(Tc2_EtherCAT.ST_EcSlaveState) * Slaves));
+END_IF
+
+fbGetSlaveStates(	sNetId:= F_CreateAmsNetId(NetId), 
+					pStateBuf:= pSlaveState, 
+					cbBufLen:= Slaves * SIZEOF(Tc2_EtherCAT.ST_EcSlaveState));
 ]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_GetSlaves" Id="{d0bb5338-a9ec-0435-2096-4961b86b7b86}">
-      <Declaration><![CDATA[METHOD M_GetSlaves : uint
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbGetSlaves.bExecute:= TRUE;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Ethercat">
       <LineId Id="32" Count="0" />
+      <LineId Id="53" Count="0" />
     </LineIds>
     <LineIds Name="FB_Ethercat.M_Cycle">
-      <LineId Id="7" Count="1" />
-      <LineId Id="5" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_Ethercat.M_GetSlaves">
+      <LineId Id="7" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="13" Count="3" />
+      <LineId Id="19" Count="1" />
+      <LineId Id="22" Count="1" />
       <LineId Id="6" Count="0" />
     </LineIds>
   </POU>
