@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_Alarm" Id="{0de6697e-1d44-0296-1f4b-99ef100b1e6c}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_Alarm EXTENDS FB_Cycle IMPLEMENTS I_Logger
+  <POU Name="FB_EventLogger" Id="{0de6697e-1d44-0296-1f4b-99ef100b1e6c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_EventLogger EXTENDS FB_Cycle IMPLEMENTS I_Logger
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -98,10 +98,10 @@ nLength:= 0;
 Tc2_System.MEMSET(ADR(aEvent), 0, SIZEOF(nLength));]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_Alarm">
+    <LineIds Name="FB_EventLogger">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Alarm.M_Cycle">
+    <LineIds Name="FB_EventLogger.M_Cycle">
       <LineId Id="8" Count="1" />
       <LineId Id="18" Count="0" />
       <LineId Id="48" Count="3" />
@@ -111,19 +111,19 @@ Tc2_System.MEMSET(ADR(aEvent), 0, SIZEOF(nLength));]]></ST>
       <LineId Id="16" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Alarm.M_Find">
+    <LineIds Name="FB_EventLogger.M_Find">
       <LineId Id="66" Count="1" />
       <LineId Id="89" Count="0" />
       <LineId Id="68" Count="1" />
       <LineId Id="81" Count="1" />
       <LineId Id="70" Count="4" />
     </LineIds>
-    <LineIds Name="FB_Alarm.M_Log">
+    <LineIds Name="FB_EventLogger.M_Log">
       <LineId Id="43" Count="2" />
       <LineId Id="41" Count="1" />
       <LineId Id="35" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Alarm.M_Reset">
+    <LineIds Name="FB_EventLogger.M_Reset">
       <LineId Id="10" Count="3" />
       <LineId Id="17" Count="0" />
       <LineId Id="19" Count="0" />

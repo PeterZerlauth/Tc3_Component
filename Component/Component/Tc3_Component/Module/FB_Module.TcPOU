@@ -7,9 +7,9 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbLogger:					FB_LoggerFactory;
+	fbLoggerFactory:			FB_LoggerFactory;
 	fbTcLogger:					FB_TcLogger;
-	fbAlarm:					FB_Alarm;
+	fbEvents:					FB_EventLogger;
 END_VAR
 					]]></Declaration>
     <Implementation>
@@ -22,7 +22,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Component.P_Event.P_Logger:= fbLogger;
+        <ST><![CDATA[Component.P_Event.P_Logger:= fbLoggerFactory;
 Component.P_Observer.M_Attach(THIS^);
 fbObserver.M_Attach(Component);]]></ST>
       </Implementation>
@@ -33,7 +33,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbAlarm.M_Cycle();
+        <ST><![CDATA[fbEvents.M_Cycle();
 SUPER^.M_Cycle();
 ]]></ST>
       </Implementation>
@@ -58,9 +58,9 @@ END_VAR
       <Implementation>
         <ST><![CDATA[M_Initialise:= SUPER^.M_Initialise();
 
-fbEvent.P_Logger:= fbLogger;
-fbLogger.M_Add(fbAlarm);
-fbLogger.M_Add(fbTcLogger);
+fbEvent.P_Logger:= fbLoggerFactory;
+fbLoggerFactory.M_Add(fbEvents);
+fbLoggerFactory.M_Add(fbTcLogger);
 	
 	
 
@@ -78,7 +78,7 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbAlarm.M_Reset();
+        <ST><![CDATA[fbEvents.M_Reset();
 
 M_Resetting:= TRUE;
 WHILE nIndex < fbObserver.nLength DO

@@ -6,11 +6,10 @@
 {attribute 'to_string'}
 TYPE E_Reaction :
 (
-    Pause    := 100,
-    Hold     := 200,    
-	Complete := 300,	
-    Stop  	 := 400,    
-	Abort    := 500
+	Complete 			:= 300,
+	StopCycle   		:= 400, 
+    Stop  	 			:= 500,
+	Abort    			:= 600
  );	
 END_TYPE]]></Declaration>
   </DUT>

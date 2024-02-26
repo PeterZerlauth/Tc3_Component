@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.50">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.55">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{18071995-0000-0000-0000-000000000041}" TcBaseType="true" HideSubItems="true" CName="AmsNetId">AMSNETID</Name>
@@ -77,7 +77,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Example" PrjFilePath="Example\Example.plcproj" TmcFilePath="Example\Example.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{865CAEFB-F4C2-47B7-5371-C826D3CFB53A}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{E4966067-625C-FC43-E761-B5B6909D0258}">
 					<Name>Example Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -95,6 +95,10 @@
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
+							<Name>M001.fbEmStop.Input</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>M001.fbFuse1.Input</Name>
 							<Type>BOOL</Type>
 						</Var>
@@ -105,10 +109,6 @@
 						<Var>
 							<Name>M001.fbAnalog1.Input</Name>
 							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>M001.fbEmStop.Input</Name>
-							<Type>BOOL</Type>
 						</Var>
 					</Vars>
 					<UnrestoredVarLinks ImportTime="2024-02-26T09:08:31">
@@ -135,7 +135,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{71649981-AC0D-4A85-8722-507B2F4142F3}" Name="Tc3_Component" PrjFilePath="Tc3_Component\Tc3_Component.plcproj" TmcFilePath="Tc3_Component\Tc3_Component.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Tc3_Component\Tc3_Component.tmc" TmcHash="{D82822E1-0EE7-49B9-EB2F-0A3F68DB3F34}">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Tc3_Component\Tc3_Component.tmc" TmcHash="{633963A6-0A21-9319-609A-4F5F303EF594}">
 					<Name>Tc3_Component Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>

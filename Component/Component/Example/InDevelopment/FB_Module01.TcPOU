@@ -31,6 +31,15 @@ fbComponent4.M_Cycle();
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Execute" Id="{0f7f4331-8af5-0744-015a-f65d0021dd06}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : bool
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Execute:= super^.M_Execute();]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Initialise" Id="{714c485c-83a6-4af2-a706-fec3f6b598e5}">
       <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL
 VAR_INPUT
@@ -73,6 +82,9 @@ fbEvent.M_Warning('My first Warning', '' );	]]></ST>
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="4" />
       <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module01.M_Execute">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Initialise">
       <LineId Id="24" Count="0" />

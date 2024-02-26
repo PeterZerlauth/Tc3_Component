@@ -98,17 +98,14 @@ END_VAR
 	stError.New:= TRUE;
 	stError.Active:= TRUE;
 
-
 	IF Reaction >= E_Reaction.Abort THEN
 		iParent.M_Request(E_Request.Abort);
 	ELSIF Reaction >= E_Reaction.Stop THEN
 		iParent.M_Request(E_Request.Stop);
+	ELSIF Reaction >= E_Reaction.StopCycle THEN
+		iParent.M_Request(E_Request.StopCycle);			
 	ELSIF Reaction >= E_Reaction.Complete THEN	
 		iParent.M_Request(E_Request.Complete);
-	ELSIF Reaction >= E_Reaction.Hold THEN
-		iParent.M_Request(E_Request.Hold);
-	ELSIF Reaction >= E_Reaction.Pause THEN
-		iParent.M_Request(E_Request.Pause);
 	END_IF
 	
 	IF iLogger <> 0 THEN
@@ -234,7 +231,12 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Error">
-      <LineId Id="196" Count="29" />
+      <LineId Id="196" Count="10" />
+      <LineId Id="208" Count="4" />
+      <LineId Id="235" Count="0" />
+      <LineId Id="232" Count="0" />
+      <LineId Id="213" Count="1" />
+      <LineId Id="219" Count="6" />
       <LineId Id="62" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Information">

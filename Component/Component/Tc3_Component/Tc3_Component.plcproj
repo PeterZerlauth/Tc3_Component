@@ -122,7 +122,7 @@
     <Compile Include="LoggerFactory\I_Logger.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logger\FB_Alarm.TcPOU">
+    <Compile Include="Logger\FB_EventLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\FB_TcLogger.TcPOU">
