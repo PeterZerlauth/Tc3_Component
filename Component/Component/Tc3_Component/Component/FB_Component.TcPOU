@@ -326,7 +326,10 @@ END_CASE
 
 // Detect state changed
 IF eStatePrevious <> eState THEN
-	fbObserver.M_Notify(eState);
+	CASE eState OF
+		E_State.Aborting, E_State.Stopping, E_State.Completing, E_State.Holding, E_State.Pausing, E_State.Resetting:
+			fbObserver.M_Notify(eState);
+	END_CASE
 	eStatePrevious:= eState;
 	M_OnStateChanged();
 END_IF]]></ST>
@@ -656,7 +659,11 @@ END_VAR
       <LineId Id="154" Count="12" />
       <LineId Id="252" Count="1" />
       <LineId Id="251" Count="0" />
-      <LineId Id="167" Count="49" />
+      <LineId Id="167" Count="46" />
+      <LineId Id="267" Count="1" />
+      <LineId Id="270" Count="0" />
+      <LineId Id="269" Count="0" />
+      <LineId Id="215" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Execute">

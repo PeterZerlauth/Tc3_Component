@@ -21,21 +21,21 @@ VAR
 	nIndex: 	DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[nIndex:= 0;
-WHILE nIndex < nLength DO
-	IF aEvent[nIndex].Active THEN
-		CASE aEvent[nIndex].EventType OF
-			E_Event.Error:;
-			ELSE
-				aEvent[nIndex].Active:= FALSE;		
-		END_CASE		
+        <ST><![CDATA[//nIndex:= 0;
+//WHILE nIndex < nLength DO
+//	IF aEvent[nIndex].Active THEN
+//		CASE aEvent[nIndex].EventType OF
+//			E_Event.Error:;
+//			ELSE
+//				aEvent[nIndex].Active:= FALSE;		
+//		END_CASE		
 	
 	
-	ELSE
-		Tc2_System.MEMSet(ADR(aEvent[nIndex]), 0, SIZEOF(ST_Event));
-	END_IF
-	nIndex := nIndex + 1;
-END_WHILE]]></ST>
+//	ELSE
+//		Tc2_System.MEMSet(ADR(aEvent[nIndex]), 0, SIZEOF(ST_Event));
+//	END_IF
+//	nIndex := nIndex + 1;
+//END_WHILE]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Find" Id="{c7fd1c8c-04f0-0d78-3ad7-f0e13fc431d5}">
@@ -87,13 +87,15 @@ VAR
 	nIndex: 	DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[nIndex:= 0;
-WHILE nIndex < nLength DO
-	IF 	aEvent[nIndex].Active THEN
-		aEvent[nIndex].Active:= FALSE;
-	END_IF
-	nIndex := nIndex + 1;
-END_WHILE]]></ST>
+        <ST><![CDATA[//nIndex:= 0;
+//WHILE nIndex < nLength DO
+//	IF 	aEvent[nIndex].Active THEN
+//		aEvent[nIndex].Active:= FALSE;
+//	END_IF
+//	nIndex := nIndex + 1;
+//END_WHILE
+nLength:= 0;
+Tc2_System.MEMSET(ADR(aEvent), 0, SIZEOF(nLength));]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Alarm">
@@ -126,6 +128,7 @@ END_WHILE]]></ST>
       <LineId Id="17" Count="0" />
       <LineId Id="19" Count="0" />
       <LineId Id="6" Count="0" />
+      <LineId Id="25" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -3,8 +3,11 @@
   <POU Name="MAIN" Id="{80fd576e-8bda-0001-19b1-22d89fc11873}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	bRun:			BOOL;
 	fbModule1:		FB_Module01;
 	fbEthercat:		FB_Ethercat;
+	
+	fbGetRouterStatusInfo:	FB_GetRouterStatusInfo;
 	bReset:			BOOL;
 	bStart: 		BOOL;
     bHold:       	BOOL;
@@ -18,6 +21,9 @@ END_VAR
       <ST><![CDATA[
 fbModule1.M_Cycle();
 fbEthercat.M_Cycle();
+
+
+fbGetRouterStatusInfo(sNetId:= '127.0.0.1.1.1', bExecute:= NOT fbGetRouterStatusInfo.bBusy);
 
 IF bReset THEN
 	bReset:= NOT fbModule1.M_Request(E_Request.Reset);
@@ -47,8 +53,11 @@ END_IF
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="361" Count="0" />
-      <LineId Id="305" Count="0" />
-      <LineId Id="374" Count="0" />
+      <LineId Id="392" Count="0" />
+      <LineId Id="394" Count="0" />
+      <LineId Id="393" Count="0" />
+      <LineId Id="390" Count="0" />
+      <LineId Id="389" Count="0" />
       <LineId Id="309" Count="24" />
       <LineId Id="37" Count="0" />
     </LineIds>

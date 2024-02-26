@@ -51,7 +51,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT M001.fbPowerOn.P_Value THEN
+        <ST><![CDATA[IF NOT M001.fbEmStop.P_Value THEN
+	fbEvent.M_Add(M001.fbEmStop.P_ID);
+	fbEvent.M_Error('Emergency stop not ok', '' ,E_Reaction.Abort);
+ELSIF NOT M001.fbPowerOn.P_Value THEN
 	fbEvent.M_Add(M001.fbPowerOn.P_ID);
 	fbEvent.M_Error('Power not on', '' ,E_Reaction.Abort);
 ELSIF NOT M001.fbFuse1.P_Value THEN
@@ -79,6 +82,9 @@ fbEvent.M_Warning('My first Warning', '' );	]]></ST>
       <LineId Id="100" Count="1" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Running">
+      <LineId Id="38" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="39" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="15" Count="0" />

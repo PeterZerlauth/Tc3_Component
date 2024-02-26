@@ -4,6 +4,7 @@
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
 	fbPowerOn:				DigitalInput('+M001-S1');
+	fbEmStop:				DigitalInput('+M001-A100');
 	fbFuse1:				DigitalInput('+M001-F1');
 	fbSensor2:				DigitalInput('+M001-B1');
 	fbAnalog1:				AnalogInput('+M001-A1', 10.0, 1000.0);
