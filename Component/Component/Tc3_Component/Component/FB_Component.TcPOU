@@ -18,6 +18,8 @@ VAR
 	{ attribute 'TcHmiSymbol' }
 	{attribute 'OPC.UA.DA' := '1'}
 	eRequest:					E_Request;
+    {attribute 'hide'}
+	eRequestPrevious:			E_Request;
 	{attribute 'OPC.UA.DA' := '1'}
 	{ attribute 'TcHmiSymbol' }
 	eState:						E_State;
@@ -57,28 +59,8 @@ END_VAR
 M_Aborting:= True;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Completed" Id="{47ba5a0a-8800-0f93-2645-874f5aa969a5}" FolderPath="States\Complete\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Completed : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Complete
-M_Completed:= TRUE;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Completing" Id="{a6f0ed18-708c-02a1-0990-4f4a1b2b5a3a}" FolderPath="States\Complete\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Completing
-M_Completing:= True;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Cycle" Id="{8157620c-1844-0b4a-092c-fe72147fa392}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+    <Method Name="M_Call" Id="{8157620c-1844-0b4a-092c-fe72147fa392}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Call
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -327,15 +309,39 @@ ELSE
 	this^.M_Running();
 END_CASE
 
+IF eRequestPrevious <> eRequest THEN
+	eRequestPrevious:= eRequest;
+	CASE eRequest OF
+		E_Request.Abort, E_Request.Stop, E_Request.StopCycle, E_Request.Hold, E_Request.Pause, E_Request.Reset:
+			fbObserver.M_Notify(eRequest);
+	END_CASE
+END_IF
+
 // Detect state changed
 IF eStatePrevious <> eState THEN
-	CASE eState OF
-		E_State.Aborting, E_State.Stopping, E_State.Completing, E_State.Holding, E_State.Pausing, E_State.Resetting:
-			fbObserver.M_Notify(eState);
-	END_CASE
 	eStatePrevious:= eState;
 	M_OnStateChanged();
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Completed" Id="{47ba5a0a-8800-0f93-2645-874f5aa969a5}" FolderPath="States\Complete\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completed : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Complete
+M_Completed:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Completing" Id="{a6f0ed18-708c-02a1-0990-4f4a1b2b5a3a}" FolderPath="States\Complete\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Completing
+M_Completing:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Execute" Id="{0a26e879-26ba-0448-077b-265f6eb411a3}" FolderPath="States\Start\">
@@ -390,39 +396,10 @@ M_Initialise:= True;]]></ST>
     <Method Name="M_OnNotify" Id="{d8f6f158-ff95-0e77-1e0e-c4742a312f00}">
       <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
 VAR_INPUT
-	eState:				E_State;
+	eRequest:					E_Request;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE eState OF
-	E_State.Undefined:;
-	E_State.Idle:;
-	E_State.Starting:
-		M_Request(E_Request.Start);
-	E_State.Execute:;
-	E_State.Pausing:
-		M_Request(E_Request.Pause);
-	E_State.Paused:;
-	E_State.Resuming:;
-	E_State.Holding:
-		M_Request(E_Request.Hold);
-	E_State.Held:;
-	E_State.Unholding:;
-	E_State.Completing:
-		M_Request(E_Request.Complete);
-	E_State.Completed:;
-	E_State.Stopping:
-		M_Request(E_Request.Stop);
-	E_State.Stopped:;
-	E_State.Aborting:
-		M_Request(E_Request.Abort);
-	E_State.Aborted:;
-	E_State.Resetting:
-		M_Request(E_Request.Reset);
-END_CASE
-
-
-
-]]></ST>
+        <ST><![CDATA[M_Request(eRequest);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_OnStateChanged" Id="{8fb34de3-43b0-012b-124e-30a6b61246a4}">
@@ -627,15 +604,7 @@ END_VAR
       <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Component.M_Completed">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Completing">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Cycle">
+    <LineIds Name="FB_Component.M_Call">
       <LineId Id="6" Count="18" />
       <LineId Id="220" Count="0" />
       <LineId Id="25" Count="4" />
@@ -675,12 +644,24 @@ END_VAR
       <LineId Id="154" Count="12" />
       <LineId Id="252" Count="1" />
       <LineId Id="251" Count="0" />
-      <LineId Id="167" Count="46" />
-      <LineId Id="267" Count="1" />
-      <LineId Id="270" Count="0" />
-      <LineId Id="269" Count="0" />
+      <LineId Id="167" Count="43" />
+      <LineId Id="284" Count="0" />
+      <LineId Id="283" Count="0" />
+      <LineId Id="285" Count="0" />
+      <LineId Id="288" Count="2" />
+      <LineId Id="287" Count="0" />
+      <LineId Id="286" Count="0" />
+      <LineId Id="211" Count="2" />
       <LineId Id="215" Count="1" />
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Completed">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Completing">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Execute">
       <LineId Id="5" Count="0" />
@@ -702,30 +683,7 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_OnNotify">
-      <LineId Id="9" Count="0" />
-      <LineId Id="20" Count="1" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="48" Count="0" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="28" Count="0" />
-      <LineId Id="66" Count="0" />
-      <LineId Id="29" Count="1" />
-      <LineId Id="33" Count="0" />
-      <LineId Id="61" Count="0" />
-      <LineId Id="34" Count="1" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="51" Count="0" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="52" Count="0" />
-      <LineId Id="43" Count="0" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="53" Count="0" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="16" Count="1" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="10" Count="2" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="72" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_OnStateChanged">
       <LineId Id="5" Count="0" />

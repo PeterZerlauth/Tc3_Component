@@ -27,14 +27,14 @@ Component.P_Observer.M_Attach(THIS^);
 fbObserver.M_Attach(Component);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Cycle" Id="{ed9a21fb-3ec5-0016-04de-0d3b7ca7722a}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+    <Method Name="M_Call" Id="{ed9a21fb-3ec5-0016-04de-0d3b7ca7722a}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Call
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbEvents.M_Cycle();
-SUPER^.M_Cycle();
+        <ST><![CDATA[fbEvents.M_Call();
+SUPER^.M_Call();
 ]]></ST>
       </Implementation>
     </Method>
@@ -121,7 +121,7 @@ END_WHILE]]></ST>
       <LineId Id="7" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module.M_Cycle">
+    <LineIds Name="FB_Module.M_Call">
       <LineId Id="10" Count="0" />
       <LineId Id="5" Count="1" />
     </LineIds>

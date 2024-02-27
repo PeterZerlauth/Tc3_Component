@@ -16,18 +16,18 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="M_Cycle" Id="{655447dc-389e-494a-be91-78d8a111b7aa}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+    <Method Name="M_Call" Id="{655447dc-389e-494a-be91-78d8a111b7aa}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Call
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.M_Cycle();
+        <ST><![CDATA[SUPER^.M_Call();
 
-fbComponent1.M_Cycle();
-fbComponent2.M_Cycle();
-fbComponent3.M_Cycle();
-fbComponent4.M_Cycle();
+fbComponent1.M_Call();
+fbComponent2.M_Call();
+fbComponent3.M_Call();
+fbComponent4.M_Call();
 ]]></ST>
       </Implementation>
     </Method>
@@ -78,7 +78,7 @@ fbEvent.M_Warning('My first Warning', '' );	]]></ST>
     <LineIds Name="FB_Module01">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module01.M_Cycle">
+    <LineIds Name="FB_Module01.M_Call">
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="4" />
       <LineId Id="6" Count="0" />

@@ -14,8 +14,8 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="M_Cycle" Id="{2604dc42-e042-0a11-3bad-be2964c0960e}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+    <Method Name="M_Call" Id="{2604dc42-e042-0a11-3bad-be2964c0960e}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Call
 VAR_INPUT
 END_VAR
 VAR
@@ -102,7 +102,7 @@ Tc2_System.MEMSET(ADR(aEvent), 0, SIZEOF(nLength));]]></ST>
     <LineIds Name="FB_EventLogger">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_EventLogger.M_Cycle">
+    <LineIds Name="FB_EventLogger.M_Call">
       <LineId Id="8" Count="1" />
       <LineId Id="18" Count="0" />
       <LineId Id="48" Count="3" />

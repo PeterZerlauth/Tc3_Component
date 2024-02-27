@@ -19,8 +19,8 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[M001.fbPowerOn();
-fbModule1.M_Cycle();
-fbEthercat.M_Cycle();
+fbModule1.M_Call();
+fbEthercat.M_Call();
 
 
 fbGetRouterStatusInfo(sNetId:= '127.0.0.1.1.1', bExecute:= NOT fbGetRouterStatusInfo.bBusy);

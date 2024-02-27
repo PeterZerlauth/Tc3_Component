@@ -13,8 +13,8 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="M_Cycle" Id="{c23b40fd-4755-4d58-9e6c-63dc34a4b87e}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+    <Method Name="M_Call" Id="{c23b40fd-4755-4d58-9e6c-63dc34a4b87e}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Call
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -25,7 +25,7 @@ END_VAR
     <LineIds Name="FB_Cycle">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Cycle.M_Cycle">
+    <LineIds Name="FB_Cycle.M_Call">
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

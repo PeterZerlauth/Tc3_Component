@@ -19,13 +19,13 @@ END_VAR
       <ST><![CDATA[
 ]]></ST>
     </Implementation>
-    <Method Name="M_Cycle" Id="{5844d1aa-3ea0-0990-1f38-2a22743f5d8b}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+    <Method Name="M_Call" Id="{5844d1aa-3ea0-0990-1f38-2a22743f5d8b}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Call
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.M_Cycle();
+        <ST><![CDATA[SUPER^.M_Call();
 
 fbGetMasterState(sNetId:= F_CreateAmsNetId(NetId));
 
@@ -46,7 +46,7 @@ fbGetSlaveStates(	sNetId:= F_CreateAmsNetId(NetId),
       <LineId Id="32" Count="0" />
       <LineId Id="53" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Ethercat.M_Cycle">
+    <LineIds Name="FB_Ethercat.M_Call">
       <LineId Id="7" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="38" Count="0" />

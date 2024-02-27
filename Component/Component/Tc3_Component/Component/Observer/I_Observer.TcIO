@@ -19,7 +19,7 @@ END_VAR]]></Declaration>
     <Method Name="M_Notify" Id="{e795d50b-4d66-41e5-abd4-e88634350bb6}">
       <Declaration><![CDATA[METHOD M_Notify : BOOL
 VAR_INPUT
-	eState:				E_State;
+	eRequest:					E_Request;
 END_VAR]]></Declaration>
     </Method>
   </Itf>

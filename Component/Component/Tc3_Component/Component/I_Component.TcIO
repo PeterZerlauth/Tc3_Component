@@ -6,7 +6,7 @@
     <Method Name="M_OnNotify" Id="{e7af5b28-84d1-47bb-bd50-90d772841703}">
       <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
 VAR_INPUT
-	eState:				E_State;
+	eRequest:					E_Request;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="M_Request" Id="{5bce4574-fbb8-4134-a60e-e5f2d429768c}">
