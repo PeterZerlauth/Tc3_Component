@@ -18,7 +18,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
+      <ST><![CDATA[M001.fbPowerOn();
 fbModule1.M_Cycle();
 fbEthercat.M_Cycle();
 

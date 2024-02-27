@@ -9,5 +9,11 @@
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
+    <Property Name="P_MappingStatus" Id="{422b6820-34d0-001c-08fb-4d532a6b4877}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_MappingStatus : EPlcMappingStatus]]></Declaration>
+      <Get Name="Get" Id="{6df90bef-98f8-013a-0e1f-b6e2b5def842}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
   </Itf>
 </TcPlcObject>

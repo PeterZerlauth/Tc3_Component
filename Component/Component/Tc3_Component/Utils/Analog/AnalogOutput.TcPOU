@@ -43,6 +43,17 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="P_MappingStatus" Id="{6762dd8f-4ffc-02fe-0e47-d64adeb744bb}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_MappingStatus : EPlcMappingStatus]]></Declaration>
+      <Get Name="Get" Id="{4dad0ef9-ae20-0d67-2175-2fb3bfc8e7d3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_MappingStatus:= F_GetMappingStatus(ADR(Output), SIZEOF(INT));]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="P_Value" Id="{a955e2d0-0b5a-083c-1316-087f566ed02a}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Value : Lreal]]></Declaration>
       <Set Name="Set" Id="{55ec4fbd-3d98-0de0-2d45-228ab7d2678e}">
@@ -63,6 +74,9 @@ END_VAR
       <LineId Id="11" Count="1" />
     </LineIds>
     <LineIds Name="AnalogOutput.P_ID.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="AnalogOutput.P_MappingStatus.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="AnalogOutput.P_Value.Set">

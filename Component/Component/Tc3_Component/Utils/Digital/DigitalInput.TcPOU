@@ -23,7 +23,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[this^.ID:= ID;]]></ST>
+        <ST><![CDATA[THIS^.ID:= ID;]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_ID" Id="{d2592e33-0c09-00ed-2a19-2a2ac1387854}">
@@ -34,6 +34,17 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[P_ID:= ID;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_MappingStatus" Id="{35476d2a-40fd-0f45-1f44-1fa3b34f777e}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_MappingStatus : EPlcMappingStatus]]></Declaration>
+      <Get Name="Get" Id="{b2694192-22d0-0c26-13d2-c7e7e96baf69}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_MappingStatus:= F_GetMappingStatus(ADR(Input), SIZEOF(BOOL));]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -49,12 +60,15 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="DigitalInput">
-      <LineId Id="9" Count="0" />
+      <LineId Id="21" Count="0" />
     </LineIds>
     <LineIds Name="DigitalInput.FB_init">
       <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="DigitalInput.P_ID.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DigitalInput.P_MappingStatus.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="DigitalInput.P_Value.Get">
