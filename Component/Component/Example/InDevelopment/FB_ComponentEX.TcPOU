@@ -12,7 +12,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[SUPER^();]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="M_Execute" Id="{bba4d435-5736-45bd-97fd-4ceab6f0d012}">
       <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL

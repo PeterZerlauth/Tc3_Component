@@ -11,7 +11,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[SUPER^();]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="M_Call" Id="{3011bb02-ac52-0e83-1df7-8050a651d1e3}">
       <Declaration><![CDATA[METHOD PUBLIC M_Call
