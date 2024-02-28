@@ -1,13 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <Itf Name="I_DigitalInput" Id="{214ef76f-f611-0f72-14f6-2b8f024fb231}">
-    <Declaration><![CDATA[INTERFACE I_DigitalInput EXTENDS I_Channel
+  <Itf Name="I_DigitalChannel" Id="{214ef76f-f611-0f72-14f6-2b8f024fb231}">
+    <Declaration><![CDATA[INTERFACE I_DigitalChannel EXTENDS I_Channel
 ]]></Declaration>
     <Property Name="P_Value" Id="{ab716f7c-5ca4-0096-2327-73e953583b66}">
       <Declaration><![CDATA[PROPERTY P_Value : bool]]></Declaration>
       <Get Name="Get" Id="{61283b4f-b50e-0dce-30ad-847da97974fa}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
+      <Set Name="Set" Id="{d4ca9ec7-06fb-04fe-3d61-58ab3bb1779f}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
     </Property>
   </Itf>
 </TcPlcObject>

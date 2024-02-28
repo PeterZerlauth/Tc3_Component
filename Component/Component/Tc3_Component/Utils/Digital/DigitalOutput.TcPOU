@@ -1,29 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="DigitalOutput" Id="{9c6c856c-bfc6-09b8-0205-5829241d18e2}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK DigitalOutput IMPLEMENTS I_DigitalOutput
+    <Declaration><![CDATA[{attribute 'no_explicit_call' := 'do not call this POU directly'} 
+FUNCTION_BLOCK DigitalOutput IMPLEMENTS I_DigitalChannel
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
 	ID:				STRING(25);
-	Output			AT%I*: BOOL;
+	Channel			AT%I*: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="FB_init" Id="{75162285-a628-0e00-3fd4-7fd09070c77b}">
+    <Method Name="FB_init" Id="{120f56c8-a6bf-0605-19a9-f836138d0544}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	ID:			String(25);
+	ID:				STRING(25);
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[this^.ID:= ID;]]></ST>
+        <ST><![CDATA[THIS^.ID:= ID;]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_ID" Id="{f50a731d-33e5-019b-0fc3-26d5f1374f48}">
@@ -37,26 +38,34 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="P_MappingStatus" Id="{68d80066-640f-0c5e-2569-3ac4e0538722}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_MappingStatus : EPlcMappingStatus]]></Declaration>
-      <Get Name="Get" Id="{9cacf2b0-ba9f-08d3-0509-bfa18adbaac4}">
+    <Property Name="P_State" Id="{828aeade-e2eb-0b55-3817-3951b800d035}">
+      <Declaration><![CDATA[PROPERTY P_State : EPlcMappingStatus]]></Declaration>
+      <Get Name="Get" Id="{3e020151-e801-097e-31b7-4a7cc9867898}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_MappingStatus:= F_GetMappingStatus(ADR(Output), SIZEOF(BOOL));]]></ST>
+          <ST><![CDATA[P_State:= F_GetMappingStatus(adr(Channel), sizeof(BOOL));]]></ST>
         </Implementation>
       </Get>
     </Property>
     <Property Name="P_Value" Id="{696506a3-db60-0746-2f1d-1c14b42d34db}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Value : bool]]></Declaration>
+      <Get Name="Get" Id="{fde9f4b6-16df-028f-2ce8-9cfbd063a439}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Value:= Channel;]]></ST>
+        </Implementation>
+      </Get>
       <Set Name="Set" Id="{69af308d-96e0-0ca6-0d1c-c75ab3a009fc}">
         <Declaration><![CDATA[PUBLIC 
 VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Output:= P_Value;]]></ST>
+          <ST><![CDATA[Channel:= P_Value;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -69,7 +78,10 @@ END_VAR
     <LineIds Name="DigitalOutput.P_ID.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="DigitalOutput.P_MappingStatus.Get">
+    <LineIds Name="DigitalOutput.P_State.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DigitalOutput.P_Value.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="DigitalOutput.P_Value.Set">

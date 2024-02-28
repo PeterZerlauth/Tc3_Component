@@ -9,9 +9,9 @@
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Property Name="P_MappingStatus" Id="{422b6820-34d0-001c-08fb-4d532a6b4877}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_MappingStatus : EPlcMappingStatus]]></Declaration>
-      <Get Name="Get" Id="{6df90bef-98f8-013a-0e1f-b6e2b5def842}">
+    <Property Name="P_State" Id="{7b34ea0d-8bc5-0813-0411-d08de5e979a6}">
+      <Declaration><![CDATA[PROPERTY P_State : EPlcMappingStatus]]></Declaration>
+      <Get Name="Get" Id="{ff27076a-b223-0f5f-234c-773ea6b6342e}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>

@@ -1,16 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="AnalogInput" Id="{4b790aa2-3d71-03d0-3f43-731f51993f5b}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK AnalogInput IMPLEMENTS I_AnalogInput
+    <Declaration><![CDATA[{attribute 'no_explicit_call' := 'do not call this POU directly'} 
+FUNCTION_BLOCK AnalogInput IMPLEMENTS I_AnalogChannel
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
 	ID:				STRING(25);
-	Input			AT%I*: INT;
-	fOffset:		LREAL;
-	fMaximum:		LREAL;
+	Channel			AT%I*: INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -22,14 +21,10 @@ VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
 	ID:				STRING(25);
-	fOffset:		LREAL;
-	fMaximum:		LREAL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.ID:= ID;
-THIS^.fOffset:= fOffset;
-THIS^.fMaximum:= fMaximum;]]></ST>
+        <ST><![CDATA[THIS^.ID:= ID;]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_ID" Id="{a66b090d-1b03-0814-2c19-26bfc0a32879}">
@@ -43,14 +38,14 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="P_MappingStatus" Id="{3051bac4-9a53-0b1c-1d06-703a8ea408a2}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_MappingStatus : EPlcMappingStatus]]></Declaration>
-      <Get Name="Get" Id="{aee1b605-5cd3-0edb-1f43-1536ce317906}">
+    <Property Name="P_State" Id="{5cd81f9d-9d09-0ac9-22c0-8458e557abfb}">
+      <Declaration><![CDATA[PROPERTY P_State : EPlcMappingStatus]]></Declaration>
+      <Get Name="Get" Id="{550aa5b6-4e2e-02eb-086b-4a4d1283c230}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_MappingStatus:= F_GetMappingStatus(ADR(Input), SIZEOF(INT));]]></ST>
+          <ST><![CDATA[P_State:= F_GetMappingStatus(ADR(Channel), SIZEOF(INT));]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -61,25 +56,35 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_Value:= INT_TO_LREAL(Input);]]></ST>
+          <ST><![CDATA[P_Value:= INT_TO_LREAL(Channel);]]></ST>
         </Implementation>
       </Get>
+      <Set Name="Set" Id="{9ddffbf9-2bf0-046e-0e43-6682be3f435e}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Channel:= LREAL_TO_INT(P_Value);]]></ST>
+        </Implementation>
+      </Set>
     </Property>
     <LineIds Name="AnalogInput">
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="AnalogInput.FB_init">
       <LineId Id="7" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="AnalogInput.P_ID.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="AnalogInput.P_MappingStatus.Get">
+    <LineIds Name="AnalogInput.P_State.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="AnalogInput.P_Value.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="AnalogInput.P_Value.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

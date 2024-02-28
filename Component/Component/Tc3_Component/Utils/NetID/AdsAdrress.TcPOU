@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="AdsAdrress" Id="{7827d90a-512c-0b4c-3199-f52193480986}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'no_explicit_call' := 'do not call this POU directly'} 
+FUNCTION_BLOCK AdsAdrress IMPLEMENTS I_AdsChannel
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	ID:							STRING(25);
+	AmsAddress				AT%I*: ST_AmsAddr;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="P_ID" Id="{6713cdb6-cedd-02f9-2f44-45b8f939f3d8}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_ID : String(25)]]></Declaration>
+      <Get Name="Get" Id="{97b5755d-7715-0cc0-21fb-7f7b14e3e1b3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_ID:= ID;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_NetID" Id="{ba1467a9-82a0-092e-2ae0-03f04394752e}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_NetID : STRING]]></Declaration>
+      <Get Name="Get" Id="{21bd44ee-094b-0dd1-0f2a-3dff19b36502}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_NetID:= F_CreateAmsNetId(AmsAddress.netId);]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Port" Id="{bcc6eece-11b8-0350-3ec2-4f338660e7b3}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Port : UINT]]></Declaration>
+      <Get Name="Get" Id="{f4c73ce7-1042-0a58-185e-8fd65aceb368}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_State" Id="{a95e0968-23c2-0496-3c88-275d0f2a2d6e}">
+      <Declaration><![CDATA[PROPERTY P_State : EPlcMappingStatus]]></Declaration>
+      <Get Name="Get" Id="{cc478a3e-8f34-0035-300a-cf3216b43d73}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State:= F_GetMappingStatus(adr(AmsAddress), sizeof(ST_AmsAddr));]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="AdsAdrress">
+      <LineId Id="21" Count="0" />
+    </LineIds>
+    <LineIds Name="AdsAdrress.P_ID.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="AdsAdrress.P_NetID.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="AdsAdrress.P_Port.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="AdsAdrress.P_State.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

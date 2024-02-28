@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_AdsChannel" Id="{64432f8c-0ebd-0faf-174b-858c109f0548}">
+    <Declaration><![CDATA[INTERFACE I_AdsChannel EXTENDS I_Channel
+]]></Declaration>
+    <Property Name="P_NetID" Id="{a4279ce0-81fa-0631-33ce-f382c94ec314}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_NetID : STRING]]></Declaration>
+      <Get Name="Get" Id="{1f93eb45-4981-0222-1e91-5abf9c3b4cdd}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="P_Port" Id="{aba33edd-ad89-0a11-3f51-37400193d214}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Port : UINT]]></Declaration>
+      <Get Name="Get" Id="{0c1a6525-84a6-0e7a-19b2-850a8c8a4395}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

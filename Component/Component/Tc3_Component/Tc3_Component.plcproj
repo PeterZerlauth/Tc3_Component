@@ -48,6 +48,7 @@
     <Folder Include="Utils\File" />
     <Folder Include="Utils\Digital" />
     <Folder Include="Utils\Analog" />
+    <Folder Include="Utils\NetID" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\Event\E_Event.TcDUT">
@@ -146,10 +147,7 @@
     <Compile Include="Utils\Analog\AnalogOutput.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utils\Analog\I_AnalogInput.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\Analog\I_AnalogOutput.TcIO">
+    <Compile Include="Utils\Analog\I_AnalogChannel.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utils\File\FB_File.TcPOU">
@@ -167,10 +165,13 @@
     <Compile Include="Utils\Digital\I_Channel.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utils\Digital\I_DigitalInput.TcIO">
+    <Compile Include="Utils\Digital\I_DigitalChannel.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utils\Digital\I_DigitalOutput.TcIO">
+    <Compile Include="Utils\NetID\AdsAdrress.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\NetID\I_AdsChannel.TcIO">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

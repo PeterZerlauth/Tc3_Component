@@ -1,25 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="DigitalInput" Id="{8904ca26-c33a-0d5e-01bd-927c832f4cd0}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK DigitalInput IMPLEMENTS I_DigitalInput
+    <Declaration><![CDATA[{attribute 'no_explicit_call' := 'do not call this POU directly'} 
+FUNCTION_BLOCK DigitalInput IMPLEMENTS I_DigitalChannel
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
 	ID:				STRING(25);
-	Input			AT%I*: BOOL;
+	Channel			AT%I*: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="FB_init" Id="{bc5bb0ce-93c3-0bde-1d49-3a327da4d83a}">
+    <Method Name="FB_init" Id="{36a0ea36-8ce6-0cf7-1d66-0d8871eb555e}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	ID:			String(25);
+	ID:				STRING(25);
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -37,14 +38,14 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="P_MappingStatus" Id="{35476d2a-40fd-0f45-1f44-1fa3b34f777e}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_MappingStatus : EPlcMappingStatus]]></Declaration>
-      <Get Name="Get" Id="{b2694192-22d0-0c26-13d2-c7e7e96baf69}">
+    <Property Name="P_State" Id="{c3d8c2a3-d582-03a1-3305-487cd866c231}">
+      <Declaration><![CDATA[PROPERTY P_State : EPlcMappingStatus]]></Declaration>
+      <Get Name="Get" Id="{d84261ad-8c83-064f-0dc4-445397d3c6cc}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_MappingStatus:= F_GetMappingStatus(ADR(Input), SIZEOF(BOOL));]]></ST>
+          <ST><![CDATA[P_State:= F_GetMappingStatus(adr(Channel), sizeof(BOOL));]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -55,9 +56,18 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_Value:= Input;]]></ST>
+          <ST><![CDATA[P_Value:= Channel;]]></ST>
         </Implementation>
       </Get>
+      <Set Name="Set" Id="{a5ae33fe-bcc6-09a5-0371-0da6975e192e}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Channel:= P_Value;]]></ST>
+        </Implementation>
+      </Set>
     </Property>
     <LineIds Name="DigitalInput">
       <LineId Id="21" Count="0" />
@@ -68,10 +78,13 @@ END_VAR
     <LineIds Name="DigitalInput.P_ID.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="DigitalInput.P_MappingStatus.Get">
+    <LineIds Name="DigitalInput.P_State.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="DigitalInput.P_Value.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="DigitalInput.P_Value.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

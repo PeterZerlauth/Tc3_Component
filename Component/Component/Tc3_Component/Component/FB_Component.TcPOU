@@ -2,6 +2,7 @@
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Component" Id="{3beb4649-c557-0131-2fab-e053b34b5bbf}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'reflection'} 
+{attribute 'no_explicit_call' := 'do not call this POU directly'} 
 FUNCTION_BLOCK FB_Component EXTENDS FB_Cycle IMPLEMENTS I_Component
 VAR_INPUT
 END_VAR
