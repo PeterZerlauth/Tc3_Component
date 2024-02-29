@@ -54,9 +54,6 @@
     <Compile Include="Component\Event\E_Event.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Component\Event\E_Reaction.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Component\Event\FB_Event.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -117,16 +114,10 @@
     <Compile Include="List\I_ListString.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LoggerFactory\FB_LoggerFactory.TcPOU">
+    <Compile Include="LoggerFactory\FB_LoggerFactory_1.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LoggerFactory\I_Logger.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Logger\FB_EventLogger.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Logger\FB_TcLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Module\FB_Module.TcPOU">

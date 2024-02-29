@@ -7,8 +7,6 @@ VAR_GLOBAL
 	fbEmStop:				DigitalInput('+M001-A100');
 	fbFuse1:				DigitalInput('+M001-F1');
 	fbSensor2:				DigitalInput('+M001-B1');
-	fbAnalog1:				AnalogInput('+M001-A1');
-	NetID:					AdsAdress;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

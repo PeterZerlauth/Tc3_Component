@@ -26,15 +26,13 @@ fbComponent.M_Call();
       </Implementation>
     </Method>
     <Method Name="M_Initialise" Id="{f6ab3841-4279-0477-217f-e5cb4c5c69c2}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL;
+      <Declaration><![CDATA[METHOD PROTECTED M_Initialise
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[fbObserver.M_Attach(fbComponent);
-fbComponent.P_Observer.M_Attach(THIS^);
-
-M_Initialise:= super^.M_Initialise();]]></ST>
+fbComponent.P_Observer.M_Attach(THIS^);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Starting" Id="{38ddd15f-7483-0cfa-19c2-0690c6226f70}">
@@ -56,8 +54,6 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_ComponentChild.M_Initialise">
       <LineId Id="5" Count="1" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="FB_ComponentChild.M_Starting">
       <LineId Id="5" Count="0" />

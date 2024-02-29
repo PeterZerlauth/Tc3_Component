@@ -48,6 +48,9 @@
     <Compile Include="InDevelopment\FB_Module01.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="InDevelopment\FB_TcLogger.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="plcTask1.TcTTO">
       <SubType>Code</SubType>
     </Compile>

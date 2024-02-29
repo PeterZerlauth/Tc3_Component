@@ -7,9 +7,6 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbLoggerFactory:			FB_LoggerFactory;
-	fbTcLogger:					FB_TcLogger;
-	fbEvents:					FB_EventLogger;
 END_VAR
 					]]></Declaration>
     <Implementation>
@@ -22,20 +19,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Component.P_Event.P_Logger:= fbLoggerFactory;
+        <ST><![CDATA[//Component.P_Event.P_Logger:= fbLoggerFactory;
 Component.P_Observer.M_Attach(THIS^);
 fbObserver.M_Attach(Component);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Call" Id="{ed9a21fb-3ec5-0016-04de-0d3b7ca7722a}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Call
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbEvents.M_Call();
-SUPER^.M_Call();
-]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Dettach" Id="{a667402b-5023-09c1-34b6-30ca3f961f61}">
@@ -51,40 +37,18 @@ fbObserver.M_Detach(Component);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Initialise" Id="{d2ecc479-1ed6-0218-1db6-cf2c288ac295}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL
+      <Declaration><![CDATA[METHOD PROTECTED M_Initialise
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Initialise:= SUPER^.M_Initialise();
-
+        <ST><![CDATA[SUPER^.M_Initialise();
 fbEvent.P_Logger:= fbLoggerFactory;
-fbLoggerFactory.M_Add(fbEvents);
 fbLoggerFactory.M_Add(fbTcLogger);
 	
 	
 
 
-
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Resetting" Id="{a610a2e6-39fb-0abb-32e8-2f742935aded}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL
-VAR_INPUT
-END_VAR
-VAR
-	nIndex:					DINT;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbEvents.M_Reset();
-
-M_Resetting:= TRUE;
-WHILE nIndex < fbObserver.nLength DO
-	fbObserver.M_Index(nIndex).M_Request(E_Request.Reset);
-	nIndex:= nIndex +1;
-END_WHILE
 
 ]]></ST>
       </Implementation>
@@ -109,7 +73,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[M_Starting:= TRUE;
 WHILE nIndex < fbObserver.nLength DO
-	M_Starting:= M_Starting AND fbObserver.M_Index(nIndex).M_Request(E_Request.Start);
+	M_Starting:= M_Starting AND fbObserver.M_Index(nIndex).P_State = E_State.Execute;
 	nIndex:= nIndex +1;
 END_WHILE]]></ST>
       </Implementation>
@@ -121,32 +85,19 @@ END_WHILE]]></ST>
       <LineId Id="7" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module.M_Call">
-      <LineId Id="10" Count="0" />
-      <LineId Id="5" Count="1" />
-    </LineIds>
     <LineIds Name="FB_Module.M_Dettach">
       <LineId Id="7" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module.M_Initialise">
-      <LineId Id="24" Count="0" />
       <LineId Id="106" Count="0" />
       <LineId Id="82" Count="0" />
-      <LineId Id="77" Count="0" />
       <LineId Id="98" Count="0" />
       <LineId Id="88" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
       <LineId Id="22" Count="1" />
       <LineId Id="21" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Module.M_Resetting">
-      <LineId Id="24" Count="1" />
-      <LineId Id="6" Count="3" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="16" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module.M_Running">
       <LineId Id="6" Count="0" />

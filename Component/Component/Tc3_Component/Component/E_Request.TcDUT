@@ -13,9 +13,8 @@ TYPE E_Request :
     Pause       := 4,	
     Hold      	:= 8,
 	Complete	:= 16,	
-    StopCycle   := 32,
-	Stop		:= 64,
-	Abort       := 128
+	Stop		:= 32,
+	Abort       := 64
 );
 END_TYPE
 ]]></Declaration>

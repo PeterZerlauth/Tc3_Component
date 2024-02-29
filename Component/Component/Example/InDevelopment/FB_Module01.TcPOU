@@ -7,6 +7,9 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	nEvent:						DINT;
+	aEvent:						ARRAY [0..99] OF ST_Event;	
+	fbEvents:					FB_LoggerFactory;
 	fbComponent1:				FB_Component;
 	fbComponent2:				FB_Component;
 	fbComponent3:				FB_ComponentEx;
@@ -23,6 +26,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Call();
+
+fbEvents(nEvent:= nEvent, aEvent:= aEvent);
 
 fbComponent1.M_Call();
 fbComponent2.M_Call();
@@ -41,17 +46,26 @@ END_VAR
       </Implementation>
     </Method>
     <Method Name="M_Initialise" Id="{714c485c-83a6-4af2-a706-fec3f6b598e5}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL
+      <Declaration><![CDATA[METHOD PROTECTED M_Initialise
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Initialise:= SUPER^.M_Initialise();
-
+        <ST><![CDATA[SUPER^.M_Initialise();
+fbLoggerFactory.M_Add(fbEvents);
 M_Attach(fbComponent1);
 M_Attach(fbComponent2);
 M_Attach(fbComponent3);
 M_Attach(fbComponent4);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Resetting" Id="{dad08d09-89d5-0625-2685-c657dd8bbba8}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Resetting:= TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{eaffebca-5ff2-4f17-be84-3310a9ace22e}">
@@ -62,13 +76,13 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF NOT M001.fbEmStop.P_Value THEN
 	fbEvent.M_Add(M001.fbEmStop.P_ID);
-	fbEvent.M_Error('Emergency stop not ok', '' ,E_Reaction.Abort);
+	fbEvent.M_Abort('Emergency stop not ok', '');
 ELSIF NOT M001.fbPowerOn.P_Value THEN
 	fbEvent.M_Add(M001.fbPowerOn.P_ID);
-	fbEvent.M_Error('Power not on', '' ,E_Reaction.Abort);
+	fbEvent.M_Abort('Power not on', '');
 ELSIF NOT M001.fbFuse1.P_Value THEN
 	fbEvent.M_Add(M001.fbFuse1.P_ID);
-	fbEvent.M_Error('Fuse Triped', '', E_Reaction.Stop);	
+	fbEvent.M_Stop('Fuse Triped', '');	
 	
 END_IF
 
@@ -80,6 +94,8 @@ fbEvent.M_Warning('My first Warning', '' );	]]></ST>
     </LineIds>
     <LineIds Name="FB_Module01.M_Call">
       <LineId Id="5" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="16" Count="0" />
       <LineId Id="8" Count="4" />
       <LineId Id="6" Count="0" />
     </LineIds>
@@ -92,6 +108,9 @@ fbEvent.M_Warning('My first Warning', '' );	]]></ST>
       <LineId Id="66" Count="0" />
       <LineId Id="42" Count="0" />
       <LineId Id="100" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_Module01.M_Resetting">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Running">
       <LineId Id="38" Count="0" />

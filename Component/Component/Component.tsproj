@@ -1,93 +1,6 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.55">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.50">
 	<DataTypes>
-		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-000000000041}" TcBaseType="true" HideSubItems="true" CName="AmsNetId">AMSNETID</Name>
-			<BitSize>48</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>6</Elements>
-			</ArrayInfo>
-			<Format>
-				<Printf>%d.%d.%d.%d.%d.%d</Printf>
-				<Parameter>[0]</Parameter>
-				<Parameter>[1]</Parameter>
-				<Parameter>[2]</Parameter>
-				<Parameter>[3]</Parameter>
-				<Parameter>[4]</Parameter>
-				<Parameter>[5]</Parameter>
-			</Format>
-		</DataType>
-		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-000000000042}" TcBaseType="true" CName="AmsAddr">AMSADDR</Name>
-			<BitSize>64</BitSize>
-			<SubItem>
-				<Name>netId</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
-				<BitSize>48</BitSize>
-				<BitOffs>0</BitOffs>
-			</SubItem>
-			<SubItem>
-				<Name>port</Name>
-				<Type GUID="{18071995-0000-0000-0000-000000000004}">WORD</Type>
-				<BitSize>16</BitSize>
-				<BitOffs>48</BitOffs>
-			</SubItem>
-			<Format>
-				<Printf>%d.%d.%d.%d.%d.%d:%d</Printf>
-				<Parameter>.netId[0]</Parameter>
-				<Parameter>.netId[1]</Parameter>
-				<Parameter>.netId[2]</Parameter>
-				<Parameter>.netId[3]</Parameter>
-				<Parameter>.netId[4]</Parameter>
-				<Parameter>.netId[5]</Parameter>
-				<Parameter>.port</Parameter>
-			</Format>
-			<Format Name="Iec">
-				<Printf>(netId:=[%d.%d.%d.%d.%d.%d], port :=%d)</Printf>
-				<Parameter>.netId[0]</Parameter>
-				<Parameter>.netId[1]</Parameter>
-				<Parameter>.netId[2]</Parameter>
-				<Parameter>.netId[3]</Parameter>
-				<Parameter>.netId[4]</Parameter>
-				<Parameter>.netId[5]</Parameter>
-				<Parameter>.port</Parameter>
-			</Format>
-		</DataType>
-		<DataType>
-			<Name GUID="{C92AF341-7BD6-622A-489B-93F78F170DEA}" Namespace="Tc2_System" AutoDeleteType="true">ST_AmsAddr</Name>
-			<Comment><![CDATA[ TwinCAT AMS network address. ]]></Comment>
-			<BitSize>64</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000042}">AMSADDR</BaseType>
-		</DataType>
-		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000008}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..0] OF BYTE</Name>
-			<BitSize>8</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>1</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000004}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..3] OF BIT</Name>
-			<BitSize>4</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>4</Elements>
-			</ArrayInfo>
-		</DataType>
-		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-002000000002}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..1] OF BIT</Name>
-			<BitSize>2</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>2</Elements>
-			</ArrayInfo>
-		</DataType>
 		<DataType>
 			<Name GUID="{5E64EF16-4D41-40C1-A2BB-4BD7E7151BAC}" PersistentType="true">NewEventClass</Name>
 			<DisplayName TxtId=""><![CDATA[NewEventClass_DisplayText]]></DisplayName>
@@ -98,22 +11,17 @@
 			</EventId>
 		</DataType>
 	</DataTypes>
-	<ImageDatas>
-		<ImageData Id="1000">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080808080808080808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080c0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c000bfff00bfffc0c0c0808080c0c0c000ffffc0c0c000ffff808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c000bfff00bfffc0c0c0808080c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c000bfff00bfffc0c0c0808080c0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080c0c0c0ff0000c0c0c0ff0000808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080c0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c000bfff00bfffc0c0c0808080c0c0c00000ffc0c0c00000ff808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c000bfff00bfffc0c0c0808080c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c000bfff00bfffc0c0c0808080c0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080c0c0c0008000c0c0c0008000808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff</ImageData>
-		<ImageData Id="1001">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ff00ff000000000000ff00ffff00ffff00ff808080808080808080808080808080ff00ffff00ffff00ffff00ffff00ff000000ff00ffff00ff000000ff00ffff00ffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ff000000ff00ffff00ffff00ffff00ffff00ffc0c0c000ffffc0c0c000ffff808080ff00ffff00ffff00ffff00ffff00ff000000ff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff000000ff00ffff00ff000000ff00ffff00ffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ff000000000000ff00ffff00ffff00ffc0c0c0ff0000c0c0c0ff0000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c00000ffc0c0c00000ff808080ff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0008000c0c0c0008000808080ff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff</ImageData>
-		<ImageData Id="1002">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ff808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff</ImageData>
-	</ImageDatas>
-	<Project ProjectGUID="{74E8F419-036C-4967-922D-C405C2CA94D5}" TargetNetId="192.0.0.10.1.1" Target64Bit="true" ShowHideConfigurations="#x6">
+	<Project ProjectGUID="{74E8F419-036C-4967-922D-C405C2CA94D5}" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
 			<Tasks>
-				<Task Id="4" Priority="20" CycleTime="250000" AmsPort="350" AdtTasks="true">
+				<Task Id="4" Priority="20" CycleTime="10000000" AmsPort="350" AdtTasks="true">
 					<Name>plcTask1</Name>
 				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Example" PrjFilePath="Example\Example.plcproj" TmcFilePath="Example\Example.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{9AAE2780-5F79-C357-AF88-5E99060A8923}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{4073E2AE-9B9C-0ABA-A408-DF4DAF23052F}">
 					<Name>Example Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -134,14 +42,6 @@
 							<Name>M001.fbSensor2.Channel</Name>
 							<Type>BOOL</Type>
 						</Var>
-						<Var>
-							<Name>M001.fbAnalog1.Channel</Name>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>M001.NetID.AmsAddress</Name>
-							<Type GUID="{C92AF341-7BD6-622A-489B-93F78F170DEA}" Namespace="Tc2_System">ST_AmsAddr</Type>
-						</Var>
 					</Vars>
 					<UnrestoredVarLinks ImportTime="2024-02-26T09:08:31">
 						<OwnerA Name="InputDst" Prefix="TIPC^Example^Example Instance" Type="1">
@@ -158,7 +58,7 @@
 								<OTCID>#x02010040</OTCID>
 							</ManualConfig>
 							<Priority>20</Priority>
-							<CycleTime>25000000</CycleTime>
+							<CycleTime>1000000000</CycleTime>
 						</Context>
 					</Contexts>
 					<TaskPouOids>
@@ -167,7 +67,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{71649981-AC0D-4A85-8722-507B2F4142F3}" Name="Tc3_Component" PrjFilePath="Tc3_Component\Tc3_Component.plcproj" TmcFilePath="Tc3_Component\Tc3_Component.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Tc3_Component\Tc3_Component.tmc" TmcHash="{633963A6-0A21-9319-609A-4F5F303EF594}">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Tc3_Component\Tc3_Component.tmc" TmcHash="{D82822E1-0EE7-49B9-EB2F-0A3F68DB3F34}">
 					<Name>Tc3_Component Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -179,253 +79,5 @@
 				</Instance>
 			</Project>
 		</Plc>
-		<Io>
-			<Device Id="1" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="10.58.50.38.2.1" RemoteName="Gerät 1 (EtherCAT)" InfoImageId="2">
-				<Name>Gerät 1 (EtherCAT)</Name>
-				<AddressInfo>
-					<Pnp>
-						<DeviceDesc>X01 (TwinCAT-Intel PCI Ethernet Adapter (Gigabit) #</DeviceDesc>
-						<DeviceName>\DEVICE\{297768F0-ABCD-488D-B7B9-27E503E6B72C}</DeviceName>
-						<DeviceData>00010556c746</DeviceData>
-					</Pnp>
-				</AddressInfo>
-				<Image Id="1" AddrType="9" ImageType="3">
-					<Name>Prozessabbild</Name>
-				</Image>
-				<Box Id="1" BoxType="9099">
-					<Name>Klemme 1 (EK1100)</Name>
-					<ImageId>1000</ImageId>
-					<EtherCAT SlaveType="1" PdiType="#x0d00" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x044c2c52" RevisionNo="#x00120000" PortPhys="305" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EK1100 EtherCAT-Koppler (2A E-Bus)" Desc="EK1100" PortABoxInfo="#x00ffffff"/>
-					<Box Id="2" BoxType="9099" BoxFlags="#x00000020">
-						<Name>Klemme 2 (EL6070-0033)</Name>
-						<ImageId>1001</ImageId>
-						<EtherCAT SlaveType="2" PdiType="#x0005" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="35" FoeType="1" VendorId="#x00000002" ProductCode="#x17b63052" RevisionNo="#x00120021" InfoDataAddr="true" RepeatSupport="true" TimeoutMailbox2="3000" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6070-0033 1K. Licence-Key-Klemme, individuelle Lizenzen" Desc="EL6070-0033" PortABoxInfo="#x01000001">
-							<SyncMan>001000012600010001000000300000010001001026010000</SyncMan>
-							<SyncMan>001100012200010002000000300000010001001122010000</SyncMan>
-							<Fmmu>00000000000000000d0800010100000003000000000000000000000000000000</Fmmu>
-							<CoeProfile ProfileNo="43914121" DisplayName="Licensing"/>
-						</EtherCAT>
-					</Box>
-					<Box Id="3" BoxType="9099" BoxFlags="#x00000020">
-						<Name>Klemme 3 (EL6224)</Name>
-						<ImageId>1001</ImageId>
-						<Xml>
-							<Port>
-								<FileName/>
-								<VendorName/>
-								<VendorLogo/>
-								<DeviceName/>
-								<DeviceIcon/>
-								<DeviceSymbol/>
-								<ProductId/>
-								<DeviceFamilyName/>
-								<DeviceText/>
-								<Flags>0x00000000</Flags>
-								<Features>0x00000000</Features>
-								<DirectParameter>0000000000000000000000000000000000000000</DirectParameter>
-								<UserInterface2>
-									<Observer/>
-									<Maintenance/>
-									<Specialist/>
-								</UserInterface2>
-								<PdCollections>
-									<activePd>0x0</activePd>
-								</PdCollections>
-							</Port>
-							<Port>
-								<FileName/>
-								<VendorName/>
-								<VendorLogo/>
-								<DeviceName/>
-								<DeviceIcon/>
-								<DeviceSymbol/>
-								<ProductId/>
-								<DeviceFamilyName/>
-								<DeviceText/>
-								<Flags>0x00000000</Flags>
-								<Features>0x00000000</Features>
-								<DirectParameter>0000000000000000000000000000000000000000</DirectParameter>
-								<UserInterface2>
-									<Observer/>
-									<Maintenance/>
-									<Specialist/>
-								</UserInterface2>
-								<PdCollections>
-									<activePd>0x0</activePd>
-								</PdCollections>
-							</Port>
-							<Port>
-								<FileName/>
-								<VendorName/>
-								<VendorLogo/>
-								<DeviceName/>
-								<DeviceIcon/>
-								<DeviceSymbol/>
-								<ProductId/>
-								<DeviceFamilyName/>
-								<DeviceText/>
-								<Flags>0x00000000</Flags>
-								<Features>0x00000000</Features>
-								<DirectParameter>0000000000000000000000000000000000000000</DirectParameter>
-								<UserInterface2>
-									<Observer/>
-									<Maintenance/>
-									<Specialist/>
-								</UserInterface2>
-								<PdCollections>
-									<activePd>0x0</activePd>
-								</PdCollections>
-							</Port>
-							<Port>
-								<FileName/>
-								<VendorName/>
-								<VendorLogo/>
-								<DeviceName/>
-								<DeviceIcon/>
-								<DeviceSymbol/>
-								<ProductId/>
-								<DeviceFamilyName/>
-								<DeviceText/>
-								<Flags>0x00000000</Flags>
-								<Features>0x00000000</Features>
-								<DirectParameter>0000000000000000000000000000000000000000</DirectParameter>
-								<UserInterface2>
-									<Observer/>
-									<Maintenance/>
-									<Specialist/>
-								</UserInterface2>
-								<PdCollections>
-									<activePd>0x0</activePd>
-								</PdCollections>
-							</Port>
-						</Xml>
-						<EtherCAT SlaveType="3" AdsServerAddress="c000000a0204eb03" FixedAdsServerNetId="true" PdiType="#x0405" MboxDataLinkLayer="true" StateMBoxPolling="true" CycleMBoxPollingTime="0" CoeType="47" FoeType="1" VendorId="#x00000002" ProductCode="#x18503052" RevisionNo="#x00140000" InfoDataAddr="true" InfoDataNetId="true" TimeoutMailbox2="2000" GenerateOwnNetId="true" InitializeOwnNetId="true" CheckRevisionNoType="3" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL6224 (IO Link Master)" Desc="EL6224" PortABoxInfo="#x01000002">
-							<SyncMan>001000012600010001000000400000010001001026010000</SyncMan>
-							<SyncMan>001100012200010002000000400000010001001122010000</SyncMan>
-							<SyncMan>001200002400000003000000000000000000001224000000</SyncMan>
-							<SyncMan>001306002000010004000000000000000600001320010000</SyncMan>
-							<Fmmu>0000000000000000000000020000000001000000000000000000000000000000</Fmmu>
-							<Fmmu>0000000000000000001300010100000002000000000000000000000000000000</Fmmu>
-							<Fmmu>00000000000000000d0800010100000003000000000000000000000000000000</Fmmu>
-							<BootStrapData>0010f400f410f400</BootStrapData>
-							<DcMode>4672656552756e0000000000000000004672656552756e00000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000</DcMode>
-							<DcMode>4443000000000000000000000000000044432d53796e6368726f6e000000000000000000000000000000000000000000000000000000000000000000000000010100000000000000000000000000000000000000000000000000000000000000</DcMode>
-							<MBoxUserCmdData>020003001c0000000b0000000000000000000000000000000000000000000000300080011400000000000000000000000000000000000000000000004f626a656374203830303000</MBoxUserCmdData>
-							<MBoxUserCmdData>020003001c0000000b0000000000000000000000000000000000000000000000301080011400000000000000000000000000000000000000000000004f626a656374203830313000</MBoxUserCmdData>
-							<MBoxUserCmdData>020003001c0000000b0000000000000000000000000000000000000000000000302080011400000000000000000000000000000000000000000000004f626a656374203830323000</MBoxUserCmdData>
-							<MBoxUserCmdData>020003001c0000000b0000000000000000000000000000000000000000000000303080011400000000000000000000000000000000000000000000004f626a656374203830333000</MBoxUserCmdData>
-							<Pdo Name="DeviceState Inputs Device" Index="#x1a05" Flags="#x0010" SyncMan="3">
-								<Entry BitLen="8">
-									<Type GUID="{18071995-0000-0000-0000-002000000008}">ARRAY [0..0] OF BYTE</Type>
-								</Entry>
-								<Entry BitLen="4">
-									<Type GUID="{18071995-0000-0000-0000-002000000004}">ARRAY [0..3] OF BIT</Type>
-								</Entry>
-								<Entry Name="Device Diag" BitLen="1" Index="#xf101" Sub="#x0d">
-									<Type>BIT</Type>
-								</Entry>
-								<Entry BitLen="2">
-									<Type GUID="{18071995-0000-0000-0000-002000000002}">ARRAY [0..1] OF BIT</Type>
-								</Entry>
-								<Entry Name="Device State" BitLen="1" Index="#xf101" Sub="#x10">
-									<Type>BIT</Type>
-								</Entry>
-							</Pdo>
-							<Pdo Name="DeviceState Inputs" Index="#x1a04" Flags="#x0010" SyncMan="3">
-								<Entry Name="State Ch1" BitLen="8" Index="#xf100" Sub="#x01">
-									<Type>USINT</Type>
-									<Comment><![CDATA[0x_0 = Port disabled
-0x_1 = Port in std dig in
-0x_2 = Port in std dig out
-0x_3 = Port in communikation OP
-0x_4 = Port in communikation COMSTOP
-0x1_ = Watchdog detected
-0x2_ = internal Error
-0x3_ = invalid Device ID
-0x4_ = invalid Vendor ID
-0x5_ = invalid IO-Link Version
-0x6_ = invalid Frame Capability
-0x7_ = invalid Cycle Time
-0x8_ = invalid PD in length
-0x9_ = invalid PD out length
-0xA_ = no Device detected]]></Comment>
-								</Entry>
-								<Entry Name="State Ch2" BitLen="8" Index="#xf100" Sub="#x02">
-									<Type>USINT</Type>
-									<Comment><![CDATA[0x_0 = Port disabled
-0x_1 = Port in std dig in
-0x_2 = Port in std dig out
-0x_3 = Port in communikation OP
-0x_4 = Port in communikation COMSTOP
-0x1_ = Watchdog detected
-0x2_ = internal Error
-0x3_ = invalid Device ID
-0x4_ = invalid Vendor ID
-0x5_ = invalid IO-Link Version
-0x6_ = invalid Frame Capability
-0x7_ = invalid Cycle Time
-0x8_ = invalid PD in length
-0x9_ = invalid PD out length
-0xA_ = no Device detected]]></Comment>
-								</Entry>
-								<Entry Name="State Ch3" BitLen="8" Index="#xf100" Sub="#x03">
-									<Type>USINT</Type>
-									<Comment><![CDATA[0x_0 = Port disabled
-0x_1 = Port in std dig in
-0x_2 = Port in std dig out
-0x_3 = Port in communikation OP
-0x_4 = Port in communikation COMSTOP
-0x1_ = Watchdog detected
-0x2_ = internal Error
-0x3_ = invalid Device ID
-0x4_ = invalid Vendor ID
-0x5_ = invalid IO-Link Version
-0x6_ = invalid Frame Capability
-0x7_ = invalid Cycle Time
-0x8_ = invalid PD in length
-0x9_ = invalid PD out length
-0xA_ = no Device detected]]></Comment>
-								</Entry>
-								<Entry Name="State Ch4" BitLen="8" Index="#xf100" Sub="#x04">
-									<Type>USINT</Type>
-									<Comment><![CDATA[0x_0 = Port disabled
-0x_1 = Port in std dig in
-0x_2 = Port in std dig out
-0x_3 = Port in communikation OP
-0x_4 = Port in communikation COMSTOP
-0x1_ = Watchdog detected
-0x2_ = internal Error
-0x3_ = invalid Device ID
-0x4_ = invalid Vendor ID
-0x5_ = invalid IO-Link Version
-0x6_ = invalid Frame Capability
-0x7_ = invalid Cycle Time
-0x8_ = invalid PD in length
-0x9_ = invalid PD out length
-0xA_ = no Device detected]]></Comment>
-								</Entry>
-							</Pdo>
-							<CoeProfile ProfileNo="407638921"/>
-							<CoeProfile ProfileNo="407638921"/>
-							<CoeProfile ProfileNo="407638921"/>
-							<CoeProfile ProfileNo="407638921"/>
-						</EtherCAT>
-					</Box>
-					<Box Id="4" BoxType="9099">
-						<Name>Klemme 4 (EL9011)</Name>
-						<ImageId>1002</ImageId>
-						<EtherCAT CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x23333050" InfoDataState="false" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL9011 Endklemme" Desc="EL9011" PortABoxInfo="#x01000003"/>
-					</Box>
-				</Box>
-				<EtherCAT/>
-			</Device>
-		</Io>
 	</Project>
-	<Mappings>
-		<OwnerA Name="TIPC^Example^Example Instance">
-			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1100)^Term 2 (EL6070-0033)">
-				<Link VarA="plcTask1 Inputs^M001.NetID.AmsAddress" VarB="InfoData^AdsAddr"/>
-			</OwnerB>
-		</OwnerA>
-	</Mappings>
 </TcSmProject>

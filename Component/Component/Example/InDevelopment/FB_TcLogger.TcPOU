@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_TcLogger" Id="{ddc02bc3-8c6f-0c3d-1061-0b0de2ad9344}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_TcLogger" Id="{f9ae1251-8db7-0f83-3fe4-63ffe332e5de}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_TcLogger IMPLEMENTS I_Logger
 VAR_INPUT
 	eLogLevel:					E_Event;
@@ -15,7 +15,7 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="M_Log" Id="{45359bc4-a12b-01a0-3adc-2db5ec137489}">
+    <Method Name="M_Log" Id="{559b0423-33fe-0a3c-0dca-60935fba72a8}">
       <Declaration><![CDATA[METHOD M_Log
 VAR_INPUT
 	stEvent	: 		ST_Event;
@@ -25,21 +25,21 @@ VAR
 	sMessage:			STRING(255);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF stEvent.New THEN
-	sMessage:= Concat(Concat(stEvent.Instance, ' | '), stEvent.Message);
-	CASE stEvent.EventType OF
-		E_Event.Error:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := sMessage, strArg := '');
-		E_Event.Warning:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_WARN , msgFmtStr := sMessage, strArg := '');
-		E_Event.Information:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := sMessage, strArg := '');
-		E_Event.Debug:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT, msgFmtStr := sMessage, strArg := '');
-		E_Event.Verbose:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := sMessage, strArg := '');
-	END_CASE
-END_IF
+        <ST><![CDATA[////IF stEvent.New THEN
+//	sMessage:= Concat(Concat(stEvent.Instance, ' | '), stEvent.Message);
+//	CASE stEvent.EventType OF
+//		E_Event.Error:
+//			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := sMessage, strArg := '');
+//		E_Event.Warning:
+//			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_WARN , msgFmtStr := sMessage, strArg := '');
+//		E_Event.Information:
+//			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := sMessage, strArg := '');
+//		E_Event.Debug:
+//			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT, msgFmtStr := sMessage, strArg := '');
+//		E_Event.Verbose:
+//			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := sMessage, strArg := '');
+//	END_CASE
+////END_IF
 
 
 
