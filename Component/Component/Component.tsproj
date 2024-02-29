@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.50">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.42">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{5E64EF16-4D41-40C1-A2BB-4BD7E7151BAC}" PersistentType="true">NewEventClass</Name>
@@ -21,7 +21,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Example" PrjFilePath="Example\Example.plcproj" TmcFilePath="Example\Example.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{4073E2AE-9B9C-0ABA-A408-DF4DAF23052F}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{E93996E8-94A8-B9B4-E38C-2245186BCBF1}">
 					<Name>Example Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -52,7 +52,7 @@
 					</UnrestoredVarLinks>
 					<Contexts>
 						<Context>
-							<Id>0</Id>
+							<Id NeedCalleeCall="true">0</Id>
 							<Name>plcTask1</Name>
 							<ManualConfig>
 								<OTCID>#x02010040</OTCID>

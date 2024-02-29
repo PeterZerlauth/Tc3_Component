@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_LoggerFactory_1" Id="{14a5296c-b52d-02f9-2d9e-abab1d7b93f2}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'no_explicit_call'} 
-FUNCTION_BLOCK FB_LoggerFactory_1 IMPLEMENTS I_Logger
+  <POU Name="FB_ListLogger" Id="{e544611a-234b-41f0-a2f4-370d09300d40}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'no_explicit_call' := 'do not call this POU directly'} 
+FUNCTION_BLOCK FB_ListLogger IMPLEMENTS I_ListLogger
 VAR
-	pList: 			POINTER TO I_Logger;
 	nLength:		DINT;
+	pList: 			POINTER TO I_Logger;
 	{attribute 'conditionalshow'}
 	aList:			POINTER TO POINTER TO ARRAY [0..100] OF I_Logger:=ADR(pList);
 END_VAR
@@ -13,7 +13,7 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="FB_exit" Id="{d27bb439-e99c-034e-3ea0-b248ba8a0a6b}">
+    <Method Name="FB_exit" Id="{631d45d4-7bd2-4174-87c5-b3e5345f712f}">
       <Declaration><![CDATA[METHOD FB_exit : BOOL
 VAR_INPUT
 	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
@@ -23,8 +23,8 @@ END_VAR
         <ST><![CDATA[M_Clear();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Add" Id="{dd730943-4255-0585-0a9d-8557ee22f1aa}">
-      <Declaration><![CDATA[METHOD M_Add : BOOL
+    <Method Name="M_Add" Id="{aa50ac62-517c-4f4e-af04-784934d24ddb}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Add : BOOL
 VAR_INPUT
 	Object: 	I_Logger;
 END_VAR
@@ -46,7 +46,7 @@ END_VAR
 			// new Length
 			nLength:= nLength + 1;
 			// new pointer
-			pList:= __NEW(POINTER TO I_Object,DINT_TO_UDINT(nLength));
+			pList:= __NEW(POINTER TO I_Logger,DINT_TO_UDINT(nLength));
 			// restore
 			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Logger)*DINT_TO_UDINT(nLength -1));
 			// delete old
@@ -67,8 +67,8 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Clear" Id="{15aea74d-ac69-0bed-0ef7-583483abc64c}">
-      <Declaration><![CDATA[METHOD M_Clear : bool
+    <Method Name="M_Clear" Id="{30f681dc-94e7-4c0c-8079-b7f22c33e87f}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Clear : bool
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF pList <> 0 THEN
@@ -78,8 +78,8 @@ END_IF
 M_Clear:= True;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Find" Id="{46b13484-af88-034f-0017-e5bbe589bf64}">
-      <Declaration><![CDATA[METHOD M_Find : DINT
+    <Method Name="M_Find" Id="{4d5022dc-4c24-493a-8c5e-89e34548cfdf}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
 VAR_INPUT
 	Object: 	I_Logger;
 END_VAR
@@ -99,8 +99,8 @@ END_WHILE
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Index" Id="{dcf8e945-da74-0e20-2b0a-a2eba2f767ce}">
-      <Declaration><![CDATA[METHOD M_Index : I_Logger
+    <Method Name="M_Index" Id="{9dad6230-cc2a-4fb5-9add-bf1bd25f27c4}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Index : I_Logger
 VAR_INPUT
 	Index: 	DINT;
 END_VAR
@@ -111,23 +111,8 @@ END_VAR
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Log" Id="{cc3005cf-22e4-0f12-1cc2-35ef24d46f1f}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Log
-VAR_INPUT
-	stEvent:		ST_Event;
-END_VAR
-VAR
-	nIndex: INT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[WHILE nIndex < nLength DO
-	M_Index(nIndex).M_Log(stEvent);
-	nIndex:= nIndex +1;
-END_WHILE]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Remove" Id="{499a7c35-9580-0614-0a9d-fbd9ddff19b5}">
-      <Declaration><![CDATA[METHOD M_Remove : BOOL
+    <Method Name="M_Remove" Id="{189e810f-c6b4-47c1-b992-db816a4528ab}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Remove : BOOL
 VAR_INPUT
 	Object: 	I_Logger;
 END_VAR
@@ -147,7 +132,7 @@ END_VAR]]></Declaration>
 			// new Length
 			nLength:= nLength -1;
 			// new pointer
-			pList:= __NEW(POINTER TO I_Logger,DINT_TO_UDINT(nLength));
+			pList:= __NEW(POINTER TO I_Object,DINT_TO_UDINT(nLength));
 			// restore lower part
 			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Logger) * DINT_TO_UDINT(nPosition));
 			//pList[nPosition]:= iObject;
@@ -168,10 +153,10 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Length" Id="{1b7d303b-b1f9-0581-3bb1-69c6632cecf5}">
-      <Declaration><![CDATA[PROPERTY P_Length : DINT
+    <Property Name="P_Length" Id="{30983850-222a-4d9f-8853-1922bdd2acf2}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Length : DINT
 ]]></Declaration>
-      <Get Name="Get" Id="{ff639c30-040b-0741-201b-1c5db7ffe731}">
+      <Get Name="Get" Id="{b7dc2af1-7d1f-4faa-bbc3-0c8cfe6195b4}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -180,41 +165,37 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <LineIds Name="FB_LoggerFactory_1">
+    <LineIds Name="FB_ListLogger">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_LoggerFactory_1.FB_exit">
+    <LineIds Name="FB_ListLogger.FB_exit">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_LoggerFactory_1.M_Add">
+    <LineIds Name="FB_ListLogger.M_Add">
       <LineId Id="164" Count="22" />
       <LineId Id="200" Count="1" />
       <LineId Id="199" Count="0" />
       <LineId Id="187" Count="4" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_LoggerFactory_1.M_Clear">
+    <LineIds Name="FB_ListLogger.M_Clear">
       <LineId Id="3" Count="2" />
       <LineId Id="2" Count="0" />
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="FB_LoggerFactory_1.M_Find">
+    <LineIds Name="FB_ListLogger.M_Find">
       <LineId Id="66" Count="8" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_LoggerFactory_1.M_Index">
+    <LineIds Name="FB_ListLogger.M_Index">
       <LineId Id="23" Count="1" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_LoggerFactory_1.M_Log">
-      <LineId Id="7" Count="2" />
-      <LineId Id="6" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_LoggerFactory_1.M_Remove">
+    <LineIds Name="FB_ListLogger.M_Remove">
       <LineId Id="132" Count="28" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_LoggerFactory_1.P_Length.Get">
+    <LineIds Name="FB_ListLogger.P_Length.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

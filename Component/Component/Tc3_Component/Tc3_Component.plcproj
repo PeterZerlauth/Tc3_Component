@@ -102,6 +102,9 @@
     <Compile Include="List\FB_ListObject.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="List\FB_ListLogger.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="List\FB_ListString.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -111,13 +114,19 @@
     <Compile Include="List\I_ListObject.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="List\I_ListLogger.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="List\I_ListString.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LoggerFactory\FB_LoggerFactory_1.TcPOU">
+    <Compile Include="LoggerFactory\FB_LoggerFactory.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LoggerFactory\I_Logger.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Logger\FB_TcLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Module\FB_Module.TcPOU">

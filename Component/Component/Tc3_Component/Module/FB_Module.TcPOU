@@ -7,6 +7,10 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	nEvent:						DINT;
+	aEvent:						ARRAY [0..99] OF ST_Event;	
+	fbLoggerFactory:			FB_LoggerFactory;
+	fbTcLogger:					FB_TcLogger;
 END_VAR
 					]]></Declaration>
     <Implementation>
@@ -19,9 +23,20 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[//Component.P_Event.P_Logger:= fbLoggerFactory;
+        <ST><![CDATA[Component.P_Event.P_Logger:= fbLoggerFactory;
 Component.P_Observer.M_Attach(THIS^);
 fbObserver.M_Attach(Component);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Call" Id="{ba6e3712-faea-4bef-b491-24a585067e68}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Call
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Call();
+
+fbLoggerFactory(nEvent:= nEvent, aEvent:= aEvent);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Dettach" Id="{a667402b-5023-09c1-34b6-30ca3f961f61}">
@@ -44,13 +59,23 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Initialise();
 fbEvent.P_Logger:= fbLoggerFactory;
-fbLoggerFactory.M_Add(fbTcLogger);
+fbLoggerFactory.M_Attach(fbTcLogger);
 	
 	
 
 
 
 ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Resetting" Id="{61e3d89a-8bee-473b-9814-ba7482888f16}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Resetting:= SUPER^.M_Resetting();
+fbLoggerFactory.M_Reset();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{8879f60a-43a4-0568-363b-e25a42eddf0c}">
@@ -73,7 +98,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[M_Starting:= TRUE;
 WHILE nIndex < fbObserver.nLength DO
-	M_Starting:= M_Starting AND fbObserver.M_Index(nIndex).P_State = E_State.Execute;
+	M_Starting:= M_Starting AND fbObserver.M_Index(nIndex).M_Request(E_Request.Start);
 	nIndex:= nIndex +1;
 END_WHILE]]></ST>
       </Implementation>
@@ -84,6 +109,11 @@ END_WHILE]]></ST>
     <LineIds Name="FB_Module.M_Attach">
       <LineId Id="7" Count="1" />
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Call">
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module.M_Dettach">
       <LineId Id="7" Count="1" />
@@ -98,6 +128,9 @@ END_WHILE]]></ST>
       <LineId Id="26" Count="0" />
       <LineId Id="22" Count="1" />
       <LineId Id="21" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Resetting">
+      <LineId Id="5" Count="1" />
     </LineIds>
     <LineIds Name="FB_Module.M_Running">
       <LineId Id="6" Count="0" />
