@@ -8,6 +8,7 @@ VAR_IN_OUT
 	aEvent:						ARRAY [*] OF ST_Event;	
 END_VAR
 VAR
+	nIndex: 					UINT;
 	fbList:						FB_ListLogger;
 END_VAR
 ]]></Declaration>
@@ -38,9 +39,6 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
 VAR_INPUT
 	stEvent:	ST_Event;
-END_VAR
-VAR
-	nIndex: 	UINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Find := -1;
@@ -63,9 +61,6 @@ END_WHILE
 VAR_INPUT
 	stEvent:		ST_Event;
 END_VAR
-VAR
-	nIndex:			DINT;
-END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
@@ -84,11 +79,13 @@ END_IF]]></ST>
     <Method Name="M_Reset" Id="{9810e6d6-e173-4295-8d35-3a9e234682f1}">
       <Declaration><![CDATA[METHOD PUBLIC M_Reset
 VAR_INPUT
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Tc2_System.MEMSET(ADR(aEvent), 0, SIZEOF(aEvent));
-nEvent:= 0;]]></ST>
+        <ST><![CDATA[WHILE nIndex < nEvent DO
+	aEvent[nIndex].Timestamp:= 0;
+	nIndex := nIndex + 1;
+END_WHILE
+]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_LoggerFactory">
@@ -118,7 +115,9 @@ nEvent:= 0;]]></ST>
       <LineId Id="22" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Reset">
-      <LineId Id="5" Count="1" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="6" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

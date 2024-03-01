@@ -37,7 +37,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Execute:= super^.M_Execute();]]></ST>
+        <ST><![CDATA[M_Execute:= SUPER^.M_Execute();
+
+fbEvent.M_Warning('My first Warning', '' );	
+fbEvent.M_Warning('My secound Warning', '' );	]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Initialise" Id="{714c485c-83a6-4af2-a706-fec3f6b598e5}">
@@ -69,9 +72,7 @@ ELSIF NOT M001.fbFuse1.P_Value THEN
 	fbEvent.M_Add(M001.fbFuse1.P_ID);
 	fbEvent.M_Stop('Fuse Triped', '');	
 	
-END_IF
-
-fbEvent.M_Warning('My first Warning', '' );	]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Module01">
@@ -84,6 +85,9 @@ fbEvent.M_Warning('My first Warning', '' );	]]></ST>
     </LineIds>
     <LineIds Name="FB_Module01.M_Execute">
       <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Initialise">
       <LineId Id="24" Count="0" />
@@ -103,8 +107,6 @@ fbEvent.M_Warning('My first Warning', '' );	]]></ST>
       <LineId Id="23" Count="0" />
       <LineId Id="22" Count="0" />
       <LineId Id="16" Count="0" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="6" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
