@@ -7,10 +7,12 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	nEvent:						DINT;
-	aEvent:						ARRAY [0..99] OF ST_Event;	
-	fbLoggerFactory:			FB_LoggerFactory;
+	aEvent:						ARRAY [0..nEvent] OF ST_Event;	
+	fbLoggerFactory:			FB_LoggerFactory(ADR(aEvent), nEvent);
 	fbTcLogger:					FB_TcLogger;
+END_VAR
+VAR CONSTANT
+	nEvent:						INT:= 49;
 END_VAR
 					]]></Declaration>
     <Implementation>
@@ -34,9 +36,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.M_Call();
-
-fbLoggerFactory(nEvent:= nEvent, aEvent:= aEvent);]]></ST>
+        <ST><![CDATA[fbLoggerFactory();
+SUPER^.M_Call();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Dettach" Id="{a667402b-5023-09c1-34b6-30ca3f961f61}">
@@ -111,9 +112,8 @@ END_WHILE]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module.M_Call">
+      <LineId Id="11" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module.M_Dettach">
       <LineId Id="7" Count="1" />

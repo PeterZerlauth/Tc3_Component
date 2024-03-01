@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Event" Id="{59616103-7f2e-4b6f-81bd-583969a36d28}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_Event EXTENDS FB_ListString IMPLEMENTS I_Event
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Event IMPLEMENTS I_Event
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	fbList:				FB_ListString;
 	iParent:			I_Component;
 	iLogger:			I_Logger;
 	stAbort:			ST_Event;
@@ -47,12 +48,54 @@ stAbort.Timestamp:= F_GetSystemTime();
 stAbort.ID:= ID;
 stAbort.Message:= Message;
 stAbort.Arguments:= M_Arguments();
+stAbort.Active:= TRUE;
 iParent.M_Request(E_Request.Abort);
 IF iLogger<> 0 THEN
 	iLogger.M_Log(stAbort);
-END_IF
-
-M_Clear();]]></ST>
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_AddBOOL" Id="{55367f5b-ac71-0a63-095c-881721842948}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddBOOL
+VAR_INPUT
+	Value: 	Int;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Add(INT_TO_STRING(Value));]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_AddINT" Id="{77c01fd5-65e9-07ed-2cff-a79b9d444c15}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddINT
+VAR_INPUT
+	Value: 	BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Add(BOOL_TO_STRING(Value));]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_AddREAL" Id="{b0c25678-4933-0839-34f0-c4eb0def69fb}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddREAL
+VAR_INPUT
+	Value: 	Lreal;
+	Decimals: INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Add(LREAL_TO_FMTSTR(Value, Decimals, TRUE));
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_AddSTRING" Id="{8ae81d27-cb47-01bb-2b19-fe8608e777a8}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddSTRING
+VAR_INPUT
+	Value: STRING(255);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Add(Value);
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Arguments" Id="{70779266-7b36-4bce-9e6f-049e951fd75a}">
@@ -64,10 +107,12 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[WHILE nIndex < nLength DO
-	M_Arguments:= Concat(Concat(M_Arguments, pList[nIndex]), '$N');
+        <ST><![CDATA[WHILE nIndex < fbList. P_Length DO
+	M_Arguments:= Concat(Concat(M_Arguments, fbList.M_Index(nIndex)), '$N');
 	nIndex:= nIndex + 1;
-END_WHILE]]></ST>
+END_WHILE
+
+fbList.M_Clear();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Debug" Id="{0a2b992b-2a4a-0251-0210-713b326debf6}">
@@ -85,11 +130,10 @@ stDebug.Timestamp:= F_GetSystemTime();
 stDebug.ID:= '';
 stDebug.Message:= Message;
 stDebug.Arguments:= M_Arguments();
+stDebug.Active:= TRUE;
 IF iLogger<> 0 THEN
 	iLogger.M_Log(stDebug);
-END_IF
-
-M_Clear();]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Information" Id="{d9a244f2-1d6f-434f-aab4-cad6aacbb94f}">
@@ -108,12 +152,10 @@ stInformation.Timestamp:= F_GetSystemTime();
 stInformation.ID:= ID;
 stInformation.Message:= Message;
 stInformation.Arguments:= M_Arguments();
+stInformation.Active:= TRUE;
 IF iLogger<> 0 THEN
 	iLogger.M_Log(stInformation);
-END_IF
-
-
-M_Clear();]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Reset" Id="{31d9e5bb-2957-4381-81b6-d0453bdac8d3}">
@@ -144,12 +186,11 @@ stStop.Timestamp:= F_GetSystemTime();
 stStop.ID:= ID;
 stStop.Message:= Message;
 stStop.Arguments:= M_Arguments();
+stStop.Active:= TRUE;
 iParent.M_Request(E_Request.Stop);
 IF iLogger<> 0 THEN
 	iLogger.M_Log(stStop);
-END_IF
-
-M_Clear();]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Warning" Id="{d443b8bb-774e-487e-80a2-79cf66a0376c}">
@@ -168,11 +209,10 @@ stWarning.Timestamp:= F_GetSystemTime();
 stWarning.ID:= ID;
 stWarning.Message:= Message;
 stWarning.Arguments:= M_Arguments();
+stWarning.Active:= TRUE;
 IF iLogger<> 0 THEN
 	iLogger.M_Log(stWarning);
-END_IF
-
-M_Clear();]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Logger" Id="{642d0edf-ded0-4248-be29-8384d3180124}">
@@ -202,31 +242,41 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Event.M_Abort">
       <LineId Id="197" Count="7" />
+      <LineId Id="239" Count="0" />
       <LineId Id="210" Count="0" />
       <LineId Id="232" Count="1" />
       <LineId Id="231" Count="0" />
-      <LineId Id="225" Count="0" />
-      <LineId Id="62" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Event.M_AddBOOL">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Event.M_AddINT">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Event.M_AddREAL">
+      <LineId Id="5" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_Event.M_AddSTRING">
+      <LineId Id="5" Count="1" />
     </LineIds>
     <LineIds Name="FB_Event.M_Arguments">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="11" Count="0" />
       <LineId Id="10" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Debug">
       <LineId Id="10" Count="7" />
+      <LineId Id="39" Count="0" />
       <LineId Id="33" Count="1" />
       <LineId Id="32" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Information">
       <LineId Id="11" Count="7" />
+      <LineId Id="41" Count="0" />
       <LineId Id="33" Count="2" />
-      <LineId Id="32" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Reset">
       <LineId Id="5" Count="0" />
@@ -235,17 +285,16 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Event.M_Stop">
       <LineId Id="197" Count="7" />
+      <LineId Id="238" Count="0" />
       <LineId Id="210" Count="0" />
       <LineId Id="231" Count="1" />
-      <LineId Id="224" Count="1" />
-      <LineId Id="62" Count="0" />
+      <LineId Id="224" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Warning">
       <LineId Id="12" Count="7" />
+      <LineId Id="56" Count="0" />
       <LineId Id="49" Count="1" />
       <LineId Id="48" Count="0" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.P_Logger.Get">
       <LineId Id="2" Count="0" />

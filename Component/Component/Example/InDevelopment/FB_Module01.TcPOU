@@ -39,7 +39,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[M_Execute:= SUPER^.M_Execute();
 
-fbEvent.M_Warning('My first Warning', '' );	
+//fbEvent.M_Warning('My first Warning', '' );	
 fbEvent.M_Warning('My secound Warning', '' );	]]></ST>
       </Implementation>
     </Method>
@@ -63,13 +63,13 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT M001.fbEmStop.P_Value THEN
-	fbEvent.M_Add(M001.fbEmStop.P_ID);
+	fbEvent.M_AddSTRING(M001.fbEmStop.P_ID);
 	fbEvent.M_Abort('Emergency stop not ok', '');
 ELSIF NOT M001.fbPowerOn.P_Value THEN
-	fbEvent.M_Add(M001.fbPowerOn.P_ID);
+	fbEvent.M_AddSTRING(M001.fbPowerOn.P_ID);
 	fbEvent.M_Abort('Power not on', '');
 ELSIF NOT M001.fbFuse1.P_Value THEN
-	fbEvent.M_Add(M001.fbFuse1.P_ID);
+	fbEvent.M_AddSTRING(M001.fbFuse1.P_ID);
 	fbEvent.M_Stop('Fuse Triped', '');	
 	
 END_IF]]></ST>

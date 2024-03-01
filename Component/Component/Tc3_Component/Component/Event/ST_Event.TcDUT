@@ -11,6 +11,7 @@ STRUCT
 	ID:				ID;
 	Message:		STRING(255);
 	Arguments:		STRING(255);
+	Active:			BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

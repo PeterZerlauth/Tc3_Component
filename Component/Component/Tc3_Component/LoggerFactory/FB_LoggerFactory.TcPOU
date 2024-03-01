@@ -3,18 +3,43 @@
   <POU Name="FB_LoggerFactory" Id="{14a5296c-b52d-02f9-2d9e-abab1d7b93f2}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'no_explicit_call'} 
 FUNCTION_BLOCK FB_LoggerFactory IMPLEMENTS I_Logger
-VAR_IN_OUT
-	nEvent:						DINT;
-	aEvent:						ARRAY [*] OF ST_Event;	
-END_VAR
 VAR
-	nIndex: 					UINT;
+	nIndex: 					DINT;
+	nEvent:						DINT;
+	nLength:					DINT;
+	pEvent:						POINTER TO ST_Event;	
 	fbList:						FB_ListLogger;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[nIndex:= 0;
+WHILE nIndex < nEvent DO
+	IF pEvent[nIndex].Active AND pEvent[nIndex].EventType <> E_Event.Error THEN
+		pEvent[nIndex].Active:= FALSE;
+	ELSE
+		IF pEvent[nIndex].Timestamp = 0 THEN
+			RETURN;
+		ELSE
+			M_Remove(nIndex);
+		END_IF
+	END_IF
+	nIndex := nIndex + 1;
+END_WHILE]]></ST>
     </Implementation>
+    <Method Name="FB_init" Id="{6df5be79-0a0c-0d2a-0a65-cf7790a42dfd}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	pEvent:						POINTER TO ST_Event;
+	nEvent:						DINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.pEvent:= pEvent;
+THIS^.nEvent:= nEvent;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Attach" Id="{85d5015d-7e39-4cfd-a721-66b108eef110}">
       <Declaration><![CDATA[METHOD PUBLIC M_Attach
 VAR_INPUT
@@ -39,15 +64,18 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
 VAR_INPUT
 	stEvent:	ST_Event;
+END_VAR
+VAR
+	nIndex: 					DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Find := -1;
 WHILE nIndex < nEvent DO
-	IF (aEvent[nIndex].Source = stEvent.Source) AND_THEN
-    	(aEvent[nIndex].EventType = stEvent.EventType) AND_THEN
-		(aEvent[nIndex].Instance = stEvent.Instance) AND_THEN
-		(aEvent[nIndex].Class = stEvent.Class) AND_THEN
-		(aEvent[nIndex].Message = stEvent.Message) THEN
+	IF (pEvent[nIndex].Source = stEvent.Source) AND_THEN
+    	(pEvent[nIndex].EventType = stEvent.EventType) AND_THEN
+		(pEvent[nIndex].Instance = stEvent.Instance) AND_THEN
+		(pEvent[nIndex].Class = stEvent.Class) AND_THEN
+		(pEvent[nIndex].Message = stEvent.Message) THEN
         M_Find := nIndex;
         RETURN;
     END_IF
@@ -61,35 +89,79 @@ END_WHILE
 VAR_INPUT
 	stEvent:		ST_Event;
 END_VAR
+VAR
+	nIndex: 					DINT;
+END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
-	aEvent[nIndex].Arguments:= stEvent.Arguments;
+	pEvent[nIndex].Active:= stEvent.Active;
+	pEvent[nIndex].Arguments:= stEvent.Arguments;
 ELSE
-	aEvent[nEvent]:= stEvent;
-	nEvent:= nEvent + 1;
-	nIndex:= 0;
-	WHILE nIndex < fbList.nLength DO
-		fbList.M_Index(nIndex).M_Log(stEvent);
-		nIndex := nIndex + 1;
-	END_WHILE
+	pEvent[nLength]:= stEvent;
+	nLength:= nLength + 1;
+	M_Publish(stEvent);
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Reset" Id="{9810e6d6-e173-4295-8d35-3a9e234682f1}">
+    <Method Name="M_Publish" Id="{578d5b47-6fac-0518-1a61-62b0162be35c}">
+      <Declaration><![CDATA[METHOD M_Publish
+VAR_INPUT
+	stEvent:	ST_Event;
+END_VAR
+VAR
+	nIndex: DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nIndex:= 0;
+WHILE nIndex < fbList.nLength DO
+	fbList.M_Index(nIndex).M_Log(stEvent);
+	nIndex := nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Remove" Id="{a03dc35c-ef8e-043d-3adb-f11c8fb4c08b}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Remove : Bool
+VAR_INPUT
+	Index:		DINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[MEMCPY(ADR(pEvent[Index]), ADR(pEvent[Index + 1]), SIZEOF(ST_Event) * (nEvent - nLength));
+nLength:= nLength - 1;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{9e416491-698f-0c93-2f87-8032ff6306d1}">
       <Declaration><![CDATA[METHOD PUBLIC M_Reset
 VAR_INPUT
+END_VAR
+VAR
+	nIndex: DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[WHILE nIndex < nEvent DO
-	aEvent[nIndex].Timestamp:= 0;
+	IF pEvent[nIndex].EventType = E_Event.Error THEN
+		M_Remove(nIndex);
+	END_IF
 	nIndex := nIndex + 1;
-END_WHILE
-]]></ST>
+END_WHILE]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_LoggerFactory">
+      <LineId Id="58" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="52" Count="2" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="33" Count="0" />
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LoggerFactory.FB_init">
+      <LineId Id="7" Count="0" />
+      <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Attach">
       <LineId Id="5" Count="0" />
@@ -107,17 +179,23 @@ END_WHILE
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Log">
       <LineId Id="33" Count="0" />
-      <LineId Id="35" Count="3" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="40" Count="1" />
-      <LineId Id="45" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="35" Count="2" />
+      <LineId Id="55" Count="0" />
       <LineId Id="39" Count="0" />
       <LineId Id="22" Count="0" />
     </LineIds>
+    <LineIds Name="FB_LoggerFactory.M_Publish">
+      <LineId Id="7" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LoggerFactory.M_Remove">
+      <LineId Id="7" Count="1" />
+    </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Reset">
-      <LineId Id="11" Count="1" />
-      <LineId Id="20" Count="1" />
-      <LineId Id="6" Count="0" />
+      <LineId Id="6" Count="1" />
+      <LineId Id="10" Count="2" />
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

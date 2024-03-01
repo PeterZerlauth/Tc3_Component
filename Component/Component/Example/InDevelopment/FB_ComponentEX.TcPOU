@@ -23,17 +23,17 @@ END_VAR
         <ST><![CDATA[
 IF bAbort THEN
 	bAbort:= FALSE;
-	fbEvent.M_Add('Test');
-	fbEvent.M_Add('Test2');
-	fbEvent.M_Add('Test3');
+	fbEvent.M_AddSTRING('Test');
+	fbEvent.M_AddSTRING('Test2');
+	fbEvent.M_AddSTRING('Test3');
 	fbEvent.M_Abort('First Error Abort', 'a');
 END_IF
 
 IF bStop THEN
 	bStop:= FALSE;
-	fbEvent.M_Add('Test');
-	fbEvent.M_Add('Test2');
-	fbEvent.M_Add('Test3');
+	fbEvent.M_AddSTRING('Test');
+	fbEvent.M_AddSTRING('Test2');
+	fbEvent.M_AddSTRING('Test3');
 	fbEvent.M_Stop('First Error Stop', 'b');
 END_IF
 
