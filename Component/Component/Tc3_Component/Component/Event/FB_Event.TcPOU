@@ -49,8 +49,9 @@ stAbort.ID:= ID;
 stAbort.Message:= Message;
 stAbort.Arguments:= M_Arguments();
 stAbort.Active:= TRUE;
+
 iParent.M_Request(E_Request.Abort);
-IF iLogger<> 0 THEN
+IF iLogger <> 0 THEN
 	iLogger.M_Log(stAbort);
 END_IF]]></ST>
       </Implementation>
@@ -131,7 +132,8 @@ stDebug.ID:= '';
 stDebug.Message:= Message;
 stDebug.Arguments:= M_Arguments();
 stDebug.Active:= TRUE;
-IF iLogger<> 0 THEN
+
+IF iLogger <> 0 THEN
 	iLogger.M_Log(stDebug);
 END_IF]]></ST>
       </Implementation>
@@ -153,7 +155,8 @@ stInformation.ID:= ID;
 stInformation.Message:= Message;
 stInformation.Arguments:= M_Arguments();
 stInformation.Active:= TRUE;
-IF iLogger<> 0 THEN
+
+IF iLogger <> 0 THEN
 	iLogger.M_Log(stInformation);
 END_IF]]></ST>
       </Implementation>
@@ -187,8 +190,9 @@ stStop.ID:= ID;
 stStop.Message:= Message;
 stStop.Arguments:= M_Arguments();
 stStop.Active:= TRUE;
+
 iParent.M_Request(E_Request.Stop);
-IF iLogger<> 0 THEN
+IF iLogger <> 0 THEN
 	iLogger.M_Log(stStop);
 END_IF]]></ST>
       </Implementation>
@@ -242,7 +246,7 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Event.M_Abort">
       <LineId Id="197" Count="7" />
-      <LineId Id="239" Count="0" />
+      <LineId Id="239" Count="1" />
       <LineId Id="210" Count="0" />
       <LineId Id="232" Count="1" />
       <LineId Id="231" Count="0" />
@@ -269,13 +273,13 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Event.M_Debug">
       <LineId Id="10" Count="7" />
-      <LineId Id="39" Count="0" />
+      <LineId Id="39" Count="1" />
       <LineId Id="33" Count="1" />
       <LineId Id="32" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Information">
       <LineId Id="11" Count="7" />
-      <LineId Id="41" Count="0" />
+      <LineId Id="41" Count="1" />
       <LineId Id="33" Count="2" />
     </LineIds>
     <LineIds Name="FB_Event.M_Reset">
@@ -285,7 +289,7 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Event.M_Stop">
       <LineId Id="197" Count="7" />
-      <LineId Id="238" Count="0" />
+      <LineId Id="238" Count="1" />
       <LineId Id="210" Count="0" />
       <LineId Id="231" Count="1" />
       <LineId Id="224" Count="0" />

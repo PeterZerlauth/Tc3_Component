@@ -38,7 +38,6 @@
     <Folder Include="Component\Observer" />
     <Folder Include="List" />
     <Folder Include="LoggerFactory" />
-    <Folder Include="Cycle" />
     <Folder Include="Logger" />
     <Folder Include="Module" />
     <Folder Include="System" />
@@ -88,12 +87,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Component\Observer\I_Observer.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Cycle\FB_Cycle.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Cycle\I_Cycle.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">

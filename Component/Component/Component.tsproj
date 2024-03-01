@@ -11,17 +11,17 @@
 			</EventId>
 		</DataType>
 	</DataTypes>
-	<Project ProjectGUID="{74E8F419-036C-4967-922D-C405C2CA94D5}" Target64Bit="true" ShowHideConfigurations="#x6">
+	<Project ProjectGUID="{74E8F419-036C-4967-922D-C405C2CA94D5}" TargetNetId="192.0.0.10.1.1" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
 			<Tasks>
-				<Task Id="4" Priority="20" CycleTime="10000000" AmsPort="350" AdtTasks="true">
+				<Task Id="4" Priority="20" CycleTime="10000" AmsPort="350" AdtTasks="true">
 					<Name>plcTask1</Name>
 				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Example" PrjFilePath="Example\Example.plcproj" TmcFilePath="Example\Example.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{89295231-8A4F-88E4-8DFA-1D83A2DC34EC}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{98F50AA3-28E2-6A71-0523-AA40CBAD29F7}">
 					<Name>Example Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -58,7 +58,7 @@
 								<OTCID>#x02010040</OTCID>
 							</ManualConfig>
 							<Priority>20</Priority>
-							<CycleTime>1000000000</CycleTime>
+							<CycleTime>1000000</CycleTime>
 						</Context>
 					</Contexts>
 					<InitSymbols>

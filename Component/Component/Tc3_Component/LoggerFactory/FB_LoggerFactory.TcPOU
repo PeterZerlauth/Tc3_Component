@@ -20,7 +20,11 @@ WHILE nIndex < nEvent DO
 		IF pEvent[nIndex].Timestamp = 0 THEN
 			RETURN;
 		ELSE
-			M_Remove(nIndex);
+			IF pEvent[nIndex].Active THEN
+				;
+			ELSE
+				M_Remove(nIndex);
+			END_IF
 		END_IF
 	END_IF
 	nIndex := nIndex + 1;
@@ -153,7 +157,10 @@ END_WHILE]]></ST>
       <LineId Id="37" Count="0" />
       <LineId Id="41" Count="0" />
       <LineId Id="52" Count="2" />
-      <LineId Id="56" Count="1" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="62" Count="1" />
+      <LineId Id="65" Count="1" />
+      <LineId Id="64" Count="0" />
       <LineId Id="55" Count="0" />
       <LineId Id="42" Count="0" />
       <LineId Id="33" Count="0" />
