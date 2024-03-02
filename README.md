@@ -9,6 +9,8 @@ A library for TwinCAT 3 which ist using design patterns to standardize machine c
 ## State Machine
 ![image description](docs/StateMachine.drawio.svg)
 
+## Class
+![image description](docs/Class.drawio.svg)
 
 ## Function Blocks
 - FB_Component 
