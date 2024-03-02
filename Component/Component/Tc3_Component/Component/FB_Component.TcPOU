@@ -9,20 +9,20 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbInfo:						FB_Info(sInstancePath);
-	fbObserver:					FB_Observer;
-	fbEvent:					FB_Event(THIS^);
+	fbInfo:						FB_Info(sInstancePath);	// Info about function block
+	fbObserver:					FB_Observer;			// Observer
+	fbEvent:					FB_Event(THIS^);		// Event creator
     {attribute 'hide'}
 	{attribute 'instance-path'} 
     {attribute 'noinit'}
     sInstancePath:				STRING(255);
 	
-	eStateRequest:				E_State;
+	eStateRequest:				E_State;				// Requested state
 	{attribute 'OPC.UA.DA' := '1'}
 	{ attribute 'TcHmiSymbol' }
-	eState:						E_State;
+	eState:						E_State;				// Current state
     {attribute 'hide'}
-	eStatePrevious:				E_State;
+	eStatePrevious:				E_State;				// Previous state
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -47,13 +47,14 @@ END_VAR
       </Implementation>
     </Method>
     <Method Name="M_Aborting" Id="{5420cd8c-8440-0133-17b0-cfc9fa3a226e}" FolderPath="States\Abort\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// State Aborting
-M_Aborting:= True;]]></ST>
+M_Aborting:= TRUE;
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Completed" Id="{47ba5a0a-8800-0f93-2645-874f5aa969a5}" FolderPath="States\Complete\">
@@ -66,7 +67,7 @@ END_VAR
       </Implementation>
     </Method>
     <Method Name="M_Completing" Id="{a6f0ed18-708c-02a1-0990-4f4a1b2b5a3a}" FolderPath="States\Complete\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL
+      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -329,6 +330,7 @@ END_CASE
 // Detect state changed
 IF eStatePrevious <> eState THEN
 	eStatePrevious:= eState;
+	// Notify with the observer about state changes
 	CASE eStateRequest OF	
 			E_State.Stopping:
 				fbObserver.M_Notify(E_Request.Stop);
@@ -350,11 +352,11 @@ IF eStatePrevious <> eState THEN
 
 	END_CASE
 END_IF
-eStateRequest:= eState;]]></ST>
+eStateRequest:= eState;		// Override old request]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Execute" Id="{0a26e879-26ba-0448-077b-265f6eb411a3}" FolderPath="States\Start\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -373,7 +375,7 @@ END_VAR
       </Implementation>
     </Method>
     <Method Name="M_Holding" Id="{0453e1ef-1254-097d-2836-c180f9c76437}" FolderPath="States\Hold\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Holding : BOOL
+      <Declaration><![CDATA[METHOD PROTECTED M_Holding : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -406,11 +408,12 @@ VAR_INPUT
 	eRequest:					E_Request;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Request(eRequest);]]></ST>
+        <ST><![CDATA[// Method will be called by the Observer
+M_Request(eRequest);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Paused" Id="{2c298a87-8477-08fb-1e4e-6f14369f8f00}" FolderPath="States\Pause\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Paused
+      <Declaration><![CDATA[METHOD PROTECTED M_Paused // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -435,7 +438,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE eRequest OF
+        <ST><![CDATA[// Request component states / Command Pattern
+CASE eRequest OF
 	E_Request.Undefined:
 		M_Request:= TRUE;
 		
@@ -472,7 +476,7 @@ END_CASE
       </Implementation>
     </Method>
     <Method Name="M_Resetting" Id="{9e5fa12d-dc9f-0271-3ab1-62fbd4e3c4cb}" FolderPath="States\Reset\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL
+      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -482,7 +486,7 @@ M_Resetting:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Resuming" Id="{811e0c52-9853-075c-3d1b-5e25fdee4124}" FolderPath="States\Pause\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Resuming : BOOL
+      <Declaration><![CDATA[METHOD PROTECTED M_Resuming : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -497,11 +501,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[// Will be called in all running states, for monitorings which not only in one state active]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Starting" Id="{7b4cc2a9-4be8-0ad5-3afd-3314d7249ec2}" FolderPath="States\Start\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -520,7 +524,7 @@ END_VAR
       </Implementation>
     </Method>
     <Method Name="M_Stopping" Id="{752f6f5c-84eb-0065-086e-87701d5b75a9}" FolderPath="States\Stop\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -530,7 +534,7 @@ M_Stopping:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Unholding" Id="{38e86df5-306b-0975-32bb-19e03b5147dc}" FolderPath="States\Hold\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Unholding : BOOL
+      <Declaration><![CDATA[METHOD PROTECTED M_Unholding : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -592,6 +596,7 @@ END_VAR
     <LineIds Name="FB_Component.M_Aborting">
       <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Completed">
       <LineId Id="9" Count="0" />
@@ -743,6 +748,7 @@ END_VAR
       <LineId Id="407" Count="0" />
       <LineId Id="212" Count="1" />
       <LineId Id="215" Count="0" />
+      <LineId Id="564" Count="0" />
       <LineId Id="514" Count="0" />
       <LineId Id="534" Count="0" />
       <LineId Id="533" Count="0" />
@@ -782,6 +788,7 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_OnNotify">
+      <LineId Id="76" Count="0" />
       <LineId Id="72" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Paused">
@@ -792,6 +799,7 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Request">
+      <LineId Id="117" Count="0" />
       <LineId Id="60" Count="2" />
       <LineId Id="100" Count="0" />
       <LineId Id="63" Count="1" />

@@ -11,7 +11,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[// Generic list would be great but that is a option]]></ST>
     </Implementation>
     <Method Name="FB_exit" Id="{631d45d4-7bd2-4174-87c5-b3e5345f712f}">
       <Declaration><![CDATA[METHOD FB_exit : BOOL

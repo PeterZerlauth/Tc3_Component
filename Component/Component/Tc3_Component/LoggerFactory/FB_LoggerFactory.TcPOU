@@ -18,7 +18,11 @@ VAR_OUTPUT
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[nIndex:= 0;
+      <ST><![CDATA[// Provide the Logging function to a module, and event buffer
+// Hmi anyway have to work with a static list :-(
+
+// Deactivate old events
+nIndex:= 0;
 WHILE nIndex < nEvent DO
 	IF pEvent[nIndex].Active AND pEvent[nIndex].EventType <> E_Event.Error THEN
 		pEvent[nIndex].Active:= FALSE;
@@ -60,7 +64,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbList.M_Add(Logger);]]></ST>
+        <ST><![CDATA[// Attach
+fbList.M_Add(Logger);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Dettach" Id="{693d57be-522c-4fd2-923e-e39bc4f52f84}">
@@ -70,7 +75,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbList.M_Remove(Logger);]]></ST>
+        <ST><![CDATA[// Attach
+fbList.M_Remove(Logger);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Find" Id="{57ee7645-77de-477e-aa71-8b5ff862f016}">
@@ -108,14 +114,18 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
+	// Update existing eventss
 	pEvent[nIndex].Active:= stEvent.Active;
 	pEvent[nIndex].Arguments:= stEvent.Arguments;
 ELSE
+	// add new event
 	pEvent[nLength]:= stEvent;
 	nLength:= nLength + 1;
+	// Publish new events to child loggers
 	M_Publish(stEvent);
 END_IF
 
+// set inforation about current events
 CASE stEvent.EventType OF
 	E_Event.Error:
 		IF stEvent.Command = 'Abort' THEN
@@ -145,7 +155,8 @@ VAR
 	nIndex: DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[nIndex:= 0;
+        <ST><![CDATA[// Publis new events
+nIndex:= 0;
 WHILE nIndex < fbList.nLength DO
 	fbList.M_Index(nIndex).M_Log(stEvent);
 	nIndex := nIndex + 1;
@@ -159,7 +170,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[MEMCPY(ADR(pEvent[Index]), ADR(pEvent[Index + 1]), SIZEOF(ST_Event) * (nEvent - nLength));
+        <ST><![CDATA[// Remove event
+MEMCPY(ADR(pEvent[Index]), ADR(pEvent[Index + 1]), SIZEOF(ST_Event) * (nEvent - nLength));
 nLength:= nLength - 1;]]></ST>
       </Implementation>
     </Method>
@@ -171,7 +183,8 @@ VAR
 	nIndex: DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[WHILE nIndex < nEvent DO
+        <ST><![CDATA[// Reset Errors
+WHILE nIndex < nEvent DO
 	IF pEvent[nIndex].EventType = E_Event.Error THEN
 		M_Remove(nIndex);
 	END_IF
@@ -183,6 +196,10 @@ bStop:= FALSE;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_LoggerFactory">
+      <LineId Id="106" Count="0" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="107" Count="0" />
       <LineId Id="58" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="37" Count="0" />
@@ -204,9 +221,11 @@ bStop:= FALSE;]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Attach">
+      <LineId Id="10" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Dettach">
+      <LineId Id="10" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Find">
@@ -219,11 +238,16 @@ bStop:= FALSE;]]></ST>
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Log">
       <LineId Id="33" Count="0" />
+      <LineId Id="92" Count="0" />
       <LineId Id="54" Count="0" />
-      <LineId Id="35" Count="2" />
+      <LineId Id="35" Count="1" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="37" Count="0" />
       <LineId Id="55" Count="0" />
+      <LineId Id="91" Count="0" />
       <LineId Id="39" Count="0" />
       <LineId Id="22" Count="0" />
+      <LineId Id="94" Count="0" />
       <LineId Id="64" Count="0" />
       <LineId Id="63" Count="0" />
       <LineId Id="65" Count="0" />
@@ -241,13 +265,16 @@ bStop:= FALSE;]]></ST>
       <LineId Id="70" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Publish">
+      <LineId Id="17" Count="0" />
       <LineId Id="7" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Remove">
+      <LineId Id="13" Count="0" />
       <LineId Id="7" Count="1" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Reset">
+      <LineId Id="26" Count="0" />
       <LineId Id="6" Count="1" />
       <LineId Id="10" Count="2" />
       <LineId Id="5" Count="0" />
