@@ -10,10 +10,10 @@ The goal is to code reliable Software in a short time.
     [x] Eventlogger
     
 ## State Machine
-![State Machine](docs/StateMachine.drawio.svg)
+![State Machine](docs/diagrams/StateMachine.drawio.svg)
 
 ## Class
-![Component](docs/Component.drawio.svg)
+![Component](docs/diagrams/Component.drawio.svg)
 
 ## Function Blocks
 - FB_Component
