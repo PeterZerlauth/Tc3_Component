@@ -10,9 +10,9 @@ have a lightwight and modular Framework.
     [x] Eventlogger
     
 ## State Machine
-![State Machine](docs/diagrams/StateMachine.drawio.svg)
+![State Machine](docs/StateMachine.drawio.svg)
 
 ## Class
-![Component](docs/diagrams/Component.drawio.svg)
+![Component](docs/Component.drawio.svg)
 
 ## Code 
