@@ -5,6 +5,7 @@ have a lightwight and modular Framework.
 
 ## Description
     [x] State Machine (ISA88/MTP)
+    [x] Command Pattern to change component states
     [x] Observer Pattern to Notify state changes
     [x] Event Funktion to build and log Events
     [x] Eventlogger
