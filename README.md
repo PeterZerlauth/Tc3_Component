@@ -1,5 +1,8 @@
 # Tc3_Component
 A library for TwinCAT 3 which ist using design patterns to standardize machine control software.
+The goal is to code reliable Software in a short time.
+
+
 ## Description
     [x] State Machine (ISA88/MTP)
     [x] Observer Pattern to Notify state changes
