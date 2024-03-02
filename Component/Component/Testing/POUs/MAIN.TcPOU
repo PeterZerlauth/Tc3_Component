@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{4321fa7e-09fb-4f02-847a-cf67275926df}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	bInitialise: 		BOOL:= True;
+	fbTestsuites:		FB_Testsuites;
+	fbTestsuite1:		FB_Testsuite;
+	
+	fbComponent:		FB_Component;
+	
+	bReset:			BOOL;
+	bStart: 		BOOL;
+    bHold:       	BOOL;
+    bPause:    		BOOL;
+	bStop:       	BOOL;
+    bAbort:      	BOOL;
+
+	bExecute: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF bInitialise THEN
+	bInitialise:= False;
+	fbTestsuites.M_Add(fbTestsuite1);
+	fbTestsuites.P_Options.sFilePathName:= 'C:\report.xml';
+	fbTestsuite1.P_Options.bAbortOnError:= FALSE;
+END_IF
+
+IF bExecute THEN
+	bExecute:= fbTestsuites.M_Request(E_Base.Execute);
+END_IF
+
+fbTestsuites();
+fbTestsuite1();
+
+fbComponent.M_Call();
+
+CASE fbTestsuite1.P_Testcase OF
+	
+	E_Testcase.Start:
+		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Reset), 'Reset');
+		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Idle, fbComponent.P_State, 'E_State.Idle');
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Reset)', '', 10);	
+	
+	10:	
+		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Start), 'Start');
+		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Execute, fbComponent.P_State, 'E_State.Execute');
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Start)', '', 20);
+		
+	20:
+		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Stop), 'Stop');
+		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Stopped, fbComponent.P_State, 'E_State.Stop');
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Stop)', '', 30);
+		
+	30:
+		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Reset), 'Reset');
+		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Idle, fbComponent.P_State, 'E_State.Idle');
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Reset)', '', 40);
+		
+	40:	
+		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Start), 'Start');
+		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Execute, fbComponent.P_State, 'E_State.Execute');
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Start)', '', 50);
+		
+	50:	
+		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Abort), 'Abort');
+		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Aborted, fbComponent.P_State, 'E_State.Aborted');
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Abort)', '', 60);
+		
+	60:
+		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Reset), 'Reset');
+		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Idle, fbComponent.P_State, 'E_State.Idle');
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Reset)', '', 70);
+		
+	70:	
+		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Start), 'Start');
+		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Execute, fbComponent.P_State, 'E_State.Execute');
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Start)', '', 80);	
+	
+	80:	
+		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Complete), 'Complete');
+		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Completed, fbComponent.P_State, 'E_State.Execute');
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Complete)', '', 90);		
+
+	90:
+		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Reset), 'Reset');
+		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Idle, fbComponent.P_State, 'E_State.Idle');
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Reset)', '', E_Testcase.Done);		
+		
+	E_Testcase.Done:;
+	
+END_CASE
+	]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="36" Count="0" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="44" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="47" Count="1" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="66" Count="1" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="68" Count="1" />
+      <LineId Id="72" Count="1" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="80" Count="2" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="93" Count="2" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="116" Count="2" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="122" Count="2" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="125" Count="3" />
+      <LineId Id="120" Count="1" />
+      <LineId Id="54" Count="2" />
+      <LineId Id="25" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
