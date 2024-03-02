@@ -13,15 +13,15 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="M_Call" Id="{3011bb02-ac52-0e83-1df7-8050a651d1e3}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Call
+    <Method Name="M_CylicCall" Id="{3011bb02-ac52-0e83-1df7-8050a651d1e3}">
+      <Declaration><![CDATA[METHOD PUBLIC M_CylicCall
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.M_Call();
+        <ST><![CDATA[SUPER^.M_CylicCall();
 
-fbComponent.M_Call();
+fbComponent.M_CylicCall();
 ]]></ST>
       </Implementation>
     </Method>
@@ -47,7 +47,7 @@ END_VAR
     <LineIds Name="FB_ComponentChild">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ComponentChild.M_Call">
+    <LineIds Name="FB_ComponentChild.M_CylicCall">
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="1" />
       <LineId Id="6" Count="0" />

@@ -30,14 +30,14 @@ Component.P_Observer.M_Attach(THIS^);
 fbObserver.M_Attach(Component);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Call" Id="{ba6e3712-faea-4bef-b491-24a585067e68}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Call
+    <Method Name="M_CylicCall" Id="{ba6e3712-faea-4bef-b491-24a585067e68}">
+      <Declaration><![CDATA[METHOD PUBLIC M_CylicCall
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[fbLoggerFactory();
-SUPER^.M_Call();]]></ST>
+SUPER^.M_CylicCall();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Dettach" Id="{a667402b-5023-09c1-34b6-30ca3f961f61}">
@@ -111,7 +111,7 @@ END_WHILE]]></ST>
       <LineId Id="7" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module.M_Call">
+    <LineIds Name="FB_Module.M_CylicCall">
       <LineId Id="11" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>

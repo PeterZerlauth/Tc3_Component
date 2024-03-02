@@ -15,7 +15,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbComponent.M_Call();
+      <ST><![CDATA[fbComponent.M_CylicCall();
 
 
 IF bReset THEN

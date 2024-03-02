@@ -56,8 +56,27 @@ END_VAR
 M_Aborting:= True;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Call" Id="{8157620c-1844-0b4a-092c-fe72147fa392}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Call
+    <Method Name="M_Completed" Id="{47ba5a0a-8800-0f93-2645-874f5aa969a5}" FolderPath="States\Complete\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completed
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Completing" Id="{a6f0ed18-708c-02a1-0990-4f4a1b2b5a3a}" FolderPath="States\Complete\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Completing
+M_Completing:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_CylicCall" Id="{8157620c-1844-0b4a-092c-fe72147fa392}">
+      <Declaration><![CDATA[METHOD PUBLIC M_CylicCall
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -334,25 +353,6 @@ END_IF
 eStateRequest:= eState;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Completed" Id="{47ba5a0a-8800-0f93-2645-874f5aa969a5}" FolderPath="States\Complete\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Completed
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Completing" Id="{a6f0ed18-708c-02a1-0990-4f4a1b2b5a3a}" FolderPath="States\Complete\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Completing
-M_Completing:= True;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Execute" Id="{0a26e879-26ba-0448-077b-265f6eb411a3}" FolderPath="States\Start\">
       <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL
 VAR_INPUT
@@ -593,7 +593,14 @@ END_VAR
       <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Component.M_Call">
+    <LineIds Name="FB_Component.M_Completed">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Completing">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_CylicCall">
       <LineId Id="6" Count="8" />
       <LineId Id="16" Count="1" />
       <LineId Id="547" Count="0" />
@@ -756,13 +763,6 @@ END_VAR
       <LineId Id="522" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="513" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Completed">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Completing">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Execute">
       <LineId Id="5" Count="0" />
