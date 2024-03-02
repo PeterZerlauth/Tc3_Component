@@ -8,11 +8,15 @@ have a lightwight and modular Framework.
     [x] Observer Pattern to Notify state changes
     [x] Event Funktion to build and log Events
     [x] Eventlogger
+    [ ] Sequence manager is in development
     
 ## State Machine
 ![State Machine](docs/StateMachine.drawio.svg)
 
 ## Class
 ![Component](docs/Component.drawio.svg)
+
+## Info
+Project is still under heavy development, and without any warenty
 
 ## Code 
