@@ -1,7 +1,7 @@
 # Tc3_Component
 A library for TwinCAT 3 which ist using design patterns to standardize machine control software.
-The goal is to code reliable Software in a short time.
-
+The goal are to code reliable Software in a short time,
+have a lightwight and modular Framework.
 
 ## Description
     [x] State Machine (ISA88/MTP)
@@ -14,11 +14,5 @@ The goal is to code reliable Software in a short time.
 
 ## Class
 ![Component](docs/diagrams/Component.drawio.svg)
-
-## Function Blocks
-- FB_Component
-- FB_Event
-- FB_Observer
-- FB_List
 
 ## Code 
