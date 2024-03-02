@@ -1,24 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="DigitalOutput" Id="{9c6c856c-bfc6-09b8-0205-5829241d18e2}" SpecialFunc="None">
+  <POU Name="FB_DigitalInput" Id="{8904ca26-c33a-0d5e-01bd-927c832f4cd0}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'no_explicit_call' := 'do not call this POU directly'} 
-FUNCTION_BLOCK DigitalOutput IMPLEMENTS I_DigitalChannel
+FUNCTION_BLOCK FB_DigitalInput IMPLEMENTS I_DigitalChannel
 VAR_INPUT
+	tDebounce:			TIME:= T#50MS;
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
     {attribute 'TcInitSymbol'}
-	ID:				STRING(25);
+	ID:				STRING(25);	// Equipment ID
 	Channel			AT%I*: BOOL;
+	fbDebounce:		FB_Debounce;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[fbDebounce(bInput:= Channel, tTime:= tDebounce);]]></ST>
     </Implementation>
-    <Property Name="P_ID" Id="{f50a731d-33e5-019b-0fc3-26d5f1374f48}">
+    <Property Name="P_ID" Id="{d2592e33-0c09-00ed-2a19-2a2ac1387854}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_ID : String(25)]]></Declaration>
-      <Get Name="Get" Id="{cfa231bf-ff32-0ded-1b81-f9ced6eebfc5}">
+      <Get Name="Get" Id="{db03f916-1db4-0ef0-2610-a102e9e38d81}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -27,9 +29,9 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="P_State" Id="{828aeade-e2eb-0b55-3817-3951b800d035}">
+    <Property Name="P_State" Id="{c3d8c2a3-d582-03a1-3305-487cd866c231}">
       <Declaration><![CDATA[PROPERTY P_State : EPlcMappingStatus]]></Declaration>
-      <Get Name="Get" Id="{3e020151-e801-097e-31b7-4a7cc9867898}">
+      <Get Name="Get" Id="{d84261ad-8c83-064f-0dc4-445397d3c6cc}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -38,39 +40,39 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="P_Value" Id="{696506a3-db60-0746-2f1d-1c14b42d34db}">
+    <Property Name="P_Value" Id="{eb10c2b4-f572-0e2d-2bec-edb3aca0020c}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Value : bool]]></Declaration>
-      <Get Name="Get" Id="{fde9f4b6-16df-028f-2ce8-9cfbd063a439}">
+      <Get Name="Get" Id="{0af5f71f-a62f-0bc9-1f1b-442ea0defb72}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_Value:= Channel;]]></ST>
+          <ST><![CDATA[P_Value:= fbDebounce.bValue;]]></ST>
         </Implementation>
       </Get>
-      <Set Name="Set" Id="{69af308d-96e0-0ca6-0d1c-c75ab3a009fc}">
+      <Set Name="Set" Id="{a5ae33fe-bcc6-09a5-0371-0da6975e192e}">
         <Declaration><![CDATA[PUBLIC 
 VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Channel:= P_Value;]]></ST>
+          <ST><![CDATA[]]></ST>
         </Implementation>
       </Set>
     </Property>
-    <LineIds Name="DigitalOutput">
-      <LineId Id="9" Count="0" />
+    <LineIds Name="FB_DigitalInput">
+      <LineId Id="47" Count="0" />
     </LineIds>
-    <LineIds Name="DigitalOutput.P_ID.Get">
+    <LineIds Name="FB_DigitalInput.P_ID.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="DigitalOutput.P_State.Get">
+    <LineIds Name="FB_DigitalInput.P_State.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="DigitalOutput.P_Value.Get">
+    <LineIds Name="FB_DigitalInput.P_Value.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="DigitalOutput.P_Value.Set">
+    <LineIds Name="FB_DigitalInput.P_Value.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

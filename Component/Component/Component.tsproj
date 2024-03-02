@@ -1,17 +1,6 @@
 <?xml version="1.0"?>
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.55">
-	<DataTypes>
-		<DataType>
-			<Name GUID="{5E64EF16-4D41-40C1-A2BB-4BD7E7151BAC}" PersistentType="true">NewEventClass</Name>
-			<DisplayName TxtId=""><![CDATA[NewEventClass_DisplayText]]></DisplayName>
-			<EventId>
-				<Name Id="1">Event</Name>
-				<DisplayName TxtId=""><![CDATA[Event_DisplayText]]></DisplayName>
-				<Severity>Verbose</Severity>
-			</EventId>
-		</DataType>
-	</DataTypes>
-	<Project ProjectGUID="{74E8F419-036C-4967-922D-C405C2CA94D5}" TargetNetId="192.0.0.10.1.1" Target64Bit="true" ShowHideConfigurations="#x6">
+	<Project ProjectGUID="{74E8F419-036C-4967-922D-C405C2CA94D5}" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
 			<Tasks>
 				<Task Id="4" Priority="20" CycleTime="10000" AmsPort="350" AdtTasks="true">
@@ -21,28 +10,9 @@
 		</System>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Example" PrjFilePath="Example\Example.plcproj" TmcFilePath="Example\Example.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{98F50AA3-28E2-6A71-0523-AA40CBAD29F7}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Example\Example.tmc" TmcHash="{B3CE9591-6214-CB63-74B1-937FC6CDB0BE}">
 					<Name>Example Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
-					<Vars VarGrpType="1">
-						<Name>plcTask1 Inputs</Name>
-						<Var>
-							<Name>M001.fbPowerOn.Channel</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>M001.fbEmStop.Channel</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>M001.fbFuse1.Channel</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>M001.fbSensor2.Channel</Name>
-							<Type>BOOL</Type>
-						</Var>
-					</Vars>
 					<UnrestoredVarLinks ImportTime="2024-02-26T09:08:31">
 						<OwnerA Name="InputDst" Prefix="TIPC^Example^Example Instance" Type="1">
 							<OwnerB Name="TIID^Device 1 (EtherCAT)">
@@ -61,32 +31,6 @@
 							<CycleTime>1000000</CycleTime>
 						</Context>
 					</Contexts>
-					<InitSymbols>
-						<InitSymbol>
-							<Name>M001.fbPowerOn.ID</Name>
-							<Type GUID="{18071995-0000-0000-0000-000100000019}">STRING(25)</Type>
-							<AreaNo>#x00000003</AreaNo>
-							<Data>0000000000000000000000000000000000000000000000000000</Data>
-						</InitSymbol>
-						<InitSymbol>
-							<Name>M001.fbEmStop.ID</Name>
-							<Type GUID="{18071995-0000-0000-0000-000100000019}">STRING(25)</Type>
-							<AreaNo>#x00000003</AreaNo>
-							<Data>0000000000000000000000000000000000000000000000000000</Data>
-						</InitSymbol>
-						<InitSymbol>
-							<Name>M001.fbFuse1.ID</Name>
-							<Type GUID="{18071995-0000-0000-0000-000100000019}">STRING(25)</Type>
-							<AreaNo>#x00000003</AreaNo>
-							<Data>0000000000000000000000000000000000000000000000000000</Data>
-						</InitSymbol>
-						<InitSymbol>
-							<Name>M001.fbSensor2.ID</Name>
-							<Type GUID="{18071995-0000-0000-0000-000100000019}">STRING(25)</Type>
-							<AreaNo>#x00000003</AreaNo>
-							<Data>0000000000000000000000000000000000000000000000000000</Data>
-						</InitSymbol>
-					</InitSymbols>
 					<TaskPouOids>
 						<TaskPouOid Prio="20" OTCID="#x08502002"/>
 					</TaskPouOids>

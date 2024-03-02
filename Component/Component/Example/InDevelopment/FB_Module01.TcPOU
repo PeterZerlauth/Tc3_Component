@@ -62,17 +62,17 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT M001.fbEmStop.P_Value THEN
-	fbEvent.M_AddSTRING(M001.fbEmStop.P_ID);
-	fbEvent.M_Abort('Emergency stop not ok', '');
-ELSIF NOT M001.fbPowerOn.P_Value THEN
-	fbEvent.M_AddSTRING(M001.fbPowerOn.P_ID);
-	fbEvent.M_Abort('Power not on', '');
-ELSIF NOT M001.fbFuse1.P_Value THEN
-	fbEvent.M_AddSTRING(M001.fbFuse1.P_ID);
-	fbEvent.M_Stop('Fuse Triped', '');	
+        <ST><![CDATA[//IF NOT M001.fbEmStop.P_Value THEN
+//	fbEvent.M_AddSTRING(M001.fbEmStop.P_ID);
+//	fbEvent.M_Abort('Emergency stop not ok', '');
+//ELSIF NOT M001.fbPowerOn.P_Value THEN
+//	fbEvent.M_AddSTRING(M001.fbPowerOn.P_ID);
+//	fbEvent.M_Abort('Power not on', '');
+//ELSIF NOT M001.fbFuse1.P_Value THEN
+//	fbEvent.M_AddSTRING(M001.fbFuse1.P_ID);
+//	fbEvent.M_Stop('Fuse Triped', '');	
 	
-END_IF]]></ST>
+//END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Module01">

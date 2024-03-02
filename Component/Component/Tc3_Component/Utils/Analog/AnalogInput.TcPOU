@@ -9,7 +9,7 @@ VAR_OUTPUT
 END_VAR
 VAR
     {attribute 'TcInitSymbol'}
-	ID:				STRING(25);
+	ID:				STRING(25);	// Equipment ID
 	Channel			AT%I*: INT;
 END_VAR
 ]]></Declaration>

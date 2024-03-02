@@ -122,6 +122,9 @@
     <Compile Include="Logger\FB_TcLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Logger\FB_StateLogger.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Module\FB_Module.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -143,16 +146,19 @@
     <Compile Include="Utils\Analog\I_AnalogChannel.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Utils\FB_Debounce.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Utils\File\FB_File.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utils\File\I_File.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utils\Digital\DigitalInput.TcPOU">
+    <Compile Include="Utils\Digital\FB_DigitalInput.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utils\Digital\DigitalOutput.TcPOU">
+    <Compile Include="Utils\Digital\FB_DigitalOutput.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utils\Digital\I_Channel.TcIO">

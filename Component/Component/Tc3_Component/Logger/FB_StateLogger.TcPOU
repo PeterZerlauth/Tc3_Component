@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_StateLogger" Id="{f96c5de2-5f35-067d-1150-42c81efb44d8}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_StateLogger IMPLEMENTS I_Logger
+VAR
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Log" Id="{f2b4e8fe-9036-054e-2b03-2a61e7ff6ae3}">
+      <Declaration><![CDATA[METHOD M_Log
+VAR_INPUT
+	stEvent	: 		ST_Event;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_StateLogger">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StateLogger.M_Log">
+      <LineId Id="58" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
