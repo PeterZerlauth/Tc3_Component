@@ -18,7 +18,8 @@ have a lightwight and modular Framework.
 ![Component](docs/Component.drawio.svg)
 
 ## Scrennshots
-![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/c76fec84-a895-453e-8060-1c2ba3dc2164)
+![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/c76fec84-a895-453e-8060-1c2ba3dc2164)![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/7a5a2122-6647-45bb-8364-690c8b8ac11d)
+
 
 ## Info
 Project is still under heavy development, and without any warenty!
