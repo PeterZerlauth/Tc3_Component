@@ -290,6 +290,7 @@ CASE eState OF
 		END_CASE
 		
 	E_State.Completed:
+		M_Running();
 		M_Completed();
 		CASE eStateRequest OF
 			
@@ -719,6 +720,7 @@ END_VAR
       <LineId Id="488" Count="5" />
       <LineId Id="486" Count="0" />
       <LineId Id="186" Count="1" />
+      <LineId Id="560" Count="0" />
       <LineId Id="201" Count="0" />
       <LineId Id="410" Count="0" />
       <LineId Id="538" Count="0" />
