@@ -7,6 +7,7 @@ A library for TwinCAT 3 which ist using design patterns to standardize machine c
     [x] Eventlogger
     
 ## State Machine
+![image description](docs/StateMachine.drawio.svg)
 
 
 ## Function Blocks
