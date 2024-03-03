@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-03-03T13:47:10.280Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0" etag="-lyZ5CX7tWhTEaU0IdEs" version="24.0.1" type="github" pages="3">
+<mxfile host="app.diagrams.net" modified="2024-03-03T13:49:04.597Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0" etag="4ro0hEwVKLv0F6ZzMJFw" version="24.0.1" type="github" pages="3">
   <diagram name="ISA88" id="58cdce13-f638-feb5-8d6f-7d28b1aa9fa0">
     <mxGraphModel dx="1434" dy="782" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="none" math="0" shadow="0">
       <root>
@@ -198,7 +198,7 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="-D4EB3z2NrV5Wu3oxCwW" name="Seite-2">
+  <diagram name="Observer" id="914L2Pp38VZ-iM2Vx1l2">
     <mxGraphModel dx="1434" dy="782" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -221,15 +221,15 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="Cp8jWJ2-r9EhzLEUpFo1" name="Seite-3">
+  <diagram name="Concept" id="hIiaKfXWYesgnnnfrlfd">
     <mxGraphModel dx="1434" dy="782" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="HTkEX30O9q5oVhzSK92n-1" value="Concept" style="swimlane;startSize=20;horizontal=1;containerType=tree;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" vertex="1" parent="1">
+        <mxCell id="HTkEX30O9q5oVhzSK92n-1" value="Concept" style="swimlane;startSize=20;horizontal=1;containerType=tree;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" parent="1" vertex="1">
           <mxGeometry x="230" y="150" width="680" height="220" as="geometry" />
         </mxCell>
-        <mxCell id="HTkEX30O9q5oVhzSK92n-10" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;endArrow=none;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="HTkEX30O9q5oVhzSK92n-1" source="HTkEX30O9q5oVhzSK92n-7">
+        <mxCell id="HTkEX30O9q5oVhzSK92n-10" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;endArrow=none;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="HTkEX30O9q5oVhzSK92n-1" source="HTkEX30O9q5oVhzSK92n-7" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="200" y="120" as="targetPoint" />
             <Array as="points">
@@ -237,27 +237,27 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="HTkEX30O9q5oVhzSK92n-7" value="FB_Cylinder" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" vertex="1" parent="HTkEX30O9q5oVhzSK92n-1">
+        <mxCell id="HTkEX30O9q5oVhzSK92n-7" value="FB_Cylinder" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" parent="HTkEX30O9q5oVhzSK92n-1" vertex="1">
           <mxGeometry x="290" y="140" width="100" height="60" as="geometry" />
         </mxCell>
         <UserObject label="FB_Component" treeRoot="1" id="HTkEX30O9q5oVhzSK92n-4">
-          <mxCell style="whiteSpace=wrap;html=1;align=center;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" vertex="1" parent="HTkEX30O9q5oVhzSK92n-1">
+          <mxCell style="whiteSpace=wrap;html=1;align=center;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" parent="HTkEX30O9q5oVhzSK92n-1" vertex="1">
             <mxGeometry x="280" y="40" width="120" height="60" as="geometry" />
           </mxCell>
         </UserObject>
-        <mxCell id="HTkEX30O9q5oVhzSK92n-3" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startArrow=none;endArrow=none;rounded=0;curved=0;" edge="1" parent="HTkEX30O9q5oVhzSK92n-1" source="HTkEX30O9q5oVhzSK92n-4" target="HTkEX30O9q5oVhzSK92n-6">
+        <mxCell id="HTkEX30O9q5oVhzSK92n-3" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startArrow=none;endArrow=none;rounded=0;curved=0;" parent="HTkEX30O9q5oVhzSK92n-1" source="HTkEX30O9q5oVhzSK92n-4" target="HTkEX30O9q5oVhzSK92n-6" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HTkEX30O9q5oVhzSK92n-6" value="FB_Cylinder" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" vertex="1" parent="HTkEX30O9q5oVhzSK92n-1">
+        <mxCell id="HTkEX30O9q5oVhzSK92n-6" value="FB_Cylinder" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" parent="HTkEX30O9q5oVhzSK92n-1" vertex="1">
           <mxGeometry x="150" y="140" width="100" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="HTkEX30O9q5oVhzSK92n-2" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startArrow=none;endArrow=none;rounded=0;curved=0;" edge="1" parent="HTkEX30O9q5oVhzSK92n-1" source="HTkEX30O9q5oVhzSK92n-4" target="HTkEX30O9q5oVhzSK92n-5">
+        <mxCell id="HTkEX30O9q5oVhzSK92n-2" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startArrow=none;endArrow=none;rounded=0;curved=0;" parent="HTkEX30O9q5oVhzSK92n-1" source="HTkEX30O9q5oVhzSK92n-4" target="HTkEX30O9q5oVhzSK92n-5" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HTkEX30O9q5oVhzSK92n-5" value="FB_Axis" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" vertex="1" parent="HTkEX30O9q5oVhzSK92n-1">
+        <mxCell id="HTkEX30O9q5oVhzSK92n-5" value="FB_Axis" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" parent="HTkEX30O9q5oVhzSK92n-1" vertex="1">
           <mxGeometry x="10" y="140" width="100" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="HTkEX30O9q5oVhzSK92n-12" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;endArrow=none;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="HTkEX30O9q5oVhzSK92n-1" source="HTkEX30O9q5oVhzSK92n-11">
+        <mxCell id="HTkEX30O9q5oVhzSK92n-12" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;endArrow=none;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="HTkEX30O9q5oVhzSK92n-1" source="HTkEX30O9q5oVhzSK92n-11" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="270" y="120" as="targetPoint" />
             <Array as="points">
@@ -265,10 +265,10 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="HTkEX30O9q5oVhzSK92n-11" value="FB_Contactor" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" vertex="1" parent="HTkEX30O9q5oVhzSK92n-1">
+        <mxCell id="HTkEX30O9q5oVhzSK92n-11" value="FB_Contactor" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" parent="HTkEX30O9q5oVhzSK92n-1" vertex="1">
           <mxGeometry x="430" y="140" width="100" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="HTkEX30O9q5oVhzSK92n-14" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;endArrow=none;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="HTkEX30O9q5oVhzSK92n-1" source="HTkEX30O9q5oVhzSK92n-13">
+        <mxCell id="HTkEX30O9q5oVhzSK92n-14" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;endArrow=none;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="HTkEX30O9q5oVhzSK92n-1" source="HTkEX30O9q5oVhzSK92n-13" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="340" y="120" as="targetPoint" />
             <Array as="points">
@@ -276,7 +276,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="HTkEX30O9q5oVhzSK92n-13" value="FB_Motor" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" vertex="1" parent="HTkEX30O9q5oVhzSK92n-1">
+        <mxCell id="HTkEX30O9q5oVhzSK92n-13" value="FB_Motor" style="whiteSpace=wrap;html=1;align=center;verticalAlign=middle;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" parent="HTkEX30O9q5oVhzSK92n-1" vertex="1">
           <mxGeometry x="570" y="140" width="100" height="60" as="geometry" />
         </mxCell>
       </root>
