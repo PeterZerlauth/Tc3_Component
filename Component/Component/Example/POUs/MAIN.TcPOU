@@ -3,6 +3,7 @@
   <POU Name="MAIN" Id="{80fd576e-8bda-0001-19b1-22d89fc11873}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	fbEthercat:			FB_Ethercat;
 	fbComponent:		FB_Module01;
 	
 	bReset:			BOOL;
@@ -15,7 +16,8 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbComponent.M_CylicCall();
+      <ST><![CDATA[fbEthercat.M_Cylic();
+fbComponent.M_Cylic();
 
 
 IF bReset THEN
@@ -45,6 +47,7 @@ END_IF
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
+      <LineId Id="457" Count="0" />
       <LineId Id="417" Count="26" />
       <LineId Id="37" Count="0" />
     </LineIds>

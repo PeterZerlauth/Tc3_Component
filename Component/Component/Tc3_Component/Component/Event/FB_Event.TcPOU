@@ -54,6 +54,8 @@ stAbort.Active:= TRUE;
 iParent.M_Request(E_Request.Abort);
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stAbort);
+ELSE
+	F_Logger(stAbort);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -137,6 +139,8 @@ stDebug.Active:= TRUE;
 
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stDebug);
+ELSE
+	F_Logger(stDebug);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -161,6 +165,8 @@ stInformation.Active:= TRUE;
 
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stInformation);
+ELSE
+	F_Logger(stInformation);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -198,6 +204,8 @@ stStop.Active:= TRUE;
 iParent.M_Request(E_Request.Stop);
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stStop);
+ELSE
+	F_Logger(stStop);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -223,6 +231,8 @@ stStop.Active:= TRUE;
 iParent.M_Request(E_Request.Stop);
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stStop);
+ELSE
+	F_Logger(stStop);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -247,6 +257,8 @@ stWarning.Active:= TRUE;
 
 IF iLogger<> 0 THEN
 	iLogger.M_Log(stWarning);
+ELSE
+	F_Logger(stWarning);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -281,6 +293,7 @@ END_VAR
       <LineId Id="239" Count="1" />
       <LineId Id="210" Count="0" />
       <LineId Id="232" Count="1" />
+      <LineId Id="247" Count="1" />
       <LineId Id="231" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_AddBOOL">
@@ -308,13 +321,16 @@ END_VAR
       <LineId Id="41" Count="0" />
       <LineId Id="39" Count="1" />
       <LineId Id="33" Count="1" />
+      <LineId Id="46" Count="1" />
       <LineId Id="32" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Information">
       <LineId Id="11" Count="7" />
       <LineId Id="43" Count="0" />
       <LineId Id="41" Count="1" />
-      <LineId Id="33" Count="2" />
+      <LineId Id="33" Count="1" />
+      <LineId Id="49" Count="1" />
+      <LineId Id="35" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Reset">
       <LineId Id="5" Count="0" />
@@ -327,6 +343,7 @@ END_VAR
       <LineId Id="238" Count="1" />
       <LineId Id="210" Count="0" />
       <LineId Id="231" Count="1" />
+      <LineId Id="248" Count="1" />
       <LineId Id="224" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_StopCycle">
@@ -335,6 +352,7 @@ END_VAR
       <LineId Id="238" Count="1" />
       <LineId Id="210" Count="0" />
       <LineId Id="231" Count="1" />
+      <LineId Id="253" Count="1" />
       <LineId Id="224" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Warning">
@@ -343,6 +361,7 @@ END_VAR
       <LineId Id="56" Count="0" />
       <LineId Id="58" Count="0" />
       <LineId Id="49" Count="1" />
+      <LineId Id="64" Count="1" />
       <LineId Id="48" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.P_Logger.Get">

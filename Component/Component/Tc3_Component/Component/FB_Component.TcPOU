@@ -76,8 +76,8 @@ END_VAR
 M_Completing:= True;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_CylicCall" Id="{8157620c-1844-0b4a-092c-fe72147fa392}">
-      <Declaration><![CDATA[METHOD PUBLIC M_CylicCall
+    <Method Name="M_Cylic" Id="{8157620c-1844-0b4a-092c-fe72147fa392}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Cylic
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -605,7 +605,7 @@ END_VAR
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Component.M_CylicCall">
+    <LineIds Name="FB_Component.M_Cylic">
       <LineId Id="6" Count="8" />
       <LineId Id="16" Count="1" />
       <LineId Id="547" Count="0" />

@@ -16,18 +16,18 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="M_CylicCall" Id="{655447dc-389e-494a-be91-78d8a111b7aa}">
-      <Declaration><![CDATA[METHOD PUBLIC M_CylicCall
+    <Method Name="M_Cylic" Id="{655447dc-389e-494a-be91-78d8a111b7aa}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Cylic
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.M_CylicCall();
+        <ST><![CDATA[SUPER^.M_Cylic();
 
-fbComponent1.M_CylicCall();
-fbComponent2.M_CylicCall();
-fbComponent3.M_CylicCall();
-fbComponent4.M_CylicCall();
+fbComponent1.M_Cylic();
+fbComponent2.M_Cylic();
+fbComponent3.M_Cylic();
+fbComponent4.M_Cylic();
 ]]></ST>
       </Implementation>
     </Method>
@@ -78,7 +78,7 @@ END_VAR
     <LineIds Name="FB_Module01">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module01.M_CylicCall">
+    <LineIds Name="FB_Module01.M_Cylic">
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="4" />
       <LineId Id="6" Count="0" />

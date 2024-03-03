@@ -133,6 +133,10 @@
     <Compile Include="Sequence\I_Sequence.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GLV.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
     <Compile Include="Utils\Analog\AnalogInput.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -161,6 +165,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utils\Digital\I_DigitalChannel.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\F_Logger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utils\NetID\AdsAdrress.TcPOU">

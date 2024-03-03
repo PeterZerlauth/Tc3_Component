@@ -9,54 +9,124 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	sNetId:						T_AmsNetID;
 	fbGetMasterState: 			FB_EcGetMasterDevState;
 	fbMasterFrameStatistic:		FB_EcMasterFrameStatistic;
 	fbGetSlaveStates:			FB_EcGetAllSlaveStates;
-	pSlaveState:				POINTER TO Tc2_EtherCAT.ST_EcSlaveState;
+	fbGetConfSlaves: 			FB_EcGetConfSlaves;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="M_Call" Id="{5844d1aa-3ea0-0990-1f38-2a22743f5d8b}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Call
+    <Method Name="FB_exit" Id="{32b88d2f-9681-0500-1b45-7ff197d7c043}">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
+VAR_INPUT
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbGetSlaveStates.pStateBuf <> 0 THEN
+	__DELETE(fbGetSlaveStates.pStateBuf);
+END_IF
+IF fbGetConfSlaves.pArrEcConfSlaveInfo <> 0 THEN
+	__DELETE(fbGetConfSlaves.pArrEcConfSlaveInfo);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Execute" Id="{2ba98b6e-4256-0860-0cd0-bd9578cd5e7c}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.M_Call();
-
-fbGetMasterState(sNetId:= F_CreateAmsNetId(NetId));
-
-fbMasterFrameStatistic(sNetId:= F_CreateAmsNetId(NetId));
-
-
-IF pSlaveState = 0 THEN
-		pSlaveState:= __NEW(BYTE, (SIZEOF(Tc2_EtherCAT.ST_EcSlaveState) * Slaves));
+        <ST><![CDATA[fbGetMasterState(bExecute:= NOT fbGetMasterState.bBusy);
+IF fbGetMasterState.bError THEN
+	fbEvent.M_Abort('Ethercat master state', '');
 END_IF
 
-fbGetSlaveStates(	sNetId:= F_CreateAmsNetId(NetId), 
-					pStateBuf:= pSlaveState, 
-					cbBufLen:= Slaves * SIZEOF(Tc2_EtherCAT.ST_EcSlaveState));
-]]></ST>
+
+
+fbMasterFrameStatistic(bExecute:= NOT fbMasterFrameStatistic.bBusy);
+
+fbGetSlaveStates(bExecute:= NOT fbGetSlaveStates.bBusy);
+
+
+
+fbGetConfSlaves(bExecute:= TRUE);
+
+M_Execute:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Starting" Id="{429ce4f6-d8ad-000d-1883-5a642980062d}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[sNetId:= F_CreateAmsNetId(NetId);
+
+fbGetMasterState.sNetId:= sNetId;
+
+fbMasterFrameStatistic.sNetId:= sNetId;
+
+fbGetSlaveStates.sNetId:= sNetId;
+IF fbGetSlaveStates.pStateBuf = 0 THEN
+	fbGetSlaveStates.pStateBuf:= __NEW(BYTE, (SIZEOF(Tc2_EtherCAT.ST_EcSlaveState) * Slaves)); 
+	fbGetSlaveStates.cbBufLen:= Slaves * SIZEOF(Tc2_EtherCAT.ST_EcSlaveState);
+END_IF
+
+fbGetConfSlaves.sNetId:= sNetId;
+IF fbGetConfSlaves.pArrEcConfSlaveInfo = 0 THEN
+	fbGetConfSlaves.pArrEcConfSlaveInfo:=  __NEW(BYTE, (SIZEOF(Tc2_EtherCAT.ST_EcSlaveConfigData) * Slaves));
+	fbGetConfSlaves.cbBufLen:= Slaves * SIZEOF(Tc2_EtherCAT.ST_EcSlaveConfigData);
+END_IF
+
+
+M_Starting:= TRUE;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Ethercat">
-      <LineId Id="32" Count="0" />
       <LineId Id="53" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Ethercat.M_Call">
-      <LineId Id="7" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="32" Count="0" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="13" Count="3" />
-      <LineId Id="19" Count="1" />
-      <LineId Id="22" Count="1" />
+    <LineIds Name="FB_Ethercat.FB_exit">
+      <LineId Id="6" Count="2" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Ethercat.M_Execute">
       <LineId Id="6" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="19" Count="1" />
+      <LineId Id="17" Count="1" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Ethercat.M_Starting">
+      <LineId Id="7" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="31" Count="1" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="29" Count="1" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
