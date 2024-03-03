@@ -40,7 +40,6 @@
     <Folder Include="LoggerFactory" />
     <Folder Include="Logger" />
     <Folder Include="Module" />
-    <Folder Include="System" />
     <Folder Include="Utils" />
     <Folder Include="Object" />
     <Folder Include="Sequence" />
@@ -120,9 +119,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\FB_TcLogger.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Logger\FB_ModulLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Module\FB_Module.TcPOU">

@@ -10,7 +10,6 @@ VAR
 	aEvent:						ARRAY [0..nEvent] OF ST_Event;	
 	fbLoggerFactory:			FB_LoggerFactory(ADR(aEvent), nEvent);
 	fbTcLogger:					FB_TcLogger;
-	fbModuleState:				FB_ModulLogger;
 END_VAR
 VAR CONSTANT
     {attribute 'hide'}
@@ -39,6 +38,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[fbLoggerFactory();
+
 SUPER^.M_CylicCall();]]></ST>
       </Implementation>
     </Method>
@@ -115,6 +115,7 @@ END_WHILE]]></ST>
     </LineIds>
     <LineIds Name="FB_Module.M_CylicCall">
       <LineId Id="11" Count="0" />
+      <LineId Id="16" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module.M_Dettach">
