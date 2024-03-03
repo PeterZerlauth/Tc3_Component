@@ -10,6 +10,10 @@ have a lightwight and modular Framework.
     [x] Event Funktion to build and log Events
     [x] Eventlogger
     [ ] Sequence manager is in development
+    [ ] Ethercat Observer
+    [ ] Device Function Blocks
+    [ ] Axis Function Blocks
+    
     
 ## State Machine
 ![State Machine](docs/StateMachine.drawio.svg)
