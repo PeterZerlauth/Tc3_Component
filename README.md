@@ -2,7 +2,7 @@
 A library for TwinCAT 3 which ist using design patterns to standardize machine control software.
 The goal are to code reliable Software in a short time,
 have a lightwight and modular Framework.
-Inspired by the [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Libraries)
+Inspired by the [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Libraries) but with a different concept.
 
 
 ## Description
