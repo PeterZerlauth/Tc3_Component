@@ -15,6 +15,8 @@ STRUCT
 	Command:		STRING(255);
     {attribute 'hide'}
 	Active:			BOOL;
+    {attribute 'hide'}
+	New:			BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

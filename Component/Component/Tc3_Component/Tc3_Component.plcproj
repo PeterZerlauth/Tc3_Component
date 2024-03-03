@@ -122,6 +122,9 @@
     <Compile Include="Logger\FB_TcLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Logger\FB_ModulLogger.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Module\FB_Module.TcPOU">
       <SubType>Code</SubType>
     </Compile>

@@ -11,10 +11,6 @@ VAR
 	fbList:						FB_ListLogger;
 END_VAR
 VAR_OUTPUT
-	bAbort:						BOOL;
-	bStop:						BOOL;
-	bWarning:					BOOL;
-	bInformation:				BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -38,10 +34,7 @@ WHILE nIndex < nEvent DO
 		END_IF
 	END_IF
 	nIndex := nIndex + 1;
-END_WHILE
-
-bWarning:= FALSE;
-bInformation:= FALSE;]]></ST>
+END_WHILE]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{6df5be79-0a0c-0d2a-0a65-cf7790a42dfd}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
@@ -117,32 +110,15 @@ END_VAR
 	// Update existing eventss
 	pEvent[nIndex].Active:= stEvent.Active;
 	pEvent[nIndex].Arguments:= stEvent.Arguments;
+	pEvent[nIndex].New:= FALSE;
 ELSE
 	// add new event
+	stEvent.New:= TRUE;
 	pEvent[nLength]:= stEvent;
 	nLength:= nLength + 1;
-	// Publish new events to child loggers
-	M_Publish(stEvent);
 END_IF
 
-// set inforation about current events
-CASE stEvent.EventType OF
-	E_Event.Error:
-		IF stEvent.Command = 'Abort' THEN
-			bAbort:= TRUE;		
-		ELSIF stEvent.Command = 'Stop' THEN
-			bStop:= TRUE;
-		ELSIF stEvent.Command = 'StopCycle' THEN
-			bStop:= TRUE;
-		END_IF
-
-	E_Event.Warning:
-        bWarning:= TRUE;
-		
-	E_Event.Information:
-		bInformation:= TRUE;
-		
-END_CASE
+M_Publish(stEvent);
 ]]></ST>
       </Implementation>
     </Method>
@@ -171,7 +147,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Remove event
-MEMCPY(ADR(pEvent[Index]), ADR(pEvent[Index + 1]), SIZEOF(ST_Event) * (nEvent - nLength));
+MEMCPY(ADR(pEvent[Index]), ADR(pEvent[Index + 1]), SIZEOF(ST_Event) * DINT_TO_UDINT(nEvent - nLength));
 nLength:= nLength - 1;]]></ST>
       </Implementation>
     </Method>
@@ -189,10 +165,7 @@ WHILE nIndex < nEvent DO
 		M_Remove(nIndex);
 	END_IF
 	nIndex := nIndex + 1;
-END_WHILE
-
-bAbort:= FALSE;
-bStop:= FALSE;]]></ST>
+END_WHILE]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_LoggerFactory">
@@ -213,8 +186,6 @@ bStop:= FALSE;]]></ST>
       <LineId Id="42" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="2" Count="0" />
-      <LineId Id="89" Count="1" />
-      <LineId Id="86" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.FB_init">
       <LineId Id="7" Count="0" />
@@ -240,28 +211,16 @@ bStop:= FALSE;]]></ST>
       <LineId Id="33" Count="0" />
       <LineId Id="92" Count="0" />
       <LineId Id="54" Count="0" />
-      <LineId Id="35" Count="1" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="36" Count="0" />
       <LineId Id="93" Count="0" />
+      <LineId Id="103" Count="0" />
       <LineId Id="37" Count="0" />
       <LineId Id="55" Count="0" />
-      <LineId Id="91" Count="0" />
-      <LineId Id="39" Count="0" />
       <LineId Id="22" Count="0" />
-      <LineId Id="94" Count="0" />
-      <LineId Id="64" Count="0" />
-      <LineId Id="63" Count="0" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="77" Count="1" />
-      <LineId Id="80" Count="3" />
-      <LineId Id="79" Count="0" />
-      <LineId Id="76" Count="0" />
-      <LineId Id="72" Count="0" />
-      <LineId Id="67" Count="0" />
-      <LineId Id="75" Count="0" />
-      <LineId Id="73" Count="0" />
-      <LineId Id="71" Count="0" />
-      <LineId Id="74" Count="0" />
-      <LineId Id="66" Count="0" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="105" Count="0" />
       <LineId Id="70" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Publish">
@@ -278,9 +237,6 @@ bStop:= FALSE;]]></ST>
       <LineId Id="6" Count="1" />
       <LineId Id="10" Count="2" />
       <LineId Id="5" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="18" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_ModulLogger" Id="{a5a249cb-e1f2-07f1-0e3a-a919b5fec1ea}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ModulLogger IMPLEMENTS I_Logger
+VAR
+	bAbort:						BOOL;
+	bStop:						BOOL;
+	bWarning:					BOOL;
+	bInformation:				BOOL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Log events to the Module]]></ST>
+    </Implementation>
+    <Method Name="M_Log" Id="{c003c572-188f-0727-0077-a74f5cfa4b92}">
+      <Declaration><![CDATA[METHOD M_Log
+VAR_INPUT
+	stEvent	: 		ST_Event;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF stEvent.New THEN
+	CASE stEvent.EventType OF
+		E_Event.Error:
+			IF stEvent.Command = 'Abort' THEN
+				bAbort:= TRUE;		
+			ELSIF stEvent.Command = 'Stop' THEN
+				bStop:= TRUE;
+			ELSIF stEvent.Command = 'StopCycle' THEN
+				bStop:= TRUE;
+			END_IF
+	
+		E_Event.Warning:
+			bWarning:= TRUE;
+			
+		E_Event.Information:
+			bInformation:= TRUE;
+			
+	END_CASE
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_ModulLogger">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ModulLogger.M_Log">
+      <LineId Id="88" Count="16" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="105" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
