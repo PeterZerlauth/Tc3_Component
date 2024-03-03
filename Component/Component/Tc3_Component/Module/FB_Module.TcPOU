@@ -10,8 +10,10 @@ VAR
 	aEvent:						ARRAY [0..nEvent] OF ST_Event;	
 	fbLoggerFactory:			FB_LoggerFactory(ADR(aEvent), nEvent);
 	fbTcLogger:					FB_TcLogger;
+	fbModuleState:				FB_ModulLogger;
 END_VAR
 VAR CONSTANT
+    {attribute 'hide'}
 	nEvent:						INT:= 49;
 END_VAR
 					]]></Declaration>

@@ -2,7 +2,7 @@
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_ModulLogger" Id="{a5a249cb-e1f2-07f1-0e3a-a919b5fec1ea}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_ModulLogger IMPLEMENTS I_Logger
-VAR
+VAR_OUTPUT
 	bAbort:						BOOL;
 	bStop:						BOOL;
 	bWarning:					BOOL;
