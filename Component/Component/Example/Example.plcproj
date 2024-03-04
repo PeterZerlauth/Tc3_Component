@@ -51,7 +51,7 @@
     <Compile Include="InDevelopment\FB_ModuleLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="plcTask1.TcTTO">
+    <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\MAIN.TcPOU">

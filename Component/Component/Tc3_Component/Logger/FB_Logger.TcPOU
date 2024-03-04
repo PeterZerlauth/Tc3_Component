@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Logger" Id="{fb5455a5-e586-0fd4-077b-db0d98b1bf6a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Logger IMPLEMENTS I_Logger
+VAR
+	aBuffer:						ARRAY [0..10] OF ST_Event;	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Log" Id="{ded8bd8b-e082-0d48-00e9-c6552e562740}">
+      <Declaration><![CDATA[METHOD M_Log
+VAR_INPUT
+	stEvent	: 		ST_Event;
+END_VAR
+
+VAR
+	sMessage:			STRING(255);
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Some fliter needed
+//IF stEvent.New THEN
+	sMessage:= Concat(Concat(stEvent.Instance, ' | Logger = 0 | '), stEvent.Message);
+	CASE stEvent.EventType OF
+		E_Event.Error:
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := sMessage, strArg := '');
+		E_Event.Warning:
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_WARN , msgFmtStr := sMessage, strArg := '');
+		E_Event.Information:
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := sMessage, strArg := '');
+		E_Event.Debug:
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT, msgFmtStr := sMessage, strArg := '');
+		E_Event.Verbose:
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := sMessage, strArg := '');
+	END_CASE
+//END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Logger">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Logger.M_Log">
+      <LineId Id="124" Count="0" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="110" Count="11" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="123" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

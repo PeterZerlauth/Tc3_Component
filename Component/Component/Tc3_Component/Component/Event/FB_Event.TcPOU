@@ -12,11 +12,11 @@ VAR
 	iLogger:			I_Logger;
 	stAbort:			ST_Event;
 	stStop:				ST_Event;	
+	stComplete:			ST_Event;
 	stWarning:			ST_Event;
 	stInformation:		ST_Event;
 	stDebug:			ST_Event;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
@@ -55,7 +55,7 @@ iParent.M_Request(E_Request.Abort);
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stAbort);
 ELSE
-	F_Logger(stAbort);
+	fbLogger.M_Log(stAbort);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -119,6 +119,33 @@ END_WHILE
 fbList.M_Clear();]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Complete" Id="{2670afd0-b3e6-08da-2c9f-30a65f88768a}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Complete : BOOL
+VAR_INPUT
+	Message:				STRING(255);
+	ID:						ID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stComplete.Source:= iParent;
+stComplete.Instance:= iParent.P_Info.P_Instance;
+stComplete.Class:= iParent.P_Info.P_Class;
+stComplete.EventType:= E_Event.Error;
+stComplete.Timestamp:= F_GetSystemTime();
+stComplete.ID:= ID;
+stComplete.Message:= Message;
+stComplete.Arguments:= M_Arguments();
+stComplete.Command:= 'Complete';
+stComplete.Active:= TRUE;
+
+iParent.M_Request(E_Request.Complete);
+IF iLogger <> 0 THEN
+	iLogger.M_Log(stComplete);
+ELSE
+	fbLogger.M_Log(stComplete);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Debug" Id="{0a2b992b-2a4a-0251-0210-713b326debf6}">
       <Declaration><![CDATA[METHOD PUBLIC M_Debug : BOOL
 VAR_INPUT
@@ -140,7 +167,7 @@ stDebug.Active:= TRUE;
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stDebug);
 ELSE
-	F_Logger(stDebug);
+	fbLogger.M_Log(stDebug);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -166,7 +193,7 @@ stInformation.Active:= TRUE;
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stInformation);
 ELSE
-	F_Logger(stInformation);
+	fbLogger.M_Log(stInformation);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -177,6 +204,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Memset(ADR(stAbort), 0, SIZEOF(stAbort));
+Memset(ADR(stStop), 0, SIZEOF(stStop));
+Memset(ADR(stComplete), 0, SIZEOF(stComplete));
 Memset(ADR(stWarning), 0, SIZEOF(stWarning));
 Memset(ADR(stInformation), 0, SIZEOF(stInformation));
 Memset(ADR(stDebug), 0, SIZEOF(stDebug));]]></ST>
@@ -205,34 +234,7 @@ iParent.M_Request(E_Request.Stop);
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stStop);
 ELSE
-	F_Logger(stStop);
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_StopCycle" Id="{2670afd0-b3e6-08da-2c9f-30a65f88768a}">
-      <Declaration><![CDATA[METHOD PUBLIC M_StopCycle : BOOL
-VAR_INPUT
-	Message:				STRING(255);
-	ID:						ID;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[stStop.Source:= iParent;
-stStop.Instance:= iParent.P_Info.P_Instance;
-stStop.Class:= iParent.P_Info.P_Class;
-stStop.EventType:= E_Event.Error;
-stStop.Timestamp:= F_GetSystemTime();
-stStop.ID:= ID;
-stStop.Message:= Message;
-stStop.Arguments:= M_Arguments();
-stStop.Command:= 'StopCycle';
-stStop.Active:= TRUE;
-
-iParent.M_Request(E_Request.Stop);
-IF iLogger <> 0 THEN
-	iLogger.M_Log(stStop);
-ELSE
-	F_Logger(stStop);
+	fbLogger.M_Log(stStop);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -258,7 +260,7 @@ stWarning.Active:= TRUE;
 IF iLogger<> 0 THEN
 	iLogger.M_Log(stWarning);
 ELSE
-	F_Logger(stWarning);
+	fbLogger.M_Log(stWarning);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -316,6 +318,15 @@ END_VAR
       <LineId Id="19" Count="0" />
       <LineId Id="18" Count="0" />
     </LineIds>
+    <LineIds Name="FB_Event.M_Complete">
+      <LineId Id="197" Count="7" />
+      <LineId Id="246" Count="0" />
+      <LineId Id="238" Count="1" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="231" Count="1" />
+      <LineId Id="253" Count="1" />
+      <LineId Id="224" Count="0" />
+    </LineIds>
     <LineIds Name="FB_Event.M_Debug">
       <LineId Id="10" Count="7" />
       <LineId Id="41" Count="0" />
@@ -334,6 +345,7 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Event.M_Reset">
       <LineId Id="5" Count="0" />
+      <LineId Id="20" Count="1" />
       <LineId Id="10" Count="0" />
       <LineId Id="15" Count="1" />
     </LineIds>
@@ -344,15 +356,6 @@ END_VAR
       <LineId Id="210" Count="0" />
       <LineId Id="231" Count="1" />
       <LineId Id="248" Count="1" />
-      <LineId Id="224" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Event.M_StopCycle">
-      <LineId Id="197" Count="7" />
-      <LineId Id="246" Count="0" />
-      <LineId Id="238" Count="1" />
-      <LineId Id="210" Count="0" />
-      <LineId Id="231" Count="1" />
-      <LineId Id="253" Count="1" />
       <LineId Id="224" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Warning">
