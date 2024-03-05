@@ -10,24 +10,21 @@ VAR
 	fbComponent1:				FB_Component;
 	fbComponent2:				FB_Component;
 	fbComponent3:				FB_ComponentEx;
-	fbComponent4:				FB_ComponentChild;
-END_VAR
-					]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="M_Cylic" Id="{655447dc-389e-494a-be91-78d8a111b7aa}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cylic
+    <Method Name="M_Cycle" Id="{655447dc-389e-494a-be91-78d8a111b7aa}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.M_Cylic();
+        <ST><![CDATA[SUPER^.M_Cycle();
 
-fbComponent1.M_Cylic();
-fbComponent2.M_Cylic();
-fbComponent3.M_Cylic();
-fbComponent4.M_Cylic();
+fbComponent1.M_Cycle();
+fbComponent2.M_Cycle();
+fbComponent3.M_Cycle();
 ]]></ST>
       </Implementation>
     </Method>
@@ -37,7 +34,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Execute:= SUPER^.M_Execute();
+        <ST><![CDATA[M_Execute:= SUPER^.M_Execute() AND FALSE;
 
 //fbEvent.M_Warning('My first Warning', '' );	
 fbEvent.M_Warning('My secound Warning', '' );	]]></ST>
@@ -52,8 +49,7 @@ END_VAR
         <ST><![CDATA[SUPER^.M_Initialise();
 M_Attach(fbComponent1);
 M_Attach(fbComponent2);
-M_Attach(fbComponent3);
-M_Attach(fbComponent4);]]></ST>
+M_Attach(fbComponent3);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{eaffebca-5ff2-4f17-be84-3310a9ace22e}">
@@ -78,9 +74,9 @@ END_VAR
     <LineIds Name="FB_Module01">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module01.M_Cylic">
+    <LineIds Name="FB_Module01.M_Cycle">
       <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="4" />
+      <LineId Id="8" Count="3" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Execute">
@@ -93,7 +89,7 @@ END_VAR
       <LineId Id="24" Count="0" />
       <LineId Id="66" Count="0" />
       <LineId Id="42" Count="0" />
-      <LineId Id="100" Count="1" />
+      <LineId Id="100" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Running">
       <LineId Id="38" Count="0" />

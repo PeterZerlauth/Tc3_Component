@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <GVL Name="GLV" Id="{470c2b31-7e29-075f-0fd9-081ad8199996}">
+  <GVL Name="Globals" Id="{470c2b31-7e29-075f-0fd9-081ad8199996}">
     <Declaration><![CDATA[VAR_GLOBAL
 	    {attribute 'hide'}
 		fbLogger:			FB_Logger;

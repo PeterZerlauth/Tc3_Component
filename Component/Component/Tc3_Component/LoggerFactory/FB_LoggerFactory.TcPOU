@@ -4,11 +4,11 @@
     <Declaration><![CDATA[{attribute 'no_explicit_call'} 
 FUNCTION_BLOCK FB_LoggerFactory IMPLEMENTS I_Logger
 VAR
+	fbList:						FB_ListLogger;
 	nIndex: 					DINT;
 	nEvent:						DINT;
 	nLength:					DINT;
 	pEvent:						POINTER TO ST_Event;	
-	fbList:						FB_ListLogger;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -76,12 +76,10 @@ fbList.M_Remove(Logger);]]></ST>
       <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
 VAR_INPUT
 	stEvent:	ST_Event;
-END_VAR
-VAR
-	nIndex: 					DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Find := -1;
+nIndex:= 0;
 WHILE nIndex < nEvent DO
 	IF (pEvent[nIndex].Source = stEvent.Source) AND_THEN
     	(pEvent[nIndex].EventType = stEvent.EventType) AND_THEN
@@ -100,11 +98,7 @@ END_WHILE
       <Declaration><![CDATA[METHOD PUBLIC M_Log
 VAR_INPUT
 	stEvent:		ST_Event;
-END_VAR
-VAR
-	nIndex: 					DINT;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
 	// Update existing eventss
@@ -126,14 +120,11 @@ M_Publish(stEvent);
       <Declaration><![CDATA[METHOD M_Publish
 VAR_INPUT
 	stEvent:	ST_Event;
-END_VAR
-VAR
-	nIndex: DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Publis new events
 nIndex:= 0;
-WHILE nIndex < fbList.nLength DO
+WHILE nIndex < fbList.P_Length DO
 	fbList.M_Index(nIndex).M_Log(stEvent);
 	nIndex := nIndex + 1;
 END_WHILE]]></ST>
@@ -154,12 +145,10 @@ nLength:= nLength - 1;]]></ST>
     <Method Name="M_Reset" Id="{9e416491-698f-0c93-2f87-8032ff6306d1}">
       <Declaration><![CDATA[METHOD PUBLIC M_Reset
 VAR_INPUT
-END_VAR
-VAR
-	nIndex: DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Reset Errors
+nIndex:= 0;
 WHILE nIndex < nEvent DO
 	IF pEvent[nIndex].EventType = E_Event.Error THEN
 		M_Remove(nIndex);
@@ -169,22 +158,7 @@ END_WHILE]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_LoggerFactory">
-      <LineId Id="106" Count="0" />
-      <LineId Id="109" Count="0" />
-      <LineId Id="108" Count="0" />
-      <LineId Id="107" Count="0" />
-      <LineId Id="58" Count="0" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="37" Count="0" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="52" Count="2" />
-      <LineId Id="56" Count="0" />
-      <LineId Id="62" Count="1" />
-      <LineId Id="65" Count="1" />
-      <LineId Id="64" Count="0" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="33" Count="0" />
+      <LineId Id="334" Count="19" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.FB_init">
@@ -200,32 +174,17 @@ END_WHILE]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Find">
-      <LineId Id="67" Count="1" />
-      <LineId Id="85" Count="0" />
-      <LineId Id="69" Count="0" />
-      <LineId Id="82" Count="2" />
-      <LineId Id="70" Count="4" />
+      <LineId Id="91" Count="12" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Log">
-      <LineId Id="33" Count="0" />
-      <LineId Id="92" Count="0" />
-      <LineId Id="54" Count="0" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="104" Count="0" />
-      <LineId Id="36" Count="0" />
-      <LineId Id="93" Count="0" />
-      <LineId Id="103" Count="0" />
-      <LineId Id="37" Count="0" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="107" Count="0" />
-      <LineId Id="105" Count="0" />
+      <LineId Id="112" Count="12" />
       <LineId Id="70" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Publish">
       <LineId Id="17" Count="0" />
-      <LineId Id="7" Count="3" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="8" Count="2" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Remove">
@@ -234,6 +193,7 @@ END_WHILE]]></ST>
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Reset">
       <LineId Id="26" Count="0" />
+      <LineId Id="30" Count="0" />
       <LineId Id="6" Count="1" />
       <LineId Id="10" Count="2" />
       <LineId Id="5" Count="0" />

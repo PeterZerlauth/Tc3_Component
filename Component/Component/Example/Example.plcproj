@@ -38,13 +38,6 @@
     <Compile Include="InDevelopment\FB_ComponentEX.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InDevelopment\FB_ComponentChild.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="InDevelopment\FB_JsonLogger.TcPOU">
-      <SubType>Code</SubType>
-      <ExcludeFromBuild>true</ExcludeFromBuild>
-    </Compile>
     <Compile Include="InDevelopment\FB_Module01.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -64,6 +57,7 @@
     <Folder Include="InDevelopment" />
     <Folder Include="InDevelopment\Axis" />
     <Folder Include="InDevelopment\Ethercat" />
+    <Folder Include="InDevelopment\PnozMulti" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>
@@ -90,6 +84,7 @@
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Component">
       <DefaultResolution>Tc3_Component, * (Zerlauth)</DefaultResolution>
+      <Namespace>Tc3_Component</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_JsonXml">
       <DefaultResolution>Tc3_JsonXml, * (Beckhoff Automation GmbH)</DefaultResolution>

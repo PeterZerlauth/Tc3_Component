@@ -16,8 +16,9 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbEthercat.M_Cylic();
-fbComponent.M_Cylic();
+      <ST><![CDATA[fbLogger();
+fbEthercat.M_Cycle();
+fbComponent.M_Cycle();
 
 
 IF bReset THEN
@@ -47,6 +48,7 @@ END_IF
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
+      <LineId Id="472" Count="0" />
       <LineId Id="457" Count="0" />
       <LineId Id="417" Count="26" />
       <LineId Id="37" Count="0" />

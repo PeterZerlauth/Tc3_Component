@@ -1,18 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="AnalogOutput" Id="{7f986a17-ab6d-03bd-1c98-a964e10e1b1e}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'no_explicit_call' := 'do not call this POU directly'} 
+    <Declaration><![CDATA[{attribute 'reflection'} 
 FUNCTION_BLOCK AnalogOutput IMPLEMENTS I_AnalogChannel
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-    {attribute 'TcInitSymbol'}
 	ID:				STRING(25);	// Equipment ID
-	Channel			AT%I*: INT;
-END_VAR
-]]></Declaration>
+	Channel			AT%Q*: INT;	// Link to input
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>

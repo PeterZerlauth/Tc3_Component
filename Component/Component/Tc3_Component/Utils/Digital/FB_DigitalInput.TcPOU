@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_DigitalInput" Id="{8904ca26-c33a-0d5e-01bd-927c832f4cd0}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'no_explicit_call' := 'do not call this POU directly'} 
+    <Declaration><![CDATA[{attribute 'reflection'} 
 FUNCTION_BLOCK FB_DigitalInput IMPLEMENTS I_DigitalChannel
 VAR_INPUT
 	tDebounce:			TIME:= T#50MS;
@@ -9,12 +9,11 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-    {attribute 'TcInitSymbol'}
+
 	ID:				STRING(25);	// Equipment ID
-	Channel			AT%I*: BOOL;
+	Channel			AT%I*: BOOL;	// Link to input
 	fbDebounce:		FB_Debounce;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[fbDebounce(bInput:= Channel, tTime:= tDebounce);]]></ST>
     </Implementation>

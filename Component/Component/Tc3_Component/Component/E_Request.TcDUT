@@ -13,10 +13,10 @@ TYPE E_Request :
     Pause       := 4,	
     Hold      	:= 8,
 	Complete	:= 16,	
-	Stop		:= 32,
-	Abort       := 64
+	StopCycle	:= 32,
+	Stop		:= 64,
+	Abort       := 128
 );
-END_TYPE
-]]></Declaration>
+END_TYPE]]></Declaration>
   </DUT>
 </TcPlcObject>

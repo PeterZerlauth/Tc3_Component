@@ -11,14 +11,6 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Complete" Id="{941c4bf1-5b90-0130-09bd-59407d728f49}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Complete : BOOL
-VAR_INPUT
-	Message:				STRING(255);
-	ID:						ID;
-END_VAR
-]]></Declaration>
-    </Method>
     <Method Name="M_Debug" Id="{de8efd53-16f5-0334-02e3-fdd0e4bf084c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Debug : BOOL
 VAR_INPUT
@@ -36,6 +28,14 @@ END_VAR
     </Method>
     <Method Name="M_Stop" Id="{afad8492-19cf-0779-1a83-3ea67e573ec9}">
       <Declaration><![CDATA[METHOD PUBLIC M_Stop : BOOL
+VAR_INPUT
+	Message:				STRING(255);
+	ID:						ID;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_StopCycle" Id="{941c4bf1-5b90-0130-09bd-59407d728f49}">
+      <Declaration><![CDATA[METHOD PUBLIC M_StopCycle : BOOL
 VAR_INPUT
 	Message:				STRING(255);
 	ID:						ID;

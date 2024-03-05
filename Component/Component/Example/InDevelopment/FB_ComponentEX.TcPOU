@@ -9,6 +9,7 @@ END_VAR
 VAR
 	bAbort:			BOOL;
 	bStop:			BOOL;
+	bStopCycle:		BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -37,7 +38,14 @@ IF bStop THEN
 	fbEvent.M_Stop('First Error Stop', 'b');
 END_IF
 
-M_Execute:= True;]]></ST>
+IF bStopCycle THEN
+	fbEvent.M_AddSTRING('Test');
+	fbEvent.M_AddSTRING('Test2');
+	fbEvent.M_AddSTRING('Test3');
+	fbEvent.M_StopCycle('First Error Complete', 'b');
+END_IF
+
+M_Execute:= NOT bStopCycle;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ComponentEX">
@@ -52,6 +60,9 @@ M_Execute:= True;]]></ST>
       <LineId Id="7" Count="0" />
       <LineId Id="21" Count="5" />
       <LineId Id="5" Count="0" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="39" Count="3" />
+      <LineId Id="35" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="30" Count="0" />
     </LineIds>

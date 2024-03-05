@@ -3,8 +3,8 @@
   <Itf Name="I_Component" Id="{84a5f8f6-b81b-4747-a25d-2c3abe61b573}">
     <Declaration><![CDATA[INTERFACE I_Component EXTENDS I_Object
 ]]></Declaration>
-    <Method Name="M_Cylic" Id="{427419d8-61f7-0788-36ef-f367cd14b183}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cylic
+    <Method Name="M_Cycle" Id="{427419d8-61f7-0788-36ef-f367cd14b183}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
 VAR_INPUT
 END_VAR
 ]]></Declaration>
