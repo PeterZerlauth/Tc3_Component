@@ -40,6 +40,7 @@
     <Folder Include="LoggerFactory" />
     <Folder Include="Logger" />
     <Folder Include="Module" />
+    <Folder Include="Dictonary" />
     <Folder Include="Utils" />
     <Folder Include="Object" />
     <Folder Include="Sequence" />
@@ -86,6 +87,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Component\Observer\I_Observer.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Dictonary\I_Dictionary.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">

@@ -3,6 +3,7 @@
   <POU Name="MAIN" Id="{80fd576e-8bda-0001-19b1-22d89fc11873}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	fbDictionary:		FB_Dictionary;
 	fbEthercat:			FB_Ethercat;
 	fbComponent:		FB_Module01;
 	
@@ -13,10 +14,17 @@ VAR
 	bStop:       	BOOL;
     bAbort:      	BOOL;
 
+	sValue: STRING(255);
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbLogger();
+      <ST><![CDATA[fbDictionary();
+
+fbDictionary.M_Add('Test', 'Value');
+
+sValue:= fbDictionary.M_GetSTRING('Test');
+
+fbLogger();
 fbEthercat.M_Cycle();
 fbComponent.M_Cycle();
 
@@ -48,6 +56,11 @@ END_IF
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
+      <LineId Id="487" Count="0" />
+      <LineId Id="491" Count="0" />
+      <LineId Id="490" Count="0" />
+      <LineId Id="492" Count="0" />
+      <LineId Id="488" Count="1" />
       <LineId Id="472" Count="0" />
       <LineId Id="457" Count="0" />
       <LineId Id="417" Count="26" />

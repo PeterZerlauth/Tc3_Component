@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_Dictionary" Id="{ca35913f-5cdc-0fb1-22b9-4c30741035cf}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Dictionary IMPLEMENTS I_Dictionary
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	bAdd:				BOOL;
+	bReset:				Bool;
+	bLoad:				BOOL;
+	bSave:				BOOL;
+	fbJson:				FB_JsonDomParser;
+  	json:				SJsonValue;
+
+	sJson: 				STRING(255);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF bReset THEN
+	bReset:= FALSE;
+	json:= fbJson.NewDocument();
+	bSave:= TRUE;
+END_IF
+
+IF bAdd THEN
+	IF fbJson.FindMember(json, 'member:Value1') = 0 THEN
+		fbJson.AddStringMember(json, 'member/Value1', 'Value');		
+	END_IF
+	IF fbJson.FindMember(json, 'member/Value2') = 0 THEN
+		fbJson.AddStringMember(json, 'member/Value2', 'Value');		
+	END_IF
+END_IF
+
+
+IF bLoad THEN
+	fbJson.LoadDocumentFromFile('C:\Test.json', bLoad);
+END_IF
+IF bSave THEN
+	fbJson.SaveDocumentToFile('C:\Test.json', bSave);
+END_IF
+
+fbJson.CopyDocument(sJson, SIZEOF(sJson));]]></ST>
+    </Implementation>
+    <Method Name="M_Add" Id="{5f198432-6b9a-0cc9-223e-32fac07c9c15}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Add : BOOL
+VAR_INPUT
+	Key:		STRING(255);
+	Value:		STRING(255);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_GetSTRING" Id="{36d7e4d9-6385-0d15-1db3-61b9b3f66c18}">
+      <Declaration><![CDATA[METHOD PUBLIC M_GetSTRING : String(255)
+VAR_INPUT
+	sName:	STRING(255);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Load" Id="{0cfe07f9-80a6-0092-1199-05d47a634bea}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Load : BOOL
+VAR_INPUT
+	sFile:	STRING(255);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{a41c1e35-f20d-09aa-09c0-ce2dae9cb17d}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Save" Id="{f15ba428-e316-0337-1810-7cf2e63511bb}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Save : BOOL
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Dictionary">
+      <LineId Id="122" Count="9" />
+      <LineId Id="145" Count="1" />
+      <LineId Id="144" Count="0" />
+      <LineId Id="132" Count="0" />
+      <LineId Id="135" Count="8" />
+      <LineId Id="58" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Dictionary.M_Add">
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Dictionary.M_GetSTRING">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Dictionary.M_Load">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Dictionary.M_Reset">
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Dictionary.M_Save">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

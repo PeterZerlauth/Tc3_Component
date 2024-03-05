@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Dictionary" Id="{fb4ff7d0-fb23-0fc0-23a7-39f8a7884151}">
+    <Declaration><![CDATA[INTERFACE I_Dictionary
+]]></Declaration>
+  </Itf>
+</TcPlcObject>
