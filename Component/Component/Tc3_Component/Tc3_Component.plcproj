@@ -136,11 +136,14 @@
     <Compile Include="Sequence\I_Sequence.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GLV.TcGVL">
+    <Compile Include="Globals.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
     <Compile Include="Utils\Analog\AnalogInput.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\Analog\AnalogInputREAL.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utils\Analog\AnalogOutput.TcPOU">

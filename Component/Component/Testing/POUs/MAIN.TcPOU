@@ -34,7 +34,7 @@ END_IF
 fbTestsuites();
 fbTestsuite1();
 
-fbComponent.M_Cylic();
+fbComponent.M_Cycle();
 
 CASE fbTestsuite1.P_Testcase OF
 	
