@@ -5,6 +5,7 @@
 VAR_INPUT
     NetId 			AT %I*:		T_AmsNetIdArr;
 	Slaves			AT %I*: 	UINT;
+	bInput			AT %I*: 	bool;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -14,10 +15,23 @@ VAR
 	fbMasterFrameStatistic:		FB_EcMasterFrameStatistic;
 	fbGetSlaveStates:			FB_EcGetAllSlaveStates;
 	fbGetConfSlaves: 			FB_EcGetConfSlaves;
+	fbEcGetAllSyncUnitSlaveAddr: FB_EcGetAllSyncUnitSlaveAddr;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[fbEcGetAllSyncUnitSlaveAddr(
+	sNetId:= , 
+	nObjectId:= , 
+	pAddrBuf:= , 
+	cbBufLen:= , 
+	bExecute:= , 
+	tTimeout:= , 
+	bBusy=> , 
+	bError=> , 
+	nErrId=> , 
+	nSlaves=> );
+	
+<<<<<<]]></ST>
     </Implementation>
     <Method Name="FB_exit" Id="{32b88d2f-9681-0500-1b45-7ff197d7c043}">
       <Declaration><![CDATA[METHOD FB_exit : BOOL
@@ -44,7 +58,6 @@ END_VAR
 IF fbGetMasterState.bError THEN
 	fbEvent.M_Abort('Ethercat master state', '');
 END_IF
-
 
 
 fbMasterFrameStatistic(bExecute:= NOT fbMasterFrameStatistic.bBusy);
@@ -87,7 +100,9 @@ M_Starting:= TRUE;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Ethercat">
+      <LineId Id="69" Count="9" />
       <LineId Id="53" Count="0" />
+      <LineId Id="79" Count="1" />
     </LineIds>
     <LineIds Name="FB_Ethercat.FB_exit">
       <LineId Id="6" Count="2" />
@@ -98,7 +113,7 @@ M_Starting:= TRUE;]]></ST>
       <LineId Id="6" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="19" Count="1" />
-      <LineId Id="17" Count="1" />
+      <LineId Id="18" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="11" Count="0" />
