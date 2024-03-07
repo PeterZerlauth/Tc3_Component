@@ -25,12 +25,10 @@ END_VAR
 END_IF
 
 IF bAdd THEN
-	IF fbJson.FindMember(json, 'member:Value1') = 0 THEN
-		fbJson.AddStringMember(json, 'member/Value1', 'Value');		
-	END_IF
-	IF fbJson.FindMember(json, 'member/Value2') = 0 THEN
-		fbJson.AddStringMember(json, 'member/Value2', 'Value');		
-	END_IF
+
+	M_Add('member.Value1', 'Value');
+	M_Add('member.Value2', 'Value');
+	
 END_IF
 
 
@@ -49,9 +47,21 @@ VAR_INPUT
 	Key:		STRING(255);
 	Value:		STRING(255);
 END_VAR
-]]></Declaration>
+VAR 
+	sKey:			String(255);
+	nPosition:		INT;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[//nPosition:= FIND(Key, '.')
+//WHILE nPosition <> 0 DO
+//	sKey:= LEFT(Key, nPosition);
+
+//	nPosition:= FIND(Key, '.')
+//END_WHILE
+
+IF fbJson.FindMember(json, Key) = 0 THEN
+	fbJson.AddStringMember(json, Key, Value);		
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_GetSTRING" Id="{36d7e4d9-6385-0d15-1db3-61b9b3f66c18}">
@@ -92,14 +102,23 @@ END_VAR]]></Declaration>
       </Implementation>
     </Method>
     <LineIds Name="FB_Dictionary">
-      <LineId Id="122" Count="9" />
-      <LineId Id="145" Count="1" />
-      <LineId Id="144" Count="0" />
+      <LineId Id="122" Count="6" />
+      <LineId Id="131" Count="0" />
+      <LineId Id="145" Count="0" />
+      <LineId Id="148" Count="0" />
+      <LineId Id="147" Count="0" />
       <LineId Id="132" Count="0" />
       <LineId Id="135" Count="8" />
       <LineId Id="58" Count="0" />
     </LineIds>
     <LineIds Name="FB_Dictionary.M_Add">
+      <LineId Id="13" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="11" Count="1" />
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Dictionary.M_GetSTRING">

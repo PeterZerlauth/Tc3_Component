@@ -12,7 +12,11 @@ VAR
 	fbInfo:							FB_Info(sInstancePath);	// Info about function block
 	fbObserver:						FB_Observer;				// Observer
 	fbEvent:						FB_Event(THIS^);			// Event creator
-	eRequest:						E_Request;					// Command
+	eModeRequest:					E_Mode;
+	eMode:							E_Mode;
+    {attribute 'hide'}
+	eModePrevious:					E_State;					// Previous state	
+	eStateRequest:					E_Request;					// Command
     {attribute 'hide'}
 	{attribute 'instance-path'} 
     {attribute 'noinit'}
@@ -96,9 +100,9 @@ CASE eState OF
 		M_Running();
 		IF M_Resetting() THEN
 			eState:= E_State.Idle;
-			eRequest:= E_Request.Undefined;
+			eStateRequest:= E_Request.Undefined;
 		END_IF
-		CASE eRequest OF
+		CASE eStateRequest OF
 			
 			E_Request.Stop, E_Request.StopCycle:
 				eState:= E_State.Stopping;
@@ -111,7 +115,7 @@ CASE eState OF
 	E_State.Idle:
 		M_Running();
 		M_Idle();
-		CASE eRequest OF
+		CASE eStateRequest OF
 			
 			E_Request.Start:
 				eState:= E_State.Starting;
@@ -123,7 +127,7 @@ CASE eState OF
 				eState:= E_State.Aborting;
 				
 			ELSE
-				eRequest:= E_Request.Undefined;
+				eStateRequest:= E_Request.Undefined;
 				
 		END_CASE
 
@@ -131,9 +135,9 @@ CASE eState OF
 		M_Running();
 		IF M_Starting() THEN
 			eState:= E_State.Execute;
-			eRequest:= E_Request.Undefined;
+			eStateRequest:= E_Request.Undefined;
 		END_IF
-		CASE eRequest OF
+		CASE eStateRequest OF
 			
 			E_Request.Stop, E_Request.StopCycle:
 				eState:= E_State.Stopping;
@@ -146,7 +150,7 @@ CASE eState OF
 	E_State.Execute:
 		M_Running();
 		IF M_Execute() THEN
-			CASE eRequest OF
+			CASE eStateRequest OF
 				
 				E_Request.Complete:
 					eState:= E_State.Completing;
@@ -155,7 +159,7 @@ CASE eState OF
 					eState:= E_State.Stopping;
 			END_CASE
 		END_IF
-		CASE eRequest OF
+		CASE eStateRequest OF
 			E_Request.Complete:;
 			E_Request.StopCycle:;
 			E_Request.Stop:
@@ -171,7 +175,7 @@ CASE eState OF
 				eState:= E_State.Pausing;
 				
 			ELSE
-				eRequest:= E_Request.Undefined;
+				eStateRequest:= E_Request.Undefined;
 				
 		END_CASE
 		
@@ -179,9 +183,9 @@ CASE eState OF
 		M_Running();
 		IF M_Stopping() THEN
 			eState:= E_State.Stopped;
-			eRequest:= E_Request.Undefined;
+			eStateRequest:= E_Request.Undefined;
 		END_IF
-		CASE eRequest OF
+		CASE eStateRequest OF
 			
 			E_Request.Abort:
 				eState:= E_State.Aborting;
@@ -190,7 +194,7 @@ CASE eState OF
 
 	E_State.Stopped:
 		M_Stopped();
-		CASE eRequest OF
+		CASE eStateRequest OF
 			
 			E_Request.Abort:
 				eState:= E_State.Aborting;
@@ -199,25 +203,25 @@ CASE eState OF
 				eState:= E_State.Resetting;
 				
 		ELSE
-			eRequest:= E_Request.Undefined;				
+			eStateRequest:= E_Request.Undefined;				
 		END_CASE
 		
 		
 	E_State.Aborting:
 		IF M_Aborting() THEN
 			eState:= E_State.Aborted;
-			eRequest:= E_Request.Undefined;
+			eStateRequest:= E_Request.Undefined;
 		END_IF
 		
 	E_State.Aborted:
 		M_Aborted();
-		CASE eRequest OF
+		CASE eStateRequest OF
 			
 			E_Request.Reset:
 				eState:= E_State.Resetting;
 				
 		ELSE
-			eRequest:= E_Request.Undefined;				
+			eStateRequest:= E_Request.Undefined;				
 		END_CASE
 
 		
@@ -225,9 +229,9 @@ CASE eState OF
 		M_Running();
 		IF M_Pausing() THEN
 			eState:= E_State.Paused;
-			eRequest:= E_Request.Undefined;
+			eStateRequest:= E_Request.Undefined;
 		END_IF
-		CASE eRequest OF
+		CASE eStateRequest OF
 			
 			E_Request.Stop:
 				eState:= E_State.Stopping;
@@ -241,7 +245,7 @@ CASE eState OF
 	E_State.Paused:
 		M_Running();
 		M_Paused();
-		CASE eRequest OF
+		CASE eStateRequest OF
 			
 			E_Request.Start:
 				eState:= E_State.Resuming;
@@ -253,7 +257,7 @@ CASE eState OF
 				eState:= E_State.Aborting;
 						
 		ELSE
-			eRequest:= E_Request.Undefined;
+			eStateRequest:= E_Request.Undefined;
 
 		END_CASE
 		
@@ -262,7 +266,7 @@ CASE eState OF
 		IF M_Resuming() THEN
 			eState:= E_State.Execute;
 		END_IF
-		CASE eRequest OF
+		CASE eStateRequest OF
 			
 			E_Request.Stop:
 				eState:= E_State.Stopping;
@@ -276,9 +280,9 @@ CASE eState OF
 		M_Running();
 		IF M_Holding() THEN
 			eState:= E_State.Held;
-			eRequest:= E_Request.Undefined;
+			eStateRequest:= E_Request.Undefined;
 		END_IF
-		CASE eRequest OF
+		CASE eStateRequest OF
 			
 			E_Request.Stop:
 				eState:= E_State.Stopping;
@@ -291,7 +295,7 @@ CASE eState OF
 	E_State.Held:
 		M_Running();
 		M_Held();
-		CASE eRequest OF
+		CASE eStateRequest OF
 			
 			E_Request.Start:
 				eState:= E_State.Unholding;
@@ -303,7 +307,7 @@ CASE eState OF
 				eState:= E_State.Aborting;
 				
 			ELSE
-				eRequest:= E_Request.Undefined;
+				eStateRequest:= E_Request.Undefined;
 
 		END_CASE
 		
@@ -312,7 +316,7 @@ CASE eState OF
 		IF M_Unholding() THEN
 			eState:= E_State.Execute;
 		END_IF
-		CASE eRequest OF
+		CASE eStateRequest OF
 			
 			E_Request.Stop:
 				eState:= E_State.Stopping;
@@ -326,9 +330,9 @@ CASE eState OF
 		M_Running();
 		IF M_Completing() THEN
 			eState:= E_State.Completed;
-			eRequest:= E_Request.Undefined;
+			eStateRequest:= E_Request.Undefined;
 		END_IF
-		CASE eRequest OF
+		CASE eStateRequest OF
 			
 			E_Request.Stop:
 				eState:= E_State.Stopping;
@@ -341,7 +345,7 @@ CASE eState OF
 	E_State.Completed:
 		M_Running();
 		M_Completed();
-		CASE eRequest OF
+		CASE eStateRequest OF
 			
 			E_Request.Stop:
 				eState:= E_State.Stopping;
@@ -353,7 +357,7 @@ CASE eState OF
 				eState:= E_State.Resetting;
 				
 			ELSE
-				eRequest:= E_Request.Undefined;
+				eStateRequest:= E_Request.Undefined;
 				
 		END_CASE
 END_CASE
@@ -363,11 +367,11 @@ IF eStatePrevious <> eState THEN
 	eStatePrevious:= eState;
 END_IF
 
-CASE eRequest of
+CASE eStateRequest of
 	E_Request.Undefined, E_Request.Start:;
 		
 	ELSE
-		fbObserver.M_Notify(eRequest);
+		fbObserver.M_Notify(eStateRequest);
 END_CASE
 
 ]]></ST>
@@ -422,11 +426,11 @@ END_VAR
     <Method Name="M_OnNotify" Id="{d8f6f158-ff95-0e77-1e0e-c4742a312f00}">
       <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
 VAR_INPUT
-	eRequest:					E_Request;
+	Request:					E_Request;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Method will be called by the Observer
-M_Request(eRequest);]]></ST>
+M_Request(Request);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Paused" Id="{2c298a87-8477-08fb-1e4e-6f14369f8f00}" FolderPath="States\Pause\">
@@ -451,12 +455,12 @@ M_Pausing:= True;]]></ST>
     <Method Name="M_Request" Id="{bdd740c0-4464-0c1b-399c-16ea1aed66b8}">
       <Declaration><![CDATA[METHOD PUBLIC M_Request : BOOL
 VAR_INPUT
-	eRequest:	E_Request;
+	Request:	E_Request;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Request component states / Command Pattern
-CASE eRequest OF
+CASE Request OF
 	E_Request.Undefined:
 		M_Request:= TRUE;
 		
@@ -464,49 +468,59 @@ CASE eRequest OF
 		IF eState = E_State.Execute THEN
 			M_Request:= TRUE;
 		ELSE
-			this^.eRequest:= eRequest;
+			eStateRequest:= Request;				
 		END_IF
 		
 	E_Request.Pause:
 		IF eState >= E_State.Paused THEN
 			M_Request:= TRUE;
 		ELSE
-			this^.eRequest:= eRequest;			
+			IF eStateRequest < Request THEN
+				eStateRequest:= Request;				
+			END_IF		
 		END_IF
 		
 	E_Request.Hold:
 		IF eState >= E_State.Held THEN
 			M_Request:= TRUE;
 		ELSE
-			this^.eRequest:= eRequest;			
+			IF eStateRequest < Request THEN
+				eStateRequest:= Request;				
+			END_IF		
 		END_IF
 		
 	E_Request.StopCycle:
 		IF eState = E_State.Stopped THEN
 			M_Request:= TRUE;
 		ELSE
-			this^.eRequest:= eRequest;			
+			IF eStateRequest < Request THEN
+				eStateRequest:= Request;				
+			END_IF	
 		END_IF
 		
 	E_Request.Stop:
 		IF eState = E_State.Stopped THEN
 			M_Request:= TRUE;
 		ELSE
-			this^.eRequest:= eRequest;			
+			IF eStateRequest < Request THEN
+				eStateRequest:= Request;				
+			END_IF		
 		END_IF
 		
 	E_Request.Abort:
 		IF eState = E_State.Aborted THEN
 			M_Request:= TRUE;
 		ELSE
-			this^.eRequest:= eRequest;			
+			IF eStateRequest < Request THEN
+				eStateRequest:= Request;				
+			END_IF		
 		END_IF
 
 	E_Request.Reset:
 		IF eState = E_State.Idle THEN
 			M_Request:= TRUE;
 		ELSE
-			THIS^.eRequest:= eRequest;			
+			eStateRequest:= Request;			
 		END_IF
 END_CASE
 ]]></ST>
@@ -852,7 +866,7 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_OnNotify">
-      <LineId Id="76" Count="0" />
+      <LineId Id="80" Count="0" />
       <LineId Id="72" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Paused">
@@ -869,32 +883,43 @@ END_VAR
       <LineId Id="63" Count="0" />
       <LineId Id="105" Count="0" />
       <LineId Id="124" Count="0" />
-      <LineId Id="126" Count="1" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="159" Count="0" />
       <LineId Id="125" Count="0" />
       <LineId Id="99" Count="0" />
       <LineId Id="65" Count="0" />
       <LineId Id="106" Count="0" />
       <LineId Id="128" Count="0" />
-      <LineId Id="130" Count="1" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="161" Count="1" />
+      <LineId Id="131" Count="0" />
       <LineId Id="129" Count="0" />
       <LineId Id="98" Count="0" />
       <LineId Id="71" Count="0" />
       <LineId Id="107" Count="0" />
-      <LineId Id="133" Count="2" />
+      <LineId Id="133" Count="1" />
+      <LineId Id="163" Count="1" />
+      <LineId Id="135" Count="0" />
       <LineId Id="132" Count="0" />
       <LineId Id="77" Count="1" />
       <LineId Id="108" Count="0" />
-      <LineId Id="138" Count="2" />
+      <LineId Id="138" Count="1" />
+      <LineId Id="165" Count="1" />
+      <LineId Id="140" Count="0" />
       <LineId Id="136" Count="0" />
       <LineId Id="95" Count="0" />
       <LineId Id="80" Count="0" />
       <LineId Id="110" Count="0" />
-      <LineId Id="143" Count="2" />
+      <LineId Id="143" Count="1" />
+      <LineId Id="167" Count="1" />
+      <LineId Id="145" Count="0" />
       <LineId Id="141" Count="0" />
       <LineId Id="96" Count="0" />
       <LineId Id="82" Count="0" />
       <LineId Id="111" Count="0" />
-      <LineId Id="148" Count="2" />
+      <LineId Id="148" Count="1" />
+      <LineId Id="169" Count="1" />
+      <LineId Id="150" Count="0" />
       <LineId Id="146" Count="0" />
       <LineId Id="97" Count="0" />
       <LineId Id="84" Count="0" />

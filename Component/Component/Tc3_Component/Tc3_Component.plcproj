@@ -68,6 +68,9 @@
     <Compile Include="Component\E_Request.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Component\E_Mode.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Component\E_State.TcDUT">
       <SubType>Code</SubType>
     </Compile>
