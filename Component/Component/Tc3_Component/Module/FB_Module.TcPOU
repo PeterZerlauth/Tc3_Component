@@ -101,7 +101,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[M_Starting:= TRUE;
 WHILE nIndex < fbObserver.nLength DO
-	M_Starting:= M_Starting AND fbObserver.M_Index(nIndex).M_Request(E_Request.Start);
+	M_Starting:= M_Starting AND fbObserver.M_Index(nIndex).M_Request(E_Request.Start, E_Mode.Undefined);
 	nIndex:= nIndex +1;
 END_WHILE]]></ST>
       </Implementation>

@@ -20,6 +20,7 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[METHOD M_Notify : BOOL
 VAR_INPUT
 	Request:					E_Request;
+	Mode:						E_Mode;
 END_VAR]]></Declaration>
     </Method>
   </Itf>

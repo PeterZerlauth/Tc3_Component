@@ -13,12 +13,14 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
 VAR_INPUT
 	Request:					E_Request;
+	Mode:						E_Mode;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="M_Request" Id="{5bce4574-fbb8-4134-a60e-e5f2d429768c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Request : BOOL
 VAR_INPUT
 	Request:	E_Request;
+	Mode:		E_Mode;
 END_VAR
 ]]></Declaration>
     </Method>

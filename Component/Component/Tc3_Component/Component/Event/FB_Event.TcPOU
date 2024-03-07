@@ -51,7 +51,7 @@ stAbort.Arguments:= M_Arguments();
 stAbort.Command:= 'Abort';
 stAbort.Active:= TRUE;
 
-iParent.M_Request(E_Request.Abort);
+iParent.M_Request(E_Request.Abort, E_Mode.Undefined);
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stAbort);
 ELSE
@@ -203,7 +203,7 @@ stStop.Arguments:= M_Arguments();
 stStop.Command:= 'Stop';
 stStop.Active:= TRUE;
 
-iParent.M_Request(E_Request.Stop);
+iParent.M_Request(E_Request.Stop, E_Mode.Undefined);
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stStop);
 ELSE
@@ -230,7 +230,7 @@ stStopCycle.Arguments:= M_Arguments();
 stStopCycle.Command:= 'StopCycle';
 stStopCycle.Active:= TRUE;
 
-iParent.M_Request(E_Request.StopCycle);
+iParent.M_Request(E_Request.StopCycle, E_Mode.Undefined);
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stStopCycle);
 ELSE

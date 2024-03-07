@@ -30,27 +30,27 @@ fbComponent.M_Cycle();
 
 
 IF bReset THEN
-	bReset:= NOT fbComponent.M_Request(E_Request.Reset);
+	bReset:= NOT fbComponent.M_Request(E_Request.Reset, 0);
 END_IF
 
 IF bStart THEN
-	bStart:= NOT fbComponent.M_Request(E_Request.Start);
+	bStart:= NOT fbComponent.M_Request(E_Request.Start, 0);
 END_IF
 
 IF bStop THEN
-	bStop:= not fbComponent.M_Request(E_Request.Stop);
+	bStop:= NOT fbComponent.M_Request(E_Request.Stop, 0);
 END_IF
 
 IF bHold THEN
-	bHold:= NOT fbComponent.M_Request(E_Request.Hold);
+	bHold:= NOT fbComponent.M_Request(E_Request.Hold, 0);
 END_IF
 
 IF bPause THEN
-	bPause:= NOT fbComponent.M_Request(E_Request.Pause);
+	bPause:= NOT fbComponent.M_Request(E_Request.Pause, 0);
 END_IF
 
 IF bAbort THEN
-	bAbort:= NOT fbComponent.M_Request(E_Request.Abort);
+	bAbort:= NOT fbComponent.M_Request(E_Request.Abort, 0);
 END_IF
 
 ]]></ST>

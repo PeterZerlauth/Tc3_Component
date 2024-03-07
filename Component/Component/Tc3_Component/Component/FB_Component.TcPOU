@@ -393,6 +393,7 @@ IF eModePrevious <> eMode THEN
 				fbEvent.M_Abort('Mode change from manual to automatic or semiauto', '');
 			END_IF
 	END_CASE
+	fbObserver.M_Notify(0, eMode);
 	eModePrevious:= eMode;
 END_IF	
 eModeRequest:= E_Mode.Undefined;
@@ -406,16 +407,8 @@ CASE eStateRequest of
 	E_Request.Undefined, E_Request.Start:;
 		
 	ELSE
-		fbObserver.M_Notify(eStateRequest);
-END_CASE
-
-
-
-
-
-
-
-]]></ST>
+		fbObserver.M_Notify(eStateRequest, eMode);
+END_CASE]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Execute" Id="{0a26e879-26ba-0448-077b-265f6eb411a3}" FolderPath="States\Start\">
@@ -468,10 +461,11 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
 VAR_INPUT
 	Request:					E_Request;
+	Mode:						E_Mode;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Method will be called by the Observer
-M_Request(Request);]]></ST>
+M_Request(Request, Mode);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Paused" Id="{2c298a87-8477-08fb-1e4e-6f14369f8f00}" FolderPath="States\Pause\">
@@ -497,6 +491,7 @@ M_Pausing:= True;]]></ST>
       <Declaration><![CDATA[METHOD PUBLIC M_Request : BOOL
 VAR_INPUT
 	Request:	E_Request;
+	Mode:		E_Mode;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -564,7 +559,9 @@ CASE Request OF
 			eStateRequest:= Request;			
 		END_IF
 END_CASE
-]]></ST>
+
+
+eModeRequest:= Mode;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Resetting" Id="{9e5fa12d-dc9f-0271-3ab1-62fbd4e3c4cb}" FolderPath="States\Reset\">
@@ -899,6 +896,7 @@ END_VAR
       <LineId Id="724" Count="0" />
       <LineId Id="726" Count="2" />
       <LineId Id="725" Count="0" />
+      <LineId Id="745" Count="0" />
       <LineId Id="713" Count="0" />
       <LineId Id="706" Count="1" />
       <LineId Id="407" Count="0" />
@@ -910,9 +908,6 @@ END_VAR
       <LineId Id="690" Count="0" />
       <LineId Id="692" Count="2" />
       <LineId Id="691" Count="0" />
-      <LineId Id="698" Count="5" />
-      <LineId Id="688" Count="0" />
-      <LineId Id="686" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Execute">
       <LineId Id="5" Count="0" />
@@ -991,7 +986,9 @@ END_VAR
       <LineId Id="112" Count="0" />
       <LineId Id="151" Count="2" />
       <LineId Id="86" Count="0" />
-      <LineId Id="50" Count="1" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="172" Count="1" />
+      <LineId Id="51" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Resetting">
       <LineId Id="9" Count="0" />

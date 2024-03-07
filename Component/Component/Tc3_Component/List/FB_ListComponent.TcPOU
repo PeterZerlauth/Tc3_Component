@@ -157,23 +157,6 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Request" Id="{adf6df13-7012-4295-8d4a-4a5c0c335c30}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Request : BOOL
-VAR_INPUT
-	eRequest:		E_Request;
-END_VAR
-VAR
-	nIndex:			INT:= 0;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Request
-M_Request:= TRUE;
-WHILE nIndex < P_Length DO
-	M_Request:= M_Request AND M_Index(nIndex).M_Request(eRequest);
-	nIndex:= nIndex + 1;
-END_WHILE]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="P_Length" Id="{a7fee46d-1216-4c1b-b269-41e22da51578}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Length : DINT
 ]]></Declaration>
@@ -218,11 +201,6 @@ END_VAR
       <LineId Id="168" Count="0" />
       <LineId Id="132" Count="28" />
       <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListComponent.M_Request">
-      <LineId Id="37" Count="0" />
-      <LineId Id="33" Count="3" />
-      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ListComponent.P_Length.Get">
       <LineId Id="2" Count="0" />
