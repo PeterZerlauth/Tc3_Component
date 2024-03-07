@@ -12,11 +12,11 @@ VAR
 	fbInfo:							FB_Info(sInstancePath);	// Info about function block
 	fbObserver:						FB_Observer;				// Observer
 	fbEvent:						FB_Event(THIS^);			// Event creator
-	eModeRequest:					E_Mode;
-	eMode:							E_Mode;
+	eModeRequest:					E_Mode;						// Requested mode
+	eMode:							E_Mode;						// Current mode
     {attribute 'hide'}
-	eModePrevious:					E_State;					// Previous state	
-	eStateRequest:					E_Request;					// Command
+	eModePrevious:					E_Mode;						// Previous mode	
+	eStateRequest:					E_Request;					// State command
     {attribute 'hide'}
 	{attribute 'instance-path'} 
     {attribute 'noinit'}
@@ -93,6 +93,7 @@ fbEvent();
 CASE eState OF
 	E_State.Undefined:
 		M_Initialise();
+		eMode:= E_Mode.Automatic;
 		eState:= E_State.Idle;					
 		
 	E_State.Resetting:
@@ -130,6 +131,9 @@ CASE eState OF
 				eStateRequest:= E_Request.Undefined;
 				
 		END_CASE
+		IF eModeRequest <> E_Mode.Undefined THEN
+			eMode:= eModeRequest;			
+		END_IF
 
 	E_State.Starting:
 		M_Running();
@@ -178,6 +182,9 @@ CASE eState OF
 				eStateRequest:= E_Request.Undefined;
 				
 		END_CASE
+		IF eModeRequest <> E_Mode.Undefined THEN
+			eMode:= eModeRequest;			
+		END_IF
 		
 	E_State.Stopping:
 		M_Running();
@@ -205,6 +212,9 @@ CASE eState OF
 		ELSE
 			eStateRequest:= E_Request.Undefined;				
 		END_CASE
+		IF eModeRequest <> E_Mode.Undefined THEN
+			eMode:= eModeRequest;			
+		END_IF
 		
 		
 	E_State.Aborting:
@@ -223,6 +233,9 @@ CASE eState OF
 		ELSE
 			eStateRequest:= E_Request.Undefined;				
 		END_CASE
+		IF eModeRequest <> E_Mode.Undefined THEN
+			eMode:= eModeRequest;			
+		END_IF
 
 		
 	E_State.Pausing:
@@ -260,6 +273,9 @@ CASE eState OF
 			eStateRequest:= E_Request.Undefined;
 
 		END_CASE
+		IF eModeRequest <> E_Mode.Undefined THEN
+			eMode:= eModeRequest;			
+		END_IF
 		
 	E_State.Resuming:
 		M_Running();
@@ -310,6 +326,9 @@ CASE eState OF
 				eStateRequest:= E_Request.Undefined;
 
 		END_CASE
+		IF eModeRequest <> E_Mode.Undefined THEN
+			eMode:= eModeRequest;			
+		END_IF
 		
 	E_State.Unholding:
 		M_Running();
@@ -360,7 +379,23 @@ CASE eState OF
 				eStateRequest:= E_Request.Undefined;
 				
 		END_CASE
+		IF eModeRequest <> E_Mode.Undefined THEN
+			eMode:= eModeRequest;			
+		END_IF
+		
 END_CASE
+
+
+IF eModePrevious <> eMode THEN
+	CASE eState OF
+		E_State.Execute, E_State.Paused, E_State.Held:
+			IF eModePrevious = E_Mode.Manual THEN
+				fbEvent.M_Abort('Mode change from manual to automatic or semiauto', '');
+			END_IF
+	END_CASE
+	eModePrevious:= eMode;
+END_IF	
+eModeRequest:= E_Mode.Undefined;
 
 // Detect state changed
 IF eStatePrevious <> eState THEN
@@ -373,6 +408,12 @@ CASE eStateRequest of
 	ELSE
 		fbObserver.M_Notify(eStateRequest);
 END_CASE
+
+
+
+
+
+
 
 ]]></ST>
       </Implementation>
@@ -659,7 +700,9 @@ END_VAR
     <LineIds Name="FB_Component.M_Cycle">
       <LineId Id="6" Count="2" />
       <LineId Id="570" Count="0" />
-      <LineId Id="10" Count="4" />
+      <LineId Id="10" Count="3" />
+      <LineId Id="729" Count="0" />
+      <LineId Id="14" Count="0" />
       <LineId Id="16" Count="1" />
       <LineId Id="547" Count="0" />
       <LineId Id="394" Count="0" />
@@ -683,6 +726,8 @@ END_VAR
       <LineId Id="353" Count="0" />
       <LineId Id="681" Count="0" />
       <LineId Id="326" Count="0" />
+      <LineId Id="743" Count="1" />
+      <LineId Id="721" Count="0" />
       <LineId Id="324" Count="0" />
       <LineId Id="41" Count="0" />
       <LineId Id="396" Count="0" />
@@ -717,6 +762,8 @@ END_VAR
       <LineId Id="676" Count="2" />
       <LineId Id="364" Count="0" />
       <LineId Id="355" Count="0" />
+      <LineId Id="741" Count="1" />
+      <LineId Id="720" Count="0" />
       <LineId Id="71" Count="1" />
       <LineId Id="398" Count="0" />
       <LineId Id="77" Count="1" />
@@ -738,6 +785,8 @@ END_VAR
       <LineId Id="663" Count="1" />
       <LineId Id="380" Count="0" />
       <LineId Id="375" Count="0" />
+      <LineId Id="739" Count="1" />
+      <LineId Id="719" Count="0" />
       <LineId Id="638" Count="0" />
       <LineId Id="90" Count="3" />
       <LineId Id="640" Count="0" />
@@ -751,6 +800,8 @@ END_VAR
       <LineId Id="665" Count="0" />
       <LineId Id="392" Count="0" />
       <LineId Id="384" Count="0" />
+      <LineId Id="737" Count="1" />
+      <LineId Id="718" Count="0" />
       <LineId Id="637" Count="0" />
       <LineId Id="105" Count="1" />
       <LineId Id="400" Count="0" />
@@ -775,6 +826,8 @@ END_VAR
       <LineId Id="667" Count="0" />
       <LineId Id="437" Count="0" />
       <LineId Id="433" Count="0" />
+      <LineId Id="735" Count="1" />
+      <LineId Id="717" Count="0" />
       <LineId Id="129" Count="1" />
       <LineId Id="402" Count="0" />
       <LineId Id="137" Count="2" />
@@ -805,6 +858,7 @@ END_VAR
       <LineId Id="670" Count="2" />
       <LineId Id="477" Count="0" />
       <LineId Id="164" Count="0" />
+      <LineId Id="730" Count="2" />
       <LineId Id="635" Count="0" />
       <LineId Id="165" Count="0" />
       <LineId Id="405" Count="0" />
@@ -836,7 +890,17 @@ END_VAR
       <LineId Id="673" Count="2" />
       <LineId Id="415" Count="0" />
       <LineId Id="409" Count="0" />
+      <LineId Id="733" Count="1" />
+      <LineId Id="714" Count="1" />
       <LineId Id="204" Count="0" />
+      <LineId Id="704" Count="0" />
+      <LineId Id="711" Count="1" />
+      <LineId Id="722" Count="0" />
+      <LineId Id="724" Count="0" />
+      <LineId Id="726" Count="2" />
+      <LineId Id="725" Count="0" />
+      <LineId Id="713" Count="0" />
+      <LineId Id="706" Count="1" />
       <LineId Id="407" Count="0" />
       <LineId Id="212" Count="1" />
       <LineId Id="215" Count="0" />
@@ -846,6 +910,7 @@ END_VAR
       <LineId Id="690" Count="0" />
       <LineId Id="692" Count="2" />
       <LineId Id="691" Count="0" />
+      <LineId Id="698" Count="5" />
       <LineId Id="688" Count="0" />
       <LineId Id="686" Count="0" />
     </LineIds>
