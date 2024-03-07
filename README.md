@@ -15,6 +15,7 @@ Inspired by the [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Li
     [ ] Ethercat Observer
     [ ] Device Function Blocks
     [ ] Axis Function Blocks
+    [ ] Dictionary function block with Tc3_JsonXml
     
 ## State Machine
 ![State Machine](docs/StateMachine.drawio.svg)
