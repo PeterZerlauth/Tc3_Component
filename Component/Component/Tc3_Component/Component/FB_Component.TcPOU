@@ -9,23 +9,25 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbInfo:							FB_Info(sInstancePath);	// Info about function block
-	fbObserver:						FB_Observer;				// Observer
-	fbEvent:						FB_Event(THIS^);			// Event creator
-	eModeRequest:					E_Mode;						// Requested mode
-	eMode:							E_Mode;						// Current mode
-    {attribute 'hide'}
-	eModePrevious:					E_Mode;						// Previous mode	
-	eStateRequest:					E_Request;					// State command
     {attribute 'hide'}
 	{attribute 'instance-path'} 
     {attribute 'noinit'}
     sInstancePath:					STRING(255);				// Instance-Pathe
+	fbInfo:							FB_Info(sInstancePath);	// Info about function block
+	fbObserver:						FB_Observer;				// Observer
+	fbEvent:						FB_Event(THIS^);			// Event creator
+	eStateRequest:					E_Request;					// State command
 	{attribute 'OPC.UA.DA' := '1'}
 	{ attribute 'TcHmiSymbol' }
 	eState:							E_State;					// Current state
     {attribute 'hide'}
 	eStatePrevious:					E_State;					// Previous state
+	eModeRequest:					E_Mode;						// Requested mode
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'TcHmiSymbol' }
+	eMode:							E_Mode;						// Current mode
+    {attribute 'hide'}
+	eModePrevious:					E_Mode;						// Previous mode	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -457,15 +459,30 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Mode" Id="{8661b760-0fa5-007a-151c-7fe805544fbb}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Mode : BOOL
+VAR_INPUT
+	eMode:		E_Mode;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF eModeRequest = eMode THEN
+	M_Mode:= TRUE;
+ELSE
+	eModeRequest:= eMode;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_OnNotify" Id="{d8f6f158-ff95-0e77-1e0e-c4742a312f00}">
       <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
 VAR_INPUT
-	Request:					E_Request;
-	Mode:						E_Mode;
+	eRequest:					E_Request;
+	eMode:						E_Mode;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Method will be called by the Observer
-M_Request(Request, Mode);]]></ST>
+M_Request(eRequest);
+M_Mode(eMode);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Paused" Id="{2c298a87-8477-08fb-1e4e-6f14369f8f00}" FolderPath="States\Pause\">
@@ -490,13 +507,12 @@ M_Pausing:= True;]]></ST>
     <Method Name="M_Request" Id="{bdd740c0-4464-0c1b-399c-16ea1aed66b8}">
       <Declaration><![CDATA[METHOD PUBLIC M_Request : BOOL
 VAR_INPUT
-	Request:	E_Request;
-	Mode:		E_Mode;
+	eRequest:	E_Request;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Request component states / Command Pattern
-CASE Request OF
+CASE eRequest OF
 	E_Request.Undefined:
 		M_Request:= TRUE;
 		
@@ -504,15 +520,15 @@ CASE Request OF
 		IF eState = E_State.Execute THEN
 			M_Request:= TRUE;
 		ELSE
-			eStateRequest:= Request;				
+			eStateRequest:= eRequest;				
 		END_IF
 		
 	E_Request.Pause:
 		IF eState >= E_State.Paused THEN
 			M_Request:= TRUE;
 		ELSE
-			IF eStateRequest < Request THEN
-				eStateRequest:= Request;				
+			IF eStateRequest < eRequest THEN
+				eStateRequest:= eRequest;				
 			END_IF		
 		END_IF
 		
@@ -520,8 +536,8 @@ CASE Request OF
 		IF eState >= E_State.Held THEN
 			M_Request:= TRUE;
 		ELSE
-			IF eStateRequest < Request THEN
-				eStateRequest:= Request;				
+			IF eStateRequest < eRequest THEN
+				eStateRequest:= eRequest;				
 			END_IF		
 		END_IF
 		
@@ -529,8 +545,8 @@ CASE Request OF
 		IF eState = E_State.Stopped THEN
 			M_Request:= TRUE;
 		ELSE
-			IF eStateRequest < Request THEN
-				eStateRequest:= Request;				
+			IF eStateRequest < eRequest THEN
+				eStateRequest:= eRequest;				
 			END_IF	
 		END_IF
 		
@@ -538,8 +554,8 @@ CASE Request OF
 		IF eState = E_State.Stopped THEN
 			M_Request:= TRUE;
 		ELSE
-			IF eStateRequest < Request THEN
-				eStateRequest:= Request;				
+			IF eStateRequest < eRequest THEN
+				eStateRequest:= eRequest;				
 			END_IF		
 		END_IF
 		
@@ -547,8 +563,8 @@ CASE Request OF
 		IF eState = E_State.Aborted THEN
 			M_Request:= TRUE;
 		ELSE
-			IF eStateRequest < Request THEN
-				eStateRequest:= Request;				
+			IF eStateRequest < eRequest THEN
+				eStateRequest:= eRequest;				
 			END_IF		
 		END_IF
 
@@ -556,12 +572,9 @@ CASE Request OF
 		IF eState = E_State.Idle THEN
 			M_Request:= TRUE;
 		ELSE
-			eStateRequest:= Request;			
+			eStateRequest:= eRequest;			
 		END_IF
-END_CASE
-
-
-eModeRequest:= Mode;]]></ST>
+END_CASE]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Resetting" Id="{9e5fa12d-dc9f-0271-3ab1-62fbd4e3c4cb}" FolderPath="States\Reset\">
@@ -925,9 +938,16 @@ END_VAR
     <LineIds Name="FB_Component.M_Initialise">
       <LineId Id="5" Count="0" />
     </LineIds>
+    <LineIds Name="FB_Component.M_Mode">
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
     <LineIds Name="FB_Component.M_OnNotify">
       <LineId Id="80" Count="0" />
       <LineId Id="72" Count="0" />
+      <LineId Id="85" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Paused">
       <LineId Id="9" Count="0" />
@@ -987,8 +1007,6 @@ END_VAR
       <LineId Id="151" Count="2" />
       <LineId Id="86" Count="0" />
       <LineId Id="50" Count="0" />
-      <LineId Id="172" Count="1" />
-      <LineId Id="51" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Resetting">
       <LineId Id="9" Count="0" />

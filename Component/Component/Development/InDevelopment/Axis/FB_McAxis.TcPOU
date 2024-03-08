@@ -54,23 +54,6 @@ END_VAR
     </Implementation>
     <Folder Name="Motion" Id="{35718791-19fd-46a5-b6e2-dfab848a97c3}" />
     <Folder Name="Parameter" Id="{0e484f89-9995-4abb-9390-f90862e0e610}" />
-    <Method Name="M_Calibration" Id="{2d08dbb8-f509-4a21-8547-146941bfe54d}">
-      <Declaration><![CDATA[METHOD M_Calibration : BOOL
-VAR_INPUT
-	fPrePosition:	LREAL;
-	fPosition:		LREAL;
-	fForce:			LREAL;
-	fLimit:			LREAL;
-	bEvaluation:	BOOL;
-END_VAR
-VAR_OUTPUT
-	fDeviation:		LREAL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Cycle" Id="{0852f1be-8285-04e9-03b6-228c3ccff121}">
       <Declaration><![CDATA[METHOD PUBLIC M_Cycle
 VAR_INPUT
@@ -468,9 +451,6 @@ END_IF]]></ST>
     </Method>
     <LineIds Name="FB_McAxis">
       <LineId Id="1205" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_McAxis.M_Calibration">
-      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_McAxis.M_Cycle">
       <LineId Id="7" Count="64" />

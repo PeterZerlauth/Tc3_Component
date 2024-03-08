@@ -155,8 +155,8 @@ END_IF]]></ST>
     <Method Name="M_Notify" Id="{3d3fb67b-dd6a-440b-9c1c-e8b43c7588bf}">
       <Declaration><![CDATA[METHOD M_Notify : BOOL
 VAR_INPUT
-	Request:					E_Request;
-	Mode:						E_Mode;
+	eRequest:					E_Request;
+	eMode:						E_Mode;
 END_VAR
 
 VAR
@@ -164,7 +164,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[WHILE nIndex < nLength DO
-	pList[nIndex].M_OnNotify(Request, Mode);
+	pList[nIndex].M_OnNotify(eRequest, eMode);
 	nIndex:= nIndex + 1; 
 END_WHILE]]></ST>
       </Implementation>

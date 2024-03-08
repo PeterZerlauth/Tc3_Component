@@ -12,32 +12,33 @@ VAR
 	bLoad:				BOOL;
 	bSave:				BOOL;
 	fbJson:				FB_JsonDomParser;
-  	json:				SJsonValue;
-
+  	jObject:				SJsonValue;
+	
 	sJson: 				STRING(255);
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF bReset THEN
 	bReset:= FALSE;
-	json:= fbJson.NewDocument();
+	jObject:= fbJson.NewDocument();
 	bSave:= TRUE;
 END_IF
 
 IF bAdd THEN
-
-	M_Add('member.Value1', 'Value');
-	M_Add('member.Value2', 'Value');
+	// How to parse instace path?
+	M_Add('member.Value1', 'Value1');
+	M_Add('member.Value2', 'Value2');
 	
 END_IF
 
+//jMember:= fbJson.FindMemberPath(jObject,'/member/Value1');
 
-IF bLoad THEN
-	fbJson.LoadDocumentFromFile('C:\Test.json', bLoad);
-END_IF
-IF bSave THEN
-	fbJson.SaveDocumentToFile('C:\Test.json', bSave);
-END_IF
+
+
+fbJson.LoadDocumentFromFile('C:\Test.json', bLoad);
+
+fbJson.SaveDocumentToFile('C:\Test.json', bSave);
+
 
 fbJson.CopyDocument(sJson, SIZEOF(sJson));]]></ST>
     </Implementation>
@@ -48,20 +49,33 @@ VAR_INPUT
 	Value:		STRING(255);
 END_VAR
 VAR 
-	sKey:			String(255);
+	sKey:			STRING(255);
+	sMember:		STRING(255);
+  	jMember:		SJsonValue;
 	nPosition:		INT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[//nPosition:= FIND(Key, '.')
-//WHILE nPosition <> 0 DO
-//	sKey:= LEFT(Key, nPosition);
+        <ST><![CDATA[sKey:= Key;
+nPosition:= FIND(sKey, '.');
+WHILE ( nPosition <> 0) DO
+	sMember:= LEFT(sKey, nPosition - 1);
+	IF fbJson.HasMember(jObject, Key) THEN
+		;
+	ELSE
+		fbJson.AddStringMember(jObject, sMember, '');			
+	END_IF
 
-//	nPosition:= FIND(Key, '.')
-//END_WHILE
+	sKey:= DELETE(sKey, nPosition, 1);
+	nPosition:= FIND(sKey, '.');
+	IF nPosition = 0 THEN
+		fbJson.AddStringMember(jObject, sKey, Value);	
+	END_IF
+END_WHILE
 
-IF fbJson.FindMember(json, Key) = 0 THEN
-	fbJson.AddStringMember(json, Key, Value);		
-END_IF]]></ST>
+
+//IF fbJson.HasMember(jObject, Key) = 0 THEN
+//	fbJson.AddStringMember(jObject, Key, Value);		
+//END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_GetSTRING" Id="{36d7e4d9-6385-0d15-1db3-61b9b3f66c18}">
@@ -102,22 +116,23 @@ END_VAR]]></Declaration>
       </Implementation>
     </Method>
     <LineIds Name="FB_Dictionary">
-      <LineId Id="122" Count="6" />
-      <LineId Id="131" Count="0" />
-      <LineId Id="145" Count="0" />
-      <LineId Id="148" Count="0" />
-      <LineId Id="147" Count="0" />
-      <LineId Id="132" Count="0" />
-      <LineId Id="135" Count="8" />
+      <LineId Id="255" Count="21" />
       <LineId Id="58" Count="0" />
     </LineIds>
     <LineIds Name="FB_Dictionary.M_Add">
-      <LineId Id="13" Count="1" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="15" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="59" Count="1" />
+      <LineId Id="62" Count="1" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="53" Count="2" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="32" Count="1" />
       <LineId Id="11" Count="1" />
       <LineId Id="10" Count="0" />
     </LineIds>

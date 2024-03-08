@@ -14,15 +14,11 @@ VAR
 	bStop:       	BOOL;
     bAbort:      	BOOL;
 
-	sValue: STRING(255);
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[fbDictionary();
 
-fbDictionary.M_Add('Test', 'Value');
-
-sValue:= fbDictionary.M_GetSTRING('Test');
 
 fbLogger();
 fbEthercat.M_Cycle();
@@ -30,37 +26,33 @@ fbComponent.M_Cycle();
 
 
 IF bReset THEN
-	bReset:= NOT fbComponent.M_Request(E_Request.Reset, 0);
+	bReset:= NOT fbComponent.M_Request(E_Request.Reset);
 END_IF
 
 IF bStart THEN
-	bStart:= NOT fbComponent.M_Request(E_Request.Start, 0);
+	bStart:= NOT fbComponent.M_Request(E_Request.Start);
 END_IF
 
 IF bStop THEN
-	bStop:= NOT fbComponent.M_Request(E_Request.Stop, 0);
+	bStop:= NOT fbComponent.M_Request(E_Request.Stop);
 END_IF
 
 IF bHold THEN
-	bHold:= NOT fbComponent.M_Request(E_Request.Hold, 0);
+	bHold:= NOT fbComponent.M_Request(E_Request.Hold);
 END_IF
 
 IF bPause THEN
-	bPause:= NOT fbComponent.M_Request(E_Request.Pause, 0);
+	bPause:= NOT fbComponent.M_Request(E_Request.Pause);
 END_IF
 
 IF bAbort THEN
-	bAbort:= NOT fbComponent.M_Request(E_Request.Abort, 0);
+	bAbort:= NOT fbComponent.M_Request(E_Request.Abort);
 END_IF
 
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="487" Count="0" />
-      <LineId Id="491" Count="0" />
-      <LineId Id="490" Count="0" />
-      <LineId Id="492" Count="0" />
-      <LineId Id="488" Count="1" />
+      <LineId Id="487" Count="2" />
       <LineId Id="472" Count="0" />
       <LineId Id="457" Count="0" />
       <LineId Id="417" Count="26" />

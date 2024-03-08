@@ -22,10 +22,6 @@
     <CombineIds>true</CombineIds>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="GVLs\M001.TcGVL">
-      <SubType>Code</SubType>
-      <LinkAlways>true</LinkAlways>
-    </Compile>
     <Compile Include="InDevelopment\Axis\FB_McAxis.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -42,9 +38,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InDevelopment\FB_Module01.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="InDevelopment\FB_ModuleLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
