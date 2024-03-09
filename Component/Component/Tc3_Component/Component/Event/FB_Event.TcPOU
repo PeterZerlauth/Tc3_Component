@@ -62,21 +62,21 @@ END_IF]]></ST>
     <Method Name="M_AddBOOL" Id="{55367f5b-ac71-0a63-095c-881721842948}">
       <Declaration><![CDATA[METHOD PUBLIC M_AddBOOL
 VAR_INPUT
-	Value: 	Int;
+	Value: 	bool;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbList.M_Add(INT_TO_STRING(Value));]]></ST>
+        <ST><![CDATA[fbList.M_Add(BOOL_TO_STRING(Value));]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_AddINT" Id="{77c01fd5-65e9-07ed-2cff-a79b9d444c15}">
       <Declaration><![CDATA[METHOD PUBLIC M_AddINT
 VAR_INPUT
-	Value: 	BOOL;
+	Value: 	LINT;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbList.M_Add(BOOL_TO_STRING(Value));]]></ST>
+        <ST><![CDATA[fbList.M_Add(LINT_TO_STRING(Value));]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_AddREAL" Id="{b0c25678-4933-0839-34f0-c4eb0def69fb}">

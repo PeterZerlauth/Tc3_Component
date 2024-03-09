@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Sequence" Id="{ab5e2af8-509e-42fb-9956-7609633302ce}">
+    <Declaration><![CDATA[INTERFACE I_Sequence EXTENDS I_Object]]></Declaration>
+    <Method Name="M_Await" Id="{e833a426-ec07-456c-8ba3-4d13a00bf184}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Await 
+VAR_INPUT
+	sMessage:				STRING(255);
+	tTimeout:				TIME;
+	tDelay:					TIME;	
+	bPause:					BOOL;
+	bNext:					BOOL;
+	nNumber:				INT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Reset" Id="{4610609d-250e-0cea-1947-6366c1b79c60}">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+]]></Declaration>
+    </Method>
+    <Property Name="P_Number" Id="{79c47681-726d-072e-0b7d-db06b1d061b8}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Number : int]]></Declaration>
+      <Get Name="Get" Id="{13626b38-7d56-0229-1412-a244cbeeba25}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{87cd581f-1829-0894-298b-cbc051c41772}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+  </Itf>
+</TcPlcObject>

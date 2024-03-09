@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Sequence" Id="{4b1aa270-5e63-4fbf-b9b1-b64186ed4cc4}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Sequence IMPLEMENTS I_Sequence
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+	sMessage:				STRING(255);
+	nNumber:				INT;
+END_VAR
+VAR
+	iParent:			I_Component;
+	fbTimeout:			TON;
+	fbDelay: 			TON;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbTimeout();
+fbTimeout.IN:= FALSE;
+
+fbDelay();
+fbDelay.IN:= FALSE;]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{9410888f-1e8d-054b-01cb-f8f70c408f51}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	iParent:			I_Component;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.iParent:= iParent;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Await" Id="{1bc0e82b-8467-4f35-a54e-996600fba2bc}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Await 
+VAR_INPUT
+	sMessage:				STRING(255);
+	tTimeout:				TIME;
+	tDelay:					TIME;	
+	bPause:					BOOL;
+	bNext:					BOOL;
+	nNumber:				INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.sMessage:= sMessage;
+IF bNext THEN
+	IF tDelay <> T#0S THEN
+		fbDelay.IN:= TRUE;
+		IF fbDelay.Q THEN
+			THIS^.nNumber:= nNumber;
+			IF bPause THEN
+				IF iParent.P_Mode = E_Mode.Semiauto THEN
+					iParent.M_Request(E_Request.Pause);		
+				END_IF
+			END_IF	
+		END_IF
+	ELSE
+		THIS^.nNumber:= nNumber;
+		IF bPause THEN
+			IF iParent.P_Mode = E_Mode.Semiauto THEN
+				iParent.M_Request(E_Request.Pause);		
+			END_IF
+		END_IF	
+	END_IF		
+ELSE
+	IF tTimeout <> T#0S THEN
+		fbTimeout.IN:= TRUE;
+		IF fbTimeout.Q THEN
+			iParent.P_Event.M_AddINT(THIS^.nNumber);
+			iParent.P_Event.M_Stop('Timeout in sequence number %s', '');
+		END_IF
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{4501245b-63d2-4732-9d5e-f656a322de01}">
+      <Declaration><![CDATA[METHOD M_Reset : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nNumber:= E_Sequence.Start;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Number" Id="{3cc751bf-6092-4aa8-8de5-3276200b64ad}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Number : int]]></Declaration>
+      <Get Name="Get" Id="{92b3a1f5-52d3-44fe-8629-e1295a1ef489}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Number:= nNumber;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{741fb181-5541-4ab9-8a33-f87392d513c2}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[nNumber:= P_Number;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="FB_Sequence">
+      <LineId Id="9" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Sequence.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Sequence.M_Await">
+      <LineId Id="50" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="61" Count="1" />
+      <LineId Id="65" Count="3" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="69" Count="5" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="42" Count="5" />
+      <LineId Id="40" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_Sequence.M_Reset">
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Sequence.P_Number.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Sequence.P_Number.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

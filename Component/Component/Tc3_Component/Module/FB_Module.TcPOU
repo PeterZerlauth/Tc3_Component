@@ -81,6 +81,22 @@ END_VAR
 fbLoggerFactory.M_Reset();]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Resuming" Id="{d9ef3688-d135-0f0b-1ce4-980e688e3f9f}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resuming : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+VAR
+	nIndex:					DINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Resuming:= TRUE;
+WHILE nIndex < fbObserver.nLength DO
+	M_Resuming:= M_Resuming AND fbObserver.M_Index(nIndex).M_Request(E_Request.Start);
+	nIndex:= nIndex +1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Running" Id="{8879f60a-43a4-0568-363b-e25a42eddf0c}">
       <Declaration><![CDATA[METHOD PROTECTED M_Running
 VAR_INPUT
@@ -102,6 +118,21 @@ END_VAR
         <ST><![CDATA[M_Starting:= TRUE;
 WHILE nIndex < fbObserver.nLength DO
 	M_Starting:= M_Starting AND fbObserver.M_Index(nIndex).M_Request(E_Request.Start);
+	nIndex:= nIndex +1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Unholding" Id="{e6d01443-ae5b-0242-3775-c5c307506d4e}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Unholding : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+VAR
+	nIndex:					DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Unholding:= TRUE;
+WHILE nIndex < fbObserver.nLength DO
+	M_Unholding:= M_Unholding AND fbObserver.M_Index(nIndex).M_Request(E_Request.Start);
 	nIndex:= nIndex +1;
 END_WHILE]]></ST>
       </Implementation>
@@ -135,6 +166,10 @@ END_WHILE]]></ST>
     <LineIds Name="FB_Module.M_Resetting">
       <LineId Id="5" Count="1" />
     </LineIds>
+    <LineIds Name="FB_Module.M_Resuming">
+      <LineId Id="6" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
     <LineIds Name="FB_Module.M_Running">
       <LineId Id="6" Count="0" />
     </LineIds>
@@ -144,6 +179,10 @@ END_WHILE]]></ST>
       <LineId Id="9" Count="0" />
       <LineId Id="11" Count="0" />
       <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module.M_Unholding">
+      <LineId Id="10" Count="3" />
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -36,6 +36,7 @@
     <Folder Include="Component\Event" />
     <Folder Include="Component\Info" />
     <Folder Include="Component\Observer" />
+    <Folder Include="Component\Sequence" />
     <Folder Include="List" />
     <Folder Include="LoggerFactory" />
     <Folder Include="Logger" />
@@ -43,7 +44,6 @@
     <Folder Include="Dictonary" />
     <Folder Include="Utils" />
     <Folder Include="Object" />
-    <Folder Include="Sequence" />
     <Folder Include="Utils\File" />
     <Folder Include="Utils\Digital" />
     <Folder Include="Utils\Analog" />
@@ -92,6 +92,15 @@
     <Compile Include="Component\Observer\I_Observer.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Component\Sequence\E_Sequence.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Component\Sequence\FB_Sequence.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Component\Sequence\I_Sequence.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Dictonary\I_Dictionary.TcIO">
       <SubType>Code</SubType>
     </Compile>
@@ -135,12 +144,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Object\I_Object.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Sequence\FB_Sequence.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Sequence\I_Sequence.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Globals.TcGVL">

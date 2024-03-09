@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.50">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.55">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{18071995-0000-0000-0000-000000000041}" TcBaseType="true" HideSubItems="true" CName="AmsNetId">AMSNETID</Name>
@@ -40,7 +40,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Development" PrjFilePath="Development\Development.plcproj" TmcFilePath="Development\Development.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Development\Development.tmc" TmcHash="{C258D5B9-EA0D-6149-307C-7B24352CACBF}">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Development\Development.tmc" TmcHash="{A6E9A1FE-8A7C-81F6-B2EA-06894B228EB1}">
 					<Name>Development Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -81,7 +81,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{71649981-AC0D-4A85-8722-507B2F4142F3}" Name="Tc3_Component" PrjFilePath="Tc3_Component\Tc3_Component.plcproj" TmcFilePath="Tc3_Component\Tc3_Component.tmc" ReloadTmc="true" AmsPort="854" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x085020c0" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Tc3_Component\Tc3_Component.tmc" TmcHash="{2F7EA1BA-63AE-C8A6-7CE4-F825636F4B7E}">
+				<Instance Id="#x085020c0" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Tc3_Component\Tc3_Component.tmc" TmcHash="{BABF53D6-8612-51DF-E9E3-794367E2A7CC}">
 					<Name>Tc3_Component Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -93,7 +93,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{640CD8E2-83AD-418E-8730-5775EDA13AE6}" Name="Testing" PrjFilePath="Testing\Testing.plcproj" TmcFilePath="Testing\Testing.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Testing\Testing.tmc" TmcHash="{F2D3C6DF-B10F-2CD4-A014-732EFB62837E}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Testing\Testing.tmc" TmcHash="{6B4937D3-36AC-88DB-91AF-305B545639A3}">
 					<Name>Testing Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -114,7 +114,7 @@
 			</Project>
 		</Plc>
 		<Io>
-			<Device Id="1" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="192.0.0.31.2.1" RemoteName="Gerät 1 (EtherCAT)" InfoImageId="2">
+			<Device Id="1" Disabled="true" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="192.0.0.31.2.1" RemoteName="Gerät 1 (EtherCAT)" InfoImageId="2">
 				<Name>Gerät 1 (EtherCAT)</Name>
 				<AddressInfo>
 					<Pnp>
@@ -184,7 +184,6 @@
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{00000000-2042-0850-4020-500821000403}" Id="#x02030010"/>
 		<OwnerA Name="TIPC^Development^Development Instance">
 			<OwnerB Name="TIID^Device 1 (EtherCAT)">
 				<Link VarA="PlcTask Inputs^MAIN.fbEthercat.NetId" VarB="InfoData^AmsNetId"/>

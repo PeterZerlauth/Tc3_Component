@@ -16,6 +16,7 @@ VAR
 	fbInfo:							FB_Info(sInstancePath);	// Info about function block
 	fbObserver:						FB_Observer;				// Observer
 	fbEvent:						FB_Event(THIS^);			// Event creator
+	fbSequence:						FB_Sequence(THIS^);
 	eStateRequest:					E_Request;					// State command
 	{attribute 'OPC.UA.DA' := '1'}
 	{ attribute 'TcHmiSymbol' }
@@ -90,6 +91,7 @@ END_VAR
         <ST><![CDATA[fbInfo();
 fbObserver();
 fbEvent();
+fbSequence();
 
 // Handle Module Type Package states
 CASE eState OF
@@ -220,6 +222,7 @@ CASE eState OF
 		
 		
 	E_State.Aborting:
+		fbSequence.M_Reset();
 		IF M_Aborting() THEN
 			eState:= E_State.Aborted;
 			eStateRequest:= E_Request.Undefined;
@@ -667,6 +670,17 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="P_Mode" Id="{3bb67a0e-6846-07bc-053e-b55a797fa512}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
+      <Get Name="Get" Id="{9d5d15ee-5102-0655-3457-a8f0100c4631}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Mode:= eMode;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="P_Observer" Id="{5a2ea21c-aedb-0c6a-2f12-df08356b98aa}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>
       <Get Name="Get" Id="{a355a491-866b-0089-1d02-e50cef149847}">
@@ -709,6 +723,7 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Component.M_Cycle">
       <LineId Id="6" Count="2" />
+      <LineId Id="750" Count="0" />
       <LineId Id="570" Count="0" />
       <LineId Id="10" Count="3" />
       <LineId Id="729" Count="0" />
@@ -798,7 +813,9 @@ END_VAR
       <LineId Id="739" Count="1" />
       <LineId Id="719" Count="0" />
       <LineId Id="638" Count="0" />
-      <LineId Id="90" Count="3" />
+      <LineId Id="90" Count="1" />
+      <LineId Id="749" Count="0" />
+      <LineId Id="92" Count="1" />
       <LineId Id="640" Count="0" />
       <LineId Id="94" Count="2" />
       <LineId Id="295" Count="0" />
@@ -1038,6 +1055,9 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.P_Info.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.P_Mode.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.P_Observer.Get">

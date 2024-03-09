@@ -11,6 +11,35 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="M_AddBOOL" Id="{6fc486ba-f21e-0356-3f27-fe3c53264131}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddBOOL
+VAR_INPUT
+	Value: 	BOOL;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_AddINT" Id="{a79ade02-7143-0a56-3ea5-b2c5275bc535}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddINT
+VAR_INPUT
+	Value: 	LINT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_AddREAL" Id="{ebc5d459-c769-0e97-2a4f-b9373812d338}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddREAL
+VAR_INPUT
+	Value: 	Lreal;
+	Decimals: INT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_AddSTRING" Id="{3ed3c97e-76ae-02a4-026a-a11cdc8c444d}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddSTRING
+VAR_INPUT
+	Value: STRING(255);
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="M_Debug" Id="{de8efd53-16f5-0334-02e3-fdd0e4bf084c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Debug : BOOL
 VAR_INPUT

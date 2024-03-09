@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="E_Sequence" Id="{878266bc-be24-0265-2bd8-c0f793632c5d}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE E_Sequence :
+(
+	Start			:= 0,
+	Done			:= 32768
+);
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -7,6 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	bReturn: 		BOOL;
 	bAbort:			BOOL;
 	bStop:			BOOL;
 	bStopCycle:		BOOL;
@@ -18,10 +19,26 @@ END_VAR
     <Method Name="M_Execute" Id="{bba4d435-5736-45bd-97fd-4ceab6f0d012}">
       <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL
 VAR_INPUT
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[
+        <ST><![CDATA[CASE fbSequence.nNumber OF
+	E_Sequence.Start:
+		fbSequence.M_Await('Start', T#0S, T#0S, TRUE, bReturn, 10);
+	
+	10:
+		fbSequence.M_Await('Step 10', T#0S, T#0S, TRUE, bReturn, 20);
+		
+	20:
+		fbSequence.M_Await('Step 20', T#0S, T#0S, FALSE, bReturn, E_Sequence.Done);	
+		
+	E_Sequence.Done:
+		fbSequence.M_Reset();
+END_CASE
+
+
+
+
+
 IF bAbort THEN
 	bAbort:= FALSE;
 	fbEvent.M_AddSTRING('Test');
@@ -52,6 +69,17 @@ M_Execute:= NOT bStopCycle;]]></ST>
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_ComponentEX.M_Execute">
+      <LineId Id="46" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="54" Count="1" />
+      <LineId Id="61" Count="1" />
+      <LineId Id="64" Count="1" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="47" Count="3" />
       <LineId Id="11" Count="0" />
       <LineId Id="6" Count="0" />
       <LineId Id="17" Count="0" />
