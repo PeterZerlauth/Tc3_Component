@@ -140,13 +140,20 @@
     <Compile Include="Logger\FB_Logger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Module\FB_Module.TcPOU">
+    <Compile Include="Module\FB_ModuleBase.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Module\I_Module.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Object\I_Object.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Globals.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
+    <Compile Include="Parameters.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>

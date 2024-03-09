@@ -36,6 +36,15 @@ END_VAR
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
+    <Property Name="P_ID" Id="{927eb9d3-455b-0b55-27ef-07b44af506f2}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_ID : String(25)]]></Declaration>
+      <Get Name="Get" Id="{44e2617b-f3f3-0ed4-30f1-21636981c162}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{418b585a-8e93-0535-1773-ae6e136dc8f6}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
     <Property Name="P_Info" Id="{a4d97ad8-84af-4536-8ab6-ff3055df9335}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Info : I_Info]]></Declaration>
       <Get Name="Get" Id="{9b0145a7-d929-442e-b904-05f74e6af1bb}">

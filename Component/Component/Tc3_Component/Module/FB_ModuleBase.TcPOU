@@ -1,21 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_Module" Id="{0d3fc497-598e-0d21-1617-ce19be6391a0}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_Module EXTENDS FB_Component
+  <POU Name="FB_ModuleBase" Id="{0d3fc497-598e-0d21-1617-ce19be6391a0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ModuleBase EXTENDS FB_Component
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	aEvent:						ARRAY [0..nEvent] OF ST_Event;	
-	fbLoggerFactory:			FB_LoggerFactory(ADR(aEvent), nEvent);
+	bError:						BOOL;		// @ToDo
+	bWarning:					BOOL;
+	bInformation:				BOOL;
+	aEvent:						ARRAY [0..Parameters.nEvents] OF ST_Event;	
+	fbLoggerFactory:			FB_LoggerFactory(ADR(aEvent), Parameters.nEvents);
 	fbTcLogger:					FB_TcLogger;
-END_VAR
-VAR CONSTANT
-    {attribute 'hide'}
-	nEvent:						INT:= 49;
-END_VAR
-					]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
@@ -137,23 +135,23 @@ WHILE nIndex < fbObserver.nLength DO
 END_WHILE]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_Module">
+    <LineIds Name="FB_ModuleBase">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module.M_Attach">
+    <LineIds Name="FB_ModuleBase.M_Attach">
       <LineId Id="7" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module.M_Cycle">
+    <LineIds Name="FB_ModuleBase.M_Cycle">
       <LineId Id="11" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module.M_Dettach">
+    <LineIds Name="FB_ModuleBase.M_Dettach">
       <LineId Id="7" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module.M_Initialise">
+    <LineIds Name="FB_ModuleBase.M_Initialise">
       <LineId Id="106" Count="0" />
       <LineId Id="82" Count="0" />
       <LineId Id="98" Count="0" />
@@ -163,24 +161,24 @@ END_WHILE]]></ST>
       <LineId Id="22" Count="1" />
       <LineId Id="21" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module.M_Resetting">
+    <LineIds Name="FB_ModuleBase.M_Resetting">
       <LineId Id="5" Count="1" />
     </LineIds>
-    <LineIds Name="FB_Module.M_Resuming">
+    <LineIds Name="FB_ModuleBase.M_Resuming">
       <LineId Id="6" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module.M_Running">
+    <LineIds Name="FB_ModuleBase.M_Running">
       <LineId Id="6" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module.M_Starting">
+    <LineIds Name="FB_ModuleBase.M_Starting">
       <LineId Id="12" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="11" Count="0" />
       <LineId Id="10" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Module.M_Unholding">
+    <LineIds Name="FB_ModuleBase.M_Unholding">
       <LineId Id="10" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>

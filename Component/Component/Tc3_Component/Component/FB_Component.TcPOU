@@ -659,6 +659,26 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="P_ID" Id="{3effb9b7-1c02-072b-311e-de8397111421}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_ID : String(25)]]></Declaration>
+      <Get Name="Get" Id="{0c21d00d-b7a9-0d38-0c40-7f63c6fb1b7c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_ID:= fbInfo.sID;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{9f14bced-b370-082e-1cc1-0212a2a60675}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[fbInfo.sID:= P_ID;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="P_Info" Id="{1f2686a8-22c2-03c1-3b18-3cdd0f1b6158}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Info : I_Info]]></Declaration>
       <Get Name="Get" Id="{80d9a233-1863-0529-037a-9eeb24a670c8}">
@@ -1052,6 +1072,12 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.P_Event.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.P_ID.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.P_ID.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.P_Info.Get">

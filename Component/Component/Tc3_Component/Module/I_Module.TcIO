@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Module" Id="{17c5a5c0-e93a-0aed-1dd7-b12ea548c450}">
+    <Declaration><![CDATA[INTERFACE I_Module EXTENDS I_Component
+]]></Declaration>
+  </Itf>
+</TcPlcObject>

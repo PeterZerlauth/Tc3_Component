@@ -3,6 +3,7 @@
   <POU Name="FB_Info" Id="{eea7efb5-6652-45a3-b451-b5b834049a65}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC FB_Info IMPLEMENTS I_Info
 VAR_INPUT
+	sID:							STRING(25);					// Equipment ID
 END_VAR
 VAR_OUTPUT
 END_VAR
