@@ -12,7 +12,7 @@ Inspired by the [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Li
     [x] Event Funktion to build and log Events
     [x] Eventlogger
     [x] Sequence Function Block
-    [ ] Ethercat Observer
+    [ ] Ethercat Monitoring
     [ ] Device Function Blocks
     [ ] Axis Function Blocks
     [ ] Dictionary function block with Tc3_JsonXml
