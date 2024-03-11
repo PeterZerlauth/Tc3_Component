@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_Button" Id="{f0bf445d-e7e9-047f-292f-1913811cf770}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Button
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	bValue:					Bool;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="P_Value" Id="{791bd1dd-c417-0c32-3c36-c0924969df13}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Value : Bool]]></Declaration>
+      <Get Name="Get" Id="{581e9463-ac2f-0620-058a-89326f94b997}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Value:= bValue;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="FB_Button">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Button.P_Value.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

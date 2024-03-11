@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_Timestamp" Id="{83d29445-3227-061e-34fb-c2c7ad5219b7}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Timestamp
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	nTimestamp:			ULINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Create" Id="{ccdea776-6ef9-0715-3563-9fac1e94846f}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Create
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nTimestamp:= F_GetSystemTime();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ToSTRING" Id="{62a96ac9-3bcc-07ab-36d0-e2a2f9371537}">
+      <Declaration><![CDATA[METHOD PUBLIC M_ToSTRING : String(255)
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ToTIMESTRUCT" Id="{21021426-75a6-03ef-1f46-d69b579da397}">
+      <Declaration><![CDATA[METHOD PUBLIC M_ToTIMESTRUCT : TIMESTRUCT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Timestamp">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Timestamp.M_Create">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Timestamp.M_ToSTRING">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Timestamp.M_ToTIMESTRUCT">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

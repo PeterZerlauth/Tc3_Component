@@ -18,7 +18,11 @@ END_VAR]]></Declaration>
 fbTimeout.IN:= FALSE;
 
 fbDelay();
-fbDelay.IN:= FALSE;]]></ST>
+fbDelay.IN:= FALSE;
+
+IF iParent.M_Mode = E_Mode.Manual THEN
+	nNumber:= E_Sequence.Manual;
+END_IF]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{9410888f-1e8d-054b-01cb-f8f70c408f51}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
@@ -106,6 +110,9 @@ END_VAR
       <LineId Id="21" Count="0" />
       <LineId Id="24" Count="1" />
       <LineId Id="23" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="39" Count="1" />
     </LineIds>
     <LineIds Name="FB_Sequence.FB_init">
       <LineId Id="7" Count="0" />

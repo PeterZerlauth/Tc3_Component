@@ -6,8 +6,9 @@
 {attribute 'to_string'}
 TYPE E_Sequence :
 (
+	Manual			:= -32768,
 	Start			:= 0,
-	Done			:= 32768
+	Done			:= 32767
 );
 END_TYPE]]></Declaration>
   </DUT>
