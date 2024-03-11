@@ -4,6 +4,7 @@
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL CONSTANT
 	nEvents:						INT:= 49;		// Maximum of Events displayed in each Module
+	tTimeout:						TIME:= T#5S;	// Default timeout for component pending states
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

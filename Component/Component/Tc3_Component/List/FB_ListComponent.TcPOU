@@ -6,7 +6,9 @@ FUNCTION_BLOCK FB_ListComponent IMPLEMENTS I_ListComponent
 VAR
 	nLength:		DINT;
 	pList: 			POINTER TO I_Component;
-	{attribute 'conditionalshow'}
+	{IF (defined (release))}
+    	{attribute 'hide'}
+	{END_IF}
 	aList:			POINTER TO POINTER TO ARRAY [0..49] OF I_Component:=ADR(pList);
 END_VAR
 ]]></Declaration>

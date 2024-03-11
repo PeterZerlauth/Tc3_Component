@@ -102,6 +102,16 @@ END_VAR
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_AddTIME" Id="{a7c2a656-d860-0eb9-0cff-1e8b5b1d8573}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddTIME
+VAR_INPUT
+	Value: 	TIME;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Add(TIME_TO_STRING(Value));]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Arguments" Id="{70779266-7b36-4bce-9e6f-049e951fd75a}">
       <Declaration><![CDATA[METHOD INTERNAL M_Arguments : STRING(255)
 VAR_INPUT
@@ -309,6 +319,9 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Event.M_AddSTRING">
       <LineId Id="5" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_Event.M_AddTIME">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Arguments">
       <LineId Id="5" Count="0" />

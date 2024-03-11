@@ -6,7 +6,9 @@ FUNCTION_BLOCK FB_ListObject IMPLEMENTS I_ListObject
 VAR
 	nLength:		DINT;
 	pList: 			POINTER TO I_Object;
-	{attribute 'conditionalshow'}
+	{IF (defined (release))}
+    	{attribute 'hide'}
+	{END_IF}
 	aList:			POINTER TO POINTER TO ARRAY [0..49] OF I_Object:=ADR(pList);
 END_VAR
 ]]></Declaration>

@@ -71,6 +71,25 @@ END_VAR
 //END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Starting" Id="{6f002794-61fc-043c-1d84-a8bc502c5d3a}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Starting:= SUPER^.M_Starting();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stopping" Id="{478c517c-d184-0eaf-2697-597088f6cf3f}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Stopping
+M_Stopping:= SUPER^.M_Stopping();]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_Module01">
       <LineId Id="9" Count="0" />
     </LineIds>
@@ -103,6 +122,13 @@ END_VAR
       <LineId Id="23" Count="0" />
       <LineId Id="22" Count="0" />
       <LineId Id="16" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module01.M_Starting">
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Module01.M_Stopping">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

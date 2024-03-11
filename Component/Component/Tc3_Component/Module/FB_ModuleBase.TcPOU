@@ -17,6 +17,17 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="M_Aborted" Id="{0b832f7f-4585-09d1-3d1d-4466841374ad}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborted
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Aborted();
+fbEvent.M_AddSTRING(P_ID);
+fbEvent.M_Information('Module %s aborted, reset', '');]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Attach" Id="{579d130b-ed70-0843-1869-7cfcfab74d3d}">
       <Declaration><![CDATA[METHOD PUBLIC M_Attach
 VAR_INPUT
@@ -50,6 +61,17 @@ END_VAR
         <ST><![CDATA[Component.P_Event.P_Logger:= 0;
 Component.P_Observer.M_Detach(THIS^);
 fbObserver.M_Detach(Component);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Idle" Id="{6e9b6a1a-c168-0e2f-3b3d-1c86715a124a}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Idle
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Idle();
+fbEvent.M_AddSTRING(P_ID);
+fbEvent.M_Information('Module %s not started', '');]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Initialise" Id="{d2ecc479-1ed6-0218-1db6-cf2c288ac295}">
@@ -120,6 +142,17 @@ WHILE nIndex < fbObserver.nLength DO
 END_WHILE]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Stopped" Id="{43b02a69-b318-0eb0-3e6f-2d210026cf6d}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopped
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Stopped();
+fbEvent.M_AddSTRING(P_ID);
+fbEvent.M_Information('Module %s stopped, reset', '');]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Unholding" Id="{e6d01443-ae5b-0242-3775-c5c307506d4e}">
       <Declaration><![CDATA[METHOD PROTECTED M_Unholding : BOOL // Return state complete
 VAR_INPUT
@@ -138,6 +171,11 @@ END_WHILE]]></ST>
     <LineIds Name="FB_ModuleBase">
       <LineId Id="9" Count="0" />
     </LineIds>
+    <LineIds Name="FB_ModuleBase.M_Aborted">
+      <LineId Id="7" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
     <LineIds Name="FB_ModuleBase.M_Attach">
       <LineId Id="7" Count="1" />
       <LineId Id="5" Count="0" />
@@ -149,6 +187,11 @@ END_WHILE]]></ST>
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Dettach">
       <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ModuleBase.M_Idle">
+      <LineId Id="7" Count="0" />
+      <LineId Id="6" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Initialise">
@@ -177,6 +220,11 @@ END_WHILE]]></ST>
       <LineId Id="9" Count="0" />
       <LineId Id="11" Count="0" />
       <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ModuleBase.M_Stopped">
+      <LineId Id="7" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Unholding">
       <LineId Id="10" Count="3" />

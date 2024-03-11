@@ -12,11 +12,15 @@ VAR
     {attribute 'hide'}
 	{attribute 'instance-path'} 
     {attribute 'noinit'}
-    sInstancePath:					STRING(255);				// Instance-Pathe
-	fbInfo:							FB_Info(sInstancePath);	// Info about function block
+    sInstancePath:					STRING(255);				// Instance-Path
+	fbInfo:							FB_Info(sInstancePath);		// Info about function block
 	fbObserver:						FB_Observer;				// Observer
 	fbEvent:						FB_Event(THIS^);			// Event creator
-	fbSequence:						FB_Sequence(THIS^);
+	fbSequence:						FB_Sequence(THIS^);			// Sequence (abort = reset)
+	{IF (defined (release))}
+    	{attribute 'hide'}
+	{END_IF}
+	fbTimeout:						TON;						// Timeout
 	eStateRequest:					E_Request;					// State command
 	{attribute 'OPC.UA.DA' := '1'}
 	{ attribute 'TcHmiSymbol' }
@@ -92,6 +96,8 @@ END_VAR
 fbObserver();
 fbEvent();
 fbSequence();
+fbTimeout(PT:= Parameters.tTimeout);
+fbTimeout.IN:= FALSE;
 
 // Handle Module Type Package states
 CASE eState OF
@@ -116,6 +122,12 @@ CASE eState OF
 				eState:= E_State.Aborting;
 				
 		END_CASE
+		fbTimeout.IN:= TRUE;
+		IF fbTimeout.Q THEN
+			fbTimeout(IN:= FALSE);
+			fbEvent.M_AddTIME(Parameters.tTimeout);
+			fbEvent.M_Stop('Timeout during state resetting %s', '');
+		END_IF
 		
 	E_State.Idle:
 		M_Running();
@@ -154,6 +166,12 @@ CASE eState OF
 				eState:= E_State.Aborting;
 				
 		END_CASE
+		fbTimeout.IN:= TRUE;
+		IF fbTimeout.Q THEN
+			fbTimeout(IN:= FALSE);
+			fbEvent.M_AddTIME(Parameters.tTimeout);
+			fbEvent.M_Stop('Timeout during state starting %s', '');
+		END_IF
 
 	E_State.Execute:
 		M_Running();
@@ -169,7 +187,19 @@ CASE eState OF
 		END_IF
 		CASE eStateRequest OF
 			E_Request.Complete:;
+				fbTimeout.IN:= TRUE;
+				IF fbTimeout.Q THEN
+					fbTimeout(IN:= FALSE);
+					fbEvent.M_AddTIME(Parameters.tTimeout);
+					fbEvent.M_Abort('Timeout during Complete request %s', '');
+				END_IF
 			E_Request.StopCycle:;
+				fbTimeout.IN:= TRUE;
+				IF fbTimeout.Q THEN
+					fbTimeout(IN:= FALSE);
+					fbEvent.M_AddTIME(Parameters.tTimeout);
+					fbEvent.M_Abort('Timeout during Stop Cycle request %s', '');
+				END_IF
 			E_Request.Stop:
 				eState:= E_State.Stopping;
 				
@@ -202,6 +232,12 @@ CASE eState OF
 				eState:= E_State.Aborting;
 				
 		END_CASE
+		fbTimeout.IN:= TRUE;
+		IF fbTimeout.Q THEN
+			fbTimeout(IN:= FALSE);
+			fbEvent.M_AddTIME(Parameters.tTimeout);
+			fbEvent.M_Abort('Timeout during state stopping %s', '');
+		END_IF
 
 	E_State.Stopped:
 		M_Stopped();
@@ -226,6 +262,12 @@ CASE eState OF
 		IF M_Aborting() THEN
 			eState:= E_State.Aborted;
 			eStateRequest:= E_Request.Undefined;
+		END_IF
+		fbTimeout.IN:= TRUE;
+		IF fbTimeout.Q THEN
+			fbTimeout(IN:= FALSE);
+			fbEvent.M_AddTIME(Parameters.tTimeout);
+			fbEvent.M_Stop('Timeout during state aborting %s', '');
 		END_IF
 		
 	E_State.Aborted:
@@ -258,6 +300,12 @@ CASE eState OF
 				eState:= E_State.Aborting;
 
 		END_CASE
+		fbTimeout.IN:= TRUE;
+		IF fbTimeout.Q THEN
+			fbTimeout(IN:= FALSE);
+			fbEvent.M_AddTIME(Parameters.tTimeout);
+			fbEvent.M_Stop('Timeout during state pausing %s', '');
+		END_IF
 		
 	
 	E_State.Paused:
@@ -296,6 +344,12 @@ CASE eState OF
 				eState:= E_State.Aborting;
 
 		END_CASE
+		fbTimeout.IN:= TRUE;
+		IF fbTimeout.Q THEN
+			fbTimeout(IN:= FALSE);
+			fbEvent.M_AddTIME(Parameters.tTimeout);
+			fbEvent.M_Stop('Timeout during state resuming %s', '');
+		END_IF
 
 	E_State.Holding:
 		M_Running();
@@ -312,6 +366,12 @@ CASE eState OF
 				eState:= E_State.Aborting;
 
 		END_CASE
+		fbTimeout.IN:= TRUE;
+		IF fbTimeout.Q THEN
+			fbTimeout(IN:= FALSE);
+			fbEvent.M_AddTIME(Parameters.tTimeout);
+			fbEvent.M_Stop('Timeout during state holding %s', '');
+		END_IF
 
 	E_State.Held:
 		M_Running();
@@ -349,6 +409,12 @@ CASE eState OF
 				eState:= E_State.Aborting;
 
 		END_CASE
+		fbTimeout.IN:= TRUE;
+		IF fbTimeout.Q THEN
+			fbTimeout(IN:= FALSE);
+			fbEvent.M_AddTIME(Parameters.tTimeout);
+			fbEvent.M_Stop('Timeout during state unholding %s', '');
+		END_IF
 		
 	E_State.Completing:
 		M_Running();
@@ -365,6 +431,12 @@ CASE eState OF
 				eState:= E_State.Aborting;
 
 		END_CASE
+		fbTimeout.IN:= TRUE;
+		IF fbTimeout.Q THEN
+			fbTimeout(IN:= FALSE);
+			fbEvent.M_AddTIME(Parameters.tTimeout);
+			fbEvent.M_Stop('Timeout during state compliting %s', '');
+		END_IF
 		
 	E_State.Completed:
 		M_Running();
@@ -744,6 +816,7 @@ END_VAR
     <LineIds Name="FB_Component.M_Cycle">
       <LineId Id="6" Count="2" />
       <LineId Id="750" Count="0" />
+      <LineId Id="754" Count="1" />
       <LineId Id="570" Count="0" />
       <LineId Id="10" Count="3" />
       <LineId Id="729" Count="0" />
@@ -757,7 +830,12 @@ END_VAR
       <LineId Id="555" Count="1" />
       <LineId Id="549" Count="5" />
       <LineId Id="548" Count="0" />
-      <LineId Id="27" Count="1" />
+      <LineId Id="774" Count="0" />
+      <LineId Id="771" Count="0" />
+      <LineId Id="826" Count="0" />
+      <LineId Id="772" Count="1" />
+      <LineId Id="768" Count="1" />
+      <LineId Id="28" Count="0" />
       <LineId Id="395" Count="0" />
       <LineId Id="322" Count="1" />
       <LineId Id="512" Count="0" />
@@ -785,6 +863,10 @@ END_VAR
       <LineId Id="351" Count="0" />
       <LineId Id="354" Count="0" />
       <LineId Id="340" Count="0" />
+      <LineId Id="776" Count="1" />
+      <LineId Id="825" Count="0" />
+      <LineId Id="778" Count="1" />
+      <LineId Id="775" Count="0" />
       <LineId Id="51" Count="1" />
       <LineId Id="397" Count="0" />
       <LineId Id="65" Count="0" />
@@ -798,7 +880,11 @@ END_VAR
       <LineId Id="70" Count="0" />
       <LineId Id="356" Count="0" />
       <LineId Id="510" Count="0" />
+      <LineId Id="834" Count="4" />
+      <LineId Id="833" Count="0" />
       <LineId Id="679" Count="0" />
+      <LineId Id="828" Count="4" />
+      <LineId Id="827" Count="0" />
       <LineId Id="583" Count="3" />
       <LineId Id="362" Count="0" />
       <LineId Id="421" Count="1" />
@@ -820,6 +906,10 @@ END_VAR
       <LineId Id="372" Count="0" />
       <LineId Id="374" Count="0" />
       <LineId Id="365" Count="0" />
+      <LineId Id="781" Count="1" />
+      <LineId Id="824" Count="0" />
+      <LineId Id="783" Count="1" />
+      <LineId Id="780" Count="0" />
       <LineId Id="80" Count="2" />
       <LineId Id="376" Count="0" />
       <LineId Id="508" Count="0" />
@@ -837,7 +927,12 @@ END_VAR
       <LineId Id="749" Count="0" />
       <LineId Id="92" Count="1" />
       <LineId Id="640" Count="0" />
-      <LineId Id="94" Count="2" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="786" Count="1" />
+      <LineId Id="818" Count="0" />
+      <LineId Id="788" Count="1" />
+      <LineId Id="785" Count="0" />
+      <LineId Id="95" Count="1" />
       <LineId Id="295" Count="0" />
       <LineId Id="385" Count="0" />
       <LineId Id="507" Count="0" />
@@ -859,6 +954,10 @@ END_VAR
       <LineId Id="506" Count="0" />
       <LineId Id="595" Count="3" />
       <LineId Id="453" Count="2" />
+      <LineId Id="791" Count="1" />
+      <LineId Id="819" Count="0" />
+      <LineId Id="793" Count="1" />
+      <LineId Id="790" Count="0" />
       <LineId Id="444" Count="0" />
       <LineId Id="116" Count="1" />
       <LineId Id="401" Count="0" />
@@ -883,6 +982,10 @@ END_VAR
       <LineId Id="603" Count="3" />
       <LineId Id="462" Count="1" />
       <LineId Id="456" Count="0" />
+      <LineId Id="796" Count="1" />
+      <LineId Id="820" Count="0" />
+      <LineId Id="798" Count="1" />
+      <LineId Id="795" Count="0" />
       <LineId Id="140" Count="1" />
       <LineId Id="403" Count="0" />
       <LineId Id="148" Count="1" />
@@ -893,6 +996,10 @@ END_VAR
       <LineId Id="607" Count="3" />
       <LineId Id="470" Count="1" />
       <LineId Id="464" Count="0" />
+      <LineId Id="801" Count="1" />
+      <LineId Id="821" Count="0" />
+      <LineId Id="803" Count="1" />
+      <LineId Id="800" Count="0" />
       <LineId Id="151" Count="1" />
       <LineId Id="404" Count="0" />
       <LineId Id="163" Count="0" />
@@ -915,6 +1022,10 @@ END_VAR
       <LineId Id="619" Count="3" />
       <LineId Id="484" Count="1" />
       <LineId Id="478" Count="0" />
+      <LineId Id="806" Count="1" />
+      <LineId Id="822" Count="0" />
+      <LineId Id="808" Count="1" />
+      <LineId Id="805" Count="0" />
       <LineId Id="175" Count="1" />
       <LineId Id="406" Count="0" />
       <LineId Id="183" Count="1" />
@@ -925,6 +1036,10 @@ END_VAR
       <LineId Id="623" Count="3" />
       <LineId Id="492" Count="1" />
       <LineId Id="486" Count="0" />
+      <LineId Id="811" Count="1" />
+      <LineId Id="823" Count="0" />
+      <LineId Id="813" Count="1" />
+      <LineId Id="810" Count="0" />
       <LineId Id="186" Count="1" />
       <LineId Id="560" Count="0" />
       <LineId Id="201" Count="0" />

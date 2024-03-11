@@ -6,7 +6,9 @@ FUNCTION_BLOCK FB_ListLogger IMPLEMENTS I_ListLogger
 VAR
 	nLength:		DINT;
 	pList: 			POINTER TO I_Logger;
-	{attribute 'conditionalshow'}
+	{IF (defined (release))}
+    	{attribute 'hide'}
+	{END_IF}
 	aList:			POINTER TO POINTER TO ARRAY [0..49] OF I_Logger:=ADR(pList);
 END_VAR
 ]]></Declaration>

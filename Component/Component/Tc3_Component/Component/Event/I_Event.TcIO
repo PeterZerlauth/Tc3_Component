@@ -40,6 +40,13 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="M_AddTIME" Id="{f0b3d8c4-ba50-0bc6-3568-c25bafa8b734}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddTIME
+VAR_INPUT
+	Value: 	TIME;
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="M_Debug" Id="{de8efd53-16f5-0334-02e3-fdd0e4bf084c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Debug : BOOL
 VAR_INPUT

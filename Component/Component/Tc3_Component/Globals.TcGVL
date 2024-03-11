@@ -2,7 +2,9 @@
 <TcPlcObject Version="1.1.0.1">
   <GVL Name="Globals" Id="{470c2b31-7e29-075f-0fd9-081ad8199996}">
     <Declaration><![CDATA[VAR_GLOBAL
-	{attribute 'hide'}
+	{IF (defined (release))}
+    	{attribute 'hide'}
+	{END_IF}
 	fbLogger:			FB_Logger;
 END_VAR]]></Declaration>
   </GVL>

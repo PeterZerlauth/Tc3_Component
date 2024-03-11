@@ -20,7 +20,7 @@ fbTimeout.IN:= FALSE;
 fbDelay();
 fbDelay.IN:= FALSE;
 
-IF iParent.M_Mode = E_Mode.Manual THEN
+IF iParent.P_Mode = E_Mode.Manual THEN
 	nNumber:= E_Sequence.Manual;
 END_IF]]></ST>
     </Implementation>
@@ -39,17 +39,17 @@ END_VAR
     <Method Name="M_Await" Id="{1bc0e82b-8467-4f35-a54e-996600fba2bc}">
       <Declaration><![CDATA[METHOD PUBLIC M_Await 
 VAR_INPUT
-	sMessage:				STRING(255);
+	sMessage:				STRING(255);		
 	tTimeout:				TIME;
 	tDelay:					TIME;	
 	bPause:					BOOL;
-	bNext:					BOOL;
+	bReturn:				BOOL;
 	nNumber:				INT;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[THIS^.sMessage:= sMessage;
-IF bNext THEN
+IF bReturn THEN
 	IF tDelay <> T#0S THEN
 		fbDelay.IN:= TRUE;
 		IF fbDelay.Q THEN

@@ -9,7 +9,7 @@ VAR_INPUT
 	tTimeout:				TIME;
 	tDelay:					TIME;	
 	bPause:					BOOL;
-	bNext:					BOOL;
+	bReturn:				BOOL;
 	nNumber:				INT;
 END_VAR
 ]]></Declaration>

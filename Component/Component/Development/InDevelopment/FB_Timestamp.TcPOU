@@ -28,7 +28,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[SYSTEMTIME_TO_STRING(M_ToTIMESTRUCT());]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_ToTIMESTRUCT" Id="{21021426-75a6-03ef-1f46-d69b579da397}">
@@ -37,7 +37,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[M_ToTIMESTRUCT:= FILETIME_TO_SYSTEMTIME(nTimestamp);]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Timestamp">

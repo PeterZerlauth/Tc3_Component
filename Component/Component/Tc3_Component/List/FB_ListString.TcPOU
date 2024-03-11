@@ -6,7 +6,9 @@ FUNCTION_BLOCK FB_ListString IMPLEMENTS I_ListString
 VAR
 	pList: 			POINTER TO STRING(255);
 	nLength:		DINT;
-	{attribute 'conditionalshow'}
+	{IF (defined (release))}
+    	{attribute 'hide'}
+	{END_IF}
 	aList:			POINTER TO POINTER TO ARRAY [0..49] OF STRING(255):=ADR(pList);
 END_VAR
 ]]></Declaration>
