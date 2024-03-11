@@ -13,8 +13,8 @@ Inspired by the [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Li
     [x] Eventlogger
     [x] Sequence Function Block
     [ ] Ethercat Monitoring
-    [ ] Device Function Blocks
-    [ ] Axis Function Blocks
+    [ ] Device Function Blocks ==> will probably have its own lib
+    [ ] Axis Function Blocks ==> will probably have its own lib
     [ ] Dictionary function block with Tc3_JsonXml
     
 ## State Machine
