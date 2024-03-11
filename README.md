@@ -1,11 +1,9 @@
 # Tc3_Component
 A library for TwinCAT 3 which ist using design patterns to standardize machine control software.\
 The goal are to code reliable Software in a short time,\
-have a lightwight and modular Framework.\
+have a lightwight and modular Framework.
 
-
-Inspired by the [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Libraries) but with a different concept.
-
+Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Libraries) or [TcOpen](https://docs.tcopengroup.org/)
 
 ## Description
     [x] State Machine (ISA88/MTP)
