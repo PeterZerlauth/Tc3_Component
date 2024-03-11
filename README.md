@@ -11,7 +11,7 @@ Inspired by the [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Li
     [x] Observer Pattern to Notify state changes
     [x] Event Funktion to build and log Events
     [x] Eventlogger
-    [ ] Sequence manager is in development
+    [x] Sequence Function Block
     [ ] Ethercat Observer
     [ ] Device Function Blocks
     [ ] Axis Function Blocks
