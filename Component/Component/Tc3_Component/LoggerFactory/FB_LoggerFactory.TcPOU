@@ -1,37 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_LoggerFactory" Id="{14a5296c-b52d-02f9-2d9e-abab1d7b93f2}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'no_explicit_call'} 
-FUNCTION_BLOCK FB_LoggerFactory IMPLEMENTS I_Logger
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_LoggerFactory IMPLEMENTS I_Logger
 VAR
 	fbList:						FB_ListLogger;
 	nIndex: 					DINT;
 	nEvent:						DINT;
 	nLength:					DINT;
 	pEvent:						POINTER TO ST_Event;	
-END_VAR
-VAR_OUTPUT
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Provide the Logging function to a module, and event buffer
 // Hmi anyway have to work with a static list :-(
 
 // Deactivate old events
 nIndex:= 0;
-WHILE nIndex < nEvent DO
-	IF pEvent[nIndex].Active THEN
+WHILE nIndex < nLength DO
+	IF pEvent[nIndex].Active AND pEvent[nIndex].EventType <> E_Event.Error THEN
 		pEvent[nIndex].Active:= FALSE;
 	ELSE
-		IF pEvent[nIndex].Timestamp = 0 THEN
-			RETURN;
-		ELSE
-			IF pEvent[nIndex].Active THEN
-				;
-			ELSE
-				M_Remove(nIndex);
-			END_IF
-		END_IF
+		M_Remove(nIndex);		
 	END_IF
 	nIndex := nIndex + 1;
 END_WHILE]]></ST>
@@ -106,13 +94,11 @@ END_VAR]]></Declaration>
 	pEvent[nIndex].Arguments:= stEvent.Arguments;
 ELSE
 	// add new event
+	stEvent.Active:= TRUE;
 	M_Publish(stEvent);
 	pEvent[nLength]:= stEvent;
 	nLength:= nLength + 1;
-END_IF
-
-	
-]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Publish" Id="{578d5b47-6fac-0518-1a61-62b0162be35c}">
@@ -148,7 +134,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Reset Errors
 nIndex:= 0;
-WHILE nIndex < nEvent DO
+WHILE nIndex < nLength DO
 	IF pEvent[nIndex].EventType = E_Event.Error THEN
 		M_Remove(nIndex);
 	END_IF
@@ -157,7 +143,9 @@ END_WHILE]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_LoggerFactory">
-      <LineId Id="334" Count="19" />
+      <LineId Id="334" Count="8" />
+      <LineId Id="362" Count="0" />
+      <LineId Id="352" Count="1" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.FB_init">
@@ -179,11 +167,9 @@ END_WHILE]]></ST>
     <LineIds Name="FB_LoggerFactory.M_Log">
       <LineId Id="112" Count="3" />
       <LineId Id="117" Count="1" />
+      <LineId Id="145" Count="0" />
       <LineId Id="141" Count="0" />
       <LineId Id="120" Count="2" />
-      <LineId Id="138" Count="0" />
-      <LineId Id="137" Count="0" />
-      <LineId Id="139" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Publish">
       <LineId Id="17" Count="0" />

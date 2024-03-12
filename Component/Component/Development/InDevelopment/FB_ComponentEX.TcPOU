@@ -11,8 +11,9 @@ VAR
 	bAbort:			BOOL;
 	bStop:			BOOL;
 	bStopCycle:		BOOL;
-END_VAR
-]]></Declaration>
+	bInformation:	BOOL;
+	bWarning:		BOOL;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
@@ -41,28 +42,37 @@ END_CASE
 
 IF bAbort THEN
 	bAbort:= FALSE;
-	fbEvent.M_AddSTRING('Test');
-	fbEvent.M_AddSTRING('Test2');
-	fbEvent.M_AddSTRING('Test3');
+	fbEvent.M_AddSTRING('1');
+	fbEvent.M_AddSTRING('2');
+	fbEvent.M_AddSTRING('3');
 	fbEvent.M_Abort('First Error Abort', 'a');
 END_IF
 
 IF bStop THEN
 	bStop:= FALSE;
-	fbEvent.M_AddSTRING('Test');
-	fbEvent.M_AddSTRING('Test2');
-	fbEvent.M_AddSTRING('Test3');
+	fbEvent.M_AddSTRING('a');
+	fbEvent.M_AddSTRING('b');
+	fbEvent.M_AddSTRING('c');
 	fbEvent.M_Stop('First Error Stop', 'b');
 END_IF
 
 IF bStopCycle THEN
-	fbEvent.M_AddSTRING('Test');
-	fbEvent.M_AddSTRING('Test2');
-	fbEvent.M_AddSTRING('Test3');
-	fbEvent.M_StopCycle('First Error Complete', 'b');
+	fbEvent.M_AddSTRING('d');
+	fbEvent.M_AddSTRING('e');
+	fbEvent.M_AddSTRING('f');
+	fbEvent.M_StopCycle('First Error Complete', 'c');
+END_IF
+M_Execute:= NOT bStopCycle;
+
+IF bInformation THEN
+	fbEvent.M_Information('Info', 'd');	
 END_IF
 
-M_Execute:= NOT bStopCycle;]]></ST>
+IF bWarning THEN
+	fbEvent.M_Warning('Warning', 'e');	
+END_IF
+
+]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ComponentEX">
@@ -91,8 +101,14 @@ M_Execute:= NOT bStopCycle;]]></ST>
       <LineId Id="36" Count="1" />
       <LineId Id="39" Count="3" />
       <LineId Id="35" Count="0" />
-      <LineId Id="31" Count="0" />
       <LineId Id="30" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="76" Count="2" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="74" Count="1" />
+      <LineId Id="71" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

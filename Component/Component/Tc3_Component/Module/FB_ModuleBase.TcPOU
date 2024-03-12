@@ -91,6 +91,22 @@ fbLoggerFactory.M_Attach(fbTcLogger);
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_OnMode" Id="{8aa684a1-26e4-029d-2fa8-0e0341c2e439}">
+      <Declaration><![CDATA[METHOD Protected M_OnMode
+VAR_INPUT
+	eMode:							E_Mode;						// Current mode
+	eModePrevious:					E_Mode;						// Previous mode	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE eMode OF
+	E_Mode.Semiauto, E_Mode.Automatic:
+		IF eModePrevious = E_Mode.Manual THEN
+			fbEvent.M_AddSTRING(P_ID);
+			fbEvent.M_Abort('Module %s was in manual mode', '');
+		END_IF
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Resetting" Id="{61e3d89a-8bee-473b-9814-ba7482888f16}">
       <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL
 VAR_INPUT
@@ -203,6 +219,14 @@ END_WHILE]]></ST>
       <LineId Id="26" Count="0" />
       <LineId Id="22" Count="1" />
       <LineId Id="21" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ModuleBase.M_OnMode">
+      <LineId Id="7" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="21" Count="1" />
+      <LineId Id="16" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Resetting">
       <LineId Id="5" Count="1" />

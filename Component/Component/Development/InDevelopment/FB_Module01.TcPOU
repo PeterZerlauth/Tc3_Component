@@ -7,7 +7,6 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbPnozMulti:				FB_PnozMulti;
 	fbComponent1:				FB_Component;
 	fbComponent2:				FB_Component;
 	fbComponent3:				FB_ComponentEx;
@@ -23,7 +22,6 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Cycle();
 
-fbPnozMulti.M_Cycle();
 fbComponent1.M_Cycle();
 fbComponent2.M_Cycle();
 fbComponent3.M_Cycle();
@@ -38,8 +36,10 @@ END_VAR
       <Implementation>
         <ST><![CDATA[M_Execute:= SUPER^.M_Execute() AND FALSE;
 
-//fbEvent.M_Warning('My first Warning', '' );	
-fbEvent.M_Warning('My secound Warning', '' );	]]></ST>
+IF bWarning THEN
+	fbEvent.M_Warning('My secound Warning', '' );	
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Initialise" Id="{714c485c-83a6-4af2-a706-fec3f6b598e5}">
@@ -52,7 +52,6 @@ END_VAR
 
 P_ID:= '1';
 
-M_Attach(fbPnozMulti);
 M_Attach(fbComponent1);
 M_Attach(fbComponent2);
 M_Attach(fbComponent3);]]></ST>
@@ -101,7 +100,6 @@ M_Stopping:= SUPER^.M_Stopping();]]></ST>
     </LineIds>
     <LineIds Name="FB_Module01.M_Cycle">
       <LineId Id="5" Count="0" />
-      <LineId Id="15" Count="0" />
       <LineId Id="8" Count="3" />
       <LineId Id="6" Count="0" />
     </LineIds>
@@ -109,12 +107,13 @@ M_Stopping:= SUPER^.M_Stopping();]]></ST>
       <LineId Id="5" Count="0" />
       <LineId Id="10" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="15" Count="1" />
       <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Initialise">
       <LineId Id="24" Count="0" />
       <LineId Id="110" Count="0" />
-      <LineId Id="105" Count="1" />
+      <LineId Id="105" Count="0" />
       <LineId Id="104" Count="0" />
       <LineId Id="66" Count="0" />
       <LineId Id="42" Count="0" />
