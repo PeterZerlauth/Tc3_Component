@@ -26,7 +26,13 @@
         <Event>
           <CommandType>Execute</CommandType>
           <DeploymentType>PlcOnlineChange</DeploymentType>
-          <Command1>git commit</Command1>
+          <Command1>git commit -m "online change"</Command1>
+          <Command2 />
+        </Event>
+        <Event>
+          <CommandType>Execute</CommandType>
+          <DeploymentType>PlcDownload</DeploymentType>
+          <Command1>git commit -m "download"</Command1>
           <Command2 />
         </Event>
       </Events>
