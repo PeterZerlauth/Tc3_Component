@@ -7,9 +7,6 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	bError:						BOOL;		// @ToDo
-	bWarning:					BOOL;
-	bInformation:				BOOL;
 	aEvent:						ARRAY [0..Parameters.nEvents] OF ST_Event;	
 	fbLoggerFactory:			FB_LoggerFactory(ADR(aEvent), Parameters.nEvents);
 	fbTcLogger:					FB_TcLogger;

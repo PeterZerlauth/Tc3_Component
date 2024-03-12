@@ -20,6 +20,17 @@
     <AutoUpdateUmlProfile>true</AutoUpdateUmlProfile>
     <Released>false</Released>
     <CombineIds>true</CombineIds>
+    <CompilerDefines>release</CompilerDefines>
+    <DeploymentEvents>
+      <Events>
+        <Event>
+          <CommandType>Execute</CommandType>
+          <DeploymentType>PlcOnlineChange</DeploymentType>
+          <Command1>git commit</Command1>
+          <Command2 />
+        </Event>
+      </Events>
+    </DeploymentEvents>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="HMI\FB_Button.TcPOU">

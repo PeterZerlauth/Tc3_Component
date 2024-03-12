@@ -5,6 +5,7 @@
 VAR
 	fbComponent:		FB_Module01;
 	fbComponentEX:		FB_ComponentEX;
+bTest:		BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>

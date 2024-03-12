@@ -7,6 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	bWarning:					BOOL;
 	fbComponent1:				FB_Component;
 	fbComponent2:				FB_Component;
 	fbComponent3:				FB_ComponentEx;

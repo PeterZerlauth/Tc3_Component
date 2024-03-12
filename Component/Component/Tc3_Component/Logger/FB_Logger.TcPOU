@@ -21,15 +21,15 @@ END_VAR]]></Declaration>
 	sMessage:= Concat(Concat(stEvent.Instance, ' | iLogger = 0 | '), stEvent.Message);
 	CASE stEvent.EventType OF
 		E_Event.Error:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := sMessage, strArg := '');
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := '%s', strArg := sMessage);
 		E_Event.Warning:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_WARN , msgFmtStr := sMessage, strArg := '');
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_WARN , msgFmtStr := '%s', strArg := sMessage);
 		E_Event.Information:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := sMessage, strArg := '');
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
 		E_Event.Debug:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT, msgFmtStr := sMessage, strArg := '');
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT, msgFmtStr := '%s', strArg := sMessage);
 		E_Event.Verbose:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := sMessage, strArg := '');
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
 	END_CASE	
 END_IF]]></ST>
       </Implementation>
