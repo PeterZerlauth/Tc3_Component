@@ -35,7 +35,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_State:= F_GetMappingStatus(adr(Channel), sizeof(BOOL));]]></ST>
+          <ST><![CDATA[P_State:= F_GetMappingStatus(ADR(Channel), SIZEOF(BOOL));]]></ST>
         </Implementation>
       </Get>
     </Property>

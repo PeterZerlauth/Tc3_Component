@@ -3,16 +3,19 @@
   <POU Name="MAIN" Id="{80fd576e-8bda-0001-19b1-22d89fc11873}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	fbEhercat:			FB_Ethercat;
 	fbComponent:		FB_Module01;
 	fbComponentEX:		FB_ComponentEX;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbComponent.M_Cycle();
+      <ST><![CDATA[fbEhercat.M_Cycle();
+fbComponent.M_Cycle();
 fbComponentEX.M_Cycle();
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
+      <LineId Id="450" Count="0" />
       <LineId Id="417" Count="0" />
       <LineId Id="443" Count="0" />
       <LineId Id="37" Count="0" />

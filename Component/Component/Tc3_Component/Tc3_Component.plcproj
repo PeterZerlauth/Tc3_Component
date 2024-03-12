@@ -48,7 +48,6 @@
     <Folder Include="Utils\File" />
     <Folder Include="Utils\Digital" />
     <Folder Include="Utils\Analog" />
-    <Folder Include="Utils\NetID" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\Event\E_Event.TcDUT">
@@ -189,12 +188,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utils\Digital\I_DigitalChannel.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\NetID\AdsAdrress.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\NetID\I_AdsChannel.TcIO">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

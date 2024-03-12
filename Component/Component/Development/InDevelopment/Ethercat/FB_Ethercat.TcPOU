@@ -8,6 +8,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	sNetId:						T_AmsNetID;
 	nSlaves:					UINT;
 	fbGetMasterState: 			FB_EcGetMasterDevState;
 	fbGetSlaveStates:			FB_EcGetAllSlaveStates;
@@ -63,9 +64,7 @@ END_FOR
 
 fbGetSlaveAddresses(bExecute:= TRUE);
 
-fbGetConfSlaves(bExecute:= TRUE);
-
-]]></ST>
+fbGetConfSlaves(bExecute:= TRUE);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Starting" Id="{429ce4f6-d8ad-000d-1883-5a642980062d}">
@@ -73,10 +72,15 @@ fbGetConfSlaves(bExecute:= TRUE);
 VAR_INPUT
 END_VAR
 VAR
-	sNetId:						T_AmsNetID;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sNetId:= F_CreateAmsNetId(NetId);
+        <ST><![CDATA[
+sNetId:= F_CreateAmsNetId(NetId);
+
+IF F_GetMappingStatus(ADR(NetId), SIZEOF(T_AmsNetIdArr)) <> EPlcMappingStatus.MS_Mapped THEN
+	fbEvent.M_AddSTRING(sNetId);
+	fbEvent.M_Abort('Ethercat master netid not mapped %s', '');
+END_IF
 
 fbGetMasterState.sNetId:= sNetId;
 fbGetSlaveAddresses.sNetId:= sNetId;
@@ -88,34 +92,31 @@ fbGetSlaveCount(bExecute:= TRUE);
 IF NOT fbGetSlaveCount.bBusy THEN
 	nSlaves:= fbGetSlaveCount.nSlaves;
 	
-	IF fbGetSlaveStates.pStateBuf = 0 THEN
-		IF fbGetSlaveStates.cbBufLen <> nSlaves * SIZEOF(Tc2_EtherCAT.ST_EcSlaveState) THEN
+		IF fbGetSlaveStates.pStateBuf = 0 THEN
 			IF fbGetSlaveStates.cbBufLen <> 0 THEN
 				__DELETE(fbGetSlaveStates.pStateBuf);
 			END_IF
 			fbGetSlaveStates.cbBufLen:= nSlaves * SIZEOF(Tc2_EtherCAT.ST_EcSlaveState);
-			fbGetSlaveStates.pStateBuf:= __NEW(BYTE, (SIZEOF(Tc2_EtherCAT.ST_EcSlaveState) * nSlaves)); 	
+			fbGetSlaveStates.pStateBuf:= __NEW(BYTE, fbGetSlaveStates.cbBufLen); 	
 		END_IF
 		
 		IF fbGetConfSlaves.pArrEcConfSlaveInfo = 0 THEN
 			IF fbGetConfSlaves.pArrEcConfSlaveInfo <> 0 THEN
 				__DELETE(fbGetConfSlaves.pArrEcConfSlaveInfo);
 			END_IF
-			fbGetConfSlaves.pArrEcConfSlaveInfo:=  __NEW(BYTE, (SIZEOF(Tc2_EtherCAT.ST_EcSlaveConfigData) * nSlaves));
 			fbGetConfSlaves.cbBufLen:= nSlaves * SIZEOF(Tc2_EtherCAT.ST_EcSlaveConfigData);
+			fbGetConfSlaves.pArrEcConfSlaveInfo:=  __NEW(BYTE, fbGetConfSlaves.cbBufLen);
+
 		END_IF
 		
 		IF fbGetSlaveAddresses.pAddrBuf = 0 THEN
 			IF fbGetSlaveAddresses.pAddrBuf <> 0 THEN
 				__DELETE(fbGetSlaveAddresses.pAddrBuf);
 			END_IF
-			fbGetSlaveAddresses.pAddrBuf:=  __NEW(UINT, nSlaves);
 			fbGetSlaveAddresses.cbBufLen:= nSlaves * SIZEOF(UINT);
+			fbGetSlaveAddresses.pAddrBuf:=  __NEW(BYTE, fbGetSlaveAddresses.cbBufLen);
 		END_IF	
-		
-		
-		
-	END_IF
+
 	M_Starting:= TRUE;
 END_IF
 
@@ -158,11 +159,13 @@ END_IF
       <LineId Id="13" Count="1" />
       <LineId Id="12" Count="0" />
       <LineId Id="7" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_Ethercat.M_Starting">
-      <LineId Id="7" Count="0" />
+      <LineId Id="121" Count="1" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="117" Count="1" />
       <LineId Id="59" Count="0" />
       <LineId Id="56" Count="0" />
       <LineId Id="92" Count="0" />
@@ -172,13 +175,17 @@ END_IF
       <LineId Id="47" Count="0" />
       <LineId Id="49" Count="2" />
       <LineId Id="105" Count="0" />
-      <LineId Id="77" Count="7" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="79" Count="5" />
       <LineId Id="104" Count="0" />
-      <LineId Id="85" Count="6" />
+      <LineId Id="85" Count="3" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="89" Count="2" />
       <LineId Id="103" Count="0" />
-      <LineId Id="97" Count="5" />
-      <LineId Id="93" Count="3" />
-      <LineId Id="60" Count="0" />
+      <LineId Id="97" Count="3" />
+      <LineId Id="127" Count="0" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="93" Count="1" />
       <LineId Id="53" Count="0" />
       <LineId Id="52" Count="0" />
       <LineId Id="37" Count="0" />
