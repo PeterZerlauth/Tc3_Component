@@ -1,9 +1,9 @@
 # Tc3_Component
-A library for TwinCAT 3 which ist using design patterns to standardize machine control software.
-The goal are to code reliable Software in a short time,
+A library for TwinCAT 3 which ist using design patterns to standardize machine control software.\
+The goal are to code reliable Software in a short time,\
 have a lightwight and modular Framework.
-Inspired by the [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Libraries) but with a different concept.
 
+Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Libraries) or [TcOpen](https://docs.tcopengroup.org/)
 
 ## Description
     [x] State Machine (ISA88/MTP)
@@ -11,10 +11,10 @@ Inspired by the [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Li
     [x] Observer Pattern to Notify state changes
     [x] Event Funktion to build and log Events
     [x] Eventlogger
-    [ ] Sequence manager is in development
-    [ ] Ethercat Observer
-    [ ] Device Function Blocks
-    [ ] Axis Function Blocks
+    [x] Sequence Function Block
+    [ ] Ethercat Monitoring
+    [ ] Device Function Blocks ==> will probably have its own lib
+    [ ] Axis Function Blocks ==> will probably have its own lib
     [ ] Dictionary function block with Tc3_JsonXml
     
 ## State Machine
