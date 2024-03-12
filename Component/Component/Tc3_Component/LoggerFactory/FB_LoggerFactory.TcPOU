@@ -20,7 +20,7 @@ END_VAR
 // Deactivate old events
 nIndex:= 0;
 WHILE nIndex < nEvent DO
-	IF pEvent[nIndex].Active AND pEvent[nIndex].EventType <> E_Event.Error THEN
+	IF pEvent[nIndex].Active THEN
 		pEvent[nIndex].Active:= FALSE;
 	ELSE
 		IF pEvent[nIndex].Timestamp = 0 THEN
@@ -80,7 +80,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Find := -1;
 nIndex:= 0;
-WHILE nIndex < nEvent DO
+WHILE nIndex < nLength DO
 	IF (pEvent[nIndex].Source = stEvent.Source) AND_THEN
     	(pEvent[nIndex].EventType = stEvent.EventType) AND_THEN
 		(pEvent[nIndex].Instance = stEvent.Instance) AND_THEN
@@ -102,17 +102,16 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
 	// Update existing eventss
-	pEvent[nIndex].Active:= stEvent.Active;
+	pEvent[nIndex].Active:= TRUE;
 	pEvent[nIndex].Arguments:= stEvent.Arguments;
-	pEvent[nIndex].New:= FALSE;
 ELSE
 	// add new event
-	stEvent.New:= TRUE;
+	M_Publish(stEvent);
 	pEvent[nLength]:= stEvent;
 	nLength:= nLength + 1;
 END_IF
 
-M_Publish(stEvent);
+	
 ]]></ST>
       </Implementation>
     </Method>
@@ -178,8 +177,13 @@ END_WHILE]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Log">
-      <LineId Id="112" Count="12" />
-      <LineId Id="70" Count="0" />
+      <LineId Id="112" Count="3" />
+      <LineId Id="117" Count="1" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="120" Count="2" />
+      <LineId Id="138" Count="0" />
+      <LineId Id="137" Count="0" />
+      <LineId Id="139" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Publish">
       <LineId Id="17" Count="0" />

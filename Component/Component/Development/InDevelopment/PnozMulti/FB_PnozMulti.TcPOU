@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_PnozMulti" Id="{2566bc66-8d52-00d5-157e-5f672482545a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_PnozMulti EXTENDS FB_Component
+VAR_INPUT
+	fbError:				FB_DigitalInput;
+END_VAR
+VAR_OUTPUT
+	fbReset:				FB_DigitalOutput;
+END_VAR
+VAR
+	fbTimer:				TON:= (PT:= T#1S);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Cycle" Id="{c36119e6-2850-00e2-069f-8f7c6180c420}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Cycle();
+
+fbTimer();
+fbTimer.IN:= FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Resetting" Id="{d89d9997-b896-0e05-066b-9cfd89d8a772}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Resetting();
+IF fbError.P_Value THEN
+	M_Resetting:= TRUE;
+ELSE
+	fbReset.P_Value:= TRUE;
+	fbTimer.IN:= TRUE;
+	IF fbTimer.Q THEN
+		P_Event.M_Abort('Pnoz error not reseted %s', '');
+		fbReset.P_Value:= FALSE;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_PnozMulti">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_PnozMulti.M_Cycle">
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_PnozMulti.M_Resetting">
+      <LineId Id="12" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="18" Count="4" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

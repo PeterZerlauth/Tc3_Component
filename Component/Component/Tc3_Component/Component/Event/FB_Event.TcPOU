@@ -40,22 +40,25 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stAbort.Source:= iParent;
+        <ST><![CDATA[IF stAbort.Message <> Message THEN
+	stAbort.Message:= Message;
+	stAbort.Active:= TRUE;
+ELSE
+	stAbort.Active:= FALSE;	
+END_IF
+stAbort.Source:= iParent;
 stAbort.Instance:= iParent.P_Info.P_Instance;
 stAbort.Class:= iParent.P_Info.P_Class;
 stAbort.EventType:= E_Event.Error;
 stAbort.Timestamp:= F_GetSystemTime();
 stAbort.ID:= ID;
-stAbort.Message:= Message;
 stAbort.Arguments:= M_Arguments();
-stAbort.Command:= 'Abort';
-stAbort.Active:= TRUE;
 
 iParent.M_Request(E_Request.Abort);
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stAbort);
 ELSE
-	fbLogger.M_Log(stAbort);
+	fbLogger.M_Log(stAbort);		
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -136,16 +139,19 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stDebug.Source:= iParent;
+        <ST><![CDATA[IF stDebug.Message <> Message THEN
+	stDebug.Message:= Message;
+	stDebug.Active:= TRUE;
+ELSE
+	stDebug.Active:= FALSE;	
+END_IF
+stDebug.Source:= iParent;
 stDebug.Instance:= iParent.P_Info.P_Instance;
 stDebug.Class:= iParent.P_Info.P_Class;
 stDebug.EventType:= E_Event.Debug;
 stDebug.Timestamp:= F_GetSystemTime();
 stDebug.ID:= '';
-stDebug.Message:= Message;
 stDebug.Arguments:= M_Arguments();
-stDebug.Command:= '';
-stDebug.Active:= TRUE;
 
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stDebug);
@@ -162,16 +168,19 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stInformation.Source:= iParent;
+        <ST><![CDATA[IF stInformation.Message <> Message THEN
+	stInformation.Message:= Message;
+	stInformation.Active:= TRUE;
+ELSE
+	stInformation.Active:= FALSE;	
+END_IF
+stInformation.Source:= iParent;
 stInformation.Instance:= iParent.P_Info.P_Instance;
 stInformation.Class:= iParent.P_Info.P_Class;
 stInformation.EventType:= E_Event.Information;
 stInformation.Timestamp:= F_GetSystemTime();
 stInformation.ID:= ID;
-stInformation.Message:= Message;
 stInformation.Arguments:= M_Arguments();
-stInformation.Command:= 'Information';
-stInformation.Active:= TRUE;
 
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stInformation);
@@ -202,16 +211,19 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stStop.Source:= iParent;
+        <ST><![CDATA[IF stStop.Message <> Message THEN
+	stStop.Message:= Message;
+	stStop.Active:= TRUE;
+ELSE
+	stStop.Active:= FALSE;	
+END_IF
+stStop.Source:= iParent;
 stStop.Instance:= iParent.P_Info.P_Instance;
 stStop.Class:= iParent.P_Info.P_Class;
 stStop.EventType:= E_Event.Error;
 stStop.Timestamp:= F_GetSystemTime();
 stStop.ID:= ID;
-stStop.Message:= Message;
 stStop.Arguments:= M_Arguments();
-stStop.Command:= 'Stop';
-stStop.Active:= TRUE;
 
 iParent.M_Request(E_Request.Stop);
 IF iLogger <> 0 THEN
@@ -229,16 +241,19 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stStopCycle.Source:= iParent;
+        <ST><![CDATA[IF stStopCycle.Message <> Message THEN
+	stStopCycle.Message:= Message;
+	stStopCycle.Active:= TRUE;
+ELSE
+	stStopCycle.Active:= FALSE;	
+END_IF
+stStopCycle.Source:= iParent;
 stStopCycle.Instance:= iParent.P_Info.P_Instance;
 stStopCycle.Class:= iParent.P_Info.P_Class;
 stStopCycle.EventType:= E_Event.Error;
 stStopCycle.Timestamp:= F_GetSystemTime();
 stStopCycle.ID:= ID;
-stStopCycle.Message:= Message;
 stStopCycle.Arguments:= M_Arguments();
-stStopCycle.Command:= 'StopCycle';
-stStopCycle.Active:= TRUE;
 
 iParent.M_Request(E_Request.StopCycle);
 IF iLogger <> 0 THEN
@@ -256,16 +271,19 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stWarning.Source:= iParent;
+        <ST><![CDATA[IF stWarning.Message <> Message THEN
+	stWarning.Message:= Message;
+	stWarning.Active:= TRUE;
+ELSE
+	stWarning.Active:= FALSE;	
+END_IF
+stWarning.Source:= iParent;
 stWarning.Instance:= iParent.P_Info.P_Instance;
 stWarning.Class:= iParent.P_Info.P_Class;
 stWarning.EventType:= E_Event.Warning;
 stWarning.Timestamp:= F_GetSystemTime();
 stWarning.ID:= ID;
-stWarning.Message:= Message;
 stWarning.Arguments:= M_Arguments();
-stWarning.Command:= '';
-stWarning.Active:= TRUE;
 
 IF iLogger<> 0 THEN
 	iLogger.M_Log(stWarning);
@@ -300,12 +318,15 @@ END_VAR
       <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Abort">
-      <LineId Id="197" Count="7" />
-      <LineId Id="241" Count="0" />
-      <LineId Id="239" Count="1" />
+      <LineId Id="267" Count="4" />
+      <LineId Id="265" Count="0" />
+      <LineId Id="197" Count="5" />
+      <LineId Id="204" Count="0" />
+      <LineId Id="257" Count="0" />
       <LineId Id="210" Count="0" />
       <LineId Id="232" Count="1" />
-      <LineId Id="247" Count="1" />
+      <LineId Id="247" Count="0" />
+      <LineId Id="256" Count="0" />
       <LineId Id="231" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_AddBOOL">
@@ -332,17 +353,21 @@ END_VAR
       <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Debug">
-      <LineId Id="10" Count="7" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="39" Count="1" />
+      <LineId Id="55" Count="4" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="10" Count="5" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="40" Count="0" />
       <LineId Id="33" Count="1" />
       <LineId Id="46" Count="1" />
       <LineId Id="32" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Information">
-      <LineId Id="11" Count="7" />
-      <LineId Id="43" Count="0" />
-      <LineId Id="41" Count="1" />
+      <LineId Id="59" Count="4" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="11" Count="5" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="42" Count="0" />
       <LineId Id="33" Count="1" />
       <LineId Id="49" Count="1" />
       <LineId Id="35" Count="0" />
@@ -354,28 +379,41 @@ END_VAR
       <LineId Id="15" Count="1" />
     </LineIds>
     <LineIds Name="FB_Event.M_Stop">
-      <LineId Id="197" Count="7" />
-      <LineId Id="240" Count="0" />
-      <LineId Id="238" Count="1" />
+      <LineId Id="264" Count="2" />
+      <LineId Id="268" Count="0" />
+      <LineId Id="267" Count="0" />
+      <LineId Id="262" Count="0" />
+      <LineId Id="197" Count="5" />
+      <LineId Id="204" Count="0" />
+      <LineId Id="239" Count="0" />
       <LineId Id="210" Count="0" />
       <LineId Id="231" Count="1" />
       <LineId Id="248" Count="1" />
       <LineId Id="224" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_StopCycle">
-      <LineId Id="197" Count="7" />
-      <LineId Id="246" Count="0" />
-      <LineId Id="238" Count="1" />
+      <LineId Id="263" Count="2" />
+      <LineId Id="267" Count="0" />
+      <LineId Id="266" Count="0" />
+      <LineId Id="260" Count="0" />
+      <LineId Id="197" Count="5" />
+      <LineId Id="204" Count="0" />
+      <LineId Id="239" Count="0" />
       <LineId Id="210" Count="0" />
       <LineId Id="231" Count="1" />
       <LineId Id="253" Count="1" />
       <LineId Id="224" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Warning">
-      <LineId Id="12" Count="7" />
-      <LineId Id="57" Count="0" />
-      <LineId Id="56" Count="0" />
-      <LineId Id="58" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="12" Count="5" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="71" Count="0" />
       <LineId Id="49" Count="1" />
       <LineId Id="64" Count="1" />
       <LineId Id="48" Count="0" />

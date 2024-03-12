@@ -4,48 +4,17 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	fbComponent:		FB_Module01;
-	
-	bReset:			BOOL;
-	bStart: 		BOOL;
-    bHold:       	BOOL;
-    bPause:    		BOOL;
-	bStop:       	BOOL;
-    bAbort:      	BOOL;
-
+	fbComponentEX:		FB_ComponentEX;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[fbComponent.M_Cycle();
-
-IF bReset THEN
-	bReset:= NOT fbComponent.M_Request(E_Request.Reset);
-END_IF
-
-IF bStart THEN
-	bStart:= NOT fbComponent.M_Request(E_Request.Start);
-END_IF
-
-IF bStop THEN
-	bStop:= NOT fbComponent.M_Request(E_Request.Stop);
-END_IF
-
-IF bHold THEN
-	bHold:= NOT fbComponent.M_Request(E_Request.Hold);
-END_IF
-
-IF bPause THEN
-	bPause:= NOT fbComponent.M_Request(E_Request.Pause);
-END_IF
-
-IF bAbort THEN
-	bAbort:= NOT fbComponent.M_Request(E_Request.Abort);
-END_IF
-
+fbComponentEX.M_Cycle();
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="417" Count="0" />
-      <LineId Id="419" Count="24" />
+      <LineId Id="443" Count="0" />
       <LineId Id="37" Count="0" />
     </LineIds>
   </POU>
