@@ -15,7 +15,8 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF bInput THEN
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+IF bInput THEN
 	fbTimerOn(IN:= TRUE, PT:= tTime);
 	fbTimerOff(IN:= FALSE);
 	IF fbTimerOn.Q THEN
@@ -30,6 +31,7 @@ ELSE
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="FB_Debounce">
+      <LineId Id="40" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="12" Count="0" />
       <LineId Id="26" Count="0" />

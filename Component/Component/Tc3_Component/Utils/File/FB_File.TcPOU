@@ -17,7 +17,7 @@ VAR_OUTPUT
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
     <Method Name="M_Append" Id="{78c6ac39-a28e-0b21-27e6-004ffe5404c6}">
       <Declaration><![CDATA[METHOD PUBLIC M_Append : BOOL

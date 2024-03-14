@@ -13,7 +13,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Generic list would be great but that is a option]]></ST>
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
     <Method Name="FB_exit" Id="{86b1742d-19e1-4a3d-942a-39b46efa4e7f}">
       <Declaration><![CDATA[METHOD FB_exit : BOOL

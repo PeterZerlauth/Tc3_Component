@@ -36,7 +36,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
     <Folder Name="States" Id="{ca15ba5f-c875-08b1-19c6-3566ddf8fed6}">
       <Folder Name="Abort" Id="{3d99bd66-30c9-004d-3e80-7bc3c0954972}" />

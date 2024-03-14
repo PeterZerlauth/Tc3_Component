@@ -5,7 +5,7 @@
 VAR
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Log events to the Visual Studio ]]></ST>
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
     <Method Name="M_Log" Id="{9de4bedf-a79b-482f-8aed-4ec654fd7e05}">
       <Declaration><![CDATA[METHOD M_Log

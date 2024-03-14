@@ -13,7 +13,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
     <Property Name="P_ID" Id="{a66b090d-1b03-0814-2c19-26bfc0a32879}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_ID : String(25)]]></Declaration>

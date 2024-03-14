@@ -14,7 +14,8 @@ VAR
 	fbDelay: 			TON;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbTimeout();
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+fbTimeout();
 fbTimeout.IN:= FALSE;
 
 fbDelay();
@@ -106,6 +107,7 @@ END_VAR
       </Set>
     </Property>
     <LineIds Name="FB_Sequence">
+      <LineId Id="52" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="21" Count="0" />
       <LineId Id="24" Count="1" />
