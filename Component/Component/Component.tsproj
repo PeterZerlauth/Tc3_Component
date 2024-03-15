@@ -139,23 +139,6 @@
 				</Instance>
 			</Project>
 		</Plc>
-		<Safety>
-			<Project Name="Untitled1" GeneralArchiveSettings="#x000f" TargetArchiveSettings="#x0007" FileArchiveSettings="#x000e">
-				<Instance Id="#x01010010" KeepUnrestoredLinks="2">
-					<Name>Untitled1 Instance</Name>
-					<TmcDesc GUID="{72A6D5B8-E98C-4604-8B90-09D1F8AB38A9}">
-						<Name>Safety</Name>
-						<InitSequence>PO</InitSequence>
-						<Contexts>
-							<Context>
-								<Id>1</Id>
-								<Name>Default</Name>
-							</Context>
-						</Contexts>
-					</TmcDesc>
-				</Instance>
-			</Project>
-		</Safety>
 		<Io>
 			<Device Id="1" Disabled="true" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="10.58.50.38.2.1" RemoteName="Gerät 1 (EtherCAT)" InfoImageId="2">
 				<Name>Gerät 1 (EtherCAT)</Name>

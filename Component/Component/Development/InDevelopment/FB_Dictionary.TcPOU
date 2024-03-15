@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Dictionary" Id="{ca35913f-5cdc-0fb1-22b9-4c30741035cf}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Dictionary IMPLEMENTS I_Dictionary
 VAR_INPUT

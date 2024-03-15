@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Timestamp" Id="{83d29445-3227-061e-34fb-c2c7ad5219b7}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Timestamp
 VAR_INPUT

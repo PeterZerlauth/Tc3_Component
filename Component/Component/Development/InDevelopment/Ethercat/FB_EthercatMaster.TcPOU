@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_EthercatMaster" Id="{8d40e3a5-69ef-036b-1c31-1dbf1ede6c85}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_EthercatMaster
 VAR_INPUT

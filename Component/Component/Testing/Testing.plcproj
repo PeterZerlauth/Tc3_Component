@@ -6,7 +6,7 @@
     <ProjectGuid>{640cd8e2-83ad-418e-8730-5775eda13ae6}</ProjectGuid>
     <SubObjectsSortedByName>True</SubObjectsSortedByName>
     <DownloadApplicationInfo>true</DownloadApplicationInfo>
-    <WriteProductVersion>true</WriteProductVersion>
+    <WriteProductVersion>false</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
     <Name>Testing</Name>
     <ProgramVersion>3.1.4024.0</ProgramVersion>
@@ -16,6 +16,11 @@
     <Implicit_KindOfTask>{dfe15b37-2112-4e9e-b129-79674c38f05d}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{de741b1e-304e-4e67-bdbf-c530a3daf272}</Implicit_Jitter_Distribution>
     <LibraryReferences>{957c7377-9102-4b28-98d1-a57d296306f0}</LibraryReferences>
+    <ObjectRepresentation>base64</ObjectRepresentation>
+    <AutoUpdateVisuProfile>true</AutoUpdateVisuProfile>
+    <AutoUpdateUmlProfile>true</AutoUpdateUmlProfile>
+    <Released>false</Released>
+    <CombineIds>true</CombineIds>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="PlcTask.TcTTO">
@@ -69,8 +74,8 @@
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
@@ -113,14 +118,14 @@
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Boolean">System.Boolean</Type>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Boolean">System.Boolean</Type>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>

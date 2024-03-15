@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1">
   <Itf Name="I_Axis" Id="{0aa9fe18-9b82-4dd1-a575-8312f33b257a}">
     <Declaration><![CDATA[INTERFACE I_Axis
 ]]></Declaration>

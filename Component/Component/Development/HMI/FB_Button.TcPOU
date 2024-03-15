@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Button" Id="{f0bf445d-e7e9-047f-292f-1913811cf770}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Button
 VAR_INPUT

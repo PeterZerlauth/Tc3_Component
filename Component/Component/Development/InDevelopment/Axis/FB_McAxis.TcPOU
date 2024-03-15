@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_McAxis" Id="{7dc49411-939d-086e-3ba0-db9126827ef0}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_McAxis EXTENDS FB_Component IMPLEMENTS I_Axis
 VAR_INPUT
