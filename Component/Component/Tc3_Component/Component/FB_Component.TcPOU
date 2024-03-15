@@ -36,7 +36,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
     <Folder Name="Command" Id="{9635140d-5b18-006e-1e9e-963cbb8377f9}" />
     <Folder Name="Event" Id="{35dce04d-63e0-0a51-2a18-ba942f4c7977}" />

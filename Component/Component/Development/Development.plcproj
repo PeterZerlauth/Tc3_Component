@@ -30,9 +30,9 @@
           <Command2 />
         </Event>
         <Event>
-          <CommandType>Execute</CommandType>
+          <CommandType>Copy</CommandType>
           <DeploymentType>PlcDownload</DeploymentType>
-          <Command1>git commit -m "download"</Command1>
+          <Command1 />
           <Command2 />
         </Event>
       </Events>
@@ -55,6 +55,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InDevelopment\Ethercat\FB_Ethercat.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InDevelopment\Ethercat\FB_EthercatMaster.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InDevelopment\FB_ComponentEX.TcPOU">

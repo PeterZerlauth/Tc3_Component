@@ -10,7 +10,8 @@ VAR
 	pEvent:						POINTER TO ST_Event;	
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Provide the Logging function to a module, and event buffer
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+// Provide the Logging function to a module, and event buffer
 // Hmi anyway have to work with a static list :-(
 
 // Deactivate old events
@@ -143,6 +144,7 @@ END_WHILE]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_LoggerFactory">
+      <LineId Id="370" Count="0" />
       <LineId Id="334" Count="8" />
       <LineId Id="362" Count="0" />
       <LineId Id="352" Count="1" />

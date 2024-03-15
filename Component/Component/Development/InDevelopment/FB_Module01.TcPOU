@@ -13,7 +13,7 @@ VAR
 	fbComponent3:				FB_ComponentEx;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
     <Method Name="M_Cycle" Id="{655447dc-389e-494a-be91-78d8a111b7aa}">
       <Declaration><![CDATA[METHOD PUBLIC M_Cycle

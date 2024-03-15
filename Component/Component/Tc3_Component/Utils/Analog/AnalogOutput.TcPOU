@@ -12,7 +12,7 @@ VAR
 	Channel			AT%Q*: INT;	// Link to input
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{fc427ba8-2be8-0fc8-1ba1-4c059d06ed11}">
       <Declaration><![CDATA[METHOD FB_init : BOOL

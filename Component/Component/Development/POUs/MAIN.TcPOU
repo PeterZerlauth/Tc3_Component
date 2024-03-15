@@ -3,13 +3,13 @@
   <POU Name="MAIN" Id="{80fd576e-8bda-0001-19b1-22d89fc11873}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	fbEhercat:			FB_Ethercat;
+	fbEhercat:			FB_EthercatMaster;
 	fbComponent:		FB_Module01;
 	fbComponentEX:		FB_ComponentEX;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbEhercat.M_Cycle();
+      <ST><![CDATA[fbEhercat();
 fbComponent.M_Cycle();
 fbComponentEX.M_Cycle();
 ]]></ST>

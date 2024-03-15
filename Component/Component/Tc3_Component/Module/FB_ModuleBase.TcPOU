@@ -12,7 +12,7 @@ VAR
 	fbTcLogger:					FB_TcLogger;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
     <Method Name="M_Aborted" Id="{0b832f7f-4585-09d1-3d1d-4466841374ad}">
       <Declaration><![CDATA[METHOD PROTECTED M_Aborted
