@@ -8,11 +8,9 @@ Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Comm
 ## Description
     [x] State Machine
     [x] Command Pattern to change component states
-    [x] Observer Pattern to Notify state changes beetween component function blocks
-    [x] Event Funktion to build and log Events
+    [x] Observer Pattern to Notify state changes
     [x] Eventlogger
-    [x] Sequence Function Block
-    [ ] Ethercat Monitoring
+    [x] Sequence Manager
     
 ## State Machine
 ![State Machine](docs/StateMachine.drawio.svg)
