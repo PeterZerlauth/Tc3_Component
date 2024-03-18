@@ -6,16 +6,13 @@ have a lightwight and modular Framework.
 Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Libraries) or [TcOpen](https://docs.tcopengroup.org/)
 
 ## Description
-    [x] State Machine (ISA88/MTP)
+    [x] State Machine
     [x] Command Pattern to change component states
-    [x] Observer Pattern to Notify state changes
+    [x] Observer Pattern to Notify state changes beetween component function blocks
     [x] Event Funktion to build and log Events
     [x] Eventlogger
     [x] Sequence Function Block
     [ ] Ethercat Monitoring
-    [ ] Device Function Blocks ==> will probably have its own lib
-    [ ] Axis Function Blocks ==> will probably have its own lib
-    [ ] Dictionary function block with Tc3_JsonXml
     
 ## State Machine
 ![State Machine](docs/StateMachine.drawio.svg)
