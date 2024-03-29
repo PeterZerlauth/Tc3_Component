@@ -35,6 +35,7 @@
   <ItemGroup>
     <Folder Include="Component" />
     <Folder Include="Component\Event" />
+    <Folder Include="Component\GVLs" />
     <Folder Include="Component\Info" />
     <Folder Include="Component\Observer" />
     <Folder Include="Component\Sequence" />

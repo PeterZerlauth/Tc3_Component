@@ -1,24 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="MAIN" Id="{80fd576e-8bda-0001-19b1-22d89fc11873}" SpecialFunc="None">
+  <POU Name="MAIN" Id="{2d4d4998-19ee-0f89-2021-34d743efb262}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	fbEhercat:			FB_EthercatMaster;
-	fbComponent:		FB_Module01;
-	fbComponentEX:		FB_ComponentEX;
+	fbComponent:	FB_Module01;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbEhercat();
-fbComponent.M_Cycle();
-fbComponentEX.M_Cycle();
-]]></ST>
+      <ST><![CDATA[fbComponent.M_Cycle();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="450" Count="0" />
-      <LineId Id="417" Count="0" />
-      <LineId Id="443" Count="0" />
-      <LineId Id="37" Count="0" />
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

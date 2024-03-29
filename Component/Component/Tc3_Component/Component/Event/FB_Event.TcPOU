@@ -151,6 +151,7 @@ stDebug.Class:= iParent.P_Info.P_Class;
 stDebug.EventType:= E_Event.Debug;
 stDebug.Timestamp:= F_GetSystemTime();
 stDebug.ID:= '';
+stDebug.Logger:= M_Print(Message);
 stDebug.Arguments:= M_Arguments();
 
 IF iLogger <> 0 THEN
@@ -187,6 +188,23 @@ IF iLogger <> 0 THEN
 ELSE
 	fbLogger.M_Log(stInformation);
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Print" Id="{c94cd0c6-56df-0b94-2d8d-b10a55caeb26}">
+      <Declaration><![CDATA[METHOD INTERNAL M_Print : STRING(255)
+VAR_INPUT
+	sMessage:		STRING(255);
+END_VAR
+VAR
+	nIndex:		   	DINT;
+	nPosition: 		INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nPosition:= Find(sMessage, '%s');
+WHILE nPosition <> 0 DO
+	sMessage:= Replace(sMessage, fbList.M_Index(nIndex), 2, nPosition);
+	nPosition:= Find(sMessage, '%s');
+END_WHILE]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Reset" Id="{31d9e5bb-2957-4381-81b6-d0453bdac8d3}">
@@ -356,6 +374,7 @@ END_VAR
       <LineId Id="55" Count="4" />
       <LineId Id="52" Count="0" />
       <LineId Id="10" Count="5" />
+      <LineId Id="64" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="40" Count="0" />
       <LineId Id="33" Count="1" />
@@ -371,6 +390,12 @@ END_VAR
       <LineId Id="33" Count="1" />
       <LineId Id="49" Count="1" />
       <LineId Id="35" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Event.M_Print">
+      <LineId Id="23" Count="0" />
+      <LineId Id="31" Count="1" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="33" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Reset">
       <LineId Id="5" Count="0" />

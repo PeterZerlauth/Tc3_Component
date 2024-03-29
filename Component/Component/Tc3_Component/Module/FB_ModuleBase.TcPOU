@@ -7,6 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	fbMembers:					FB_ListComponent;
 	aEvent:						ARRAY [0..Parameters.nEvents] OF ST_Event;	
 	fbLoggerFactory:			FB_LoggerFactory(ADR(aEvent), Parameters.nEvents);
 	fbTcLogger:					FB_TcLogger;
@@ -33,6 +34,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Component.P_Event.P_Logger:= fbLoggerFactory;
+fbMembers.M_Add(Component);
 Component.P_Observer.M_Attach(THIS^);
 fbObserver.M_Attach(Component);]]></ST>
       </Implementation>
@@ -56,6 +58,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Component.P_Event.P_Logger:= 0;
+fbMembers.M_Remove(Component);
 Component.P_Observer.M_Detach(THIS^);
 fbObserver.M_Detach(Component);]]></ST>
       </Implementation>
@@ -111,23 +114,16 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Resetting:= SUPER^.M_Resetting();
+fbMembers.M_Request(E_Request.Reset);
 fbLoggerFactory.M_Reset();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Resuming" Id="{d9ef3688-d135-0f0b-1ce4-980e688e3f9f}">
       <Declaration><![CDATA[METHOD PROTECTED M_Resuming : BOOL // Return state complete
 VAR_INPUT
-END_VAR
-VAR
-	nIndex:					DINT;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Resuming:= TRUE;
-WHILE nIndex < fbObserver.nLength DO
-	M_Resuming:= M_Resuming AND fbObserver.M_Index(nIndex).M_Request(E_Request.Start);
-	nIndex:= nIndex +1;
-END_WHILE]]></ST>
+        <ST><![CDATA[M_Resuming:= fbMembers.M_Request(E_Request.Start);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{8879f60a-43a4-0568-363b-e25a42eddf0c}">
@@ -143,16 +139,9 @@ END_VAR
       <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL
 VAR_INPUT
 END_VAR
-VAR
-	nIndex:					DINT;
-END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Starting:= TRUE;
-WHILE nIndex < fbObserver.nLength DO
-	M_Starting:= M_Starting AND fbObserver.M_Index(nIndex).M_Request(E_Request.Start);
-	nIndex:= nIndex +1;
-END_WHILE]]></ST>
+        <ST><![CDATA[M_Starting:= fbMembers.M_Request(E_Request.Start);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Stopped" Id="{43b02a69-b318-0eb0-3e6f-2d210026cf6d}">
@@ -169,16 +158,9 @@ fbEvent.M_Information('Module %s stopped, reset', '');]]></ST>
     <Method Name="M_Unholding" Id="{e6d01443-ae5b-0242-3775-c5c307506d4e}">
       <Declaration><![CDATA[METHOD PROTECTED M_Unholding : BOOL // Return state complete
 VAR_INPUT
-END_VAR
-VAR
-	nIndex:					DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Unholding:= TRUE;
-WHILE nIndex < fbObserver.nLength DO
-	M_Unholding:= M_Unholding AND fbObserver.M_Index(nIndex).M_Request(E_Request.Start);
-	nIndex:= nIndex +1;
-END_WHILE]]></ST>
+        <ST><![CDATA[M_Unholding:= fbMembers.M_Request(E_Request.Start);]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ModuleBase">
@@ -190,7 +172,9 @@ END_WHILE]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Attach">
-      <LineId Id="7" Count="1" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="8" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Cycle">
@@ -199,7 +183,9 @@ END_WHILE]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Dettach">
-      <LineId Id="7" Count="1" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="8" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Idle">
@@ -226,10 +212,11 @@ END_WHILE]]></ST>
       <LineId Id="16" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Resetting">
-      <LineId Id="5" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Resuming">
-      <LineId Id="6" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Running">
@@ -237,10 +224,6 @@ END_WHILE]]></ST>
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Starting">
       <LineId Id="12" Count="0" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Stopped">
       <LineId Id="7" Count="0" />
@@ -248,8 +231,7 @@ END_WHILE]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Unholding">
-      <LineId Id="10" Count="3" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

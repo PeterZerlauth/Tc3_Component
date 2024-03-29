@@ -111,6 +111,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF Index <= nLength THEN
 	M_Index:= pList[Index];
+ELSE
+	M_Index:= '';
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -192,6 +194,7 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_ListString.M_Index">
       <LineId Id="23" Count="1" />
+      <LineId Id="29" Count="1" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_ListString.M_Remove">

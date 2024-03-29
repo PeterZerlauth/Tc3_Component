@@ -18,7 +18,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF stEvent.Active THEN
-	sMessage:= Concat(Concat(stEvent.Instance, ' | '), stEvent.Message);
+	sMessage:= Concat(Concat(stEvent.Instance, ' | '), stEvent.Logger);
 	CASE stEvent.EventType OF
 		E_Event.Error:
 			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := '%s', strArg := sMessage);

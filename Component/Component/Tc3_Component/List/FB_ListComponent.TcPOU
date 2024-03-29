@@ -10,6 +10,7 @@ VAR
     	{attribute 'hide'}
 	{END_IF}
 	aList:			POINTER TO POINTER TO ARRAY [0..49] OF I_Component:=ADR(pList);
+	fbTimeout:		Ton:= (PT:= t#30s);
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -159,6 +160,23 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Request" Id="{f601ddf8-c594-0bc4-2a3b-1ad3e645e01b}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Request : BOOL
+VAR_INPUT
+	eRequest:		E_Request;
+END_VAR
+
+VAR
+	nIndex: 		INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Request:= TRUE;
+WHILE nIndex < nLength DO
+	M_Request:= M_Request AND M_Index(nIndex).M_Request(eRequest);
+	nIndex:= nIndex +1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="P_Length" Id="{a7fee46d-1216-4c1b-b269-41e22da51578}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Length : DINT
 ]]></Declaration>
@@ -203,6 +221,12 @@ END_VAR
       <LineId Id="168" Count="0" />
       <LineId Id="132" Count="28" />
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ListComponent.M_Request">
+      <LineId Id="175" Count="1" />
+      <LineId Id="202" Count="0" />
+      <LineId Id="178" Count="0" />
+      <LineId Id="204" Count="0" />
     </LineIds>
     <LineIds Name="FB_ListComponent.P_Length.Get">
       <LineId Id="2" Count="0" />

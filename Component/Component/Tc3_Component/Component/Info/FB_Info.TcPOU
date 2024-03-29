@@ -10,7 +10,7 @@ END_VAR
 VAR
     sInstancePath:				REFERENCE TO STRING(255);
 	fbReadSymInfo: 				PLC_ReadSymInfoByNameEx;
-	nIndex:						DINT:= GETCURTASKINDEXEX();
+	nIndex:						DINT;
 END_VAR
 VAR_STAT
 	nCycle: 					UDINT;
@@ -18,8 +18,8 @@ VAR_STAT
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
-IF nCycle <> TwinCAT_SystemInfoVarList._TaskInfo[nIndex].CycleCount THEN
-	nCycle:= TwinCAT_SystemInfoVarList._TaskInfo[nIndex].CycleCount;
+IF nCycle <> TwinCAT_SystemInfoVarList._TaskInfo[GETCURTASKINDEXEX()].CycleCount THEN
+	nCycle:= TwinCAT_SystemInfoVarList._TaskInfo[GETCURTASKINDEXEX()].CycleCount;
 	nTimestamp:= F_GetSystemTime();
 END_IF
 

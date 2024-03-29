@@ -40,15 +40,6 @@
     <ObjectRepresentation>base64</ObjectRepresentation>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="HMI\FB_Button.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="HMI\FB_MessageBox.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="HMI\FB_ProgressBar.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="InDevelopment\Axis\FB_McAxis.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -70,9 +61,6 @@
     <Compile Include="InDevelopment\FB_Module01.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InDevelopment\FB_Timestamp.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="InDevelopment\PnozMulti\FB_PnozMulti.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -90,7 +78,6 @@
     <Folder Include="InDevelopment\Axis" />
     <Folder Include="InDevelopment\Ethercat" />
     <Folder Include="InDevelopment\PnozMulti" />
-    <Folder Include="HMI" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>
