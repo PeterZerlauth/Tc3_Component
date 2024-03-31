@@ -10,7 +10,7 @@ STRUCT
 	Timestamp:   	ULINT;
 	ID:				ID;
 	Message:		STRING(255);
-	Logger:			STRING(255);
+	Printed:		STRING(255);
 	Arguments:		STRING(255);
 	Active:			BOOL;
 END_STRUCT

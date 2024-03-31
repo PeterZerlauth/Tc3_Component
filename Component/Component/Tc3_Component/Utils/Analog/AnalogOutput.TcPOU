@@ -8,7 +8,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	ID:				STRING(25);	// Equipment ID
+	sName:				STRING(25);	// Equipment ID
 	Channel			AT%Q*: INT;	// Link to input
 END_VAR]]></Declaration>
     <Implementation>
@@ -23,17 +23,17 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.ID:= ID;]]></ST>
+        <ST><![CDATA[THIS^.sName:= ID;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_ID" Id="{030e0eaa-c0a4-09b4-3514-eb98d5fd7097}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_ID : String(25)]]></Declaration>
+    <Property Name="P_Name" Id="{030e0eaa-c0a4-09b4-3514-eb98d5fd7097}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Name : String(25)]]></Declaration>
       <Get Name="Get" Id="{25c131a6-5f18-024c-3a39-ec1eed18a7fb}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_ID:= ID;]]></ST>
+          <ST><![CDATA[P_Name:= sName;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -74,7 +74,7 @@ END_VAR
     <LineIds Name="AnalogOutput.FB_init">
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="AnalogOutput.P_ID.Get">
+    <LineIds Name="AnalogOutput.P_Name.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="AnalogOutput.P_State.Get">

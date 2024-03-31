@@ -55,9 +55,6 @@
     <Compile Include="InDevelopment\FB_ComponentEX.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InDevelopment\FB_Dictionary.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="InDevelopment\FB_Module01.TcPOU">
       <SubType>Code</SubType>
     </Compile>

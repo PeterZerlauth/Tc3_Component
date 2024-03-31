@@ -52,6 +52,7 @@ stAbort.Class:= iParent.P_Info.P_Class;
 stAbort.EventType:= E_Event.Error;
 stAbort.Timestamp:= F_GetSystemTime();
 stAbort.ID:= ID;
+stAbort.Printed:= M_Print(Message);
 stAbort.Arguments:= M_Arguments();
 
 iParent.M_Request(E_Request.Abort);
@@ -151,7 +152,7 @@ stDebug.Class:= iParent.P_Info.P_Class;
 stDebug.EventType:= E_Event.Debug;
 stDebug.Timestamp:= F_GetSystemTime();
 stDebug.ID:= '';
-stDebug.Logger:= M_Print(Message);
+stDebug.Printed:= M_Print(Message);
 stDebug.Arguments:= M_Arguments();
 
 IF iLogger <> 0 THEN
@@ -181,6 +182,7 @@ stInformation.Class:= iParent.P_Info.P_Class;
 stInformation.EventType:= E_Event.Information;
 stInformation.Timestamp:= F_GetSystemTime();
 stInformation.ID:= ID;
+stInformation.Printed:= M_Print(Message);
 stInformation.Arguments:= M_Arguments();
 
 IF iLogger <> 0 THEN
@@ -204,7 +206,9 @@ END_VAR]]></Declaration>
 WHILE nPosition <> 0 DO
 	sMessage:= Replace(sMessage, fbList.M_Index(nIndex), 2, nPosition);
 	nPosition:= Find(sMessage, '%s');
-END_WHILE]]></ST>
+	nIndex:= nIndex + 1;
+END_WHILE
+M_Print:= sMessage;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Reset" Id="{31d9e5bb-2957-4381-81b6-d0453bdac8d3}">
@@ -241,6 +245,7 @@ stStop.Class:= iParent.P_Info.P_Class;
 stStop.EventType:= E_Event.Error;
 stStop.Timestamp:= F_GetSystemTime();
 stStop.ID:= ID;
+stStop.Printed:= M_Print(Message);
 stStop.Arguments:= M_Arguments();
 
 iParent.M_Request(E_Request.Stop);
@@ -301,6 +306,7 @@ stWarning.Class:= iParent.P_Info.P_Class;
 stWarning.EventType:= E_Event.Warning;
 stWarning.Timestamp:= F_GetSystemTime();
 stWarning.ID:= ID;
+stWarning.Printed:= M_Print(Message);
 stWarning.Arguments:= M_Arguments();
 
 IF iLogger<> 0 THEN
@@ -339,6 +345,7 @@ END_VAR
       <LineId Id="267" Count="4" />
       <LineId Id="265" Count="0" />
       <LineId Id="197" Count="5" />
+      <LineId Id="277" Count="0" />
       <LineId Id="204" Count="0" />
       <LineId Id="257" Count="0" />
       <LineId Id="210" Count="0" />
@@ -371,20 +378,14 @@ END_VAR
       <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Debug">
-      <LineId Id="55" Count="4" />
-      <LineId Id="52" Count="0" />
-      <LineId Id="10" Count="5" />
-      <LineId Id="64" Count="0" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="40" Count="0" />
-      <LineId Id="33" Count="1" />
-      <LineId Id="46" Count="1" />
+      <LineId Id="69" Count="18" />
       <LineId Id="32" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Information">
       <LineId Id="59" Count="4" />
       <LineId Id="57" Count="0" />
       <LineId Id="11" Count="5" />
+      <LineId Id="69" Count="0" />
       <LineId Id="56" Count="0" />
       <LineId Id="42" Count="0" />
       <LineId Id="33" Count="1" />
@@ -395,7 +396,9 @@ END_VAR
       <LineId Id="23" Count="0" />
       <LineId Id="31" Count="1" />
       <LineId Id="34" Count="0" />
+      <LineId Id="50" Count="0" />
       <LineId Id="33" Count="0" />
+      <LineId Id="42" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Reset">
       <LineId Id="5" Count="0" />
@@ -409,6 +412,7 @@ END_VAR
       <LineId Id="267" Count="0" />
       <LineId Id="262" Count="0" />
       <LineId Id="197" Count="5" />
+      <LineId Id="274" Count="0" />
       <LineId Id="204" Count="0" />
       <LineId Id="239" Count="0" />
       <LineId Id="210" Count="0" />
@@ -437,6 +441,7 @@ END_VAR
       <LineId Id="82" Count="0" />
       <LineId Id="80" Count="0" />
       <LineId Id="12" Count="5" />
+      <LineId Id="89" Count="0" />
       <LineId Id="19" Count="0" />
       <LineId Id="71" Count="0" />
       <LineId Id="49" Count="1" />

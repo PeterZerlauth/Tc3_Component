@@ -35,7 +35,6 @@
   <ItemGroup>
     <Folder Include="Component" />
     <Folder Include="Component\Event" />
-    <Folder Include="Component\GVLs" />
     <Folder Include="Component\Info" />
     <Folder Include="Component\Observer" />
     <Folder Include="Component\Sequence" />
@@ -43,7 +42,6 @@
     <Folder Include="LoggerFactory" />
     <Folder Include="Logger" />
     <Folder Include="Module" />
-    <Folder Include="Dictonary" />
     <Folder Include="Utils" />
     <Folder Include="Object" />
     <Folder Include="Utils\File" />
@@ -100,9 +98,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Component\Sequence\I_Sequence.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Dictonary\I_Dictionary.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">

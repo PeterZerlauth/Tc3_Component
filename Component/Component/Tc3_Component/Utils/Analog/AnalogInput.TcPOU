@@ -8,21 +8,21 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	ID:				STRING(25);	// Equipment ID
+	sName:				STRING(25);	// Equipment ID
 	Channel			AT%I*: INT;	// Link to input
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
-    <Property Name="P_ID" Id="{a66b090d-1b03-0814-2c19-26bfc0a32879}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_ID : String(25)]]></Declaration>
+    <Property Name="P_Name" Id="{a66b090d-1b03-0814-2c19-26bfc0a32879}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Name : String(25)]]></Declaration>
       <Get Name="Get" Id="{fc6b929d-a455-0724-220a-60cfdcf325e2}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_ID:= ID;]]></ST>
+          <ST><![CDATA[P_Name:= sName;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -60,7 +60,7 @@ END_VAR
     <LineIds Name="AnalogInput">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="AnalogInput.P_ID.Get">
+    <LineIds Name="AnalogInput.P_Name.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="AnalogInput.P_State.Get">

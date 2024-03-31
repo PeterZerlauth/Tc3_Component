@@ -26,7 +26,9 @@ END_VAR
 fbComponent1.M_Cycle();
 fbComponent2.M_Cycle();
 fbComponent3.M_Cycle();
-]]></ST>
+
+P_Event.M_AddSTRING('Test');
+P_Event.M_Warning('Some Warning %s', '');]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Execute" Id="{0f7f4331-8af5-0744-015a-f65d0021dd06}">
@@ -51,7 +53,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Initialise();
 
-P_ID:= '1';
+P_Name:= '1';
 
 M_Attach(fbComponent1);
 M_Attach(fbComponent2);
@@ -102,6 +104,7 @@ M_Stopping:= SUPER^.M_Stopping();]]></ST>
     <LineIds Name="FB_Module01.M_Cycle">
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="3" />
+      <LineId Id="15" Count="1" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Execute">
