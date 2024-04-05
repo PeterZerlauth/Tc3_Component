@@ -8,8 +8,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	fbMembers:					FB_ListComponent;
-	aEvent:						ARRAY [0..Parameters.nEvents] OF ST_Event;	
-	fbLoggerFactory:			FB_LoggerFactory(ADR(aEvent), Parameters.nEvents);
+	fbLoggerFactory:			FB_LoggerFactory;;
 	fbTcLogger:					FB_TcLogger;
 END_VAR]]></Declaration>
     <Implementation>

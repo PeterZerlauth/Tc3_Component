@@ -4,10 +4,9 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_LoggerFactory IMPLEMENTS I_Logger
 VAR
 	fbList:						FB_ListLogger;
-	nIndex: 					DINT;
-	nEvent:						DINT;
 	nLength:					DINT;
-	pEvent:						POINTER TO ST_Event;	
+	aEvent:						ARRAY [0..Parameters.nEvents] OF ST_Event;	
+	nIndex: 					DINT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
@@ -15,30 +14,16 @@ END_VAR]]></Declaration>
 // Hmi anyway have to work with a static list :-(
 
 // Deactivate old events
-//nIndex:= 0;
-//WHILE nIndex < nLength DO
-//	IF pEvent[nIndex].Active AND pEvent[nIndex].EventType <> E_Event.Error THEN
-//		pEvent[nIndex].Active:= FALSE;
-//	ELSE
-//		M_Remove(nIndex);		
-//	END_IF
-//	nIndex := nIndex + 1;
-//END_WHILE]]></ST>
+nIndex:= 0;
+WHILE nIndex < nLength DO
+	IF aEvent[nIndex].Active AND aEvent[nIndex].EventType <> E_Event.Error THEN
+		aEvent[nIndex].Active:= FALSE;
+	ELSE
+		M_Remove(nIndex);		
+	END_IF
+	nIndex := nIndex + 1;
+END_WHILE]]></ST>
     </Implementation>
-    <Method Name="FB_init" Id="{6df5be79-0a0c-0d2a-0a65-cf7790a42dfd}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	pEvent:						POINTER TO ST_Event;
-	nEvent:						DINT;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[THIS^.pEvent:= pEvent;
-THIS^.nEvent:= nEvent;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Attach" Id="{85d5015d-7e39-4cfd-a721-66b108eef110}">
       <Declaration><![CDATA[METHOD PUBLIC M_Attach
 VAR_INPUT
@@ -65,37 +50,44 @@ fbList.M_Remove(Logger);]]></ST>
       <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
 VAR_INPUT
 	stEvent:	ST_Event;
+END_VAR
+VAR 
+	nIndex:		DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Find := -1;
-nIndex:= 0;
 WHILE nIndex < nLength DO
-	IF (pEvent[nIndex].Source = stEvent.Source) AND_THEN
-    	(pEvent[nIndex].EventType = stEvent.EventType) AND_THEN
-		(pEvent[nIndex].Instance = stEvent.Instance) AND_THEN
-		(pEvent[nIndex].Class = stEvent.Class) AND_THEN
-		(pEvent[nIndex].Message = stEvent.Message) THEN
+	IF (aEvent[nIndex].Source = stEvent.Source) AND_THEN
+    	(aEvent[nIndex].EventType = stEvent.EventType) AND_THEN
+		(aEvent[nIndex].Instance = stEvent.Instance) AND_THEN
+		(aEvent[nIndex].Class = stEvent.Class) AND_THEN
+		(aEvent[nIndex].Message = stEvent.Message) THEN
         M_Find := nIndex;
         RETURN;
     END_IF
 	nIndex := nIndex + 1;
-END_WHILE
-]]></ST>
+END_WHILE]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Log" Id="{970a1cce-913f-4f52-a720-54d7dfe3d1a3}">
       <Declaration><![CDATA[METHOD PUBLIC M_Log
 VAR_INPUT
 	stEvent:		ST_Event;
+END_VAR
+VAR
+	nIndex:			DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
 	// Update existing eventss
-	pEvent[nIndex].Arguments:= stEvent.Arguments;
+	aEvent[nIndex].Arguments:= stEvent.Arguments;
+	aEvent[nIndex].Default:= stEvent.Default;
+	aEvent[nIndex].Active:= TRUE;
 ELSE
 	// add new event
+	stEvent.Active:= TRUE;
 	M_Publish(stEvent);
-	pEvent[nLength]:= stEvent;
+	aEvent[nLength]:= stEvent;
 	nLength:= nLength + 1;
 END_IF]]></ST>
       </Implementation>
@@ -104,10 +96,12 @@ END_IF]]></ST>
       <Declaration><![CDATA[METHOD M_Publish
 VAR_INPUT
 	stEvent:	ST_Event;
+END_VAR
+VAR 
+	nIndex:		DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Publis new events
-nIndex:= 0;
+        <ST><![CDATA[// Publis event
 WHILE nIndex < fbList.P_Length DO
 	fbList.M_Index(nIndex).M_Log(stEvent);
 	nIndex := nIndex + 1;
@@ -122,7 +116,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Remove event
-MEMCPY(ADR(pEvent[Index]), ADR(pEvent[Index + 1]), SIZEOF(ST_Event) * DINT_TO_UDINT(nEvent - nLength));
+MEMCPY(ADR(aEvent[Index]), ADR(aEvent[Index + 1]), SIZEOF(ST_Event) * DINT_TO_UDINT(Parameters.nEvents - nLength));
 nLength:= nLength - 1;]]></ST>
       </Implementation>
     </Method>
@@ -131,14 +125,9 @@ nLength:= nLength - 1;]]></ST>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Reset Errors
-nIndex:= 0;
-WHILE nIndex < nLength DO
-	IF pEvent[nIndex].EventType = E_Event.Error THEN
-		M_Remove(nIndex);
-	END_IF
-	nIndex := nIndex + 1;
-END_WHILE]]></ST>
+        <ST><![CDATA[// Reset events
+nLength:= 0;
+Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_LoggerFactory">
@@ -147,10 +136,6 @@ END_WHILE]]></ST>
       <LineId Id="362" Count="0" />
       <LineId Id="352" Count="1" />
       <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_LoggerFactory.FB_init">
-      <LineId Id="7" Count="0" />
-      <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Attach">
       <LineId Id="10" Count="0" />
@@ -161,19 +146,20 @@ END_WHILE]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Find">
-      <LineId Id="91" Count="12" />
-      <LineId Id="2" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="93" Count="10" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Log">
       <LineId Id="112" Count="1" />
       <LineId Id="115" Count="0" />
+      <LineId Id="152" Count="1" />
       <LineId Id="117" Count="1" />
+      <LineId Id="154" Count="0" />
       <LineId Id="141" Count="0" />
       <LineId Id="120" Count="2" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Publish">
       <LineId Id="17" Count="0" />
-      <LineId Id="22" Count="0" />
       <LineId Id="8" Count="2" />
       <LineId Id="5" Count="0" />
     </LineIds>
@@ -183,10 +169,8 @@ END_WHILE]]></ST>
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Reset">
       <LineId Id="26" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="6" Count="1" />
-      <LineId Id="10" Count="2" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="33" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

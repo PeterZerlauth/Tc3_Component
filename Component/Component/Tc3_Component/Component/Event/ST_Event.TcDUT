@@ -10,10 +10,10 @@ STRUCT
 	Instance:		STRING(255);
 	Class:			STRING(255);
 	Message:		STRING(255);
-	Printed:		STRING(255);
+	Default:		STRING(255);
 	Arguments:		STRING(255);
+	Active:			BOOL;
 END_STRUCT
-END_TYPE
-]]></Declaration>
+END_TYPE]]></Declaration>
   </DUT>
 </TcPlcObject>

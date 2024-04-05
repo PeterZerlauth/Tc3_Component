@@ -111,7 +111,7 @@ stEvent.Class:= iParrent.P_Info.P_Class;
 stEvent.EventType:= E_Event.Debug;
 stEvent.Timestamp:= F_GetSystemTime();
 stEvent.ID:= '';
-stEvent.Printed:= M_Print(Message);
+stEvent.Default:= M_Print(Message);
 stEvent.Arguments:= M_Arguments();
 
 IF iLogger <> 0 THEN
@@ -137,7 +137,7 @@ stEvent.Class:= iParrent.P_Info.P_Class;
 stEvent.EventType:= E_Event.Error;
 stEvent.Timestamp:= F_GetSystemTime();
 stEvent.ID:= sID;
-stEvent.Printed:= M_Print(sMessage);
+stEvent.Default:= M_Print(sMessage);
 stEvent.Arguments:= M_Arguments();
 
 CASE eError OF
@@ -188,7 +188,7 @@ stEvent.Class:= iParrent.P_Info.P_Class;
 stEvent.EventType:= E_Event.Information;
 stEvent.Timestamp:= F_GetSystemTime();
 stEvent.ID:= ID;
-stEvent.Printed:= M_Print(Message);
+stEvent.Default:= M_Print(Message);
 stEvent.Arguments:= M_Arguments();
 
 IF iLogger <> 0 THEN
@@ -232,7 +232,7 @@ stEvent.Class:= iParrent.P_Info.P_Class;
 stEvent.EventType:= E_Event.Warning;
 stEvent.Timestamp:= F_GetSystemTime();
 stEvent.ID:= ID;
-stEvent.Printed:= M_Print(Message);
+stEvent.Default:= M_Print(Message);
 stEvent.Arguments:= M_Arguments();
 
 IF iLogger<> 0 THEN
@@ -291,8 +291,7 @@ END_VAR
       <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Debug">
-      <LineId Id="70" Count="0" />
-      <LineId Id="75" Count="12" />
+      <LineId Id="92" Count="13" />
       <LineId Id="32" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Error">
