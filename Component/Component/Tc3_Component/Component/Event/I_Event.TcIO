@@ -3,14 +3,6 @@
   <Itf Name="I_Event" Id="{86200139-fcb7-4d9e-9f1b-6b3e88f31cc6}">
     <Declaration><![CDATA[INTERFACE I_Event EXTENDS I_Object
 ]]></Declaration>
-    <Method Name="M_Abort" Id="{7ce1cd66-528d-482d-8b65-9ae3dbff679e}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Abort : BOOL
-VAR_INPUT
-	Message:				STRING(255);
-	ID:						ID;
-END_VAR
-]]></Declaration>
-    </Method>
     <Method Name="M_AddBOOL" Id="{6fc486ba-f21e-0356-3f27-fe3c53264131}">
       <Declaration><![CDATA[METHOD PUBLIC M_AddBOOL
 VAR_INPUT
@@ -48,30 +40,23 @@ END_VAR
 ]]></Declaration>
     </Method>
     <Method Name="M_Debug" Id="{de8efd53-16f5-0334-02e3-fdd0e4bf084c}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Debug : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC M_Debug
 VAR_INPUT
 	Message:				STRING(255);
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Error" Id="{afad8492-19cf-0779-1a83-3ea67e573ec9}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Error
+VAR_INPUT
+	sMessage:				STRING(255);
+	sID:					ID;
+	eError:					E_Error;
 END_VAR
 ]]></Declaration>
     </Method>
     <Method Name="M_Information" Id="{a0df6aac-21ac-0b65-3426-2421a14ee702}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Information : BOOL
-VAR_INPUT
-	Message:				STRING(255);
-	ID:						ID;
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="M_Stop" Id="{afad8492-19cf-0779-1a83-3ea67e573ec9}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Stop : BOOL
-VAR_INPUT
-	Message:				STRING(255);
-	ID:						ID;
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="M_StopCycle" Id="{941c4bf1-5b90-0130-09bd-59407d728f49}">
-      <Declaration><![CDATA[METHOD PUBLIC M_StopCycle : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC M_Information
 VAR_INPUT
 	Message:				STRING(255);
 	ID:						ID;
@@ -79,7 +64,7 @@ END_VAR
 ]]></Declaration>
     </Method>
     <Method Name="M_Warning" Id="{ae861465-4d88-0ffb-03b6-6d69b34da892}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Warning : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC M_Warning
 VAR_INPUT
 	Message:				STRING(255);
 	ID:						ID;

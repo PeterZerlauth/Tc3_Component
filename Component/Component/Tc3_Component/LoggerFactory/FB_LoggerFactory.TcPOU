@@ -15,15 +15,15 @@ END_VAR]]></Declaration>
 // Hmi anyway have to work with a static list :-(
 
 // Deactivate old events
-nIndex:= 0;
-WHILE nIndex < nLength DO
-	IF pEvent[nIndex].Active AND pEvent[nIndex].EventType <> E_Event.Error THEN
-		pEvent[nIndex].Active:= FALSE;
-	ELSE
-		M_Remove(nIndex);		
-	END_IF
-	nIndex := nIndex + 1;
-END_WHILE]]></ST>
+//nIndex:= 0;
+//WHILE nIndex < nLength DO
+//	IF pEvent[nIndex].Active AND pEvent[nIndex].EventType <> E_Event.Error THEN
+//		pEvent[nIndex].Active:= FALSE;
+//	ELSE
+//		M_Remove(nIndex);		
+//	END_IF
+//	nIndex := nIndex + 1;
+//END_WHILE]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{6df5be79-0a0c-0d2a-0a65-cf7790a42dfd}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
@@ -91,11 +91,9 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
 	// Update existing eventss
-	pEvent[nIndex].Active:= TRUE;
 	pEvent[nIndex].Arguments:= stEvent.Arguments;
 ELSE
 	// add new event
-	stEvent.Active:= TRUE;
 	M_Publish(stEvent);
 	pEvent[nLength]:= stEvent;
 	nLength:= nLength + 1;
@@ -167,9 +165,9 @@ END_WHILE]]></ST>
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Log">
-      <LineId Id="112" Count="3" />
+      <LineId Id="112" Count="1" />
+      <LineId Id="115" Count="0" />
       <LineId Id="117" Count="1" />
-      <LineId Id="145" Count="0" />
       <LineId Id="141" Count="0" />
       <LineId Id="120" Count="2" />
     </LineIds>

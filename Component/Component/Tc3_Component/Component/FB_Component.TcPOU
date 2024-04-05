@@ -98,15 +98,13 @@ CASE eState OF
 		eState:= E_State.Idle;					
 		
 	E_State.Resetting:
-		fbEvent.M_Reset();
 		M_Running();
 		IF M_Resetting() THEN
 			eState:= E_State.Idle;
 			eStateRequest:= E_Request.Undefined;
 		END_IF
 		CASE eStateRequest OF
-			
-			E_Request.Stop, E_Request.StopCycle:
+			E_Request.Stop:
 				eState:= E_State.Stopping;
 				
 			E_Request.Abort:
@@ -122,7 +120,7 @@ CASE eState OF
 			E_Request.Start:
 				eState:= E_State.Starting;
 				
-			E_Request.Stop, E_Request.StopCycle:
+			E_Request.Stop:
 				eState:= E_State.Stopping;
 				
 			E_Request.Abort:
@@ -141,7 +139,7 @@ CASE eState OF
 		END_IF
 		CASE eStateRequest OF
 			
-			E_Request.Stop, E_Request.StopCycle:
+			E_Request.Stop:
 				eState:= E_State.Stopping;
 				
 			E_Request.Abort:
@@ -157,13 +155,10 @@ CASE eState OF
 				E_Request.Complete:
 					eState:= E_State.Completing;
 					
-				E_Request.StopCycle:
-					eState:= E_State.Stopping;
 			END_CASE
 		END_IF
 		CASE eStateRequest OF
 			E_Request.Complete:;
-			E_Request.StopCycle:;
 			E_Request.Stop:
 				eState:= E_State.Stopping;
 				
@@ -546,15 +541,6 @@ CASE eRequest OF
 			END_IF		
 		END_IF
 		
-	E_Request.StopCycle:
-		IF eState = E_State.Stopped THEN
-			M_Request:= TRUE;
-		ELSE
-			IF eStateRequest < eRequest THEN
-				eStateRequest:= eRequest;				
-			END_IF	
-		END_IF
-		
 	E_Request.Stop:
 		IF eState = E_State.Stopped THEN
 			M_Request:= TRUE;
@@ -751,13 +737,13 @@ END_VAR
       <LineId Id="729" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="16" Count="1" />
-      <LineId Id="547" Count="0" />
       <LineId Id="394" Count="0" />
       <LineId Id="24" Count="1" />
       <LineId Id="648" Count="0" />
       <LineId Id="26" Count="0" />
-      <LineId Id="555" Count="1" />
-      <LineId Id="549" Count="5" />
+      <LineId Id="555" Count="0" />
+      <LineId Id="893" Count="2" />
+      <LineId Id="552" Count="2" />
       <LineId Id="548" Count="0" />
       <LineId Id="769" Count="0" />
       <LineId Id="28" Count="0" />
@@ -793,13 +779,10 @@ END_VAR
       <LineId Id="633" Count="0" />
       <LineId Id="631" Count="1" />
       <LineId Id="634" Count="0" />
-      <LineId Id="417" Count="0" />
-      <LineId Id="68" Count="0" />
       <LineId Id="418" Count="0" />
       <LineId Id="70" Count="0" />
       <LineId Id="356" Count="0" />
       <LineId Id="510" Count="0" />
-      <LineId Id="679" Count="0" />
       <LineId Id="583" Count="3" />
       <LineId Id="362" Count="0" />
       <LineId Id="421" Count="1" />
@@ -1022,12 +1005,6 @@ END_VAR
       <LineId Id="163" Count="1" />
       <LineId Id="135" Count="0" />
       <LineId Id="132" Count="0" />
-      <LineId Id="77" Count="1" />
-      <LineId Id="108" Count="0" />
-      <LineId Id="138" Count="1" />
-      <LineId Id="165" Count="1" />
-      <LineId Id="140" Count="0" />
-      <LineId Id="136" Count="0" />
       <LineId Id="95" Count="0" />
       <LineId Id="80" Count="0" />
       <LineId Id="110" Count="0" />

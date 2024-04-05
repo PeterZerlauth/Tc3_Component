@@ -8,6 +8,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	iParrent:					I_Component;
     sInstancePath:				REFERENCE TO STRING(255);
 	fbReadSymInfo: 				PLC_ReadSymInfoByNameEx;
 END_VAR
@@ -107,6 +108,26 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="P_Parrent" Id="{abfbd759-c95d-02d7-3440-82b6eccd5579}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Parrent : I_Component]]></Declaration>
+      <Get Name="Get" Id="{cdcc85d8-499a-0daa-3b72-4b05d41b5c51}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Parrent:= iParrent;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{c2f2a0bd-d317-0a24-2f93-878f39040f1a}">
+        <Declaration><![CDATA[
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[iParrent:= P_Parrent;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="P_Timestamp" Id="{a51f1ff9-c398-4582-9d70-e288f1c0d28c}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Timestamp : ULINT]]></Declaration>
       <Get Name="Get" Id="{ca050bdc-7777-4205-b941-d6aa9ea30447}">
@@ -145,6 +166,12 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Info.P_Instance.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Info.P_Parrent.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Info.P_Parrent.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Info.P_Timestamp.Get">

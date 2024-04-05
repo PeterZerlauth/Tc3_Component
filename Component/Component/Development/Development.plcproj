@@ -46,12 +46,6 @@
     <Compile Include="InDevelopment\Axis\I_Axis.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InDevelopment\Ethercat\FB_Ethercat.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="InDevelopment\Ethercat\FB_EthercatMaster.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="InDevelopment\FB_ComponentEX.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -73,7 +67,6 @@
     <Folder Include="GVLs" />
     <Folder Include="InDevelopment" />
     <Folder Include="InDevelopment\Axis" />
-    <Folder Include="InDevelopment\Ethercat" />
     <Folder Include="InDevelopment\PnozMulti" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />

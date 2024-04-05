@@ -74,7 +74,7 @@ ELSE
 		fbTimeout.IN:= TRUE;
 		IF fbTimeout.Q THEN
 			iParent.P_Event.M_AddINT(THIS^.nNumber);
-			iParent.P_Event.M_Stop('Timeout in sequence number %s', '');
+			iParent.P_Event.M_Error('Timeout in sequence number %s', '', E_Error.Stop);
 		END_IF
 	END_IF
 END_IF]]></ST>

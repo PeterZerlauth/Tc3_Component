@@ -36,16 +36,12 @@ END_VAR]]></Declaration>
 		fbSequence.M_Reset();
 END_CASE
 
-
-
-
-
 IF bAbort THEN
 	bAbort:= FALSE;
 	fbEvent.M_AddSTRING('1');
 	fbEvent.M_AddSTRING('2');
 	fbEvent.M_AddSTRING('3');
-	fbEvent.M_Abort('First Error Abort %s %s %s', 'a');
+	fbEvent.M_Error('First Error Abort %s %s %s', 'a', E_Error.Abort);
 END_IF
 
 IF bStop THEN
@@ -53,16 +49,8 @@ IF bStop THEN
 	fbEvent.M_AddSTRING('a');
 	fbEvent.M_AddSTRING('b');
 	fbEvent.M_AddSTRING('c');
-	fbEvent.M_Stop('First Error Stop', 'b');
+	fbEvent.M_Error('First Error Stop', 'b', E_Error.Stop);
 END_IF
-
-IF bStopCycle THEN
-	fbEvent.M_AddSTRING('d');
-	fbEvent.M_AddSTRING('e');
-	fbEvent.M_AddSTRING('f');
-	fbEvent.M_StopCycle('First Error Complete', 'c');
-END_IF
-M_Execute:= NOT bStopCycle;
 
 IF bInformation THEN
 	fbEvent.M_Information('Info', 'd');	
@@ -89,8 +77,7 @@ END_IF
       <LineId Id="66" Count="0" />
       <LineId Id="68" Count="0" />
       <LineId Id="52" Count="0" />
-      <LineId Id="47" Count="3" />
-      <LineId Id="11" Count="0" />
+      <LineId Id="47" Count="0" />
       <LineId Id="6" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="14" Count="2" />
@@ -98,10 +85,6 @@ END_IF
       <LineId Id="7" Count="0" />
       <LineId Id="21" Count="5" />
       <LineId Id="5" Count="0" />
-      <LineId Id="36" Count="1" />
-      <LineId Id="39" Count="3" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="30" Count="0" />
       <LineId Id="72" Count="0" />
       <LineId Id="76" Count="2" />
       <LineId Id="80" Count="0" />

@@ -4,15 +4,14 @@
     <Declaration><![CDATA[TYPE ST_Event :
 STRUCT
 	Source:			I_Component;
-	Instance:		STRING(255);
-	Class:			STRING(255);
 	EventType:		E_Event;
 	Timestamp:   	ULINT;
 	ID:				ID;
+	Instance:		STRING(255);
+	Class:			STRING(255);
 	Message:		STRING(255);
 	Printed:		STRING(255);
 	Arguments:		STRING(255);
-	Active:			BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

@@ -17,28 +17,26 @@ VAR
 	sMessage:			STRING(255);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF stEvent.Active THEN
-	sMessage:= Concat(Concat(stEvent.Instance, ' | '), stEvent.Printed);
-	CASE stEvent.EventType OF
-		E_Event.Error:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := '%s', strArg := sMessage);
-		E_Event.Warning:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_WARN , msgFmtStr := '%s', strArg := sMessage);
-		E_Event.Information:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
-		E_Event.Debug:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT, msgFmtStr := '%s', strArg := sMessage);
-		E_Event.Verbose:
-			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
-	END_CASE	
-END_IF]]></ST>
+        <ST><![CDATA[sMessage:= Concat(Concat(stEvent.Instance, ' | '), stEvent.Printed);
+CASE stEvent.EventType OF
+	E_Event.Error:
+		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := '%s', strArg := sMessage);
+	E_Event.Warning:
+		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_WARN , msgFmtStr := '%s', strArg := sMessage);
+	E_Event.Information:
+		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
+	E_Event.Debug:
+		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT, msgFmtStr := '%s', strArg := sMessage);
+	E_Event.Verbose:
+		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
+END_CASE	
+]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_TcLogger">
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_TcLogger.M_Log">
-      <LineId Id="88" Count="0" />
       <LineId Id="91" Count="11" />
       <LineId Id="89" Count="1" />
     </LineIds>
