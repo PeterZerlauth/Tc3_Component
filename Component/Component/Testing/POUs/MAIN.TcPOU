@@ -73,7 +73,7 @@ CASE fbTestsuite1.P_Testcase OF
 	
 	80:	
 		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Complete), 'Complete');
-		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Completed, fbComponent.P_State, 'E_State.Execute');
+		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Completed, fbComponent.P_State, 'E_State.Complete');
 		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Complete)', '', 90);		
 
 	90:

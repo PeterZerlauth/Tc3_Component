@@ -395,7 +395,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// State Execute]]></ST>
+        <ST><![CDATA[M_Execute:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Held" Id="{f81e94c9-4b34-0591-0431-3c8c41c7dc3f}" FolderPath="State\">
@@ -534,6 +534,15 @@ CASE eRequest OF
 		
 	E_Request.Hold:
 		IF eState >= E_State.Held THEN
+			M_Request:= TRUE;
+		ELSE
+			IF eStateRequest < eRequest THEN
+				eStateRequest:= eRequest;				
+			END_IF		
+		END_IF
+		
+	E_Request.Complete:
+		IF eState = E_State.Completed THEN
 			M_Request:= TRUE;
 		ELSE
 			IF eStateRequest < eRequest THEN
@@ -1005,6 +1014,9 @@ END_VAR
       <LineId Id="163" Count="1" />
       <LineId Id="135" Count="0" />
       <LineId Id="132" Count="0" />
+      <LineId Id="175" Count="0" />
+      <LineId Id="177" Count="6" />
+      <LineId Id="176" Count="0" />
       <LineId Id="95" Count="0" />
       <LineId Id="80" Count="0" />
       <LineId Id="110" Count="0" />
