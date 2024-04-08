@@ -21,15 +21,6 @@
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Property Name="P_Parrent" Id="{ce82f7da-26f4-0abf-3e43-d27f3edf31fb}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Parrent : I_Component]]></Declaration>
-      <Get Name="Get" Id="{c8dbde51-2a16-0246-10d2-3b6c51fd6745}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-      <Set Name="Set" Id="{3a212b4f-c658-0c8c-3e21-1d46dd623490}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
-    </Property>
     <Property Name="P_Timestamp" Id="{d32c7dd1-ae0e-4b1a-b50b-ce8720cabd0c}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Timestamp : ULINT]]></Declaration>
       <Get Name="Get" Id="{e41a45ff-6cea-4e2b-8499-2e70f12a2058}">

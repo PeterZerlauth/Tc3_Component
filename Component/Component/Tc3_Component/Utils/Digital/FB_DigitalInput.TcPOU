@@ -10,7 +10,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 
-	sName:				STRING(25);	// Equipment ID
+	sIdentifier:				STRING(25);	// Equipment ID
 	Channel			AT%I*: BOOL;	// Link to input
 	fbDebounce:		FB_Debounce;
 END_VAR]]></Declaration>
@@ -18,14 +18,14 @@ END_VAR]]></Declaration>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
 fbDebounce(bInput:= Channel, tTime:= tDebounce);]]></ST>
     </Implementation>
-    <Property Name="P_Name" Id="{d2592e33-0c09-00ed-2a19-2a2ac1387854}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Name : String(25)]]></Declaration>
+    <Property Name="P_Identifier" Id="{d2592e33-0c09-00ed-2a19-2a2ac1387854}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Identifier : String(25)]]></Declaration>
       <Get Name="Get" Id="{db03f916-1db4-0ef0-2610-a102e9e38d81}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_Name:= sName;]]></ST>
+          <ST><![CDATA[P_Identifier:= sIdentifier;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -64,7 +64,7 @@ END_VAR
       <LineId Id="60" Count="0" />
       <LineId Id="47" Count="0" />
     </LineIds>
-    <LineIds Name="FB_DigitalInput.P_Name.Get">
+    <LineIds Name="FB_DigitalInput.P_Identifier.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_DigitalInput.P_State.Get">

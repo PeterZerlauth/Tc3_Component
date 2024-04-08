@@ -3,8 +3,8 @@
   <Itf Name="I_Channel" Id="{1b297b6b-809c-0abd-3ee4-a73d9efd4868}">
     <Declaration><![CDATA[INTERFACE I_Channel EXTENDS I_Object
 ]]></Declaration>
-    <Property Name="P_Name" Id="{84f9e729-2b72-054c-28a1-316d6cb797db}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Name : String(25)]]></Declaration>
+    <Property Name="P_Identifier" Id="{84f9e729-2b72-054c-28a1-316d6cb797db}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Identifier : String(25)]]></Declaration>
       <Get Name="Get" Id="{90a42a60-8a97-06d5-2237-4e83f6005a9c}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>

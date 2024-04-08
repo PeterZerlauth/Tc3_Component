@@ -15,12 +15,6 @@ VAR
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
-fbTimeout();
-fbTimeout.IN:= FALSE;
-
-fbDelay();
-fbDelay.IN:= FALSE;
-
 IF iParent.P_Mode = E_Mode.Manual THEN
 	nNumber:= E_Sequence.Manual;
 END_IF]]></ST>
@@ -52,9 +46,10 @@ END_VAR
         <ST><![CDATA[THIS^.sMessage:= sMessage;
 IF bReturn THEN
 	IF tDelay <> T#0S THEN
-		fbDelay.IN:= TRUE;
+		fbDelay(IN:= TRUE);
 		IF fbDelay.Q THEN
 			THIS^.nNumber:= nNumber;
+			fbDelay(IN:= FALSE);
 			IF bPause THEN
 				IF iParent.P_Mode = E_Mode.Semiauto THEN
 					iParent.M_Request(E_Request.Pause);		
@@ -63,6 +58,7 @@ IF bReturn THEN
 		END_IF
 	ELSE
 		THIS^.nNumber:= nNumber;
+		fbTimeout(IN:= FALSE);
 		IF bPause THEN
 			IF iParent.P_Mode = E_Mode.Semiauto THEN
 				iParent.M_Request(E_Request.Pause);		
@@ -71,20 +67,22 @@ IF bReturn THEN
 	END_IF		
 ELSE
 	IF tTimeout <> T#0S THEN
-		fbTimeout.IN:= TRUE;
+		fbTimeout(IN:= TRUE);
 		IF fbTimeout.Q THEN
 			iParent.P_Event.M_AddINT(THIS^.nNumber);
-			iParent.P_Event.M_Error('Timeout in sequence number %s', '', E_Error.Stop);
+			iParent.P_Event.M_Stop('Timeout in sequence number %s', '');
 		END_IF
 	END_IF
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Reset" Id="{4501245b-63d2-4732-9d5e-f656a322de01}">
-      <Declaration><![CDATA[METHOD M_Reset : BOOL
+      <Declaration><![CDATA[METHOD M_Reset
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[nNumber:= E_Sequence.Start;]]></ST>
+        <ST><![CDATA[nNumber:= E_Sequence.Start;
+fbDelay(IN:= FALSE);
+fbTimeout(IN:= FALSE);]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Number" Id="{3cc751bf-6092-4aa8-8de5-3276200b64ad}">
@@ -108,11 +106,6 @@ END_VAR
     </Property>
     <LineIds Name="FB_Sequence">
       <LineId Id="52" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="24" Count="1" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="38" Count="0" />
       <LineId Id="37" Count="0" />
       <LineId Id="39" Count="1" />
     </LineIds>
@@ -124,11 +117,14 @@ END_VAR
       <LineId Id="13" Count="0" />
       <LineId Id="56" Count="1" />
       <LineId Id="61" Count="1" />
+      <LineId Id="85" Count="0" />
       <LineId Id="65" Count="3" />
       <LineId Id="64" Count="0" />
       <LineId Id="63" Count="0" />
       <LineId Id="59" Count="0" />
-      <LineId Id="69" Count="5" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="70" Count="4" />
       <LineId Id="60" Count="0" />
       <LineId Id="32" Count="0" />
       <LineId Id="42" Count="5" />
@@ -136,6 +132,7 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Sequence.M_Reset">
       <LineId Id="6" Count="0" />
+      <LineId Id="8" Count="1" />
     </LineIds>
     <LineIds Name="FB_Sequence.P_Number.Get">
       <LineId Id="2" Count="0" />

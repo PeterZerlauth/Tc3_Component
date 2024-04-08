@@ -15,8 +15,7 @@ END_VAR
 ]]></Declaration>
     </Method>
     <Method Name="M_Reset" Id="{4610609d-250e-0cea-1947-6366c1b79c60}">
-      <Declaration><![CDATA[METHOD M_Reset : BOOL
-]]></Declaration>
+      <Declaration><![CDATA[METHOD M_Reset]]></Declaration>
     </Method>
     <Property Name="P_Number" Id="{79c47681-726d-072e-0b7d-db06b1d061b8}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Number : int]]></Declaration>

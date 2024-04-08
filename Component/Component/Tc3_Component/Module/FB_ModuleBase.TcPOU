@@ -21,7 +21,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Aborted();
-fbEvent.M_AddSTRING(P_Name);
+fbEvent.M_AddSTRING(P_Identifier);
 fbEvent.M_Information('Module %s aborted, reset', '');]]></ST>
       </Implementation>
     </Method>
@@ -32,8 +32,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Component.P_Info.P_Parrent:= THIS^;
-Component.P_Event.P_Logger:= fbLoggerFactory;
+        <ST><![CDATA[Component.P_Event.P_Logger:= fbLoggerFactory;
 fbMembers.M_Add(Component);
 Component.P_Observer.M_Attach(THIS^);
 fbObserver.M_Attach(Component);]]></ST>
@@ -57,8 +56,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Component.P_Info.P_Parrent:= 0;
-Component.P_Event.P_Logger:= 0;
+        <ST><![CDATA[Component.P_Event.P_Logger:= 0;
 fbMembers.M_Remove(Component);
 Component.P_Observer.M_Detach(THIS^);
 fbObserver.M_Detach(Component);]]></ST>
@@ -71,7 +69,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Idle();
-fbEvent.M_AddSTRING(P_Name);
+fbEvent.M_AddSTRING(P_Identifier);
 fbEvent.M_Information('Module %s not started', '');]]></ST>
       </Implementation>
     </Method>
@@ -102,8 +100,8 @@ END_VAR]]></Declaration>
         <ST><![CDATA[CASE eMode OF
 	E_Mode.Semiauto, E_Mode.Automatic:
 		IF eModePrevious = E_Mode.Manual THEN
-			fbEvent.M_AddSTRING(P_Name);
-			fbEvent.M_Error('Module %s was in manual mode', '', E_Error.Abort);
+			fbEvent.M_AddSTRING(P_Identifier);
+			fbEvent.M_Abort('Module %s was in manual mode', '');
 		END_IF
 END_CASE]]></ST>
       </Implementation>
@@ -152,7 +150,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Stopped();
-fbEvent.M_AddSTRING(P_Name);
+fbEvent.M_AddSTRING(P_Identifier);
 fbEvent.M_Information('Module %s stopped, reset', '');]]></ST>
       </Implementation>
     </Method>
@@ -173,7 +171,6 @@ END_VAR]]></Declaration>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Attach">
-      <LineId Id="18" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="8" Count="0" />
@@ -185,7 +182,6 @@ END_VAR]]></Declaration>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Dettach">
-      <LineId Id="18" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="8" Count="0" />

@@ -10,16 +10,16 @@ VAR
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
-// Provide the Logging function to a module, and event buffer
-// Hmi anyway have to work with a static list :-(
 
 // Deactivate old events
 nIndex:= 0;
 WHILE nIndex < nLength DO
-	IF aEvent[nIndex].Active AND aEvent[nIndex].EventType <> E_Event.Error THEN
-		aEvent[nIndex].Active:= FALSE;
+	IF aEvent[nIndex].Active THEN
+		IF aEvent[nIndex].EventType <> E_Event.Error THEN
+			aEvent[nIndex].Active:= FALSE;
+		END_IF
 	ELSE
-		M_Remove(nIndex);		
+		M_Remove(nIndex);
 	END_IF
 	nIndex := nIndex + 1;
 END_WHILE]]></ST>
@@ -42,7 +42,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Attach
+        <ST><![CDATA[// Dettach
 fbList.M_Remove(Logger);]]></ST>
       </Implementation>
     </Method>
@@ -55,7 +55,8 @@ VAR
 	nIndex:		DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Find := -1;
+        <ST><![CDATA[// Find event in buffer
+M_Find := -1;
 WHILE nIndex < nLength DO
 	IF (aEvent[nIndex].Source = stEvent.Source) AND_THEN
     	(aEvent[nIndex].EventType = stEvent.EventType) AND_THEN
@@ -79,16 +80,17 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
-	// Update existing eventss
+	// Update existing events
 	aEvent[nIndex].Arguments:= stEvent.Arguments;
 	aEvent[nIndex].Default:= stEvent.Default;
 	aEvent[nIndex].Active:= TRUE;
 ELSE
 	// add new event
 	stEvent.Active:= TRUE;
-	M_Publish(stEvent);
 	aEvent[nLength]:= stEvent;
 	nLength:= nLength + 1;
+	// Publish to Subscribers
+	M_Publish(stEvent);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -125,14 +127,18 @@ nLength:= nLength - 1;]]></ST>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Reset events
+        <ST><![CDATA[// Reset all events
 nLength:= 0;
 Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_LoggerFactory">
       <LineId Id="370" Count="0" />
-      <LineId Id="334" Count="8" />
+      <LineId Id="336" Count="4" />
+      <LineId Id="377" Count="0" />
+      <LineId Id="341" Count="0" />
+      <LineId Id="380" Count="0" />
+      <LineId Id="342" Count="0" />
       <LineId Id="362" Count="0" />
       <LineId Id="352" Count="1" />
       <LineId Id="2" Count="0" />
@@ -146,6 +152,7 @@ Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Find">
+      <LineId Id="110" Count="0" />
       <LineId Id="91" Count="0" />
       <LineId Id="93" Count="10" />
     </LineIds>
@@ -154,9 +161,10 @@ Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
       <LineId Id="115" Count="0" />
       <LineId Id="152" Count="1" />
       <LineId Id="117" Count="1" />
-      <LineId Id="154" Count="0" />
+      <LineId Id="164" Count="0" />
+      <LineId Id="161" Count="2" />
       <LineId Id="141" Count="0" />
-      <LineId Id="120" Count="2" />
+      <LineId Id="122" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Publish">
       <LineId Id="17" Count="0" />

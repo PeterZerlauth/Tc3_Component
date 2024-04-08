@@ -647,6 +647,26 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="P_Identifier" Id="{3effb9b7-1c02-072b-311e-de8397111421}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Identifier : STRING(25)]]></Declaration>
+      <Get Name="Get" Id="{0c21d00d-b7a9-0d38-0c40-7f63c6fb1b7c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Identifier:= fbInfo.sIdentifier;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{9f14bced-b370-082e-1cc1-0212a2a60675}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[fbInfo.sIdentifier:= P_Identifier;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="P_Info" Id="{1f2686a8-22c2-03c1-3b18-3cdd0f1b6158}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Info : I_Info]]></Declaration>
       <Get Name="Get" Id="{80d9a233-1863-0529-037a-9eeb24a670c8}">
@@ -668,26 +688,6 @@ END_VAR
           <ST><![CDATA[P_Mode:= eMode;]]></ST>
         </Implementation>
       </Get>
-    </Property>
-    <Property Name="P_Name" Id="{3effb9b7-1c02-072b-311e-de8397111421}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Name : STRING(25)]]></Declaration>
-      <Get Name="Get" Id="{0c21d00d-b7a9-0d38-0c40-7f63c6fb1b7c}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Name:= fbInfo.sName;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{9f14bced-b370-082e-1cc1-0212a2a60675}">
-        <Declaration><![CDATA[PUBLIC 
-VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[fbInfo.sName:= P_Name;]]></ST>
-        </Implementation>
-      </Set>
     </Property>
     <Property Name="P_Observer" Id="{5a2ea21c-aedb-0c6a-2f12-df08356b98aa}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>
@@ -1055,16 +1055,16 @@ END_VAR
     <LineIds Name="FB_Component.P_Event.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="FB_Component.P_Identifier.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.P_Identifier.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
     <LineIds Name="FB_Component.P_Info.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.P_Mode.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.P_Name.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.P_Name.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.P_Observer.Get">

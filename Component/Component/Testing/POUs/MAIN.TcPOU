@@ -8,13 +8,6 @@ VAR
 	fbTestsuite1:		FB_Testsuite;
 	
 	fbComponent:		FB_Component;
-	
-	bReset:			BOOL;
-	bStart: 		BOOL;
-    bHold:       	BOOL;
-    bPause:    		BOOL;
-	bStop:       	BOOL;
-    bAbort:      	BOOL;
 
 	bExecute: BOOL;
 END_VAR

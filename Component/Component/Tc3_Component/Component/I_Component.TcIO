@@ -36,6 +36,15 @@ END_VAR
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
+    <Property Name="P_Identifier" Id="{1189c098-5eec-0d68-18e7-7614f6e3884e}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Identifier : STRING(25)]]></Declaration>
+      <Get Name="Get" Id="{119ce5e0-3bc0-09ab-2641-05ccee762aba}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{681c1b60-d8b1-03de-1397-a3678979d92b}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
     <Property Name="P_Info" Id="{a4d97ad8-84af-4536-8ab6-ff3055df9335}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Info : I_Info]]></Declaration>
       <Get Name="Get" Id="{9b0145a7-d929-442e-b904-05f74e6af1bb}">
@@ -47,15 +56,6 @@ END_VAR
       <Get Name="Get" Id="{120a4ba9-e3fe-0253-2437-c4d9e2f883ff}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
-    </Property>
-    <Property Name="P_Name" Id="{927eb9d3-455b-0b55-27ef-07b44af506f2}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Name : String(25)]]></Declaration>
-      <Get Name="Get" Id="{44e2617b-f3f3-0ed4-30f1-21636981c162}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-      <Set Name="Set" Id="{418b585a-8e93-0535-1773-ae6e136dc8f6}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
     </Property>
     <Property Name="P_Observer" Id="{71855be2-d7dd-407c-bfc6-2b33d71db9ac}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>

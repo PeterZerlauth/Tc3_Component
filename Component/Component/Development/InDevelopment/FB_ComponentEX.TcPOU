@@ -8,6 +8,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	bReturn: 		BOOL;
+	bError:			BOOL;
 	bAbort:			BOOL;
 	bStop:			BOOL;
 	bStopCycle:		BOOL;
@@ -41,7 +42,7 @@ IF bAbort THEN
 	fbEvent.M_AddSTRING('1');
 	fbEvent.M_AddSTRING('2');
 	fbEvent.M_AddSTRING('3');
-	fbEvent.M_Error('First Error Abort %s %s %s', 'a', E_Error.Abort);
+	fbEvent.M_Abort('First Error Abort %s %s %s', 'a');
 END_IF
 
 IF bStop THEN
@@ -49,7 +50,11 @@ IF bStop THEN
 	fbEvent.M_AddSTRING('a');
 	fbEvent.M_AddSTRING('b');
 	fbEvent.M_AddSTRING('c');
-	fbEvent.M_Error('First Error Stop', 'b', E_Error.Stop);
+	fbEvent.M_Stop('First Error Stop', 'b');
+END_IF
+
+IF bError THEN
+	fbEvent.M_Error('First Error', 'c');
 END_IF
 
 IF bInformation THEN
@@ -85,6 +90,9 @@ END_IF
       <LineId Id="7" Count="0" />
       <LineId Id="21" Count="5" />
       <LineId Id="5" Count="0" />
+      <LineId Id="84" Count="1" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="83" Count="0" />
       <LineId Id="72" Count="0" />
       <LineId Id="76" Count="2" />
       <LineId Id="80" Count="0" />

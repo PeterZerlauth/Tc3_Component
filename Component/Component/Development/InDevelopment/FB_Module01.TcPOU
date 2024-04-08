@@ -53,7 +53,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Initialise();
 
-P_Name:= '1';
+P_Identifier:= '1';
 
 M_Attach(fbComponent1);
 M_Attach(fbComponent2);
