@@ -3,16 +3,17 @@
   <DUT Name="ST_Event" Id="{424f55e5-b514-4649-8354-f5dfeb5cecd2}">
     <Declaration><![CDATA[TYPE ST_Event :
 STRUCT
-	Source:			I_Component;
-	EventType:		E_Event;
-	Timestamp:   	ULINT;
-	ID:				ID;
-	Instance:		STRING(255);
-	Class:			STRING(255);
-	Message:		STRING(255);
-	Default:		STRING(255);
-	Arguments:		STRING(255);
-	Active:			BOOL;
+	iSource:		I_Component;
+	eEventType:		E_Event;
+	nTimestamp:   	ULINT;
+	sID:			STRING(10);
+	sInstance:		STRING(255);
+	sClass:			STRING(255);
+	sMessage:		STRING(255);
+	sDefault:		STRING(255);
+	sArguments:		STRING(255);
+	bActive:		BOOL;
+	bRemove:		BOOL;
 END_STRUCT
 END_TYPE]]></Declaration>
   </DUT>

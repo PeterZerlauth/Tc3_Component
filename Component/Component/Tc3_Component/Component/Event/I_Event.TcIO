@@ -7,7 +7,7 @@
       <Declaration><![CDATA[METHOD PUBLIC M_Abort
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					ID;
+	sID:					STRING(10);
 END_VAR]]></Declaration>
     </Method>
     <Method Name="M_AddBOOL" Id="{6fc486ba-f21e-0356-3f27-fe3c53264131}">
@@ -57,7 +57,7 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_Error
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					ID;
+	sID:					STRING(10);
 END_VAR
 ]]></Declaration>
     </Method>
@@ -65,7 +65,7 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_Information
 VAR_INPUT
 	Message:				STRING(255);
-	ID:						ID;
+	ID:						STRING(10);
 END_VAR
 ]]></Declaration>
     </Method>
@@ -73,14 +73,14 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_Stop
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					ID;
+	sID:					STRING(10);
 END_VAR]]></Declaration>
     </Method>
     <Method Name="M_Warning" Id="{ae861465-4d88-0ffb-03b6-6d69b34da892}">
       <Declaration><![CDATA[METHOD PUBLIC M_Warning
 VAR_INPUT
 	Message:				STRING(255);
-	ID:						ID;
+	ID:						STRING(10);
 END_VAR
 ]]></Declaration>
     </Method>

@@ -38,7 +38,6 @@ END_VAR
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
     <Folder Name="Command" Id="{9635140d-5b18-006e-1e9e-963cbb8377f9}" />
-    <Folder Name="Event" Id="{35dce04d-63e0-0a51-2a18-ba942f4c7977}" />
     <Folder Name="State" Id="{ca15ba5f-c875-08b1-19c6-3566ddf8fed6}" />
     <Method Name="M_Aborted" Id="{f47ae709-6b97-0869-103e-462a949d9bd1}" FolderPath="State\">
       <Declaration><![CDATA[METHOD PROTECTED M_Aborted

@@ -42,22 +42,15 @@ VAR_INPUT
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
 	sInstancePath:			REFERENCE TO STRING(255);
 END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[THIS^.sInstancePath REF= sInstancePath;
-M_Initialize();]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Initialize" Id="{0b417d91-c3b8-4144-89a2-d1e8ea1316dd}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Initialize
-VAR_INPUT
-END_VAR
 VAR
     sName:				STRING(255);
     nPosition:			INT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sName := CONCAT(TwinCAT_SystemInfoVarList._AppInfo.ProjectName, '.');
+        <ST><![CDATA[THIS^.sInstancePath REF= sInstancePath;
+
+sName := CONCAT(TwinCAT_SystemInfoVarList._AppInfo.ProjectName, '.');
 
 nPosition := FIND(sInstancePath, sName);
 IF nPosition > 0 THEN
@@ -129,14 +122,8 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Info.FB_init">
       <LineId Id="9" Count="0" />
+      <LineId Id="16" Count="14" />
       <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Info.M_Initialize">
-      <LineId Id="12" Count="2" />
-      <LineId Id="16" Count="8" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="33" Count="0" />
-      <LineId Id="31" Count="0" />
     </LineIds>
     <LineIds Name="FB_Info.P_Class.Get">
       <LineId Id="2" Count="0" />

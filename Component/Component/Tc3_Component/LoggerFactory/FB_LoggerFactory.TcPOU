@@ -14,9 +14,9 @@ END_VAR]]></Declaration>
 // Deactivate old events
 nIndex:= 0;
 WHILE nIndex < nLength DO
-	IF aEvent[nIndex].Active THEN
-		IF aEvent[nIndex].EventType <> E_Event.Error THEN
-			aEvent[nIndex].Active:= FALSE;
+	IF aEvent[nIndex].bActive THEN
+		IF aEvent[nIndex].bRemove THEN
+			aEvent[nIndex].bActive:= FALSE;
 		END_IF
 	ELSE
 		M_Remove(nIndex);
@@ -58,11 +58,11 @@ END_VAR]]></Declaration>
         <ST><![CDATA[// Find event in buffer
 M_Find := -1;
 WHILE nIndex < nLength DO
-	IF (aEvent[nIndex].Source = stEvent.Source) AND_THEN
-    	(aEvent[nIndex].EventType = stEvent.EventType) AND_THEN
-		(aEvent[nIndex].Instance = stEvent.Instance) AND_THEN
-		(aEvent[nIndex].Class = stEvent.Class) AND_THEN
-		(aEvent[nIndex].Message = stEvent.Message) THEN
+	IF (aEvent[nIndex].iSource = stEvent.iSource) AND_THEN
+    	(aEvent[nIndex].eEventType = stEvent.eEventType) AND_THEN
+		(aEvent[nIndex].sInstance = stEvent.sInstance) AND_THEN
+		(aEvent[nIndex].sClass = stEvent.sClass) AND_THEN
+		(aEvent[nIndex].sMessage = stEvent.sMessage) THEN
         M_Find := nIndex;
         RETURN;
     END_IF
@@ -81,12 +81,12 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
 	// Update existing events
-	aEvent[nIndex].Arguments:= stEvent.Arguments;
-	aEvent[nIndex].Default:= stEvent.Default;
-	aEvent[nIndex].Active:= TRUE;
+	aEvent[nIndex].sArguments:= stEvent.sArguments;
+	aEvent[nIndex].sDefault:= stEvent.sDefault;
+	aEvent[nIndex].bActive:= TRUE;
 ELSE
 	// add new event
-	stEvent.Active:= TRUE;
+	stEvent.bActive:= TRUE;
 	aEvent[nLength]:= stEvent;
 	nLength:= nLength + 1;
 	// Publish to Subscribers
