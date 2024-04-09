@@ -16,13 +16,13 @@ Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Comm
 ![State Machine](docs/StateMachine.drawio.svg)
 
 ## Class
-![Component](docs/Component.drawio.svg)
+![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/53ae6d05-2901-4ad4-9585-d2f24d6b8c2b)
 
 ## Concept
 ![Concept](docs/Concept.drawio.svg)
 
 ## Scrennshots
-![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/53ae6d05-2901-4ad4-9585-d2f24d6b8c2b)
+
 
 
 ## Info
