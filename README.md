@@ -22,7 +22,7 @@ Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Comm
 ![Concept](docs/Concept.drawio.svg)
 
 ## Scrennshots
-![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/c76fec84-a895-453e-8060-1c2ba3dc2164)![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/7a5a2122-6647-45bb-8364-690c8b8ac11d)
+![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/53ae6d05-2901-4ad4-9585-d2f24d6b8c2b)
 
 
 ## Info
