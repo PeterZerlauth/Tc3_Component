@@ -12,8 +12,7 @@ STRUCT
 	sMessage:		STRING(255);
 	sDefault:		STRING(255);
 	sArguments:		STRING(255);
-	bActive:		BOOL;
-	bRemove:		BOOL;
+	stFlags:		ST_EventFlags;
 END_STRUCT
 END_TYPE]]></Declaration>
   </DUT>

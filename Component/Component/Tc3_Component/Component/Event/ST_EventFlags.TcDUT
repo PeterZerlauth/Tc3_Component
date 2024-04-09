@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="ST_EventFlags" Id="{4adeb2ed-82e3-054a-1107-68765b365abf}">
+    <Declaration><![CDATA[TYPE ST_EventFlags :
+STRUCT
+	bActive:		BIT;
+	bRemove:		BIT;
+	bPause:			BIT;
+	bHold:			BIT;
+	bComplete:		BIT;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

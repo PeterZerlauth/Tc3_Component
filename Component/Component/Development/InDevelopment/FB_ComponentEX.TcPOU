@@ -11,7 +11,6 @@ VAR
 	bError:			BOOL;
 	bAbort:			BOOL;
 	bStop:			BOOL;
-	bStopCycle:		BOOL;
 	bInformation:	BOOL;
 	bWarning:		BOOL;
 END_VAR]]></Declaration>

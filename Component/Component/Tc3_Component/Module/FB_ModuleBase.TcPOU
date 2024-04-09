@@ -10,6 +10,7 @@ VAR
 	fbMembers:					FB_ListComponent;
 	fbLoggerFactory:			FB_LoggerFactory;;
 	fbTcLogger:					FB_TcLogger;
+	fbFileLogger:				FB_FileLogger;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
@@ -80,14 +81,10 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Initialise();
+
 fbEvent.P_Logger:= fbLoggerFactory;
 fbLoggerFactory.M_Attach(fbTcLogger);
-	
-	
-
-
-
-]]></ST>
+fbLoggerFactory.M_Attach(fbFileLogger);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_OnMode" Id="{8aa684a1-26e4-029d-2fa8-0e0341c2e439}">
@@ -194,13 +191,10 @@ END_VAR]]></Declaration>
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Initialise">
       <LineId Id="106" Count="0" />
+      <LineId Id="111" Count="0" />
       <LineId Id="82" Count="0" />
       <LineId Id="98" Count="0" />
-      <LineId Id="88" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="22" Count="1" />
-      <LineId Id="21" Count="0" />
+      <LineId Id="110" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_OnMode">
       <LineId Id="7" Count="0" />

@@ -46,6 +46,13 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="M_Complete" Id="{3cc7b94f-c170-003f-1746-5c84cc0dcccd}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Complete
+VAR_INPUT
+	sMessage:				STRING(255);
+	sID:					STRING(10);
+END_VAR]]></Declaration>
+    </Method>
     <Method Name="M_Debug" Id="{de8efd53-16f5-0334-02e3-fdd0e4bf084c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Debug
 VAR_INPUT
@@ -61,6 +68,13 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="M_Hold" Id="{2f401732-d707-076b-0644-a0f5673bcf70}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Hold
+VAR_INPUT
+	sMessage:				STRING(255);
+	sID:					STRING(10);
+END_VAR]]></Declaration>
+    </Method>
     <Method Name="M_Information" Id="{a0df6aac-21ac-0b65-3426-2421a14ee702}">
       <Declaration><![CDATA[METHOD PUBLIC M_Information
 VAR_INPUT
@@ -68,6 +82,13 @@ VAR_INPUT
 	ID:						STRING(10);
 END_VAR
 ]]></Declaration>
+    </Method>
+    <Method Name="M_Pause" Id="{213b4bd7-259f-0ca0-3e22-5024c76ef23b}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Pause
+VAR_INPUT
+	sMessage:				STRING(255);
+	sID:					STRING(10);
+END_VAR]]></Declaration>
     </Method>
     <Method Name="M_Stop" Id="{bc83aad4-ae26-008e-3b0c-5fc1c7225e6c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Stop
