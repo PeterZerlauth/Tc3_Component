@@ -13,7 +13,8 @@ Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Comm
     [x] Sequence Manager
 
 ## Class
-![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/53ae6d05-2901-4ad4-9585-d2f24d6b8c2b)
+![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/b70fa6e0-34f0-4d77-880c-6417ceb6093c)
+
 
 ## State Machine
 ![State Machine](docs/StateMachine.drawio.svg)
