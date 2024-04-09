@@ -28,14 +28,14 @@
 	<Project ProjectGUID="{74E8F419-036C-4967-922D-C405C2CA94D5}" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
 			<Tasks>
-				<Task Id="3" Priority="21" CycleTime="100000" AmsPort="351" AdtTasks="true">
+				<Task Id="3" Priority="21" CycleTime="1000000" AmsPort="351" AdtTasks="true">
 					<Name>PlcTask</Name>
 				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Development" PrjFilePath="Development\Development.plcproj" TmcFilePath="Development\Development.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Development\Development.tmc" TmcHash="{F8E4F6F9-4617-2A49-A0F5-08E8C2B9C419}">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Development\Development.tmc" TmcHash="{6C98A38B-177A-B5D2-2C74-2024BFA91096}">
 					<Name>Development Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<UnrestoredVarLinks ImportTime="2024-02-26T09:08:31">
@@ -74,7 +74,7 @@
 								<OTCID>#x02010030</OTCID>
 							</ManualConfig>
 							<Priority>21</Priority>
-							<CycleTime>10000000</CycleTime>
+							<CycleTime>100000000</CycleTime>
 						</Context>
 					</Contexts>
 					<TaskPouOids>
@@ -95,7 +95,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{640CD8E2-83AD-418E-8730-5775EDA13AE6}" Name="Testing" PrjFilePath="Testing\Testing.plcproj" TmcFilePath="Testing\Testing.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Testing\Testing.tmc" TmcHash="{FD98C945-9BAF-1652-F94F-4829F7B8675C}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Testing\Testing.tmc" TmcHash="{701E275D-2C95-CFA5-DDCE-AC2E4A95A436}">
 					<Name>Testing Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -106,7 +106,7 @@
 								<OTCID>#x02010030</OTCID>
 							</ManualConfig>
 							<Priority>21</Priority>
-							<CycleTime>10000000</CycleTime>
+							<CycleTime>100000000</CycleTime>
 						</Context>
 					</Contexts>
 					<TaskPouOids>
