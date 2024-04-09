@@ -11,18 +11,20 @@ Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Comm
     [x] Observer Pattern to Notify state changes
     [x] Eventlogger
     [x] Sequence Manager
-    
+
+## Class
+![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/b70fa6e0-34f0-4d77-880c-6417ceb6093c)
+
+
 ## State Machine
 ![State Machine](docs/StateMachine.drawio.svg)
 
-## Class
-![Component](docs/Component.drawio.svg)
 
 ## Concept
 ![Concept](docs/Concept.drawio.svg)
 
 ## Scrennshots
-![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/c76fec84-a895-453e-8060-1c2ba3dc2164)![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/7a5a2122-6647-45bb-8364-690c8b8ac11d)
+
 
 
 ## Info
