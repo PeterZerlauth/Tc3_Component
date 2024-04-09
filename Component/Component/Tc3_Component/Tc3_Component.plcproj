@@ -103,6 +103,9 @@
     <Compile Include="Component\Sequence\I_Sequence.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Klassendiagramm.TcCD">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">
       <SubType>Code</SubType>
     </Compile>
