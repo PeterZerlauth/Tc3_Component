@@ -19,18 +19,6 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[sMessage:= Concat(Concat(stEvent.sInstance, ' | '), stEvent.sDefault);
-CASE stEvent.eEventType OF
-	E_Event.Error:
-		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := '%s', strArg := sMessage);
-	E_Event.Warning:
-		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_WARN , msgFmtStr := '%s', strArg := sMessage);
-	E_Event.Information:
-		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
-	E_Event.Debug:
-		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT, msgFmtStr := '%s', strArg := sMessage);
-	E_Event.Verbose:
-		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
-END_CASE	
 ]]></ST>
       </Implementation>
     </Method>
@@ -38,8 +26,8 @@ END_CASE
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_FileLogger.M_Log">
-      <LineId Id="91" Count="11" />
-      <LineId Id="89" Count="1" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="90" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

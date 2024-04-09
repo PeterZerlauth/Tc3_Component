@@ -392,8 +392,8 @@ IF eStatePrevious <> eState THEN
 END_IF
 
 CASE eStateRequest of
-	E_Request.Undefined, E_Request.Start:;
-		
+	E_Request.Undefined, E_Request.Start, E_Request.Pause, E_Request.Hold:
+		// Ignore
 	ELSE
 		fbObserver.M_Notify(eStateRequest, 0);
 END_CASE]]></ST>

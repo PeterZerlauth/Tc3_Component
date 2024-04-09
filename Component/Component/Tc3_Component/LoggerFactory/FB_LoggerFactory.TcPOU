@@ -159,6 +159,22 @@ nLength:= 0;
 Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Start" Id="{14c523fa-9279-0bfe-11e3-526c8259ca8b}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Start
+VAR_INPUT
+END_VAR
+VAR 
+	nIndex:		DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nIndex:= 0;
+WHILE nIndex < nLength DO
+	aEvent[nIndex].stFlags.bHold:= FALSE;
+	aEvent[nIndex].stFlags.bPause:= FALSE;	
+	nIndex := nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_LoggerFactory">
       <LineId Id="370" Count="0" />
       <LineId Id="336" Count="1" />
@@ -219,6 +235,12 @@ Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
     <LineIds Name="FB_LoggerFactory.M_Reset">
       <LineId Id="26" Count="0" />
       <LineId Id="6" Count="0" />
+      <LineId Id="33" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LoggerFactory.M_Start">
+      <LineId Id="38" Count="1" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="58" Count="1" />
       <LineId Id="33" Count="0" />
     </LineIds>
   </POU>

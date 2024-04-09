@@ -47,7 +47,17 @@ END_VAR
       <Implementation>
         <ST><![CDATA[fbLoggerFactory();
 
-SUPER^.M_Cycle();]]></ST>
+IF fbLoggerFactory.bHold THEN
+	M_Request(E_Request.Hold);
+ELSIF fbLoggerFactory.bPause THEN
+	M_Request(E_Request.Pause);
+ELSIF fbLoggerFactory.bComplete THEN
+	M_Request(E_Request.Complete);
+END_IF
+
+SUPER^.M_Cycle();
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Dettach" Id="{a667402b-5023-09c1-34b6-30ca3f961f61}">
@@ -119,7 +129,8 @@ fbLoggerFactory.M_Reset();]]></ST>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Resuming:= fbMembers.M_Request(E_Request.Start);]]></ST>
+        <ST><![CDATA[M_Resuming:= fbMembers.M_Request(E_Request.Start);
+fbLoggerFactory.M_Start();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{8879f60a-43a4-0568-363b-e25a42eddf0c}">
@@ -156,7 +167,8 @@ fbEvent.M_Information('Module %s stopped, reset', '');]]></ST>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Unholding:= fbMembers.M_Request(E_Request.Start);]]></ST>
+        <ST><![CDATA[M_Unholding:= fbMembers.M_Request(E_Request.Start);
+fbLoggerFactory.M_Start();]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ModuleBase">
@@ -175,8 +187,12 @@ END_VAR]]></Declaration>
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Cycle">
       <LineId Id="11" Count="0" />
+      <LineId Id="23" Count="6" />
+      <LineId Id="22" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="20" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Dettach">
       <LineId Id="7" Count="0" />
@@ -211,6 +227,7 @@ END_VAR]]></Declaration>
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Resuming">
       <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Running">
       <LineId Id="6" Count="0" />
@@ -225,6 +242,7 @@ END_VAR]]></Declaration>
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Unholding">
       <LineId Id="10" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

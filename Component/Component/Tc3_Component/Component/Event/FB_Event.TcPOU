@@ -153,10 +153,9 @@ stEvent.stFlags.bComplete:= TRUE;
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stEvent);
 ELSE
+	iParent.M_Request(E_Request.Complete);
 	fbLogger.M_Log(stEvent);
-END_IF
-
-iParent.M_Request(E_Request.Stop);]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Debug" Id="{0a2b992b-2a4a-0251-0210-713b326debf6}">
@@ -262,10 +261,11 @@ stEvent.stFlags.bComplete:= FALSE;
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stEvent);
 ELSE
+	iParent.M_Request(E_Request.Hold);
 	fbLogger.M_Log(stEvent);
 END_IF
 
-iParent.M_Request(E_Request.Stop);]]></ST>
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Information" Id="{d9a244f2-1d6f-434f-aab4-cad6aacbb94f}">
@@ -323,10 +323,11 @@ stEvent.stFlags.bComplete:= FALSE;
 IF iLogger <> 0 THEN
 	iLogger.M_Log(stEvent);
 ELSE
+	iParent.M_Request(E_Request.Pause);
 	fbLogger.M_Log(stEvent);
 END_IF
 
-iParent.M_Request(E_Request.Stop);]]></ST>
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Stop" Id="{20d0062d-a518-02ec-13ef-e4c8c4295653}">
@@ -447,10 +448,10 @@ END_VAR
     <LineIds Name="FB_Event.M_Complete">
       <LineId Id="14" Count="8" />
       <LineId Id="34" Count="3" />
-      <LineId Id="23" Count="5" />
+      <LineId Id="23" Count="4" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="28" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Debug">
       <LineId Id="110" Count="8" />
@@ -482,10 +483,11 @@ END_VAR
     <LineIds Name="FB_Event.M_Hold">
       <LineId Id="14" Count="8" />
       <LineId Id="34" Count="3" />
-      <LineId Id="23" Count="5" />
+      <LineId Id="23" Count="4" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="42" Count="1" />
       <LineId Id="5" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Information">
       <LineId Id="60" Count="0" />
@@ -502,7 +504,9 @@ END_VAR
     <LineIds Name="FB_Event.M_Pause">
       <LineId Id="14" Count="8" />
       <LineId Id="34" Count="3" />
-      <LineId Id="23" Count="5" />
+      <LineId Id="23" Count="4" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="28" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="9" Count="0" />
