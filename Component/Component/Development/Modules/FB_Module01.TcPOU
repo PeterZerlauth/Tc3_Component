@@ -7,6 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	bReturn:					BOOL:= TRUE;
 	bWarning:					BOOL;
 	fbComponent1:				FB_Component;
 	fbComponent2:				FB_Component;
@@ -34,10 +35,22 @@ fbComponent3.M_Cycle();
     <Method Name="M_Execute" Id="{0f7f4331-8af5-0744-015a-f65d0021dd06}">
       <Declaration><![CDATA[METHOD PROTECTED M_Execute : bool
 VAR_INPUT
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Execute:= SUPER^.M_Execute();
+        <ST><![CDATA[CASE fbSequence.nNumber OF
+	E_Sequence.Start:
+		fbSequence.M_Await('Start', T#0S, T#0S, TRUE, bReturn, 10);
+	
+	10:
+		fbSequence.M_Await('Step 10', T#0S, T#0S, TRUE, bReturn, 20);
+		
+	20:
+		fbSequence.M_Await('Step 20', T#0S, T#0S, FALSE, bReturn, E_Sequence.Done);	
+		
+	E_Sequence.Done:
+		fbSequence.M_Reset();
+		M_Execute:= TRUE;
+END_CASE
 
 IF bWarning THEN
 	fbEvent.M_Warning('My secound Warning', '' );	
@@ -109,7 +122,8 @@ M_Stopping:= SUPER^.M_Stopping();]]></ST>
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Execute">
-      <LineId Id="5" Count="0" />
+      <LineId Id="22" Count="12" />
+      <LineId Id="20" Count="0" />
       <LineId Id="10" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="15" Count="1" />

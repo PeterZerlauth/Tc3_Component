@@ -56,10 +56,10 @@
     <Compile Include="InDevelopment\FB_Cylinder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InDevelopment\FB_Module01.TcPOU">
+    <Compile Include="InDevelopment\PnozMulti\FB_PnozMulti.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InDevelopment\PnozMulti\FB_PnozMulti.TcPOU">
+    <Compile Include="Modules\FB_Module01.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
@@ -75,6 +75,7 @@
     <Folder Include="InDevelopment" />
     <Folder Include="InDevelopment\Axis" />
     <Folder Include="InDevelopment\PnozMulti" />
+    <Folder Include="Modules" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>
