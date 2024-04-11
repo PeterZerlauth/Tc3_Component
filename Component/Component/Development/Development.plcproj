@@ -40,6 +40,10 @@
     <ObjectRepresentation>base64</ObjectRepresentation>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GVLs\IO.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
     <Compile Include="InDevelopment\Axis\FB_McAxis.TcPOU">
       <SubType>Code</SubType>
     </Compile>

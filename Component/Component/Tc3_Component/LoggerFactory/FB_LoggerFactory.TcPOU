@@ -7,38 +7,31 @@ VAR
 	nLength:					DINT;
 	aEvent:						ARRAY [0..Parameters.nEvents] OF ST_Event;	
 	nIndex: 					DINT;
-END_VAR
-VAR_OUTPUT
-	bInformation:				BOOL;
-	bWarning:					BOOL;
-	bError:						BOOL;
-	bPause:						BOOL;
-	bHold:						BOOL;
-	bComplete:					BOOL;	
+	stTags:						ST_LoggerFactoryTags;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
 
 // Deactivate old events
-bInformation:= FALSE;
-bWarning:= FALSE;
-bError:= FALSE;
-bPause:= FALSE;
-bHold:= FALSE;
-bComplete:= FALSE;
+stTags.bInformation:= FALSE;
+stTags.bWarning:= FALSE;
+stTags.bError:= FALSE;
+stTags.bPause:= FALSE;
+stTags.bHold:= FALSE;
+stTags.bComplete:= FALSE;
 
 nIndex:= 0;
 WHILE nIndex < nLength DO
-	bPause S= aEvent[nIndex].stFlags.bPause;
-	bHold S= aEvent[nIndex].stFlags.bHold;
-	bComplete S= aEvent[nIndex].stFlags.bComplete;
+	stTags.bPause S= aEvent[nIndex].stFlags.bPause;
+	stTags.bHold S= aEvent[nIndex].stFlags.bHold;
+	stTags.bComplete S= aEvent[nIndex].stFlags.bComplete;
 	CASE aEvent[nIndex].eEventType OF
 		E_Event.Error:
-			bError:= TRUE;
+			stTags.bError:= TRUE;
 		E_Event.Warning:
-			bWarning:= TRUE;	
+			stTags.bWarning:= TRUE;	
 		E_Event.Information:
-			bInformation:= TRUE;
+			stTags.bInformation:= TRUE;
 	END_CASE
 
 	IF aEvent[nIndex].stFlags.bActive THEN
@@ -175,6 +168,17 @@ WHILE nIndex < nLength DO
 END_WHILE]]></ST>
       </Implementation>
     </Method>
+    <Property Name="P_Tags" Id="{aa97ad6f-6c2a-0d8a-3f9e-b5681b8171f9}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Tags : REFERENCE TO ST_LoggerFactoryTags]]></Declaration>
+      <Get Name="Get" Id="{da52fba9-bbdb-0eeb-185e-2f31a3d187cf}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Tags ref= stTags;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <LineIds Name="FB_LoggerFactory">
       <LineId Id="370" Count="0" />
       <LineId Id="336" Count="1" />
@@ -242,6 +246,9 @@ END_WHILE]]></ST>
       <LineId Id="52" Count="0" />
       <LineId Id="58" Count="1" />
       <LineId Id="33" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LoggerFactory.P_Tags.Get">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

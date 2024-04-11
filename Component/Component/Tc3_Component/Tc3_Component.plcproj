@@ -136,6 +136,9 @@
     <Compile Include="LoggerFactory\I_Logger.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LoggerFactory\ST_LoggerFactoryTags.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Logger\FB_TcLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>

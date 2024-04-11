@@ -47,17 +47,15 @@ END_VAR
       <Implementation>
         <ST><![CDATA[fbLoggerFactory();
 
-IF fbLoggerFactory.bHold THEN
+IF fbLoggerFactory.P_Tags.bHold THEN
 	M_Request(E_Request.Hold);
-ELSIF fbLoggerFactory.bPause THEN
+ELSIF fbLoggerFactory.P_Tags.bPause THEN
 	M_Request(E_Request.Pause);
-ELSIF fbLoggerFactory.bComplete THEN
+ELSIF fbLoggerFactory.P_Tags.bComplete THEN
 	M_Request(E_Request.Complete);
 END_IF
 
-SUPER^.M_Cycle();
-
-]]></ST>
+SUPER^.M_Cycle();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Dettach" Id="{a667402b-5023-09c1-34b6-30ca3f961f61}">
@@ -187,12 +185,12 @@ fbLoggerFactory.M_Start();]]></ST>
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Cycle">
       <LineId Id="11" Count="0" />
-      <LineId Id="23" Count="6" />
+      <LineId Id="23" Count="2" />
+      <LineId Id="33" Count="1" />
+      <LineId Id="28" Count="1" />
       <LineId Id="22" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="20" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Dettach">
       <LineId Id="7" Count="0" />

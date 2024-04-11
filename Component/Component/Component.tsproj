@@ -28,16 +28,35 @@
 	<Project ProjectGUID="{74E8F419-036C-4967-922D-C405C2CA94D5}" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
 			<Tasks>
-				<Task Id="3" Priority="21" CycleTime="1000000" AmsPort="351" AdtTasks="true">
+				<Task Id="3" CreateSymbols="true" Priority="21" CycleTime="1000000" AmsPort="351" AdtTasks="true">
 					<Name>PlcTask</Name>
 				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Development" PrjFilePath="Development\Development.plcproj" TmcFilePath="Development\Development.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Development\Development.tmc" TmcHash="{6C98A38B-177A-B5D2-2C74-2024BFA91096}">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Development\Development.tmc" TmcHash="{EC1D66D9-0D31-C6E6-1E0B-652F298E2FC3}">
 					<Name>Development Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="1">
+						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>IO.bOn</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>IO.bEMStop</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>IO.bDoorsOk</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>IO.bFuse</Name>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
 					<UnrestoredVarLinks ImportTime="2024-02-26T09:08:31">
 						<OwnerA Name="InputDst" Prefix="TIPC^Example^Example Instance" Type="1">
 							<OwnerB Name="TIID^Device 1 (EtherCAT)">
@@ -95,7 +114,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{640CD8E2-83AD-418E-8730-5775EDA13AE6}" Name="Testing" PrjFilePath="Testing\Testing.plcproj" TmcFilePath="Testing\Testing.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Testing\Testing.tmc" TmcHash="{701E275D-2C95-CFA5-DDCE-AC2E4A95A436}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Testing\Testing.tmc" TmcHash="{98D56B6E-96F5-5782-3B96-156AB4C2E0DF}">
 					<Name>Testing Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
