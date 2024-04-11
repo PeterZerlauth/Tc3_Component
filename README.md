@@ -17,7 +17,7 @@ Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Comm
 
 
 ## State Machine
-![State Machine](docs/StateMachine.drawio.svg)
+![State Machine](docs/StateModell.svg)
 
 
 ## Concept
