@@ -109,7 +109,6 @@ END_VAR]]></Declaration>
 	aEvent[nIndex].stFlags:= stEvent.stFlags;
 ELSE
 	// add new event
-	aEvent[nLength].stFlags:= stEvent.stFlags;
 	aEvent[nLength]:= stEvent;
 	nLength:= nLength + 1;
 	// Publish to Subscribers
@@ -228,7 +227,6 @@ END_VAR
       <LineId Id="115" Count="0" />
       <LineId Id="152" Count="1" />
       <LineId Id="117" Count="1" />
-      <LineId Id="164" Count="0" />
       <LineId Id="161" Count="2" />
       <LineId Id="141" Count="0" />
       <LineId Id="122" Count="0" />

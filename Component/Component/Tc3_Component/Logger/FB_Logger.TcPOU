@@ -3,41 +3,95 @@
   <POU Name="FB_Logger" Id="{e1e358e0-2104-0577-0348-94cd81bffe81}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Logger EXTENDS FB_TcLogger
 VAR
+	nPosition:					DINT;
+	aBuffer:					ARRAY [0..Parameters.nEvents] OF ST_Event;
+	nCycle:						UDINT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
+    <Method Name="M_Find" Id="{f41793c9-9d9c-06d8-1e48-9d6c08695675}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
+VAR_INPUT
+	stEvent:	ST_Event;
+END_VAR
+VAR 
+	nIndex:		DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Find event in buffer
+M_Find := -1;
+WHILE nIndex < nPosition DO
+	IF (aBuffer[nIndex].iSource = stEvent.iSource) AND_THEN
+    	(aBuffer[nIndex].eEventType = stEvent.eEventType) AND_THEN
+		(aBuffer[nIndex].sInstance = stEvent.sInstance) AND_THEN
+		(aBuffer[nIndex].sClass = stEvent.sClass) AND_THEN
+		(aBuffer[nIndex].sMessage = stEvent.sMessage) THEN
+        M_Find := nIndex;
+        RETURN;
+    END_IF
+	nIndex := nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Log" Id="{9e2c1dc1-68d4-0b75-365d-62c1554c8296}">
       <Declaration><![CDATA[METHOD M_Log
 VAR_INPUT
-	stEvent	: 		ST_Event;
+	stEvent	: 			ST_Event;
 END_VAR
-
 VAR
+	nIndex:				DINT;
 	sMessage:			STRING(255);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sMessage:= Concat(Concat(stEvent.sInstance, ' | iLogger = 0 | '), stEvent.sDefault);
-CASE stEvent.eEventType OF
-	E_Event.Error:
-		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := '%s', strArg := sMessage);
-	E_Event.Warning:
-		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_WARN , msgFmtStr := '%s', strArg := sMessage);
-	E_Event.Information:
-		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
-	E_Event.Debug:
-		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT, msgFmtStr := '%s', strArg := sMessage);
-	E_Event.Verbose:
-		ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
-END_CASE	]]></ST>
+        <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
+	aBuffer[nIndex]:= stEvent;
+ELSE
+	// add new event
+//	if nPosition >= Parameters.nEvents then
+//		nPosition:= 0;
+//	END_IF
+	aBuffer[nPosition]:= stEvent;
+	nPosition:= nPosition + 1;
+	sMessage:= Concat(Concat(stEvent.sInstance, ' | iLogger = 0 | '), stEvent.sDefault);
+	CASE stEvent.eEventType OF
+		E_Event.Error:
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := '%s', strArg := sMessage);
+		E_Event.Warning:
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_WARN , msgFmtStr := '%s', strArg := sMessage);
+		E_Event.Information:
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
+		E_Event.Debug:
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT, msgFmtStr := '%s', strArg := sMessage);
+		E_Event.Verbose:
+			ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
+	END_CASE
+END_IF
+
+IF nCycle <> TwinCAT_SystemInfoVarList._TaskInfo[GETCURTASKINDEXEX()].CycleCount THEN
+	nCycle:= TwinCAT_SystemInfoVarList._TaskInfo[GETCURTASKINDEXEX()].CycleCount;
+	// Clean up Old events
+END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Logger">
       <LineId Id="9" Count="0" />
     </LineIds>
+    <LineIds Name="FB_Logger.M_Find">
+      <LineId Id="110" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="93" Count="10" />
+    </LineIds>
     <LineIds Name="FB_Logger.M_Log">
-      <LineId Id="91" Count="11" />
-      <LineId Id="89" Count="0" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="123" Count="2" />
+      <LineId Id="147" Count="2" />
+      <LineId Id="127" Count="1" />
+      <LineId Id="135" Count="11" />
+      <LineId Id="134" Count="0" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="151" Count="3" />
+      <LineId Id="150" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
