@@ -44,7 +44,7 @@ IF bAbort THEN
 	fbEvent.M_AddSTRING('1');
 	fbEvent.M_AddSTRING('2');
 	fbEvent.M_AddSTRING('3');
-	fbEvent.M_Abort('First Error Abort %s %s %s', 'a');
+	fbEvent.M_Abort('First Error Abort %s %s %s', 6);
 END_IF
 
 IF bStop THEN
@@ -52,31 +52,31 @@ IF bStop THEN
 	fbEvent.M_AddSTRING('a');
 	fbEvent.M_AddSTRING('b');
 	fbEvent.M_AddSTRING('c');
-	fbEvent.M_Stop('First Error Stop', 'b');
+	fbEvent.M_Stop('First Error Stop', 7);
 END_IF
 
 IF bError THEN
-	fbEvent.M_Error('First Error', 'c');
+	fbEvent.M_Error('First Error', 8);
 END_IF
 
 IF bPause THEN
-	fbEvent.M_Pause('First Pause', 'e');
+	fbEvent.M_Pause('First Pause', 9);
 END_IF
 
 IF bHold THEN
-	fbEvent.M_Hold('First Hold', 'f');
+	fbEvent.M_Hold('First Hold', 10);
 END_IF
 
 IF bComplete THEN
-	fbEvent.M_Complete('First Complete', 'd');	
+	fbEvent.M_Complete('First Complete', 11);	
 END_IF
 
 IF bInformation THEN
-	fbEvent.M_Information('Info', 'd');	
+	fbEvent.M_Information('Info', 12);	
 END_IF
 
 IF bWarning THEN
-	fbEvent.M_Warning('Warning', 'e');	
+	fbEvent.M_Warning('Warning', 13);	
 END_IF
 
 ]]></ST>

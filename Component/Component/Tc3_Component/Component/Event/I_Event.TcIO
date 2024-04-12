@@ -7,7 +7,7 @@
       <Declaration><![CDATA[METHOD PUBLIC M_Abort
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					STRING(10);
+	nID:					ULINT;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="M_AddBOOL" Id="{6fc486ba-f21e-0356-3f27-fe3c53264131}">
@@ -50,13 +50,13 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_Complete
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					STRING(10);
+	nID:					ULINT;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="M_Debug" Id="{de8efd53-16f5-0334-02e3-fdd0e4bf084c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Debug
 VAR_INPUT
-	Message:				STRING(255);
+	sMessage:				STRING(255);
 END_VAR
 ]]></Declaration>
     </Method>
@@ -64,7 +64,7 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_Error
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					STRING(10);
+	nID:					ULINT;
 END_VAR
 ]]></Declaration>
     </Method>
@@ -72,14 +72,14 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_Hold
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					STRING(10);
+	nID:					ULINT;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="M_Information" Id="{a0df6aac-21ac-0b65-3426-2421a14ee702}">
       <Declaration><![CDATA[METHOD PUBLIC M_Information
 VAR_INPUT
-	Message:				STRING(255);
-	ID:						STRING(10);
+	sMessage:				STRING(255);
+	nID:					ULINT;
 END_VAR
 ]]></Declaration>
     </Method>
@@ -87,21 +87,21 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_Pause
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					STRING(10);
+	nID:					ULINT;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="M_Stop" Id="{bc83aad4-ae26-008e-3b0c-5fc1c7225e6c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Stop
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					STRING(10);
+	nID:					ULINT;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="M_Warning" Id="{ae861465-4d88-0ffb-03b6-6d69b34da892}">
       <Declaration><![CDATA[METHOD PUBLIC M_Warning
 VAR_INPUT
-	Message:				STRING(255);
-	ID:						STRING(10);
+	sMessage:				STRING(255);
+	nID:					ULINT;
 END_VAR
 ]]></Declaration>
     </Method>

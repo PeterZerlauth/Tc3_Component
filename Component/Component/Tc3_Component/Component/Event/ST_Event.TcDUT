@@ -6,7 +6,7 @@ STRUCT
 	iSource:		I_Component;
 	eEventType:		E_Event;
 	nTimestamp:   	ULINT;
-	sID:			STRING(10);
+	nID:			ULINT;
 	sInstance:		STRING(255);
 	sClass:			STRING(255);
 	sMessage:		STRING(255);

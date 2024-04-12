@@ -31,7 +31,7 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC M_Abort
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					STRING(10);
+	nID:					ULINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
@@ -40,7 +40,7 @@ stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
 stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.sID:= sID;
+stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
 stEvent.stFlags.bActive:= TRUE;
@@ -132,7 +132,7 @@ fbList.M_Clear();]]></ST>
       <Declaration><![CDATA[METHOD PUBLIC M_Complete
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					STRING(10);
+	nID:					ULINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
@@ -141,7 +141,7 @@ stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
 stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.sID:= sID;
+stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
 stEvent.stFlags.bActive:= TRUE;
@@ -161,18 +161,18 @@ END_IF]]></ST>
     <Method Name="M_Debug" Id="{0a2b992b-2a4a-0251-0210-713b326debf6}">
       <Declaration><![CDATA[METHOD PUBLIC M_Debug
 VAR_INPUT
-	Message:				STRING(255);
+	sMessage:				STRING(255);
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= Message;
+        <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Debug;
 stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.sID:= '';
-stEvent.sDefault:= M_Default(Message);
+stEvent.nID:= 0;
+stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;
@@ -210,7 +210,7 @@ M_Default:= sMessage;]]></ST>
       <Declaration><![CDATA[METHOD PUBLIC M_Error
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					STRING(10);
+	nID:					ULINT;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -220,7 +220,7 @@ stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
 stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.sID:= sID;
+stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
 stEvent.stFlags.bActive:= TRUE;
@@ -240,7 +240,7 @@ END_IF]]></ST>
       <Declaration><![CDATA[METHOD PUBLIC M_Hold
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					STRING(10);
+	nID:					ULINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
@@ -249,7 +249,7 @@ stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
 stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.sID:= sID;
+stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
 stEvent.stFlags.bActive:= TRUE;
@@ -271,19 +271,19 @@ END_IF
     <Method Name="M_Information" Id="{d9a244f2-1d6f-434f-aab4-cad6aacbb94f}">
       <Declaration><![CDATA[METHOD PUBLIC M_Information
 VAR_INPUT
-	Message:				STRING(255);
-	ID:						STRING(10);
+	sMessage:				STRING(255);
+	nID:					ULINT;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= Message;
+        <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Information;
 stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.sID:= ID;
-stEvent.sDefault:= M_Default(Message);
+stEvent.nID:= nID;
+stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;
@@ -302,7 +302,7 @@ END_IF]]></ST>
       <Declaration><![CDATA[METHOD PUBLIC M_Pause
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					STRING(10);
+	nID:					ULINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
@@ -311,7 +311,7 @@ stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
 stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.sID:= sID;
+stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
 stEvent.stFlags.bActive:= TRUE;
@@ -334,7 +334,7 @@ END_IF
       <Declaration><![CDATA[METHOD PUBLIC M_Stop
 VAR_INPUT
 	sMessage:				STRING(255);
-	sID:					STRING(10);
+	nID:					ULINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
@@ -343,7 +343,7 @@ stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
 stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.sID:= sID;
+stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
 stEvent.stFlags.bActive:= TRUE;
@@ -364,19 +364,19 @@ iParent.M_Request(E_Request.Stop);]]></ST>
     <Method Name="M_Warning" Id="{d443b8bb-774e-487e-80a2-79cf66a0376c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Warning
 VAR_INPUT
-	Message:				STRING(255);
-	ID:						STRING(10);
+	sMessage:				STRING(255);
+	nID:					ULINT;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= Message;
+        <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Warning;
 stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.sID:= ID;
-stEvent.sDefault:= M_Default(Message);
+stEvent.nID:= nID;
+stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;

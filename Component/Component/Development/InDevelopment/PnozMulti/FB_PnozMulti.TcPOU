@@ -39,7 +39,7 @@ ELSE
 	fbReset.P_Value:= TRUE;
 	fbTimer.IN:= TRUE;
 	IF fbTimer.Q THEN
-		P_Event.M_Error('Pnoz error not reseted %s', '', E_Error.Abort);
+		P_Event.M_Abort('Pnoz error not reseted %s', 14);
 		fbReset.P_Value:= FALSE;
 	END_IF
 END_IF]]></ST>

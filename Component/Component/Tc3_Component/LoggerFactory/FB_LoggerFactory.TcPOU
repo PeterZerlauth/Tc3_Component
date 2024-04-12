@@ -8,9 +8,12 @@ VAR
 	aEvent:						ARRAY [0..Parameters.nEvents] OF ST_Event;	
 	nIndex: 					DINT;
 	stTags:						ST_LoggerFactoryTags;
+	stTagsOut:					ST_LoggerFactoryTags;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+
+stTagsOut:= stTags;
 
 // Deactivate old events
 stTags.bInformation:= FALSE;
@@ -175,13 +178,16 @@ END_WHILE]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_Tags ref= stTags;]]></ST>
+          <ST><![CDATA[P_Tags ref= stTagsOut;]]></ST>
         </Implementation>
       </Get>
     </Property>
     <LineIds Name="FB_LoggerFactory">
       <LineId Id="370" Count="0" />
-      <LineId Id="336" Count="1" />
+      <LineId Id="452" Count="0" />
+      <LineId Id="336" Count="0" />
+      <LineId Id="453" Count="0" />
+      <LineId Id="337" Count="0" />
       <LineId Id="437" Count="0" />
       <LineId Id="439" Count="4" />
       <LineId Id="438" Count="0" />
