@@ -25,9 +25,8 @@ Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Comm
 
 ## Scrennshots
 
-
-
 ## Info
+In general i made a lot of progress and the concept is working quite stable.
 Project is still under heavy development, and without any warenty!
 There is still a lot of work to do, if sombody have ideas, contributors are welcome!
 
