@@ -4,12 +4,12 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	fbModule1:	FB_Module01;
-	fbComponent:	FB_ComponentEX;
+	fbModule2:	FB_Module02;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[fbModule1.M_Cycle();
-fbComponent.M_Cycle();]]></ST>
+fbModule2.M_Cycle();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="5" Count="0" />

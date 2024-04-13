@@ -85,6 +85,18 @@ fbDelay(IN:= FALSE);
 fbTimeout(IN:= FALSE);]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Set" Id="{1679b774-aff9-0900-1b9f-6b982123f170}">
+      <Declaration><![CDATA[METHOD M_Set
+VAR_INPUT
+	nNumber:				INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.nNumber:= nNumber;
+fbDelay(IN:= FALSE);
+fbTimeout(IN:= FALSE);]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="P_Number" Id="{3cc751bf-6092-4aa8-8de5-3276200b64ad}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Number : int]]></Declaration>
       <Get Name="Get" Id="{92b3a1f5-52d3-44fe-8629-e1295a1ef489}">
@@ -131,6 +143,10 @@ END_VAR
       <LineId Id="40" Count="1" />
     </LineIds>
     <LineIds Name="FB_Sequence.M_Reset">
+      <LineId Id="6" Count="0" />
+      <LineId Id="8" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_Sequence.M_Set">
       <LineId Id="6" Count="0" />
       <LineId Id="8" Count="1" />
     </LineIds>
