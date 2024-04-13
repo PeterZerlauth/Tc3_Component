@@ -44,11 +44,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF eState = E_State.Undefined THEN
-	eMode:= E_Mode.Automatic;
-	eState:= E_State.Idle;		
-END_IF
-M_Initialise();]]></ST>
+        <ST><![CDATA[M_Initialise();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Aborted" Id="{f47ae709-6b97-0869-103e-462a949d9bd1}" FolderPath="State\">
@@ -102,7 +98,12 @@ fbEvent();
 fbSequence();
 
 // Handle Module Type Package states
-CASE eState OF					
+CASE eState OF
+	E_State.Undefined:
+		M_Initialise();
+		eMode:= E_Mode.Automatic;
+		eState:= E_State.Idle;
+				
 	E_State.Resetting:
 		M_Running();
 		IF M_Resetting() THEN
@@ -367,19 +368,14 @@ CASE eState OF
 		
 END_CASE
 
-IF eModeRequest <> E_Mode.Undefined THEN
-	IF 	eMode <> eModeRequest THEN
-		eMode:= eModeRequest;
-		fbObserver.M_Notify(0, eMode);		
-	END_IF
+
+IF eModeRequest <> E_Mode.Undefined AND eMode <> eModeRequest THEN
+	eModePrevious:= eMode;
+	eMode:= eModeRequest;
+	M_OnMode(eMode, eModePrevious);
+	fbObserver.M_Notify(0, eMode);	
 END_IF
 eModeRequest:= E_Mode.Undefined;
-
-// Detect mode changed
-IF eModePrevious <> eMode THEN
-	M_OnMode(eMode, eModePrevious);
-	eModePrevious:= eMode;
-END_IF
 	
 // Detect state changed
 IF eStatePrevious <> eState THEN
@@ -459,8 +455,12 @@ VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Method will be called by the Observer
-M_Request(eRequest);
-M_Switch(eMode);]]></ST>
+IF eRequest <> 0 THEN
+	M_Request(eRequest);
+END_IF
+IF eMode <> 0 THEN
+	M_Switch(eMode);
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_OnState" Id="{49afef72-99ac-0c9e-2ec3-7701e0509cd3}">
@@ -730,9 +730,6 @@ END_VAR
       <LineId Id="160" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.FB_init">
-      <LineId Id="15" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="13" Count="1" />
       <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Aborted">
@@ -755,6 +752,8 @@ END_VAR
       <LineId Id="750" Count="0" />
       <LineId Id="570" Count="0" />
       <LineId Id="10" Count="1" />
+      <LineId Id="905" Count="3" />
+      <LineId Id="902" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="394" Count="0" />
       <LineId Id="24" Count="1" />
@@ -936,15 +935,12 @@ END_VAR
       <LineId Id="877" Count="0" />
       <LineId Id="875" Count="0" />
       <LineId Id="881" Count="0" />
+      <LineId Id="900" Count="0" />
       <LineId Id="884" Count="0" />
+      <LineId Id="901" Count="0" />
       <LineId Id="886" Count="0" />
       <LineId Id="883" Count="0" />
-      <LineId Id="874" Count="0" />
       <LineId Id="878" Count="0" />
-      <LineId Id="865" Count="2" />
-      <LineId Id="888" Count="0" />
-      <LineId Id="880" Count="0" />
-      <LineId Id="864" Count="0" />
       <LineId Id="861" Count="0" />
       <LineId Id="212" Count="1" />
       <LineId Id="889" Count="0" />
@@ -977,8 +973,9 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Component.M_OnNotify">
       <LineId Id="80" Count="0" />
+      <LineId Id="90" Count="2" />
       <LineId Id="72" Count="0" />
-      <LineId Id="85" Count="0" />
+      <LineId Id="93" Count="1" />
     </LineIds>
     <LineIds Name="FB_Component.M_OnState">
       <LineId Id="85" Count="0" />
