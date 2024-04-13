@@ -9,13 +9,6 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Mode" Id="{208c4c43-a103-0c2c-0258-2704597726e6}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Mode : BOOL
-VAR_INPUT
-	eMode:		E_Mode;
-END_VAR
-]]></Declaration>
-    </Method>
     <Method Name="M_OnNotify" Id="{e7af5b28-84d1-47bb-bd50-90d772841703}">
       <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
 VAR_INPUT
@@ -27,6 +20,13 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[METHOD PUBLIC M_Request : BOOL
 VAR_INPUT
 	eRequest:	E_Request;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Switch" Id="{208c4c43-a103-0c2c-0258-2704597726e6}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Switch : BOOL
+VAR_INPUT
+	eMode:		E_Mode;
 END_VAR
 ]]></Declaration>
     </Method>

@@ -441,24 +441,6 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Mode" Id="{8661b760-0fa5-007a-151c-7fe805544fbb}" FolderPath="Command\">
-      <Declaration><![CDATA[METHOD PUBLIC M_Mode : BOOL
-VAR_INPUT
-	eMode:		E_Mode;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF eMode = E_Mode.Undefined THEN
-	M_Mode:= TRUE;
-ELSE
-	IF THIS^.eMode = eMode THEN
-		M_Mode:= TRUE;
-	ELSE
-		eModeRequest:= eMode;	
-	END_IF	
-END_IF]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_OnMode" Id="{5404d353-f502-0cc7-293b-81200dd1aa4b}">
       <Declaration><![CDATA[METHOD PROTECTED M_OnMode
 VAR_INPUT
@@ -478,7 +460,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Method will be called by the Observer
 M_Request(eRequest);
-M_Mode(eMode);]]></ST>
+M_Switch(eMode);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_OnState" Id="{49afef72-99ac-0c9e-2ec3-7701e0509cd3}">
@@ -639,6 +621,24 @@ END_VAR
       <Implementation>
         <ST><![CDATA[// State Stopping
 M_Stopping:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Switch" Id="{8661b760-0fa5-007a-151c-7fe805544fbb}" FolderPath="Command\">
+      <Declaration><![CDATA[METHOD PUBLIC M_Switch : BOOL
+VAR_INPUT
+	eMode:		E_Mode;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF eMode = E_Mode.Undefined THEN
+	M_Switch:= TRUE;
+ELSE
+	IF THIS^.eMode = eMode THEN
+		M_Switch:= TRUE;
+	ELSE
+		eModeRequest:= eMode;	
+	END_IF	
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Unholding" Id="{38e86df5-306b-0975-32bb-19e03b5147dc}" FolderPath="State\">
@@ -972,15 +972,6 @@ END_VAR
     <LineIds Name="FB_Component.M_Initialise">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Component.M_Mode">
-      <LineId Id="16" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="26" Count="1" />
-      <LineId Id="29" Count="1" />
-      <LineId Id="28" Count="0" />
-      <LineId Id="19" Count="0" />
-    </LineIds>
     <LineIds Name="FB_Component.M_OnMode">
       <LineId Id="85" Count="0" />
     </LineIds>
@@ -1069,6 +1060,10 @@ END_VAR
     <LineIds Name="FB_Component.M_Stopping">
       <LineId Id="9" Count="0" />
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_Switch">
+      <LineId Id="39" Count="7" />
+      <LineId Id="19" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Unholding">
       <LineId Id="9" Count="0" />
