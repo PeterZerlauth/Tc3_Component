@@ -12,15 +12,15 @@ Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Comm
     [x] Eventlogger
     [x] Sequence Manager
 
-## Class
+## Class (FB_Component)
 ![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/b70fa6e0-34f0-4d77-880c-6417ceb6093c)
 
 
-## State Machine
+## State Machine (FB_Component)
 ![State Machine](docs/StateModel.svg)
 
 
-## Concept
+## Concept  (FB_Component, FB_ModuleBase)
 ![Concept](docs/Concept.drawio.svg)
 
 ## Scrennshots
