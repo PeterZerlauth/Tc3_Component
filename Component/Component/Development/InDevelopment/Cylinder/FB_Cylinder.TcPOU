@@ -54,7 +54,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF M_HasMode(E_Mode.Manual) THEN
+        <ST><![CDATA[IF M_HasMode(E_Mode.Manual) OR Globals.bSimulation THEN
 	;
 ELSE
 	IF fbDebounceA.bValue AND fbDebounceB.bValue THEN
