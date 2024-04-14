@@ -400,6 +400,17 @@ END_VAR
         <ST><![CDATA[M_Execute:= True;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_HasMode" Id="{75908801-23b6-0dfd-2c6e-534bb3174ba2}">
+      <Declaration><![CDATA[METHOD PROTECTED M_HasMode : BOOL
+VAR_INPUT
+	eMode:			E_Mode;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_HasMode:= THIS^.eMode = eMode;
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Held" Id="{f81e94c9-4b34-0591-0431-3c8c41c7dc3f}" FolderPath="State\">
       <Declaration><![CDATA[METHOD PROTECTED M_Held
 VAR_INPUT
@@ -954,6 +965,10 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Component.M_Execute">
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.M_HasMode">
+      <LineId Id="16" Count="0" />
+      <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Held">
       <LineId Id="9" Count="0" />

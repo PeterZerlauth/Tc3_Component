@@ -7,11 +7,11 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	bReturn:					BOOL:= TRUE;
 	bWarning:					BOOL;
 	fbComponent1:				FB_Component;
 	fbComponent2:				FB_Component;
 	fbComponent3:				FB_ComponentEx;
+	fbCylinder:					FB_Cylinder;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
@@ -27,6 +27,7 @@ END_VAR
 fbComponent1.M_Cycle();
 fbComponent2.M_Cycle();
 fbComponent3.M_Cycle();
+fbCylinder.M_Cycle();
 
 //P_Event.M_AddSTRING('Test');
 //P_Event.M_Warning('Some Warning %s', '');]]></ST>
@@ -35,16 +36,22 @@ fbComponent3.M_Cycle();
     <Method Name="M_Execute" Id="{0f7f4331-8af5-0744-015a-f65d0021dd06}">
       <Declaration><![CDATA[METHOD PROTECTED M_Execute : bool
 VAR_INPUT
+END_VAR
+VAR
+	bReturn:					BOOL:= TRUE;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[CASE fbSequence.nNumber OF
 	E_Sequence.Start:
+		bReturn:= fbCylinder.M_Disable();
 		fbSequence.M_Await('Start', T#0S, T#0S, TRUE, bReturn, 10);
 	
 	10:
+		bReturn:= fbCylinder.M_ToHome();
 		fbSequence.M_Await('Step 10', T#0S, T#0S, TRUE, bReturn, 20);
 		
 	20:
+		bReturn:= fbCylinder.M_ToWork();
 		fbSequence.M_Await('Step 20', T#0S, T#0S, FALSE, bReturn, E_Sequence.Done);	
 		
 	E_Sequence.Done:
@@ -70,7 +77,10 @@ P_Identifier:= 'M001';
 
 M_Attach(fbComponent1);
 M_Attach(fbComponent2);
-M_Attach(fbComponent3);]]></ST>
+M_Attach(fbComponent3);
+
+fbCylinder.P_Identifier:= 'Y1';
+M_Attach(fbCylinder);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{eaffebca-5ff2-4f17-be84-3310a9ace22e}">
@@ -118,11 +128,18 @@ M_Stopping:= SUPER^.M_Stopping();]]></ST>
     <LineIds Name="FB_Module01.M_Cycle">
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="3" />
+      <LineId Id="20" Count="0" />
       <LineId Id="15" Count="1" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Execute">
-      <LineId Id="22" Count="12" />
+      <LineId Id="22" Count="1" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="24" Count="2" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="27" Count="2" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="30" Count="4" />
       <LineId Id="20" Count="0" />
       <LineId Id="10" Count="0" />
       <LineId Id="9" Count="0" />
@@ -137,6 +154,9 @@ M_Stopping:= SUPER^.M_Stopping();]]></ST>
       <LineId Id="66" Count="0" />
       <LineId Id="42" Count="0" />
       <LineId Id="100" Count="0" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="114" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Running">
       <LineId Id="38" Count="0" />

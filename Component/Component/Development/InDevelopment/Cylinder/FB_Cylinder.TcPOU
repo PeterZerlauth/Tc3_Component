@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Cylinder" Id="{0e789de7-7fe2-0204-3f8e-57ce5ee55d5b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Cylinder EXTENDS FB_Component
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	bInputA					AT%I*:		BOOL;
+	bInputB					AT%I*:		BOOL;
+	bOutputA				AT%Q*:		BOOL;
+	bOutputB				AT%Q*:		BOOL;
+	stSettings:				ST_CylinderSettings;
+	fbDebounceA:			FB_Debounce;
+	fbDebounceB:			FB_Debounce;	
+	fbTimeout:				TON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Cycle" Id="{1e9e9c3d-3912-0fa8-3236-68f78e1ae73a}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Cycle();
+
+// Timeout
+fbTimeout();
+fbTimeout.IN:= FALSE;
+
+// Debounc inputs
+fbDebounceA(bInput:= bInputA);
+fbDebounceB(bInput:= bInputB);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Disable" Id="{084d4cc3-90c8-03fb-3f3b-46af82c7c547}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Disable : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bOutputA:= FALSE;
+bOutputB:= FALSE;
+M_Disable:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Execute" Id="{3442fc22-050d-094c-015a-424104d580c9}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF M_HasMode(E_Mode.Manual) THEN
+	;
+ELSE
+	IF fbDebounceA.bValue AND fbDebounceB.bValue THEN
+		P_Event.M_AddSTRING(P_Identifier);
+		P_Event.M_AddSTRING(stSettings.sIdA);
+		P_Event.M_AddSTRING(stSettings.sIdB);
+		P_Event.M_Stop('Cylinder %s Logic error Inputs %s, %s are true', 0);
+	END_IF	
+
+	IF bOutputA THEN
+		IF NOT fbDebounceA.bValue THEN
+			fbTimeout.IN:= TRUE;
+			IF fbTimeout.Q THEN
+				P_Event.M_AddSTRING(P_Identifier);
+				P_Event.M_AddSTRING(stSettings.sIdA);
+				P_Event.M_Stop('Cylinder %s homeposition not reached %s', 0);				
+			END_IF
+		END_IF
+	
+	ELSIF bOutputB THEN
+		IF NOT fbDebounceB.bValue THEN
+			fbTimeout.IN:= TRUE;
+			IF fbTimeout.Q THEN
+				P_Event.M_AddSTRING(P_Identifier);
+				P_Event.M_AddSTRING(stSettings.sIdB);
+				P_Event.M_Stop('Cylinder %s workposition not reached %s', 0);				
+			END_IF
+		END_IF		
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Starting" Id="{be59c090-c9a2-0f0f-1926-c6952b267171}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Starting:= SUPER^.M_Starting();
+
+// Settings
+fbTimeout.PT:= stSettings.tTimeout;
+fbDebounceA.tTime:= stSettings.tDebounceA;
+fbDebounceB.tTime:= stSettings.tDebounceB;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ToHome" Id="{e25a0059-ac3f-0fc7-183d-9c8c2fedf38c}">
+      <Declaration><![CDATA[METHOD PUBLIC M_ToHome : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bOutputA:= TRUE;
+bOutputB:= FALSE;
+M_ToHome:= (bInputA AND NOT bInputB) OR Globals.bSimulation;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ToWork" Id="{f6a4519f-a033-0321-07a0-e77d6b54d36a}">
+      <Declaration><![CDATA[METHOD PUBLIC M_ToWork : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bOutputA:= FALSE;
+bOutputB:= TRUE;
+M_ToWork:= (bInputB AND NOT bInputA) OR Globals.bSimulation;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Settings" Id="{e36a7ccd-2016-0de5-3888-ff7d218b5f47}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Settings : REFERENCE TO ST_CylinderSettings]]></Declaration>
+      <Get Name="Get" Id="{42d7fca6-98d0-0422-2538-b20afcaaa99e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Settings ref= stSettings;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="FB_Cylinder">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Cylinder.M_Cycle">
+      <LineId Id="5" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="6" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_Cylinder.M_Disable">
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Cylinder.M_Execute">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="23" Count="4" />
+      <LineId Id="21" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="33" Count="1" />
+      <LineId Id="31" Count="1" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="15" Count="1" />
+      <LineId Id="35" Count="6" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Cylinder.M_Starting">
+      <LineId Id="6" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Cylinder.M_ToHome">
+      <LineId Id="11" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Cylinder.M_ToWork">
+      <LineId Id="16" Count="1" />
+      <LineId Id="12" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Cylinder.P_Settings.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

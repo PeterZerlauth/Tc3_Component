@@ -30,6 +30,17 @@ ELSE
 	END_IF	
 END_IF]]></ST>
     </Implementation>
+    <Property Name="P_Value" Id="{c51031b1-d230-01cd-3424-4eef0f4ff036}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Value : BOOL]]></Declaration>
+      <Get Name="Get" Id="{0e05e9f6-5dff-0996-234c-d8b8d7497976}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Value:= bValue;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <LineIds Name="FB_Debounce">
       <LineId Id="40" Count="0" />
       <LineId Id="9" Count="0" />
@@ -41,6 +52,9 @@ END_IF]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="24" Count="1" />
       <LineId Id="15" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_Debounce.P_Value.Get">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
