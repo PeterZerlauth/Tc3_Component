@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Logger" Id="{e1e358e0-2104-0577-0348-94cd81bffe81}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_Logger EXTENDS FB_TcLogger
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Logger EXTENDS FB_AbstractLogger
 VAR
 	aBuffer:					ARRAY [0..nBuffer] OF ST_Event;
 END_VAR

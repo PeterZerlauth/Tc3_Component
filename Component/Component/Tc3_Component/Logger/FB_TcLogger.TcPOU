@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_TcLogger" Id="{bea54b82-5a5b-4b7e-85c1-9b16a6ed125e}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_TcLogger IMPLEMENTS I_Logger
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_TcLogger EXTENDS FB_AbstractLogger
 VAR
 END_VAR]]></Declaration>
     <Implementation>
