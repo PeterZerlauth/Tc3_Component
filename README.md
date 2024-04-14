@@ -5,23 +5,22 @@ have a lightwight and modular Framework.
 
 Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Libraries) or [TcOpen](https://docs.tcopengroup.org/)
 
+## Concept  (FB_Component, FB_ModuleBase)
+![Concept](docs/Concept.drawio.svg)
+
+## Class (FB_Component)
+![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/b70fa6e0-34f0-4d77-880c-6417ceb6093c)
+
+## State Machine (FB_Component)
+![State Machine](docs/StateModel.svg)
+
 ## Description
     [x] State Machine
     [x] Command Pattern to change component states
     [x] Observer Pattern to Notify state changes
     [x] Eventlogger
     [x] Sequence Manager
-
-## Class (FB_Component)
-![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/b70fa6e0-34f0-4d77-880c-6417ceb6093c)
-
-
-## State Machine (FB_Component)
-![State Machine](docs/StateModel.svg)
-
-
-## Concept  (FB_Component, FB_ModuleBase)
-![Concept](docs/Concept.drawio.svg)
+    [x] Module to handle Components
 
 ## Scrennshots
 
