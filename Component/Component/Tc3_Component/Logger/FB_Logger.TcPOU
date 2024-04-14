@@ -6,7 +6,7 @@ VAR
 	aBuffer:					ARRAY [0..nBuffer] OF ST_Event;
 END_VAR
 VAR CONSTANT
-	nBuffer:					UDINT:= 3;
+	nBuffer:					DINT:= 3;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
@@ -49,7 +49,7 @@ END_VAR]]></Declaration>
 	;
 ELSE
 	IF stEvent.eEventType >= eLogLevel THEN
-		MEMCPY(ADR(aBuffer[1]), ADR(aBuffer[0]), SIZEOF(ST_Event) * (nBuffer - 1));
+		MEMCPY(ADR(aBuffer[1]), ADR(aBuffer[0]), DINT_To_Udint(SIZEOF(ST_Event) * (nBuffer - 1)));
 		aBuffer[0]:= stEvent;
 		sMessage:= Concat(Concat(stEvent.sInstance, ' | iLogger = 0 | '), stEvent.sDefault);
 		CASE stEvent.eEventType OF

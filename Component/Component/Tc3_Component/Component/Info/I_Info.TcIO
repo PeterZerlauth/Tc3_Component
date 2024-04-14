@@ -4,25 +4,33 @@
     <Declaration><![CDATA[INTERFACE I_Info EXTENDS I_Object
 ]]></Declaration>
     <Property Name="P_Class" Id="{cbc4d901-48b2-4e97-9d77-884fb0854f2f}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Class : String(255)]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Class : String(255)]]></Declaration>
       <Get Name="Get" Id="{9ab4d9fd-c087-473a-be35-5661f24836f2}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
     <Property Name="P_Comment" Id="{f8cad2c1-c823-4908-b22c-bf669c46c6ef}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Comment : String(255)]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Comment : String(255)]]></Declaration>
       <Get Name="Get" Id="{83892f6a-bbdf-4950-9818-7b29a5f63cc7}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
     <Property Name="P_Instance" Id="{30879d95-d4f4-4455-aa95-646545220952}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Instance : String(255)]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Instance : String(255)]]></Declaration>
       <Get Name="Get" Id="{e37e3208-271a-4637-87e5-41b8db5cfa3f}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
     <Property Name="P_Timestamp" Id="{d32c7dd1-ae0e-4b1a-b50b-ce8720cabd0c}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Timestamp : ULINT]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Timestamp : ULINT]]></Declaration>
       <Get Name="Get" Id="{e41a45ff-6cea-4e2b-8499-2e70f12a2058}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>

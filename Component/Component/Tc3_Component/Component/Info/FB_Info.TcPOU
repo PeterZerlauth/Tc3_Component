@@ -68,9 +68,13 @@ fbReadSymInfo.START:= TRUE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Class" Id="{149d54ac-7219-431b-bfce-ba7c9704ea45}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Class : String(255)]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Class : String(255)]]></Declaration>
       <Get Name="Get" Id="{740bc1cd-c684-4cda-ac0a-196c933124fe}">
-        <Declaration><![CDATA[VAR
+        <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
@@ -79,7 +83,9 @@ END_VAR
       </Get>
     </Property>
     <Property Name="P_Comment" Id="{2f19e0ac-9ace-4998-a64c-c83a5e4179c9}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Comment : String(255)]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Comment : String(255)]]></Declaration>
       <Get Name="Get" Id="{65efe2d4-df35-4bc5-aec6-6947856bcef9}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -90,7 +96,9 @@ END_VAR
       </Get>
     </Property>
     <Property Name="P_Instance" Id="{9eb0e8a4-0ed9-4848-97b2-cb18e1840110}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Instance : String(255)]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Instance : String(255)]]></Declaration>
       <Get Name="Get" Id="{8d15c27d-b883-4397-bad1-a1acae195710}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -101,7 +109,9 @@ END_VAR
       </Get>
     </Property>
     <Property Name="P_Timestamp" Id="{a51f1ff9-c398-4582-9d70-e288f1c0d28c}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Timestamp : ULINT]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Timestamp : ULINT]]></Declaration>
       <Get Name="Get" Id="{ca050bdc-7777-4205-b941-d6aa9ea30447}">
         <Declaration><![CDATA[VAR
 END_VAR

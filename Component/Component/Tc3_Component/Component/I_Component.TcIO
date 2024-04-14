@@ -31,13 +31,17 @@ END_VAR
 ]]></Declaration>
     </Method>
     <Property Name="P_Event" Id="{96ef9ac7-4347-4236-9475-e7c300209edb}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Event : I_Event]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Event : I_Event]]></Declaration>
       <Get Name="Get" Id="{25594f51-5f07-48cf-8274-65c776cd7cf1}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
     <Property Name="P_Identifier" Id="{1189c098-5eec-0d68-18e7-7614f6e3884e}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Identifier : STRING(25)]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Identifier : STRING(25)]]></Declaration>
       <Get Name="Get" Id="{119ce5e0-3bc0-09ab-2641-05ccee762aba}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
@@ -46,25 +50,33 @@ END_VAR
       </Set>
     </Property>
     <Property Name="P_Info" Id="{a4d97ad8-84af-4536-8ab6-ff3055df9335}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Info : I_Info]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Info : I_Info]]></Declaration>
       <Get Name="Get" Id="{9b0145a7-d929-442e-b904-05f74e6af1bb}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
     <Property Name="P_Mode" Id="{ac79278b-f5c1-087f-1df4-04b8948d8870}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
       <Get Name="Get" Id="{120a4ba9-e3fe-0253-2437-c4d9e2f883ff}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
     <Property Name="P_Observer" Id="{71855be2-d7dd-407c-bfc6-2b33d71db9ac}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>
       <Get Name="Get" Id="{06fb4a5b-c62f-47d3-bed0-c50d2d77e5a7}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
     <Property Name="P_State" Id="{fc5b448a-f6ff-4097-a0bf-2f1ddd20a12f}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_State : E_State]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_State : E_State]]></Declaration>
       <Get Name="Get" Id="{4b4e2bb1-6415-4e70-856a-2683a8f3f5ab}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
