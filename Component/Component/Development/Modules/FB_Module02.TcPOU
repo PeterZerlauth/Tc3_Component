@@ -7,6 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	bTest:		Bool;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>

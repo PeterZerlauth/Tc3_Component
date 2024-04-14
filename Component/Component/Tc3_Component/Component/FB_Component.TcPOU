@@ -13,8 +13,11 @@ VAR
 	{attribute 'instance-path'} 
     {attribute 'noinit'}
     sInstancePath:					STRING(255);				// Instance-Path
+    {attribute 'hide'}
 	fbInfo:							FB_Info(sInstancePath);		// Info about function block
+    {attribute 'hide'}
 	fbObserver:						FB_Observer;				// Observer
+    {attribute 'hide'}
 	fbEvent:						FB_Event(THIS^);			// Event creator
 	fbSequence:						FB_Sequence(THIS^);			// Sequence (abort = reset)
 	{attribute 'OPC.UA.DA' := '1'}

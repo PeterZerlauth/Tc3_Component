@@ -17,23 +17,15 @@ VAR_STAT
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+
+// Update once for all function blocks
 IF nCycle <> TwinCAT_SystemInfoVarList._TaskInfo[GETCURTASKINDEXEX()].CycleCount THEN
 	nCycle:= TwinCAT_SystemInfoVarList._TaskInfo[GETCURTASKINDEXEX()].CycleCount;
 	nTimestamp:= F_GetSystemTime();
 END_IF
 
-fbReadSymInfo(
-	NETID:= , 
-	PORT:= , 
-	SYMNAME:= , 
-	START:= , 
-	TMOUT:= , 
-	BUSY=> , 
-	ERR=> , 
-	ERRID=> , 
-	SYMINFO=> , 
-	OVTYPE=> , 
-	OVCOMMENT=> );]]></ST>
+// Read symbol information
+fbReadSymInfo();]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{b3af4ade-e4ea-4784-b0ea-8fa1426af073}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
@@ -70,7 +62,7 @@ fbReadSymInfo.START:= TRUE;]]></ST>
     <Property Name="P_Class" Id="{149d54ac-7219-431b-bfce-ba7c9704ea45}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Class : String(255)]]></Declaration>
+PROPERTY PUBLIC P_Class : STRING(255)]]></Declaration>
       <Get Name="Get" Id="{740bc1cd-c684-4cda-ac0a-196c933124fe}">
         <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
@@ -85,7 +77,7 @@ END_VAR
     <Property Name="P_Comment" Id="{2f19e0ac-9ace-4998-a64c-c83a5e4179c9}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Comment : String(255)]]></Declaration>
+PROPERTY PUBLIC P_Comment : STRING(255)]]></Declaration>
       <Get Name="Get" Id="{65efe2d4-df35-4bc5-aec6-6947856bcef9}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -98,7 +90,7 @@ END_VAR
     <Property Name="P_Instance" Id="{9eb0e8a4-0ed9-4848-97b2-cb18e1840110}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Instance : String(255)]]></Declaration>
+PROPERTY PUBLIC P_Instance : STRING(255)]]></Declaration>
       <Get Name="Get" Id="{8d15c27d-b883-4397-bad1-a1acae195710}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -123,12 +115,14 @@ END_VAR
     </Property>
     <LineIds Name="FB_Info">
       <LineId Id="93" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="107" Count="0" />
       <LineId Id="48" Count="0" />
       <LineId Id="72" Count="0" />
       <LineId Id="54" Count="1" />
+      <LineId Id="109" Count="0" />
       <LineId Id="51" Count="0" />
-      <LineId Id="18" Count="10" />
-      <LineId Id="9" Count="0" />
+      <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="FB_Info.FB_init">
       <LineId Id="9" Count="0" />

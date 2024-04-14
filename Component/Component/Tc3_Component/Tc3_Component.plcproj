@@ -127,6 +127,9 @@
     <Compile Include="List\I_ListString.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="List\Lists.TcCD">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="LoggerFactory\FB_LoggerFactory.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -146,6 +149,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\FB_FileLogger.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Logger\Loggers.TcCD">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Module\FB_ModuleBase.TcPOU">
@@ -217,6 +223,14 @@
     <None Include="Tc3_Component.tmc">
       <SubType>Content</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Component\Observer\Observer.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Component\StateModel.svg">
+      <SubType>Content</SubType>
+    </Content>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

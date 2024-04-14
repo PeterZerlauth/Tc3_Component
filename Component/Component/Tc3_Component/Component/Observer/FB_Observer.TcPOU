@@ -6,12 +6,15 @@ FUNCTION_BLOCK PUBLIC FB_Observer IMPLEMENTS I_Observer
 VAR
 	pList: 			POINTER TO I_Component;
 	nLength:		DINT;
-	{attribute 'conditionalshow'}
+	{IF (defined (release))}
+    	{attribute 'hide'}
+	{END_IF}
 	aList:			POINTER TO POINTER TO ARRAY [0..100] OF I_Component:=ADR(pList);
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+]]></ST>
     </Implementation>
     <Method Name="FB_exit" Id="{8920c8e0-5709-4e5e-a21f-0871704cdcd1}">
       <Declaration><![CDATA[METHOD FB_exit : BOOL
@@ -183,6 +186,7 @@ END_VAR
     </Property>
     <LineIds Name="FB_Observer">
       <LineId Id="2" Count="0" />
+      <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="FB_Observer.FB_exit">
       <LineId Id="2" Count="0" />
