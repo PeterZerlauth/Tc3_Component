@@ -5,7 +5,7 @@
 	{IF (defined (release))}
     	{attribute 'hide'}
 	{END_IF}
-	fbLogger:			FB_Logger;
+	fbLogger:			FB_Logger;		// Global Logger, as default without module
 	bSimulation:		BOOL;
 END_VAR]]></Declaration>
   </GVL>

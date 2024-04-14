@@ -18,7 +18,10 @@ VAR
 	sMessage:			STRING(255);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sMessage:= Concat(Concat(stEvent.sInstance, ' | '), stEvent.sDefault);
+        <ST><![CDATA[IF stEvent.eEventType >= eLogLevel THEN
+	sMessage:= Concat(Concat(stEvent.sInstance, ' | '), stEvent.sDefault);
+END_IF
+
 ]]></ST>
       </Implementation>
     </Method>
@@ -26,6 +29,7 @@ END_VAR]]></Declaration>
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_FileLogger.M_Log">
+      <LineId Id="99" Count="2" />
       <LineId Id="91" Count="0" />
       <LineId Id="90" Count="0" />
     </LineIds>

@@ -73,6 +73,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Initialise();
 
+Globals.bSimulation:= TRUE;
+
 P_Identifier:= 'M001';
 
 M_Attach(fbComponent1);
@@ -148,7 +150,9 @@ M_Stopping:= SUPER^.M_Stopping();]]></ST>
     </LineIds>
     <LineIds Name="FB_Module01.M_Initialise">
       <LineId Id="24" Count="0" />
+      <LineId Id="118" Count="0" />
       <LineId Id="110" Count="0" />
+      <LineId Id="117" Count="0" />
       <LineId Id="105" Count="0" />
       <LineId Id="104" Count="0" />
       <LineId Id="66" Count="0" />
