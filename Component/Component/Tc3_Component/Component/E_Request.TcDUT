@@ -4,11 +4,14 @@
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}
 {attribute 'to_string'}
+
 TYPE E_Request :
 (
 	{attribute 'hide'}
     Undefined   := 0,
+	{attribute 'analysis' := '-27'}
 	Reset       := 1,
+	{attribute 'analysis' := '-27'}
     Start       := 2,
     Pause       := 4,	
     Hold      	:= 8,

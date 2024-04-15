@@ -85,6 +85,9 @@
     <Compile Include="Component\I_Component.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Component\Component.TcCD">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Component\Observer\FB_Observer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -100,7 +103,7 @@
     <Compile Include="Component\Sequence\I_Sequence.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Klassendiagramm.TcCD">
+    <Compile Include="Component\Sequence\ST_Sequence.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">

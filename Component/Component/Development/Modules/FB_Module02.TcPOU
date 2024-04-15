@@ -32,7 +32,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Initialise();
 
-P_Identifier:= 'M002';]]></ST>
+P_ID:= 'M002';]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Module02">

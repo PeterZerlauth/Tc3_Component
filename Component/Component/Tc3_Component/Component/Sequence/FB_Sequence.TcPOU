@@ -2,21 +2,19 @@
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Sequence" Id="{4b1aa270-5e63-4fbf-b9b1-b64186ed4cc4}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Sequence IMPLEMENTS I_Sequence
-VAR_INPUT
-END_VAR
-VAR_OUTPUT
-	sMessage:				STRING(255);
-	nNumber:				INT;
-END_VAR
 VAR
 	iParent:			I_Component;
+	nNextNumber:		INT;
+	stActual:			ST_Sequence;
+	aHistory:			ARRAY [0..Parameters.nSequence] OF ST_Sequence;
 	fbTimeout:			TON;
 	fbDelay: 			TON;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
 IF iParent.P_Mode = E_Mode.Manual THEN
-	nNumber:= E_Sequence.Manual;
+	stActual.nNumber:= E_Sequence.Manual;
+	stActual.sMessage:= 'Manual';
 END_IF]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{9410888f-1e8d-054b-01cb-f8f70c408f51}">
@@ -43,12 +41,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.sMessage:= sMessage;
-IF bReturn THEN
+        <ST><![CDATA[IF bReturn THEN
 	IF tDelay <> T#0S THEN
 		fbDelay(IN:= TRUE);
 		IF fbDelay.Q THEN
-			THIS^.nNumber:= nNumber;
+			stActual.nNumber:= nNumber;
 			fbDelay(IN:= FALSE);
 			IF bPause THEN
 				IF iParent.P_Mode = E_Mode.Semiauto THEN
@@ -57,7 +54,10 @@ IF bReturn THEN
 			END_IF	
 		END_IF
 	ELSE
-		THIS^.nNumber:= nNumber;
+		stActual.sMessage:= sMessage;
+		stActual.nNumber:= nNumber;
+		MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Sequence) * Parameters.nSequence);
+		aHistory[0]:= stActual;
 		fbTimeout(IN:= FALSE);
 		IF bPause THEN
 			IF iParent.P_Mode = E_Mode.Semiauto THEN
@@ -69,7 +69,7 @@ ELSE
 	IF tTimeout <> T#0S THEN
 		fbTimeout(IN:= TRUE);
 		IF fbTimeout.Q THEN
-			iParent.P_Event.M_AddINT(THIS^.nNumber);
+			iParent.P_Event.M_AddINT(stActual.nNumber);
 			iParent.P_Event.M_Stop('Timeout in sequence number %s', 1);
 		END_IF
 	END_IF
@@ -80,7 +80,10 @@ END_IF]]></ST>
       <Declaration><![CDATA[METHOD M_Reset
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[nNumber:= E_Sequence.Start;
+        <ST><![CDATA[stActual.nNumber:= E_Sequence.Start;
+stActual.sMessage:= 'E_Sequence.Start';
+MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Sequence) * Parameters.nSequence);
+aHistory[0]:= stActual;
 fbDelay(IN:= FALSE);
 fbTimeout(IN:= FALSE);]]></ST>
       </Implementation>
@@ -92,40 +95,51 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.nNumber:= nNumber;
+        <ST><![CDATA[stActual.nNumber:= nNumber;
+stActual.sMessage:= 'M_Set';
+MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Sequence) * Parameters.nSequence);
+aHistory[0]:= stActual;
 fbDelay(IN:= FALSE);
 fbTimeout(IN:= FALSE);]]></ST>
       </Implementation>
     </Method>
+    <Property Name="P_Message" Id="{449cb871-a246-0a5a-09bf-a919fbfd178f}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Message : STRING(255)]]></Declaration>
+      <Get Name="Get" Id="{38483f3c-0df1-00ca-344c-1ba32b91480e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Message:= stActual.sMessage;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="P_Number" Id="{3cc751bf-6092-4aa8-8de5-3276200b64ad}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Number : int]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Number : INT]]></Declaration>
       <Get Name="Get" Id="{92b3a1f5-52d3-44fe-8629-e1295a1ef489}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_Number:= nNumber;]]></ST>
+          <ST><![CDATA[P_Number:= stActual.nNumber;]]></ST>
         </Implementation>
       </Get>
-      <Set Name="Set" Id="{741fb181-5541-4ab9-8a33-f87392d513c2}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[nNumber:= P_Number;]]></ST>
-        </Implementation>
-      </Set>
     </Property>
     <LineIds Name="FB_Sequence">
       <LineId Id="52" Count="0" />
       <LineId Id="37" Count="0" />
-      <LineId Id="39" Count="1" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="40" Count="0" />
     </LineIds>
     <LineIds Name="FB_Sequence.FB_init">
       <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="FB_Sequence.M_Await">
-      <LineId Id="50" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="56" Count="1" />
       <LineId Id="61" Count="1" />
@@ -134,7 +148,10 @@ END_VAR
       <LineId Id="64" Count="0" />
       <LineId Id="63" Count="0" />
       <LineId Id="59" Count="0" />
+      <LineId Id="98" Count="0" />
       <LineId Id="69" Count="0" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="95" Count="0" />
       <LineId Id="84" Count="0" />
       <LineId Id="70" Count="4" />
       <LineId Id="60" Count="0" />
@@ -144,16 +161,21 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Sequence.M_Reset">
       <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="14" Count="1" />
       <LineId Id="8" Count="1" />
     </LineIds>
     <LineIds Name="FB_Sequence.M_Set">
       <LineId Id="6" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="15" Count="0" />
       <LineId Id="8" Count="1" />
     </LineIds>
-    <LineIds Name="FB_Sequence.P_Number.Get">
+    <LineIds Name="FB_Sequence.P_Message.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Sequence.P_Number.Set">
+    <LineIds Name="FB_Sequence.P_Number.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

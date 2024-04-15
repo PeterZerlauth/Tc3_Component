@@ -11,6 +11,7 @@ VAR
 	iParent:			I_Component;
 	iLogger:			I_Logger;
 	stEvent:			ST_Event;
+	stLastError:		ST_Event;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
@@ -155,7 +156,9 @@ IF iLogger <> 0 THEN
 ELSE
 	iParent.M_Request(E_Request.Complete);
 	fbLogger.M_Log(stEvent);
-END_IF]]></ST>
+END_IF
+
+stLastError:= stEvent;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Debug" Id="{0a2b992b-2a4a-0251-0210-713b326debf6}">
@@ -233,7 +236,9 @@ IF iLogger <> 0 THEN
 	iLogger.M_Log(stEvent);
 ELSE
 	fbLogger.M_Log(stEvent);
-END_IF]]></ST>
+END_IF
+
+stLastError:= stEvent;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Hold" Id="{17e9f699-055d-0b58-313e-f492027bff52}">
@@ -264,6 +269,8 @@ ELSE
 	iParent.M_Request(E_Request.Hold);
 	fbLogger.M_Log(stEvent);
 END_IF
+
+stLastError:= stEvent;
 
 ]]></ST>
       </Implementation>
@@ -327,6 +334,8 @@ ELSE
 	fbLogger.M_Log(stEvent);
 END_IF
 
+stLastError:= stEvent;
+
 ]]></ST>
       </Implementation>
     </Method>
@@ -358,7 +367,8 @@ ELSE
 	fbLogger.M_Log(stEvent);
 END_IF
 
-iParent.M_Request(E_Request.Stop);]]></ST>
+iParent.M_Request(E_Request.Stop);
+stLastError:= stEvent;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Warning" Id="{d443b8bb-774e-487e-80a2-79cf66a0376c}">
@@ -391,6 +401,17 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Property Name="P_LastEvent" Id="{c2b20289-8ddd-0752-3101-0b1dcee9dda2}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_LastEvent : ST_Event]]></Declaration>
+      <Get Name="Get" Id="{f11c9e71-9f65-05e9-2712-eccb99593b14}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_LastEvent:= stLastError;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="P_Logger" Id="{642d0edf-ded0-4248-be29-8384d3180124}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Logger : I_Logger]]></Declaration>
       <Get Name="Get" Id="{99e41819-eb78-4b29-b3e9-6728532b14b1}">
@@ -452,6 +473,8 @@ END_VAR
       <LineId Id="42" Count="0" />
       <LineId Id="28" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="47" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Debug">
       <LineId Id="110" Count="8" />
@@ -479,6 +502,8 @@ END_VAR
       <LineId Id="360" Count="0" />
       <LineId Id="340" Count="3" />
       <LineId Id="224" Count="0" />
+      <LineId Id="367" Count="0" />
+      <LineId Id="366" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Hold">
       <LineId Id="14" Count="8" />
@@ -486,7 +511,10 @@ END_VAR
       <LineId Id="23" Count="4" />
       <LineId Id="44" Count="0" />
       <LineId Id="28" Count="0" />
-      <LineId Id="42" Count="1" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="43" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Information">
@@ -508,6 +536,8 @@ END_VAR
       <LineId Id="42" Count="0" />
       <LineId Id="28" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="47" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
@@ -518,6 +548,7 @@ END_VAR
       <LineId Id="5" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="42" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Warning">
       <LineId Id="79" Count="0" />
@@ -530,6 +561,9 @@ END_VAR
       <LineId Id="49" Count="1" />
       <LineId Id="64" Count="1" />
       <LineId Id="48" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Event.P_LastEvent.Get">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.P_Logger.Get">
       <LineId Id="2" Count="0" />

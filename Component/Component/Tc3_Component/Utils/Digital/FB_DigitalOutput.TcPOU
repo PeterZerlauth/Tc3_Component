@@ -15,14 +15,14 @@ END_VAR
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
-    <Property Name="P_Identifier" Id="{f50a731d-33e5-019b-0fc3-26d5f1374f48}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Identifier : STRING(25)]]></Declaration>
+    <Property Name="P_ID" Id="{f50a731d-33e5-019b-0fc3-26d5f1374f48}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_ID : STRING(25)]]></Declaration>
       <Get Name="Get" Id="{cfa231bf-ff32-0ded-1b81-f9ced6eebfc5}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_Identifier:= sIdentifier;]]></ST>
+          <ST><![CDATA[P_ID:= sIdentifier;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -60,7 +60,7 @@ END_VAR
     <LineIds Name="FB_DigitalOutput">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_DigitalOutput.P_Identifier.Get">
+    <LineIds Name="FB_DigitalOutput.P_ID.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_DigitalOutput.P_State.Get">

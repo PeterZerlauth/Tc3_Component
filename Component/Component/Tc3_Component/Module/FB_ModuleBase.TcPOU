@@ -22,7 +22,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Aborted();
-fbEvent.M_AddSTRING(P_Identifier);
+fbEvent.M_AddSTRING(P_ID);
 fbEvent.M_Information('Module %s aborted, reset', 2);]]></ST>
       </Implementation>
     </Method>
@@ -78,7 +78,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Idle();
-fbEvent.M_AddSTRING(P_Identifier);
+fbEvent.M_AddSTRING(P_ID);
 fbEvent.M_Information('Module %s not started', 3);]]></ST>
       </Implementation>
     </Method>
@@ -105,7 +105,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[CASE eMode OF
 	E_Mode.Semiauto, E_Mode.Automatic:
 		IF eModePrevious = E_Mode.Manual THEN
-			fbEvent.M_AddSTRING(P_Identifier);
+			fbEvent.M_AddSTRING(P_ID);
 			fbEvent.M_Abort('Module %s was in manual mode', 4);
 		END_IF
 END_CASE]]></ST>
@@ -156,7 +156,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Stopped();
-fbEvent.M_AddSTRING(P_Identifier);
+fbEvent.M_AddSTRING(P_ID);
 fbEvent.M_Information('Module %s stopped, reset', 5);]]></ST>
       </Implementation>
     </Method>

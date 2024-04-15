@@ -58,7 +58,7 @@ END_VAR
 	;
 ELSE
 	IF fbDebounceA.bValue AND fbDebounceB.bValue THEN
-		P_Event.M_AddSTRING(P_Identifier);
+		P_Event.M_AddSTRING(P_ID);
 		P_Event.M_AddSTRING(stSettings.sIdA);
 		P_Event.M_AddSTRING(stSettings.sIdB);
 		P_Event.M_Stop('Cylinder %s Logic error Inputs %s, %s are true', 0);
@@ -68,7 +68,7 @@ ELSE
 		IF NOT fbDebounceA.bValue THEN
 			fbTimeout.IN:= TRUE;
 			IF fbTimeout.Q THEN
-				P_Event.M_AddSTRING(P_Identifier);
+				P_Event.M_AddSTRING(P_ID);
 				P_Event.M_AddSTRING(stSettings.sIdA);
 				P_Event.M_Stop('Cylinder %s homeposition not reached %s', 0);				
 			END_IF
@@ -78,7 +78,7 @@ ELSE
 		IF NOT fbDebounceB.bValue THEN
 			fbTimeout.IN:= TRUE;
 			IF fbTimeout.Q THEN
-				P_Event.M_AddSTRING(P_Identifier);
+				P_Event.M_AddSTRING(P_ID);
 				P_Event.M_AddSTRING(stSettings.sIdB);
 				P_Event.M_Stop('Cylinder %s workposition not reached %s', 0);				
 			END_IF

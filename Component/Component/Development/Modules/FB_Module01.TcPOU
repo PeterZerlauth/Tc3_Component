@@ -41,7 +41,7 @@ VAR
 	bReturn:					BOOL:= TRUE;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE fbSequence.nNumber OF
+        <ST><![CDATA[CASE fbSequence.P_Number OF
 	E_Sequence.Start:
 		bReturn:= fbCylinder.M_Disable();
 		fbSequence.M_Await('Start', T#0S, T#0S, TRUE, bReturn, 10);
@@ -75,13 +75,13 @@ END_VAR
 
 Globals.bSimulation:= TRUE;
 
-P_Identifier:= 'M001';
+P_ID:= 'M001';
 
 M_Attach(fbComponent1);
 M_Attach(fbComponent2);
 M_Attach(fbComponent3);
 
-fbCylinder.P_Identifier:= 'Y1';
+fbCylinder.P_ID:= 'Y1';
 M_Attach(fbCylinder);]]></ST>
       </Implementation>
     </Method>

@@ -25,7 +25,7 @@ END_VAR]]></Declaration>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE fbSequence.nNumber OF
+        <ST><![CDATA[CASE fbSequence.P_Number OF
 	E_Sequence.Start:
 		fbSequence.M_Await('Start', T#0S, T#0S, TRUE, bReturn, 10);
 	

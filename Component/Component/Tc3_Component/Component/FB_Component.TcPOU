@@ -19,22 +19,19 @@ VAR
 	fbObserver:						FB_Observer;				// Observer
     {attribute 'hide'}
 	fbEvent:						FB_Event(THIS^);			// Event creator
+    {attribute 'hide'}
 	fbSequence:						FB_Sequence(THIS^);			// Sequence (abort = reset)
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '1'}
 	eStateRequest:					E_Request;					// State command
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Access' := '0'}
-	{ attribute 'TcHmiSymbol' }
+    {attribute 'hide'}
 	eState:							E_State;					// Current state
     {attribute 'hide'}
 	eStatePrevious:					E_State;					// Previous state
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '1'}
 	eModeRequest:					E_Mode;						// Requested mode
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Access' := '0'}
-	{attribute 'TcHmiSymbol' }
+    {attribute 'hide'}
 	eMode:							E_Mode;						// Current mode
     {attribute 'hide'}
 	eModePrevious:					E_Mode;						// Previous mode	
@@ -687,16 +684,16 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="P_Identifier" Id="{3effb9b7-1c02-072b-311e-de8397111421}">
+    <Property Name="P_ID" Id="{3effb9b7-1c02-072b-311e-de8397111421}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Identifier : STRING(25)]]></Declaration>
+PROPERTY PUBLIC P_ID : STRING(25)]]></Declaration>
       <Get Name="Get" Id="{0c21d00d-b7a9-0d38-0c40-7f63c6fb1b7c}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_Identifier:= fbInfo.sIdentifier;]]></ST>
+          <ST><![CDATA[P_ID:= fbInfo.sIdentifier;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{9f14bced-b370-082e-1cc1-0212a2a60675}">
@@ -705,7 +702,7 @@ VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[fbInfo.sIdentifier:= P_Identifier;]]></ST>
+          <ST><![CDATA[fbInfo.sIdentifier:= P_ID;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -745,6 +742,19 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[P_Observer:= fbObserver;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Sequence" Id="{4fcbc993-ca53-00ae-2678-b4843b89ffee}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Sequence : I_Sequence]]></Declaration>
+      <Get Name="Get" Id="{8dc7e634-55d3-030d-2d39-2f9110866178}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Sequence:= fbSequence;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -1108,10 +1118,10 @@ END_VAR
     <LineIds Name="FB_Component.P_Event.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Component.P_Identifier.Get">
+    <LineIds Name="FB_Component.P_ID.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Component.P_Identifier.Set">
+    <LineIds Name="FB_Component.P_ID.Set">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.P_Info.Get">
@@ -1121,6 +1131,9 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.P_Observer.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Component.P_Sequence.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.P_State.Get">

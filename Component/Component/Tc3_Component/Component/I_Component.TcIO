@@ -38,10 +38,10 @@ PROPERTY PUBLIC P_Event : I_Event]]></Declaration>
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Property Name="P_Identifier" Id="{1189c098-5eec-0d68-18e7-7614f6e3884e}">
+    <Property Name="P_ID" Id="{1189c098-5eec-0d68-18e7-7614f6e3884e}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Identifier : STRING(25)]]></Declaration>
+PROPERTY PUBLIC P_ID : STRING(25)]]></Declaration>
       <Get Name="Get" Id="{119ce5e0-3bc0-09ab-2641-05ccee762aba}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>

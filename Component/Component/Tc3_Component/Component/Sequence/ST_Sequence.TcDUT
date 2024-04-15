@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="ST_Sequence" Id="{6b837495-0014-0f2f-0e0b-a44f316ddfaa}">
+    <Declaration><![CDATA[TYPE ST_Sequence :
+STRUCT
+	sMessage:				STRING(255);
+	nNumber:				INT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

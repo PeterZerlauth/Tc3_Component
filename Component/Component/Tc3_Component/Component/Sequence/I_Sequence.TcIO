@@ -17,14 +17,21 @@ END_VAR
     <Method Name="M_Reset" Id="{4610609d-250e-0cea-1947-6366c1b79c60}">
       <Declaration><![CDATA[METHOD M_Reset]]></Declaration>
     </Method>
+    <Property Name="P_Message" Id="{fae44d97-05a2-0836-3256-3b86d5bc206c}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Message : STRING(255)]]></Declaration>
+      <Get Name="Get" Id="{9929608c-3921-06d1-3694-1432b877bad6}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
     <Property Name="P_Number" Id="{79c47681-726d-072e-0b7d-db06b1d061b8}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Number : int]]></Declaration>
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Number : int]]></Declaration>
       <Get Name="Get" Id="{13626b38-7d56-0229-1412-a244cbeeba25}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
-      <Set Name="Set" Id="{87cd581f-1829-0894-298b-cbc051c41772}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
     </Property>
   </Itf>
 </TcPlcObject>

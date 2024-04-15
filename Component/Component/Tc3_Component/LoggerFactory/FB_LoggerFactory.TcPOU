@@ -174,19 +174,6 @@ WHILE nIndex < nLength DO
 END_WHILE]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Events" Id="{4aa86344-5b51-085d-008f-e8292e4b4247}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Events : ARRAY [0..Parameters.nEvents] OF ST_Event;	]]></Declaration>
-      <Get Name="Get" Id="{63c921a2-cd0c-0d8f-33dc-600886876991}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Events:= aEvent;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Property Name="P_Length" Id="{e6432635-ebe1-06f3-2038-e8bcfc923da6}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
@@ -283,9 +270,6 @@ END_VAR
       <LineId Id="52" Count="0" />
       <LineId Id="58" Count="1" />
       <LineId Id="33" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_LoggerFactory.P_Events.Get">
-      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.P_Length.Get">
       <LineId Id="2" Count="0" />
