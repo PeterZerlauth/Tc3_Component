@@ -17,7 +17,7 @@
     <Implicit_Jitter_Distribution>{7b4b4527-5bf1-419f-9633-21cf1aaaf2c0}</Implicit_Jitter_Distribution>
     <LibraryReferences>{0ae2023a-c4f1-4063-97ba-40ea2b0cc85f}</LibraryReferences>
     <Released>false</Released>
-    <ProjectVersion>0.0.0.0</ProjectVersion>
+    <ProjectVersion>0.0.0.1</ProjectVersion>
     <Company>Zerlauth</Company>
     <Title>Tc3_Component</Title>
     <DefaultNamespace>Tc3_Component</DefaultNamespace>
@@ -234,6 +234,17 @@
     <Content Include="Component\StateModel.svg">
       <SubType>Content</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PlaceholderResolution Include="Tc2_Standard">
+      <Resolution>Tc2_Standard, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
+    <PlaceholderResolution Include="Tc2_System">
+      <Resolution>Tc2_System, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
+    <PlaceholderResolution Include="Tc2_Utilities">
+      <Resolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

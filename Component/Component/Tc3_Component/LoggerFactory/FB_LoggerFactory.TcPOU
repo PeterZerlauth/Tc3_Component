@@ -4,14 +4,15 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_LoggerFactory IMPLEMENTS I_Logger
 VAR
 	fbList:						FB_ListLogger;
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Access' := '0'}
+    {attribute 'hide'}
 	nLength:					DINT;
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Access' := '0'}
-	aEvent:						ARRAY [0..Parameters.nEvents] OF ST_Event;	
+    {attribute 'hide'}
+	aEvent:						ARRAY [0..Parameters.nEvents] OF ST_Event;
+    {attribute 'hide'}
 	nIndex: 					DINT;
+    {attribute 'hide'}
 	stTags:						ST_LoggerFactoryTags;
+    {attribute 'hide'}
 	stTagsOut:					ST_LoggerFactoryTags;
 END_VAR]]></Declaration>
     <Implementation>
@@ -174,6 +175,19 @@ WHILE nIndex < nLength DO
 END_WHILE]]></ST>
       </Implementation>
     </Method>
+    <Property Name="P_Events" Id="{169098c7-9fee-01c4-0824-746b015810e7}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Events : reference to ARRAY [0..Parameters.nEvents] OF ST_Event]]></Declaration>
+      <Get Name="Get" Id="{9b7ac390-07de-0289-077f-1e65941693f4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Events REF= aEvent;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="P_Length" Id="{e6432635-ebe1-06f3-2038-e8bcfc923da6}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
@@ -202,9 +216,8 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="FB_LoggerFactory">
+      <LineId Id="468" Count="1" />
       <LineId Id="370" Count="0" />
-      <LineId Id="452" Count="0" />
-      <LineId Id="336" Count="0" />
       <LineId Id="453" Count="0" />
       <LineId Id="337" Count="0" />
       <LineId Id="437" Count="0" />
@@ -270,6 +283,9 @@ END_VAR
       <LineId Id="52" Count="0" />
       <LineId Id="58" Count="1" />
       <LineId Id="33" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LoggerFactory.P_Events.Get">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.P_Length.Get">
       <LineId Id="2" Count="0" />
