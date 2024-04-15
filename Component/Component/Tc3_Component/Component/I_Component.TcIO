@@ -31,9 +31,7 @@ END_VAR
 ]]></Declaration>
     </Method>
     <Property Name="P_Event" Id="{96ef9ac7-4347-4236-9475-e7c300209edb}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Event : I_Event]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Event : I_Event]]></Declaration>
       <Get Name="Get" Id="{25594f51-5f07-48cf-8274-65c776cd7cf1}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
@@ -66,9 +64,7 @@ PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
       </Get>
     </Property>
     <Property Name="P_Observer" Id="{71855be2-d7dd-407c-bfc6-2b33d71db9ac}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>
       <Get Name="Get" Id="{06fb4a5b-c62f-47d3-bed0-c50d2d77e5a7}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>

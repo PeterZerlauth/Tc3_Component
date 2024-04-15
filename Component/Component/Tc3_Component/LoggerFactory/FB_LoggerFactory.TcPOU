@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_LoggerFactory" Id="{14a5296c-b52d-02f9-2d9e-abab1d7b93f2}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_LoggerFactory IMPLEMENTS I_Logger
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_LoggerFactory IMPLEMENTS I_LoggerFactory
 VAR
 	fbList:						FB_ListLogger;
     {attribute 'hide'}

@@ -3,5 +3,35 @@
   <Itf Name="I_Module" Id="{17c5a5c0-e93a-0aed-1dd7-b12ea548c450}">
     <Declaration><![CDATA[INTERFACE I_Module EXTENDS I_Component
 ]]></Declaration>
+    <Method Name="M_Attach" Id="{295b2392-dac4-0bcb-3046-689a63999edf}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Attach
+VAR_INPUT
+	Component:		I_Component;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Dettach" Id="{947385b1-642d-0727-1a18-b18a997bcf54}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Dettach
+VAR_INPUT
+	Component:		I_Component;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="P_Logger" Id="{fcaa14c7-3f8f-065c-2573-a0f2fa2a8baa}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY P_Logger : I_LoggerFactory]]></Declaration>
+      <Get Name="Get" Id="{0e5f9ee4-dbec-0cf5-144d-ccdaf3eb6c54}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="P_Members" Id="{fe684396-af8d-079f-0efc-bbcbdf1749dc}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY P_Members : I_ListComponent]]></Declaration>
+      <Get Name="Get" Id="{185ccf9f-1c21-060d-01fd-9cffeb3be88b}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
   </Itf>
 </TcPlcObject>
