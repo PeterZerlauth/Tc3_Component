@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_LoggerFactory" Id="{1075ed47-adad-0375-2b61-454fd2394881}">
+    <Declaration><![CDATA[INTERFACE I_LoggerFactory EXTENDS I_Logger
+]]></Declaration>
+    <Property Name="P_Events" Id="{82907ad1-f2c2-0828-09af-9aabebd52ddb}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Events : reference to ARRAY [0..Parameters.nEvents] OF ST_Event]]></Declaration>
+      <Get Name="Get" Id="{64b0b94a-59f5-0f06-145c-b91fed7ca0e8}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="P_Length" Id="{db5a6d16-914e-04ec-2a29-d57635ae33cc}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Length : DINT
+]]></Declaration>
+      <Get Name="Get" Id="{0d198b76-c71f-00b8-1fcc-6cc00a90a1b4}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="P_Tags" Id="{b14f4026-7ff6-091c-3ea2-c7f40c50fa7c}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Tags : REFERENCE TO ST_LoggerFactoryTags]]></Declaration>
+      <Get Name="Get" Id="{41d25396-084f-05b7-34c1-3b41f09f44b6}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

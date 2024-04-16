@@ -5,6 +5,7 @@
 FUNCTION_BLOCK PUBLIC FB_Observer IMPLEMENTS I_Observer
 VAR
 	pList: 			POINTER TO I_Component;
+    {attribute 'hide'}
 	nLength:		DINT;
 	{IF (defined (release))}
     	{attribute 'hide'}

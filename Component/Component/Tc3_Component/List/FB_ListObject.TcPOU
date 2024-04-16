@@ -156,7 +156,9 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Length" Id="{d45b982f-4b97-465f-bb53-55cc6ad8a8d4}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Length : DINT
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Length : DINT
 ]]></Declaration>
       <Get Name="Get" Id="{9d0b7376-3a4d-4a08-aa02-0d3f8f110cdd}">
         <Declaration><![CDATA[VAR

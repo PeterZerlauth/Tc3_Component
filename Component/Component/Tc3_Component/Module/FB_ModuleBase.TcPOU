@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_ModuleBase" Id="{0d3fc497-598e-0d21-1617-ce19be6391a0}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_ModuleBase EXTENDS FB_Component
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ModuleBase EXTENDS FB_Component IMPLEMENTS I_Module
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -92,7 +92,8 @@ END_VAR
 
 fbEvent.P_Logger:= fbLoggerFactory;
 fbLoggerFactory.M_Attach(fbTcLogger);
-fbLoggerFactory.M_Attach(fbFileLogger);]]></ST>
+fbLoggerFactory.M_Attach(fbFileLogger);
+fbFileLogger.sFilePathName:= 'C:\Log\log.txt';]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_OnMode" Id="{8aa684a1-26e4-029d-2fa8-0e0341c2e439}">
@@ -169,6 +170,32 @@ END_VAR]]></Declaration>
 fbLoggerFactory.M_Start();]]></ST>
       </Implementation>
     </Method>
+    <Property Name="P_Logger" Id="{c55063f0-992b-0aed-3c0c-919e65541396}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY P_Logger : I_LoggerFactory]]></Declaration>
+      <Get Name="Get" Id="{9b209d20-0f0e-034c-3f13-7b78d0798434}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Logger:= fbLoggerFactory;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Members" Id="{0dae014c-8bf1-0ea8-0443-bc557f886d0d}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY P_Members : I_ListComponent]]></Declaration>
+      <Get Name="Get" Id="{1e93fc27-c675-09f0-0327-4e1fffff1db2}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Members:= fbMembers;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <LineIds Name="FB_ModuleBase">
       <LineId Id="9" Count="0" />
     </LineIds>
@@ -208,6 +235,7 @@ fbLoggerFactory.M_Start();]]></ST>
       <LineId Id="82" Count="0" />
       <LineId Id="98" Count="0" />
       <LineId Id="110" Count="0" />
+      <LineId Id="115" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_OnMode">
       <LineId Id="7" Count="0" />
@@ -240,6 +268,12 @@ fbLoggerFactory.M_Start();]]></ST>
     <LineIds Name="FB_ModuleBase.M_Unholding">
       <LineId Id="10" Count="0" />
       <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ModuleBase.P_Logger.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ModuleBase.P_Members.Get">
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
