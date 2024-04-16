@@ -103,6 +103,19 @@ fbDelay(IN:= FALSE);
 fbTimeout(IN:= FALSE);]]></ST>
       </Implementation>
     </Method>
+    <Property Name="P_History" Id="{cb1a85b8-1509-020d-1784-a04480cb4fa4}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_History : REFERENCE TO ARRAY [0..Parameters.nSequence] OF ST_Sequence;]]></Declaration>
+      <Get Name="Get" Id="{46fc4467-8b25-035c-3de6-0aa4c3271749}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_History REF= aHistory;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="P_Message" Id="{449cb871-a246-0a5a-09bf-a919fbfd178f}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
@@ -171,6 +184,9 @@ END_VAR
       <LineId Id="16" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="8" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_Sequence.P_History.Get">
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Sequence.P_Message.Get">
       <LineId Id="2" Count="0" />
