@@ -51,7 +51,7 @@ ELSE
 	IF stEvent.eEventType >= eLogLevel THEN
 		MEMCPY(ADR(aBuffer[1]), ADR(aBuffer[0]), DINT_To_Udint(SIZEOF(ST_Event) * (nBuffer - 1)));
 		aBuffer[0]:= stEvent;
-		sMessage:= Concat(Concat(stEvent.sInstance, ' | iLogger = 0 | '), stEvent.sDefault);
+		sMessage:= Concat(Concat(stEvent.sInstance, ' | fbObserver.P_Length = 0 | '), stEvent.sDefault);
 		CASE stEvent.eEventType OF
 			E_Event.Error:
 				ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := '%s', strArg := sMessage);

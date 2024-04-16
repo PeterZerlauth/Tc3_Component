@@ -33,8 +33,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Component.P_Event.P_Logger:= fbLoggerFactory;
-fbMembers.M_Add(Component);
+        <ST><![CDATA[fbMembers.M_Add(Component);
 Component.P_Observer.M_Attach(THIS^);
 fbObserver.M_Attach(Component);]]></ST>
       </Implementation>
@@ -65,8 +64,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Component.P_Event.P_Logger:= 0;
-fbMembers.M_Remove(Component);
+        <ST><![CDATA[fbMembers.M_Remove(Component);
 Component.P_Observer.M_Detach(THIS^);
 fbObserver.M_Detach(Component);]]></ST>
       </Implementation>
@@ -90,7 +88,6 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Initialise();
 
-fbEvent.P_Logger:= fbLoggerFactory;
 fbLoggerFactory.M_Attach(fbTcLogger);
 fbLoggerFactory.M_Attach(fbFileLogger);
 fbFileLogger.sFilePathName:= 'C:\Log\log.txt';]]></ST>
@@ -112,6 +109,16 @@ END_VAR]]></Declaration>
 END_CASE]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_OnNotify" Id="{3e3bd136-985e-02f3-13ad-fb2cf544334e}">
+      <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
+VAR_INPUT
+	stEvent:		ST_Event;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_OnNotify(stEvent);
+fbLoggerFactory.M_Log(stEvent);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Resetting" Id="{61e3d89a-8bee-473b-9814-ba7482888f16}">
       <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL
 VAR_INPUT
@@ -128,8 +135,7 @@ fbLoggerFactory.M_Reset();]]></ST>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Resuming:= fbMembers.M_Request(E_Request.Start);
-fbLoggerFactory.M_Start();]]></ST>
+        <ST><![CDATA[M_Resuming:= fbMembers.M_Request(E_Request.Start);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{8879f60a-43a4-0568-363b-e25a42eddf0c}">
@@ -166,8 +172,7 @@ fbEvent.M_Information('Module %s stopped, reset', 5);]]></ST>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Unholding:= fbMembers.M_Request(E_Request.Start);
-fbLoggerFactory.M_Start();]]></ST>
+        <ST><![CDATA[M_Unholding:= fbMembers.M_Request(E_Request.Start);]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Logger" Id="{c55063f0-992b-0aed-3c0c-919e65541396}">
@@ -205,7 +210,6 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Attach">
-      <LineId Id="7" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="5" Count="0" />
@@ -219,7 +223,6 @@ END_VAR
       <LineId Id="22" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Dettach">
-      <LineId Id="7" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="5" Count="0" />
@@ -231,7 +234,6 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Initialise">
       <LineId Id="106" Count="0" />
-      <LineId Id="111" Count="0" />
       <LineId Id="82" Count="0" />
       <LineId Id="98" Count="0" />
       <LineId Id="110" Count="0" />
@@ -245,6 +247,10 @@ END_VAR
       <LineId Id="21" Count="1" />
       <LineId Id="16" Count="0" />
     </LineIds>
+    <LineIds Name="FB_ModuleBase.M_OnNotify">
+      <LineId Id="94" Count="0" />
+      <LineId Id="99" Count="0" />
+    </LineIds>
     <LineIds Name="FB_ModuleBase.M_Resetting">
       <LineId Id="5" Count="0" />
       <LineId Id="10" Count="0" />
@@ -252,7 +258,6 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Resuming">
       <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Running">
       <LineId Id="6" Count="0" />
@@ -267,7 +272,6 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Unholding">
       <LineId Id="10" Count="0" />
-      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.P_Logger.Get">
       <LineId Id="2" Count="0" />

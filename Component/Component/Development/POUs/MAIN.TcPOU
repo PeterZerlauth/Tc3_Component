@@ -5,17 +5,38 @@
 VAR
 	fbModule1:	FB_Module01;
 	fbModule2:	FB_Module02;
+	bInit:			BOOL:= TRUE;
+	fbComponent1:	FB_ComponentEx;
+	fbComponent2:	FB_ComponentEx;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
 fbModule1.M_Cycle();
-fbModule2.M_Cycle();]]></ST>
+fbModule2.M_Cycle();
+
+
+IF bInit THEN
+	bInit:= FALSE;
+	fbComponent1.P_Observer.M_Attach(fbComponent2);
+	fbComponent2.P_Observer.M_Attach(fbComponent1);	
+END_IF
+
+fbComponent1.M_Cycle();
+fbComponent2.M_Cycle();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="25" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="12" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="35" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

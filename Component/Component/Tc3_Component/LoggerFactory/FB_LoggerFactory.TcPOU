@@ -18,30 +18,8 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
 
-stTagsOut:= stTags;
-
-// Deactivate old events
-stTags.bInformation:= FALSE;
-stTags.bWarning:= FALSE;
-stTags.bError:= FALSE;
-stTags.bPause:= FALSE;
-stTags.bHold:= FALSE;
-stTags.bComplete:= FALSE;
-
 nIndex:= 0;
 WHILE nIndex < nLength DO
-	stTags.bPause S= aEvent[nIndex].stFlags.bPause;
-	stTags.bHold S= aEvent[nIndex].stFlags.bHold;
-	stTags.bComplete S= aEvent[nIndex].stFlags.bComplete;
-	CASE aEvent[nIndex].eEventType OF
-		E_Event.Error:
-			stTags.bError:= TRUE;
-		E_Event.Warning:
-			stTags.bWarning:= TRUE;	
-		E_Event.Information:
-			stTags.bInformation:= TRUE;
-	END_CASE
-
 	IF aEvent[nIndex].stFlags.bActive THEN
 		IF aEvent[nIndex].stFlags.bRemove THEN
 			aEvent[nIndex].stFlags.bActive:= FALSE;
@@ -159,22 +137,6 @@ nLength:= 0;
 Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Start" Id="{14c523fa-9279-0bfe-11e3-526c8259ca8b}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Start
-VAR_INPUT
-END_VAR
-VAR 
-	nIndex:		DINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[nIndex:= 0;
-WHILE nIndex < nLength DO
-	aEvent[nIndex].stFlags.bHold:= FALSE;
-	aEvent[nIndex].stFlags.bPause:= FALSE;	
-	nIndex := nIndex + 1;
-END_WHILE]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="P_Events" Id="{169098c7-9fee-01c4-0824-746b015810e7}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
@@ -216,23 +178,10 @@ END_VAR
       </Get>
     </Property>
     <LineIds Name="FB_LoggerFactory">
-      <LineId Id="468" Count="1" />
-      <LineId Id="370" Count="0" />
-      <LineId Id="453" Count="0" />
-      <LineId Id="337" Count="0" />
-      <LineId Id="437" Count="0" />
-      <LineId Id="439" Count="4" />
+      <LineId Id="468" Count="0" />
       <LineId Id="438" Count="0" />
       <LineId Id="338" Count="0" />
       <LineId Id="394" Count="0" />
-      <LineId Id="409" Count="0" />
-      <LineId Id="422" Count="3" />
-      <LineId Id="427" Count="0" />
-      <LineId Id="434" Count="1" />
-      <LineId Id="428" Count="0" />
-      <LineId Id="430" Count="0" />
-      <LineId Id="426" Count="0" />
-      <LineId Id="408" Count="0" />
       <LineId Id="340" Count="0" />
       <LineId Id="377" Count="0" />
       <LineId Id="341" Count="0" />
@@ -276,12 +225,6 @@ END_VAR
     <LineIds Name="FB_LoggerFactory.M_Reset">
       <LineId Id="26" Count="0" />
       <LineId Id="6" Count="0" />
-      <LineId Id="33" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_LoggerFactory.M_Start">
-      <LineId Id="38" Count="1" />
-      <LineId Id="52" Count="0" />
-      <LineId Id="58" Count="1" />
       <LineId Id="33" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.P_Events.Get">

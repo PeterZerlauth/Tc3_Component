@@ -373,11 +373,10 @@ CASE eState OF
 END_CASE
 
 
-IF eModeRequest <> E_Mode.Undefined AND eMode <> eModeRequest THEN
+IF eMode <> eModeRequest THEN
 	eModePrevious:= eMode;
 	eMode:= eModeRequest;
 	M_OnMode(eMode, eModePrevious);
-	fbObserver.M_Notify(0, eMode);	
 END_IF
 eModeRequest:= E_Mode.Undefined;
 	
@@ -385,14 +384,7 @@ eModeRequest:= E_Mode.Undefined;
 IF eStatePrevious <> eState THEN
 	M_OnState(eState, eStatePrevious);
 	eStatePrevious:= eState;
-END_IF
-
-CASE eStateRequest of
-	E_Request.Undefined, E_Request.Start, E_Request.Pause, E_Request.Hold:
-		// Ignore
-	ELSE
-		fbObserver.M_Notify(eStateRequest, 0);
-END_CASE]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Execute" Id="{0a26e879-26ba-0448-077b-265f6eb411a3}" FolderPath="State\">
@@ -465,15 +457,14 @@ END_VAR]]></Declaration>
     <Method Name="M_OnNotify" Id="{d8f6f158-ff95-0e77-1e0e-c4742a312f00}">
       <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
 VAR_INPUT
-	eRequest:					E_Request;
-	eMode:						E_Mode;
+	stEvent:		ST_Event;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Method will be called by the Observer
-IF eRequest <> 0 THEN
-	M_Request(eRequest);
+IF stEvent.eRequest <> E_Request.Undefined THEN
+	M_Request(stEvent.eRequest);
 END_IF
-IF eMode <> 0 THEN
+IF stEvent.eMode <> E_Mode.Undefined THEN
 	M_Switch(eMode);
 END_IF]]></ST>
       </Implementation>
@@ -977,7 +968,6 @@ END_VAR
       <LineId Id="900" Count="0" />
       <LineId Id="884" Count="0" />
       <LineId Id="901" Count="0" />
-      <LineId Id="886" Count="0" />
       <LineId Id="883" Count="0" />
       <LineId Id="878" Count="0" />
       <LineId Id="861" Count="0" />
@@ -985,11 +975,6 @@ END_VAR
       <LineId Id="889" Count="0" />
       <LineId Id="215" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="689" Count="0" />
-      <LineId Id="687" Count="0" />
-      <LineId Id="690" Count="0" />
-      <LineId Id="692" Count="2" />
-      <LineId Id="691" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_Execute">
       <LineId Id="5" Count="0" />
