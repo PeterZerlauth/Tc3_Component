@@ -8,6 +8,8 @@ VAR
 	bInit:			BOOL:= TRUE;
 	fbComponent1:	FB_ComponentEx;
 	fbComponent2:	FB_ComponentEx;
+	fbComponent3:	FB_ComponentEx;
+	bExecute: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -19,11 +21,22 @@ fbModule2.M_Cycle();
 IF bInit THEN
 	bInit:= FALSE;
 	fbComponent1.P_Observer.M_Attach(fbComponent2);
-	fbComponent2.P_Observer.M_Attach(fbComponent1);	
+	fbComponent2.P_Observer.M_Attach(fbComponent1);
+	
+	fbComponent1.P_Observer.M_Attach(fbComponent3);
+	fbComponent3.P_Observer.M_Attach(fbComponent1);	
+END_IF
+
+IF bExecute THEN
+	bExecute:= False;
+	fbComponent1.M_Request(E_Request.Start);
+	fbComponent2.M_Request(E_Request.Start);
+	fbComponent3.M_Request(E_Request.Start);
 END_IF
 
 fbComponent1.M_Cycle();
-fbComponent2.M_Cycle();]]></ST>
+fbComponent2.M_Cycle();
+fbComponent3.M_Cycle();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="25" Count="0" />
@@ -33,10 +46,19 @@ fbComponent2.M_Cycle();]]></ST>
       <LineId Id="36" Count="1" />
       <LineId Id="39" Count="0" />
       <LineId Id="41" Count="1" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="54" Count="0" />
       <LineId Id="40" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="62" Count="1" />
+      <LineId Id="59" Count="1" />
       <LineId Id="34" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="35" Count="0" />
+      <LineId Id="56" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

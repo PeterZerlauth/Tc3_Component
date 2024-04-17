@@ -88,6 +88,16 @@ fbLoggerFactory.M_Attach(fbFileLogger);
 fbFileLogger.sFilePathName:= 'C:\LOG\log.txt';]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Notify" Id="{3e3bd136-985e-02f3-13ad-fb2cf544334e}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Notify
+VAR_INPUT
+	stEvent:		ST_Event;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Notify(stEvent);
+fbLoggerFactory.M_Log(stEvent);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_OnMode" Id="{8aa684a1-26e4-029d-2fa8-0e0341c2e439}">
       <Declaration><![CDATA[METHOD Protected M_OnMode
 VAR_INPUT
@@ -102,16 +112,6 @@ END_VAR]]></Declaration>
 			fbEvent.M_Abort('Module %s was in manual mode', 4);
 		END_IF
 END_CASE]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_OnNotify" Id="{3e3bd136-985e-02f3-13ad-fb2cf544334e}">
-      <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
-VAR_INPUT
-	stEvent:		ST_Event;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.M_OnNotify(stEvent);
-fbLoggerFactory.M_Log(stEvent);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Resetting" Id="{61e3d89a-8bee-473b-9814-ba7482888f16}">
@@ -232,6 +232,10 @@ END_VAR
       <LineId Id="110" Count="0" />
       <LineId Id="115" Count="0" />
     </LineIds>
+    <LineIds Name="FB_ModuleBase.M_Notify">
+      <LineId Id="94" Count="0" />
+      <LineId Id="99" Count="0" />
+    </LineIds>
     <LineIds Name="FB_ModuleBase.M_OnMode">
       <LineId Id="7" Count="0" />
       <LineId Id="15" Count="0" />
@@ -239,10 +243,6 @@ END_VAR
       <LineId Id="23" Count="0" />
       <LineId Id="21" Count="1" />
       <LineId Id="16" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ModuleBase.M_OnNotify">
-      <LineId Id="94" Count="0" />
-      <LineId Id="99" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Resetting">
       <LineId Id="5" Count="0" />

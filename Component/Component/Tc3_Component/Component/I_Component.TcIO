@@ -9,8 +9,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_OnNotify" Id="{e7af5b28-84d1-47bb-bd50-90d772841703}">
-      <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
+    <Method Name="M_Notify" Id="{e7af5b28-84d1-47bb-bd50-90d772841703}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Notify
 VAR_INPUT
 	stEvent:		ST_Event;
 END_VAR]]></Declaration>

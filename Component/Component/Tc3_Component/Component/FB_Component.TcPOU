@@ -15,7 +15,7 @@ VAR
     sInstancePath:					STRING(255);				// Instance-Path
     {attribute 'hide'}
 	fbInfo:							FB_Info(sInstancePath);		// Info about function block
-	fbObserver:						FB_Observer;				// Observer
+	fbObserver:						FB_Observer(THIS^);				// Observer
 	fbEvent:						FB_Event(THIS^);			// Event creator
     {attribute 'hide'}
 	fbSequence:						FB_Sequence(THIS^);			// Sequence (abort = reset)
@@ -444,6 +444,18 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Notify" Id="{d8f6f158-ff95-0e77-1e0e-c4742a312f00}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Notify
+VAR_INPUT
+	stEvent:		ST_Event;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Method will be called by the Observer
+M_Request(stEvent.eRequest);
+M_Switch(stEvent.eMode);
+fbObserver.M_Notify(stEvent);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_OnMode" Id="{5404d353-f502-0cc7-293b-81200dd1aa4b}">
       <Declaration><![CDATA[METHOD PROTECTED M_OnMode
 VAR_INPUT
@@ -452,24 +464,6 @@ VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_OnNotify" Id="{d8f6f158-ff95-0e77-1e0e-c4742a312f00}">
-      <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
-VAR_INPUT
-	stEvent:		ST_Event;
-END_VAR
-VAR
-	iSource:		I_Component;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Method will be called by the Observer
-IF stEvent.eRequest <> E_Request.Undefined THEN
-	M_Request(stEvent.eRequest);
-END_IF
-IF stEvent.eMode <> E_Mode.Undefined THEN
-	M_Switch(eMode);
-END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_OnState" Id="{49afef72-99ac-0c9e-2ec3-7701e0509cd3}">
@@ -999,14 +993,14 @@ END_VAR
     <LineIds Name="FB_Component.M_Initialise">
       <LineId Id="5" Count="0" />
     </LineIds>
+    <LineIds Name="FB_Component.M_Notify">
+      <LineId Id="80" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="99" Count="0" />
+    </LineIds>
     <LineIds Name="FB_Component.M_OnMode">
       <LineId Id="85" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_OnNotify">
-      <LineId Id="80" Count="0" />
-      <LineId Id="90" Count="2" />
-      <LineId Id="72" Count="0" />
-      <LineId Id="93" Count="1" />
     </LineIds>
     <LineIds Name="FB_Component.M_OnState">
       <LineId Id="85" Count="0" />
