@@ -37,6 +37,8 @@ END_VAR]]></Declaration>
 		
 	E_Sequence.Done:
 		fbSequence.M_Reset();
+		M_Execute:= TRUE;
+		
 END_CASE
 
 IF bAbort THEN
@@ -95,6 +97,7 @@ END_IF
       <LineId Id="53" Count="0" />
       <LineId Id="66" Count="0" />
       <LineId Id="68" Count="0" />
+      <LineId Id="109" Count="1" />
       <LineId Id="52" Count="0" />
       <LineId Id="47" Count="0" />
       <LineId Id="6" Count="0" />

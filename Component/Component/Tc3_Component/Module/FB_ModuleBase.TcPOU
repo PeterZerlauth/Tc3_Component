@@ -39,6 +39,15 @@ Component.P_Observer.M_Attach(THIS^);
 fbObserver.M_Attach(Component);]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Completing" Id="{59aee546-4f8e-0ca5-32cb-b922aa446d6e}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Completing:= fbMembers.M_Request(E_Request.Complete);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Cycle" Id="{ba6e3712-faea-4bef-b491-24a585067e68}">
       <Declaration><![CDATA[METHOD PUBLIC M_Cycle
 VAR_INPUT
@@ -208,6 +217,9 @@ END_VAR
     <LineIds Name="FB_ModuleBase.M_Attach">
       <LineId Id="13" Count="0" />
       <LineId Id="8" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ModuleBase.M_Completing">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Cycle">
