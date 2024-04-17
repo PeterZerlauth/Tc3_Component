@@ -8,7 +8,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	fbMembers:					FB_ListComponent;
-	fbProcesses:				FB_ListComponent;
+	fbFunctions:				FB_ListComponent;
 	fbLoggerFactory:			FB_LoggerFactory;;
 	fbTcLogger:					FB_TcLogger;
 	fbFileLogger:				FB_FileLogger;
@@ -43,9 +43,21 @@ fbObserver.M_Attach(Component);]]></ST>
       <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL // Return state complete
 VAR_INPUT
 END_VAR
-]]></Declaration>
+
+VAR
+	nIndex: INT;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Completing:= fbMembers.M_Request(E_Request.Complete);]]></ST>
+        <ST><![CDATA[M_Completing:= TRUE;
+WHILE nIndex < fbFunctions.P_Length DO
+	CASE fbFunctions.M_Index(nIndex).P_State OF
+		E_State.Idle,E_State.Completed,E_State.Stopped,E_State.Aborted:
+			;
+		ELSE
+			M_Completing:= FALSE;
+	END_CASE
+	nIndex:= nIndex +1;
+END_WHILE]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Cycle" Id="{ba6e3712-faea-4bef-b491-24a585067e68}">
@@ -73,6 +85,27 @@ Component.P_Observer.M_Detach(THIS^);
 fbObserver.M_Detach(Component);]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Holding" Id="{fa37cb7f-6c16-0b90-0f89-f9628b230d17}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Holding : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+
+VAR
+	nIndex: INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Holding:= TRUE;
+WHILE nIndex < fbFunctions.P_Length DO
+	CASE fbFunctions.M_Index(nIndex).P_State OF
+		E_State.Idle,E_State.Completed,E_State.Stopped,E_State.Aborted:
+			;
+		ELSE
+			M_Holding:= FALSE;
+	END_CASE
+	nIndex:= nIndex +1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Idle" Id="{6e9b6a1a-c168-0e2f-3b3d-1c86715a124a}">
       <Declaration><![CDATA[METHOD PROTECTED M_Idle
 VAR_INPUT
@@ -91,6 +124,10 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Initialise();
+
+fbEvent.P_Settings.bPause:= TRUE;
+fbEvent.P_Settings.bHold:= TRUE;
+fbEvent.P_Settings.bComplete:= TRUE;
 
 fbLoggerFactory.M_Attach(fbTcLogger);
 fbLoggerFactory.M_Attach(fbFileLogger);
@@ -123,6 +160,27 @@ END_VAR]]></Declaration>
 END_CASE]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Pausing" Id="{a7388aa8-4607-0ab0-06a2-4380b929ddfc}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Pausing : BOOL
+VAR_INPUT
+END_VAR
+
+VAR
+	nIndex: INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Pausing:= TRUE;
+WHILE nIndex < fbFunctions.P_Length DO
+	CASE fbFunctions.M_Index(nIndex).P_State OF
+		E_State.Idle,E_State.Completed,E_State.Stopped,E_State.Aborted:
+			;
+		ELSE
+			M_Pausing:= FALSE;
+	END_CASE
+	nIndex:= nIndex +1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Resetting" Id="{61e3d89a-8bee-473b-9814-ba7482888f16}">
       <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL
 VAR_INPUT
@@ -131,7 +189,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[M_Resetting:= SUPER^.M_Resetting();
 fbMembers.M_Request(E_Request.Reset);
-fbProcesses.M_Request(E_Request.Reset);
+fbFunctions.M_Request(E_Request.Reset);
 fbLoggerFactory.M_Reset();]]></ST>
       </Implementation>
     </Method>
@@ -220,6 +278,7 @@ END_VAR
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Completing">
+      <LineId Id="6" Count="8" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Cycle">
@@ -232,6 +291,15 @@ END_VAR
       <LineId Id="8" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
+    <LineIds Name="FB_ModuleBase.M_Holding">
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="1" />
+      <LineId Id="19" Count="2" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
     <LineIds Name="FB_ModuleBase.M_Idle">
       <LineId Id="7" Count="0" />
       <LineId Id="6" Count="0" />
@@ -239,7 +307,10 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Initialise">
       <LineId Id="106" Count="0" />
+      <LineId Id="122" Count="0" />
       <LineId Id="82" Count="0" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="119" Count="1" />
       <LineId Id="98" Count="0" />
       <LineId Id="110" Count="0" />
       <LineId Id="115" Count="0" />
@@ -255,6 +326,10 @@ END_VAR
       <LineId Id="23" Count="0" />
       <LineId Id="21" Count="1" />
       <LineId Id="16" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ModuleBase.M_Pausing">
+      <LineId Id="6" Count="8" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Resetting">
       <LineId Id="5" Count="0" />

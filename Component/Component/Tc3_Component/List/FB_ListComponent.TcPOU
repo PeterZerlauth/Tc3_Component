@@ -69,6 +69,19 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Attach" Id="{6b9e2d31-fd71-0253-0fd6-ea067b88b916}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Attach
+VAR_INPUT
+	Parent:			I_Component;
+	Component:		I_Component;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Add(Component);
+Component.P_Observer.M_Attach(Parent);
+Parent.P_Observer.M_Attach(Component);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Clear" Id="{3e2c5687-bf15-40f5-99d0-ac9877db5017}">
       <Declaration><![CDATA[METHOD PUBLIC M_Clear : BOOL
 ]]></Declaration>
@@ -80,6 +93,19 @@ IF pList <> 0 THEN
 END_IF
 M_Clear:= TRUE;
 ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Dettach" Id="{30e2c016-83f1-0ee5-27f0-766a178cdc30}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Dettach
+VAR_INPUT
+	Parent:			I_Component;
+	Component:		I_Component;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Remove(Component);
+Component.P_Observer.M_Detach(Parent);
+Parent.P_Observer.M_Detach(Component);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Find" Id="{20062c4e-124c-4cb3-98f6-8054f6c60d5b}">
@@ -203,11 +229,20 @@ END_VAR
       <LineId Id="187" Count="4" />
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="FB_ListComponent.M_Attach">
+      <LineId Id="13" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
     <LineIds Name="FB_ListComponent.M_Clear">
       <LineId Id="10" Count="0" />
       <LineId Id="3" Count="2" />
       <LineId Id="2" Count="0" />
       <LineId Id="7" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_ListComponent.M_Dettach">
+      <LineId Id="19" Count="1" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ListComponent.M_Find">
       <LineId Id="66" Count="8" />

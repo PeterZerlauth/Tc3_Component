@@ -9,6 +9,7 @@ END_VAR
 VAR
 	fbList:				FB_ListString;
 	iParent:			I_Component;
+	stSettings:			ST_EventSettings;
 	stEvent:			ST_Event;
 	stLastError:		ST_Event;
 END_VAR]]></Declaration>
@@ -418,6 +419,17 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="P_Settings" Id="{68796f7c-99b8-07cf-2ad8-b8337c846db0}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Settings : REFERENCE TO ST_EventSettings]]></Declaration>
+      <Get Name="Get" Id="{99d0b6b6-67ae-0277-3e19-f34dadd5e871}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Settings ref= stSettings;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <LineIds Name="FB_Event">
       <LineId Id="235" Count="0" />
     </LineIds>
@@ -578,6 +590,9 @@ END_VAR
       <LineId Id="112" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.P_LastEvent.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Event.P_Settings.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

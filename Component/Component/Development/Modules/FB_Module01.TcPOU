@@ -12,6 +12,7 @@ VAR
 	fbComponent2:				FB_Component;
 	fbComponent3:				FB_ComponentEx;
 	fbCylinder:					FB_Cylinder;
+	fbProcess:					FB_Component;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
@@ -29,6 +30,8 @@ fbComponent2.M_Cycle();
 fbComponent3.M_Cycle();
 fbCylinder.M_Cycle();
 
+fbProcess.M_Cycle();
+
 //P_Event.M_AddSTRING('Test');
 //P_Event.M_Warning('Some Warning %s', '');]]></ST>
       </Implementation>
@@ -44,7 +47,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[CASE fbSequence.P_Number OF
 	E_Sequence.Start:
 		bReturn:= fbCylinder.M_Disable();
-		fbSequence.M_Await('Start', T#0S, T#0S, TRUE, bReturn, 10);
+		fbSequence.M_Await('Start 0', T#0S, T#0S, TRUE, bReturn, 10);
 	
 	10:
 		bReturn:= fbCylinder.M_ToHome();
@@ -77,12 +80,15 @@ Globals.bSimulation:= TRUE;
 
 P_ID:= 'M001';
 
-M_Attach(fbComponent1);
-M_Attach(fbComponent2);
-M_Attach(fbComponent3);
+
+fbMembers.M_Attach(THIS^, fbComponent1);
+fbMembers.M_Attach(THIS^, fbComponent2);
+fbMembers.M_Attach(THIS^, fbComponent3);
 
 fbCylinder.P_ID:= 'Y1';
-M_Attach(fbCylinder);]]></ST>
+M_Attach(fbCylinder);
+
+fbFunctions.M_Attach(THIS^, fbProcess);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{eaffebca-5ff2-4f17-be84-3310a9ace22e}">
@@ -131,6 +137,8 @@ M_Stopping:= SUPER^.M_Stopping();]]></ST>
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="3" />
       <LineId Id="20" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="24" Count="0" />
       <LineId Id="15" Count="1" />
       <LineId Id="6" Count="0" />
     </LineIds>
@@ -154,6 +162,7 @@ M_Stopping:= SUPER^.M_Stopping();]]></ST>
       <LineId Id="110" Count="0" />
       <LineId Id="117" Count="0" />
       <LineId Id="105" Count="0" />
+      <LineId Id="124" Count="0" />
       <LineId Id="104" Count="0" />
       <LineId Id="66" Count="0" />
       <LineId Id="42" Count="0" />
@@ -161,6 +170,8 @@ M_Stopping:= SUPER^.M_Stopping();]]></ST>
       <LineId Id="116" Count="0" />
       <LineId Id="115" Count="0" />
       <LineId Id="114" Count="0" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="122" Count="0" />
     </LineIds>
     <LineIds Name="FB_Module01.M_Running">
       <LineId Id="38" Count="0" />

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="ST_EventSettings" Id="{76e40810-9a1d-09ac-06ab-4a6019cb2a10}">
+    <Declaration><![CDATA[TYPE ST_EventSettings :
+STRUCT
+	bComplete:			BOOL;
+	bPause:				BOOL;
+	bHold:				BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

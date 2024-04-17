@@ -17,7 +17,6 @@ VAR
 	fbInfo:							FB_Info(sInstancePath);		// Info about function block
 	fbObserver:						FB_Observer(THIS^);				// Observer
 	fbEvent:						FB_Event(THIS^);			// Event creator
-    {attribute 'hide'}
 	fbSequence:						FB_Sequence(THIS^);			// Sequence (abort = reset)
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '1'}
@@ -451,7 +450,25 @@ VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Method will be called by the Observer
-M_Request(stEvent.eRequest);
+CASE stEvent.eRequest OF
+    E_Request.Pause:
+		IF fbEvent.P_Settings.bPause THEN
+			M_Request(stEvent.eRequest);
+		END_IF
+    E_Request.Hold:
+		IF fbEvent.P_Settings.bHold THEN
+			M_Request(stEvent.eRequest);
+		END_IF
+	E_Request.Complete:
+		IF fbEvent.P_Settings.bComplete THEN
+			M_Request(stEvent.eRequest);
+		END_IF
+	E_Request.Stop, E_Request.Abort:
+		IF fbEvent.P_Settings.bHold THEN
+			M_Request(stEvent.eRequest);
+		END_IF
+END_CASE
+
 M_Switch(stEvent.eMode);
 fbObserver.M_Notify(stEvent);]]></ST>
       </Implementation>
@@ -995,6 +1012,19 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Component.M_Notify">
       <LineId Id="80" Count="0" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="112" Count="0" />
+      <LineId Id="116" Count="2" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="120" Count="1" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="123" Count="1" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="126" Count="1" />
+      <LineId Id="125" Count="0" />
+      <LineId Id="107" Count="0" />
       <LineId Id="91" Count="0" />
       <LineId Id="93" Count="0" />
       <LineId Id="99" Count="0" />

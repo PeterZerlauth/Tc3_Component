@@ -45,19 +45,22 @@ END_VAR
 	IF tDelay <> T#0S THEN
 		fbDelay(IN:= TRUE);
 		IF fbDelay.Q THEN
-			stActual.nNumber:= nNumber;
+		stActual.sMessage:= sMessage;
+		MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Sequence) * Parameters.nSequence);
+		aHistory[0]:= stActual;
+		stActual.nNumber:= nNumber;
 			fbDelay(IN:= FALSE);
 			IF bPause THEN
 				IF iParent.P_Mode = E_Mode.Semiauto THEN
 					iParent.M_Request(E_Request.Pause);		
 				END_IF
-			END_IF	
+			END_IF	 
 		END_IF
 	ELSE
 		stActual.sMessage:= sMessage;
-		stActual.nNumber:= nNumber;
 		MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Sequence) * Parameters.nSequence);
 		aHistory[0]:= stActual;
+		stActual.nNumber:= nNumber;
 		fbTimeout(IN:= FALSE);
 		IF bPause THEN
 			IF iParent.P_Mode = E_Mode.Semiauto THEN
@@ -155,16 +158,18 @@ END_VAR
     <LineIds Name="FB_Sequence.M_Await">
       <LineId Id="13" Count="0" />
       <LineId Id="56" Count="1" />
-      <LineId Id="61" Count="1" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="109" Count="2" />
+      <LineId Id="62" Count="0" />
       <LineId Id="85" Count="0" />
       <LineId Id="65" Count="3" />
       <LineId Id="64" Count="0" />
       <LineId Id="63" Count="0" />
       <LineId Id="59" Count="0" />
       <LineId Id="98" Count="0" />
-      <LineId Id="69" Count="0" />
       <LineId Id="97" Count="0" />
       <LineId Id="95" Count="0" />
+      <LineId Id="108" Count="0" />
       <LineId Id="84" Count="0" />
       <LineId Id="70" Count="4" />
       <LineId Id="60" Count="0" />

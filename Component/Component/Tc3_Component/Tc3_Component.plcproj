@@ -64,6 +64,9 @@
     <Compile Include="Component\Event\ST_EventFlags.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Component\Event\ST_EventSettings.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Component\E_Request.TcDUT">
       <SubType>Code</SubType>
     </Compile>
