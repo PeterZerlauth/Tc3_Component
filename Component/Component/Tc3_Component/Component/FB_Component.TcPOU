@@ -458,6 +458,9 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[METHOD PUBLIC M_OnNotify
 VAR_INPUT
 	stEvent:		ST_Event;
+END_VAR
+VAR
+	iSource:		I_Component;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Method will be called by the Observer

@@ -20,13 +20,5 @@ PROPERTY PUBLIC P_Length : DINT
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Property Name="P_Tags" Id="{b14f4026-7ff6-091c-3ea2-c7f40c50fa7c}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Tags : REFERENCE TO ST_LoggerFactoryTags]]></Declaration>
-      <Get Name="Get" Id="{41d25396-084f-05b7-34c1-3b41f09f44b6}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
   </Itf>
 </TcPlcObject>

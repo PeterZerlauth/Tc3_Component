@@ -6,14 +6,18 @@ VAR_INPUT
 	sFilePathName:				STRING(255);
 END_VAR
 VAR
-	aBuffer:					ARRAY [0..nBuffer] OF ST_Event;
+	bCreate: 					BOOL;
+	aBuffer:					ARRAY [0..nBuffer] OF STRING(255);
 	fbFile:						FB_File;
 END_VAR
 VAR CONSTANT
 	nBuffer:					DINT:= 3;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+IF NOT bCreate THEN
+	bCreate:= fbFile.M_Create(sFilePathName);
+END_IF]]></ST>
     </Implementation>
     <Method Name="M_Log" Id="{545ba6e7-d98e-0935-1ff3-aa8c1264279b}">
       <Declaration><![CDATA[METHOD M_Log
@@ -33,6 +37,9 @@ END_IF]]></ST>
     </Method>
     <LineIds Name="FB_FileLogger">
       <LineId Id="9" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="24" Count="0" />
     </LineIds>
     <LineIds Name="FB_FileLogger.M_Log">
       <LineId Id="99" Count="1" />

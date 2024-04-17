@@ -8,6 +8,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	fbMembers:					FB_ListComponent;
+	fbProcesses:				FB_ListComponent;
 	fbLoggerFactory:			FB_LoggerFactory;;
 	fbTcLogger:					FB_TcLogger;
 	fbFileLogger:				FB_FileLogger;
@@ -47,14 +48,8 @@ END_VAR
         <ST><![CDATA[SUPER^.M_Cycle();
 
 fbLoggerFactory();
-
-IF fbLoggerFactory.P_Tags.bHold THEN
-	M_Request(E_Request.Hold);
-ELSIF fbLoggerFactory.P_Tags.bPause THEN
-	M_Request(E_Request.Pause);
-ELSIF fbLoggerFactory.P_Tags.bComplete THEN
-	M_Request(E_Request.Complete);
-END_IF]]></ST>
+fbTcLogger();
+fbFileLogger();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Dettach" Id="{a667402b-5023-09c1-34b6-30ca3f961f61}">
@@ -90,7 +85,7 @@ END_VAR
 
 fbLoggerFactory.M_Attach(fbTcLogger);
 fbLoggerFactory.M_Attach(fbFileLogger);
-fbFileLogger.sFilePathName:= 'C:\Log\log.txt';]]></ST>
+fbFileLogger.sFilePathName:= 'C:\LOG\log.txt';]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_OnMode" Id="{8aa684a1-26e4-029d-2fa8-0e0341c2e439}">
@@ -127,6 +122,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[M_Resetting:= SUPER^.M_Resetting();
 fbMembers.M_Request(E_Request.Reset);
+fbProcesses.M_Request(E_Request.Reset);
 fbLoggerFactory.M_Reset();]]></ST>
       </Implementation>
     </Method>
@@ -217,10 +213,7 @@ END_VAR
     <LineIds Name="FB_ModuleBase.M_Cycle">
       <LineId Id="38" Count="1" />
       <LineId Id="11" Count="0" />
-      <LineId Id="23" Count="2" />
-      <LineId Id="33" Count="1" />
-      <LineId Id="28" Count="1" />
-      <LineId Id="22" Count="0" />
+      <LineId Id="45" Count="1" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Dettach">
       <LineId Id="13" Count="0" />
@@ -254,6 +247,7 @@ END_VAR
     <LineIds Name="FB_ModuleBase.M_Resetting">
       <LineId Id="5" Count="0" />
       <LineId Id="10" Count="0" />
+      <LineId Id="14" Count="0" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Resuming">

@@ -156,11 +156,10 @@ stEvent.stFlags.bRemove:= FALSE;
 
 IF iParent.P_Observer.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
+	iParent.M_Request(E_Request.Complete);
 ELSE
 	iParent.P_Observer.M_Notify(stEvent);
 END_IF
-
-iParent.P_Observer.M_Notify(stEvent);
 
 stLastError:= stEvent;]]></ST>
       </Implementation>
@@ -191,8 +190,6 @@ IF iParent.P_Observer.P_Length = 0 THEN
 ELSE
 	iParent.P_Observer.M_Notify(stEvent);
 END_IF
-
-iParent.P_Observer.M_Notify(stEvent);
 
 stLastError:= stEvent;]]></ST>
       </Implementation>
@@ -244,8 +241,6 @@ ELSE
 	iParent.P_Observer.M_Notify(stEvent);
 END_IF
 
-iParent.P_Observer.M_Notify(stEvent);
-
 stLastError:= stEvent;]]></ST>
       </Implementation>
     </Method>
@@ -272,13 +267,10 @@ stEvent.stFlags.bRemove:= FALSE;
 
 IF iParent.P_Observer.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
+	iParent.M_Request(E_Request.Hold);
 ELSE
 	iParent.P_Observer.M_Notify(stEvent);
 END_IF
-
-iParent.P_Observer.M_Notify(stEvent);
-
-stLastError:= stEvent;
 
 stLastError:= stEvent;
 
@@ -313,8 +305,6 @@ ELSE
 	iParent.P_Observer.M_Notify(stEvent);
 END_IF
 
-iParent.P_Observer.M_Notify(stEvent);
-
 stLastError:= stEvent;]]></ST>
       </Implementation>
     </Method>
@@ -341,17 +331,12 @@ stEvent.stFlags.bRemove:= FALSE;
 
 IF iParent.P_Observer.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
+	iParent.M_Request(E_Request.Pause);
 ELSE
 	iParent.P_Observer.M_Notify(stEvent);
 END_IF
 
-iParent.P_Observer.M_Notify(stEvent);
-
-stLastError:= stEvent;
-
-stLastError:= stEvent;
-
-]]></ST>
+stLastError:= stEvent;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Stop" Id="{20d0062d-a518-02ec-13ef-e4c8c4295653}">
@@ -381,7 +366,7 @@ ELSE
 	iParent.P_Observer.M_Notify(stEvent);
 END_IF
 
-iParent.P_Observer.M_Notify(stEvent);
+iParent.M_Request(E_Request.Stop);
 
 stLastError:= stEvent;]]></ST>
       </Implementation>
@@ -485,10 +470,10 @@ END_VAR
       <LineId Id="53" Count="0" />
       <LineId Id="34" Count="1" />
       <LineId Id="24" Count="0" />
-      <LineId Id="57" Count="3" />
+      <LineId Id="57" Count="1" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="59" Count="1" />
       <LineId Id="5" Count="0" />
-      <LineId Id="56" Count="0" />
-      <LineId Id="48" Count="0" />
       <LineId Id="55" Count="0" />
       <LineId Id="47" Count="0" />
     </LineIds>
@@ -501,7 +486,7 @@ END_VAR
       <LineId Id="119" Count="0" />
       <LineId Id="148" Count="3" />
       <LineId Id="32" Count="0" />
-      <LineId Id="145" Count="2" />
+      <LineId Id="147" Count="0" />
       <LineId Id="144" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Default">
@@ -521,8 +506,7 @@ END_VAR
       <LineId Id="360" Count="0" />
       <LineId Id="378" Count="3" />
       <LineId Id="224" Count="0" />
-      <LineId Id="367" Count="0" />
-      <LineId Id="376" Count="1" />
+      <LineId Id="377" Count="0" />
       <LineId Id="366" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Hold">
@@ -531,10 +515,10 @@ END_VAR
       <LineId Id="55" Count="0" />
       <LineId Id="34" Count="1" />
       <LineId Id="24" Count="0" />
-      <LineId Id="61" Count="3" />
+      <LineId Id="61" Count="1" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="63" Count="1" />
       <LineId Id="42" Count="0" />
-      <LineId Id="58" Count="2" />
-      <LineId Id="57" Count="0" />
       <LineId Id="50" Count="0" />
       <LineId Id="49" Count="0" />
       <LineId Id="43" Count="0" />
@@ -551,7 +535,7 @@ END_VAR
       <LineId Id="42" Count="0" />
       <LineId Id="97" Count="3" />
       <LineId Id="35" Count="0" />
-      <LineId Id="94" Count="2" />
+      <LineId Id="96" Count="0" />
       <LineId Id="93" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Pause">
@@ -560,14 +544,12 @@ END_VAR
       <LineId Id="53" Count="0" />
       <LineId Id="34" Count="1" />
       <LineId Id="24" Count="0" />
-      <LineId Id="59" Count="3" />
+      <LineId Id="59" Count="1" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="61" Count="1" />
       <LineId Id="5" Count="0" />
-      <LineId Id="56" Count="2" />
+      <LineId Id="58" Count="0" />
       <LineId Id="55" Count="0" />
-      <LineId Id="48" Count="0" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Stop">
       <LineId Id="14" Count="8" />
