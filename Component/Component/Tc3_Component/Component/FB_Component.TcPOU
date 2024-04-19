@@ -373,9 +373,18 @@ IF eModeRequest <> E_Mode.Undefined THEN
 	IF eMode <> eModeRequest THEN
 		eModePrevious:= eMode;
 		eMode:= eModeRequest;
-		fbEvent.M_AddSTRING(TO_STRING(eModePrevious));
-		fbEvent.M_AddSTRING(TO_STRING(eMode));
-		fbEvent.M_Debug('Mode changed form %s to %s');
+		CASE eMode OF
+			E_Mode.Semiauto, E_Mode.Automatic:
+				IF eModePrevious = E_Mode.Manual THEN
+					fbEvent.M_AddSTRING(TO_STRING(eModePrevious));
+					fbEvent.M_AddSTRING(TO_STRING(eMode));
+					fbEvent.M_Abort('Mode changed form %s to %s', 4);
+				END_IF
+			E_Mode.Manual:
+				fbEvent.M_AddSTRING(TO_STRING(eModePrevious));
+				fbEvent.M_AddSTRING(TO_STRING(eMode));
+				fbEvent.M_Debug('Mode changed form %s to %s');
+		END_CASE
 		M_OnMode(eMode, eModePrevious);
 	END_IF
 END_IF
@@ -452,6 +461,7 @@ VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Method will be called by the Observer
+// Handle  state request
 CASE stEvent.eRequest OF
     E_Request.Pause:
 		IF fbEvent.P_Settings.bPause THEN
@@ -471,7 +481,10 @@ CASE stEvent.eRequest OF
 		END_IF
 END_CASE
 
+// Select new mode
 M_Switch(stEvent.eMode);
+
+// Notify all other components in observer
 fbEvent.P_Observer.M_Notify(stEvent);]]></ST>
       </Implementation>
     </Method>
@@ -970,7 +983,14 @@ END_VAR
       <LineId Id="204" Count="0" />
       <LineId Id="877" Count="0" />
       <LineId Id="875" Count="0" />
-      <LineId Id="918" Count="6" />
+      <LineId Id="918" Count="2" />
+      <LineId Id="931" Count="2" />
+      <LineId Id="941" Count="1" />
+      <LineId Id="935" Count="2" />
+      <LineId Id="939" Count="1" />
+      <LineId Id="938" Count="0" />
+      <LineId Id="928" Count="0" />
+      <LineId Id="924" Count="0" />
       <LineId Id="916" Count="1" />
       <LineId Id="878" Count="0" />
       <LineId Id="861" Count="0" />
@@ -1001,6 +1021,7 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Component.M_Notify">
       <LineId Id="80" Count="0" />
+      <LineId Id="134" Count="0" />
       <LineId Id="104" Count="0" />
       <LineId Id="112" Count="0" />
       <LineId Id="116" Count="2" />
@@ -1014,8 +1035,11 @@ END_VAR
       <LineId Id="126" Count="1" />
       <LineId Id="125" Count="0" />
       <LineId Id="107" Count="0" />
+      <LineId Id="133" Count="0" />
       <LineId Id="91" Count="0" />
       <LineId Id="93" Count="0" />
+      <LineId Id="132" Count="0" />
+      <LineId Id="131" Count="0" />
       <LineId Id="99" Count="0" />
     </LineIds>
     <LineIds Name="FB_Component.M_OnMode">
