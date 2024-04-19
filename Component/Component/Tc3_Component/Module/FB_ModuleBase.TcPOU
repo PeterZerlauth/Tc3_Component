@@ -147,6 +147,27 @@ END_VAR]]></Declaration>
 fbLoggerFactory.M_Log(stEvent);]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_OnMode" Id="{549d817a-659a-0f3e-10ea-6f23f3ce8adf}">
+      <Declaration><![CDATA[METHOD PROTECTED M_OnMode
+VAR_INPUT
+	eMode:							E_Mode;						// Current mode
+	eModePrevious:					E_Mode;						// Previous mode	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE eMode OF
+	E_Mode.Semiauto, E_Mode.Automatic:
+		IF eModePrevious = E_Mode.Manual THEN
+			fbEvent.M_AddSTRING(TO_STRING(eModePrevious));
+			fbEvent.M_AddSTRING(TO_STRING(eMode));
+			fbEvent.M_Abort('Mode changed form %s to %s', 4);
+		END_IF
+	E_Mode.Manual:
+		fbEvent.M_AddSTRING(TO_STRING(eModePrevious));
+		fbEvent.M_AddSTRING(TO_STRING(eMode));
+		fbEvent.M_Debug('Mode changed form %s to %s');
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Pausing" Id="{a7388aa8-4607-0ab0-06a2-4380b929ddfc}">
       <Declaration><![CDATA[METHOD PROTECTED M_Pausing : BOOL
 VAR_INPUT
@@ -308,6 +329,10 @@ END_VAR
     <LineIds Name="FB_ModuleBase.M_Notify">
       <LineId Id="94" Count="0" />
       <LineId Id="99" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ModuleBase.M_OnMode">
+      <LineId Id="90" Count="10" />
+      <LineId Id="85" Count="0" />
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Pausing">
       <LineId Id="6" Count="8" />

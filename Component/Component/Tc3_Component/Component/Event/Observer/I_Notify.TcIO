@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Notify" Id="{8871f993-41ab-039c-386c-5b6563ec2cf9}">
+    <Declaration><![CDATA[INTERFACE I_Notify
+]]></Declaration>
+    <Method Name="M_Notify" Id="{0016685d-98a3-015d-11d2-045c1bc9d129}">
+      <Declaration><![CDATA[METHOD M_Notify : BOOL
+VAR_INPUT
+	stEvent:		ST_Event;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

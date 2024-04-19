@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_LoggerFactory" Id="{14a5296c-b52d-02f9-2d9e-abab1d7b93f2}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_LoggerFactory IMPLEMENTS I_LoggerFactory
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_LoggerFactory IMPLEMENTS I_LoggerFactory, I_Notify
 VAR
 	fbList:						FB_ListLogger;
     {attribute 'hide'}
@@ -93,6 +93,16 @@ ELSE
 	// Publish to Subscribers
 	M_Publish(stEvent);
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Notify" Id="{5155c20e-f68f-08db-1abd-63d3d4c0d5f8}">
+      <Declaration><![CDATA[METHOD M_Notify : BOOL
+VAR_INPUT
+	stEvent	: ST_Event;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Log(stEvent);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Publish" Id="{578d5b47-6fac-0518-1a61-62b0162be35c}">
@@ -195,6 +205,9 @@ END_VAR
       <LineId Id="161" Count="2" />
       <LineId Id="141" Count="0" />
       <LineId Id="122" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LoggerFactory.M_Notify">
+      <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="FB_LoggerFactory.M_Publish">
       <LineId Id="17" Count="0" />
