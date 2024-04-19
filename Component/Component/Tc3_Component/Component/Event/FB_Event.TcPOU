@@ -7,6 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	fbObserver:			FB_Observer;				// Observer
 	fbList:				FB_ListString;
 	iParent:			I_Component;
 	stSettings:			ST_EventSettings;
@@ -25,7 +26,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.iParent:= iParent;]]></ST>
+        <ST><![CDATA[THIS^.iParent:= iParent;
+fbObserver.iParent:= iParent;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Abort" Id="{a968dc5e-d8ee-079a-0799-c81d1c9d2558}">
@@ -49,10 +51,10 @@ stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= FALSE;
 
-IF iParent.P_Observer.P_Length = 0 THEN
+IF fbObserver.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
 ELSE
-	iParent.P_Observer.M_Notify(stEvent);
+	fbObserver.M_Notify(stEvent);
 END_IF
 
 iParent.M_Request(E_Request.Abort);
@@ -155,11 +157,11 @@ stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= FALSE;
 
-IF iParent.P_Observer.P_Length = 0 THEN
+IF fbObserver.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
 	iParent.M_Request(E_Request.Complete);
 ELSE
-	iParent.P_Observer.M_Notify(stEvent);
+	fbObserver.M_Notify(stEvent);
 END_IF
 
 stLastError:= stEvent;]]></ST>
@@ -186,10 +188,10 @@ stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;
 
-IF iParent.P_Observer.P_Length = 0 THEN
+IF fbObserver.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
 ELSE
-	iParent.P_Observer.M_Notify(stEvent);
+	iParent.P_Event.P_Observer.M_Notify(stEvent);
 END_IF
 
 stLastError:= stEvent;]]></ST>
@@ -236,10 +238,10 @@ stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;
 
-IF iParent.P_Observer.P_Length = 0 THEN
+IF fbObserver.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
 ELSE
-	iParent.P_Observer.M_Notify(stEvent);
+	fbObserver.M_Notify(stEvent);
 END_IF
 
 stLastError:= stEvent;]]></ST>
@@ -266,11 +268,11 @@ stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= FALSE;
 
-IF iParent.P_Observer.P_Length = 0 THEN
+IF fbObserver.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
 	iParent.M_Request(E_Request.Hold);
 ELSE
-	iParent.P_Observer.M_Notify(stEvent);
+	fbObserver.M_Notify(stEvent);
 END_IF
 
 stLastError:= stEvent;
@@ -300,11 +302,12 @@ stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;
 
-IF iParent.P_Observer.P_Length = 0 THEN
+IF fbObserver.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
 ELSE
-	iParent.P_Observer.M_Notify(stEvent);
+	fbObserver.M_Notify(stEvent);
 END_IF
+
 
 stLastError:= stEvent;]]></ST>
       </Implementation>
@@ -330,12 +333,13 @@ stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= FALSE;
 
-IF iParent.P_Observer.P_Length = 0 THEN
+IF fbObserver.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
 	iParent.M_Request(E_Request.Pause);
 ELSE
-	iParent.P_Observer.M_Notify(stEvent);
+	fbObserver.M_Notify(stEvent);
 END_IF
+
 
 stLastError:= stEvent;]]></ST>
       </Implementation>
@@ -361,10 +365,10 @@ stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= FALSE;
 
-IF iParent.P_Observer.P_Length = 0 THEN
+IF fbObserver.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
 ELSE
-	iParent.P_Observer.M_Notify(stEvent);
+	fbObserver.M_Notify(stEvent);
 END_IF
 
 iParent.M_Request(E_Request.Stop);
@@ -394,13 +398,13 @@ stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;
 
-IF iParent.P_Observer.P_Length = 0 THEN
+IF fbObserver.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
 ELSE
-	iParent.P_Observer.M_Notify(stEvent);
+	fbObserver.M_Notify(stEvent);
 END_IF
 
-iParent.P_Observer.M_Notify(stEvent);
+fbObserver.M_Notify(stEvent);
 
 stLastError:= stEvent;]]></ST>
       </Implementation>
@@ -416,6 +420,17 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[P_LastEvent ref= stLastError;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Observer" Id="{5a2ea21c-aedb-0c6a-2f12-df08356b98aa}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>
+      <Get Name="Get" Id="{a355a491-866b-0089-1d02-e50cef149847}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Observer:= fbObserver;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -435,6 +450,7 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Event.FB_init">
       <LineId Id="7" Count="0" />
+      <LineId Id="14" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.M_Abort">
       <LineId Id="187" Count="8" />
@@ -481,11 +497,11 @@ END_VAR
       <LineId Id="54" Count="0" />
       <LineId Id="53" Count="0" />
       <LineId Id="34" Count="1" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="57" Count="1" />
-      <LineId Id="61" Count="0" />
-      <LineId Id="59" Count="1" />
       <LineId Id="5" Count="0" />
+      <LineId Id="67" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="69" Count="1" />
+      <LineId Id="66" Count="0" />
       <LineId Id="55" Count="0" />
       <LineId Id="47" Count="0" />
     </LineIds>
@@ -496,7 +512,8 @@ END_VAR
       <LineId Id="135" Count="0" />
       <LineId Id="128" Count="0" />
       <LineId Id="119" Count="0" />
-      <LineId Id="148" Count="3" />
+      <LineId Id="156" Count="1" />
+      <LineId Id="159" Count="1" />
       <LineId Id="32" Count="0" />
       <LineId Id="147" Count="0" />
       <LineId Id="144" Count="0" />
@@ -516,7 +533,8 @@ END_VAR
       <LineId Id="373" Count="0" />
       <LineId Id="356" Count="1" />
       <LineId Id="360" Count="0" />
-      <LineId Id="378" Count="3" />
+      <LineId Id="387" Count="1" />
+      <LineId Id="390" Count="1" />
       <LineId Id="224" Count="0" />
       <LineId Id="377" Count="0" />
       <LineId Id="366" Count="0" />
@@ -527,9 +545,9 @@ END_VAR
       <LineId Id="55" Count="0" />
       <LineId Id="34" Count="1" />
       <LineId Id="24" Count="0" />
-      <LineId Id="61" Count="1" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="63" Count="1" />
+      <LineId Id="70" Count="1" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="72" Count="1" />
       <LineId Id="42" Count="0" />
       <LineId Id="50" Count="0" />
       <LineId Id="49" Count="0" />
@@ -545,7 +563,8 @@ END_VAR
       <LineId Id="90" Count="0" />
       <LineId Id="81" Count="1" />
       <LineId Id="42" Count="0" />
-      <LineId Id="97" Count="3" />
+      <LineId Id="106" Count="1" />
+      <LineId Id="109" Count="2" />
       <LineId Id="35" Count="0" />
       <LineId Id="96" Count="0" />
       <LineId Id="93" Count="0" />
@@ -555,10 +574,8 @@ END_VAR
       <LineId Id="54" Count="0" />
       <LineId Id="53" Count="0" />
       <LineId Id="34" Count="1" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="59" Count="1" />
-      <LineId Id="63" Count="0" />
-      <LineId Id="61" Count="1" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="68" Count="5" />
       <LineId Id="5" Count="0" />
       <LineId Id="58" Count="0" />
       <LineId Id="55" Count="0" />
@@ -569,7 +586,8 @@ END_VAR
       <LineId Id="47" Count="0" />
       <LineId Id="34" Count="1" />
       <LineId Id="24" Count="0" />
-      <LineId Id="51" Count="3" />
+      <LineId Id="59" Count="1" />
+      <LineId Id="62" Count="1" />
       <LineId Id="5" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="49" Count="1" />
@@ -590,6 +608,9 @@ END_VAR
       <LineId Id="112" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.P_LastEvent.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Event.P_Observer.Get">
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_Event.P_Settings.Get">

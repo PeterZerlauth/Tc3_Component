@@ -62,12 +62,6 @@ PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Property Name="P_Observer" Id="{71855be2-d7dd-407c-bfc6-2b33d71db9ac}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>
-      <Get Name="Get" Id="{06fb4a5b-c62f-47d3-bed0-c50d2d77e5a7}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
     <Property Name="P_State" Id="{fc5b448a-f6ff-4097-a0bf-2f1ddd20a12f}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}

@@ -3,7 +3,11 @@
   <POU Name="FB_ListComponent" Id="{38419e87-5698-4e05-9e30-1094a3671d1c}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'no_explicit_call' := 'do not call this POU directly'} 
 FUNCTION_BLOCK FB_ListComponent IMPLEMENTS I_ListComponent
+VAR_INPUT
+	iParent:		I_Component;
+END_VAR
 VAR
+
 	nLength:		DINT;
 	pList: 			POINTER TO I_Component;
 	{IF (defined (release))}
@@ -25,24 +29,36 @@ END_VAR
         <ST><![CDATA[M_Clear();]]></ST>
       </Implementation>
     </Method>
+    <Method Name="FB_init" Id="{ad1b40eb-01b2-0bd3-0b0c-cf2f4945d6da}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	iParent:		I_Component;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.iParent:= iParent;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Add" Id="{2b676e03-0a2e-4542-9d45-8d0e1be34635}">
       <Declaration><![CDATA[METHOD PUBLIC M_Add : BOOL
 VAR_INPUT
-	Object: 	I_Component;
+	iObject: 	I_Component;
 END_VAR
 VAR
 	pOldList: 	POINTER TO I_Component;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Object <> 0 THEN
+        <ST><![CDATA[IF iObject <> 0 THEN
 	// First Item
 	IF pList = 0 THEN
 		nLength:= nLength + 1;
 		pList:= __NEW(POINTER TO I_Component,DINT_TO_UDINT(nLength));
 	ELSE
 		// Item already in List
-		IF M_Find(Object) = -1 THEN
+		IF M_Find(iObject) = -1 THEN
 			// backup 
 			pOldList:= pList;
 			// new Length
@@ -62,7 +78,7 @@ END_VAR
 		RETURN;
 	END_IF
 	// add new Object
-	pList[nLength-1]:= Object;
+	pList[nLength-1]:= iObject;
 	M_Add:= TRUE;
 ELSE
 	M_Add:= FALSE;	
@@ -72,14 +88,13 @@ END_IF]]></ST>
     <Method Name="M_Attach" Id="{6b9e2d31-fd71-0253-0fd6-ea067b88b916}">
       <Declaration><![CDATA[METHOD PUBLIC M_Attach
 VAR_INPUT
-	Parent:			I_Component;
-	Component:		I_Component;
+	iComponent:		I_Component;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Add(Component);
-Component.P_Observer.M_Attach(Parent);
-Parent.P_Observer.M_Attach(Component);]]></ST>
+        <ST><![CDATA[M_Add(iComponent);
+iComponent.P_Event.P_Observer.M_Attach(iParent);
+iParent.P_Event.P_Observer.M_Attach(iComponent);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Clear" Id="{3e2c5687-bf15-40f5-99d0-ac9877db5017}">
@@ -98,20 +113,19 @@ M_Clear:= TRUE;
     <Method Name="M_Dettach" Id="{30e2c016-83f1-0ee5-27f0-766a178cdc30}">
       <Declaration><![CDATA[METHOD PUBLIC M_Dettach
 VAR_INPUT
-	Parent:			I_Component;
-	Component:		I_Component;
+	iComponent:		I_Component;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Remove(Component);
-Component.P_Observer.M_Detach(Parent);
-Parent.P_Observer.M_Detach(Component);]]></ST>
+        <ST><![CDATA[M_Remove(iComponent);
+iComponent.P_Event.P_Observer.M_Detach(iParent);
+iParent.P_Event.P_Observer.M_Detach(iComponent);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Find" Id="{20062c4e-124c-4cb3-98f6-8054f6c60d5b}">
       <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
 VAR_INPUT
-	Object: 	I_Component;
+	iObject: 	I_Component;
 END_VAR
 VAR
 	nIndex: 	UINT;
@@ -120,7 +134,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[// Find
 M_Find := -1;
 WHILE nIndex < nLength DO
-    IF (pList[nIndex] = Object) THEN
+    IF (pList[nIndex] = iObject) THEN
         M_Find := nIndex;
         RETURN;
     END_IF
@@ -145,7 +159,7 @@ END_IF]]></ST>
     <Method Name="M_Remove" Id="{e210f5d7-9bdf-4aee-9085-7160fb8ea729}">
       <Declaration><![CDATA[METHOD PUBLIC M_Remove : BOOL
 VAR_INPUT
-	Object: 	I_Component;
+	iObject: 	I_Component;
 END_VAR
 VAR
 	pOldList:			POINTER TO I_Component;
@@ -153,11 +167,11 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Remove
-IF Object <> 0 THEN
+IF iObject <> 0 THEN
 	// First Item
 	IF nLength >= 0 THEN
 		// Item already in List
-		nPosition:= M_Find(Object);
+		nPosition:= M_Find(iObject);
 		IF nPosition <> -1 THEN
 			// backup 
 			pOldList:= pList;
@@ -222,16 +236,15 @@ END_VAR
     <LineIds Name="FB_ListComponent.FB_exit">
       <LineId Id="2" Count="0" />
     </LineIds>
+    <LineIds Name="FB_ListComponent.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
     <LineIds Name="FB_ListComponent.M_Add">
-      <LineId Id="164" Count="22" />
-      <LineId Id="200" Count="1" />
-      <LineId Id="199" Count="0" />
-      <LineId Id="187" Count="4" />
+      <LineId Id="216" Count="30" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_ListComponent.M_Attach">
-      <LineId Id="13" Count="0" />
-      <LineId Id="8" Count="0" />
+      <LineId Id="23" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ListComponent.M_Clear">
@@ -241,11 +254,11 @@ END_VAR
       <LineId Id="7" Count="1" />
     </LineIds>
     <LineIds Name="FB_ListComponent.M_Dettach">
-      <LineId Id="19" Count="1" />
+      <LineId Id="30" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ListComponent.M_Find">
-      <LineId Id="66" Count="8" />
+      <LineId Id="87" Count="8" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_ListComponent.M_Index">
@@ -254,8 +267,7 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_ListComponent.M_Remove">
-      <LineId Id="168" Count="0" />
-      <LineId Id="132" Count="28" />
+      <LineId Id="183" Count="29" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_ListComponent.M_Request">

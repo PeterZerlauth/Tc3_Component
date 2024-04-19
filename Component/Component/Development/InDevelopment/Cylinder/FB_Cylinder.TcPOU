@@ -11,12 +11,13 @@ VAR
 	bInputB					AT%I*:		BOOL;
 	bOutputA				AT%Q*:		BOOL;
 	bOutputB				AT%Q*:		BOOL;
+	bManualToHome:			BOOL;
+	bManualToWork:			BOOL;
 	stSettings:				ST_CylinderSettings;
 	fbDebounceA:			FB_Debounce;
 	fbDebounceB:			FB_Debounce;	
 	fbTimeout:				TON;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
@@ -54,7 +55,17 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF M_HasMode(E_Mode.Manual) OR Globals.bSimulation THEN
+        <ST><![CDATA[IF M_HasMode(E_Mode.Manual) THEN
+	IF bManualToHome THEN
+		bOutputA:= FALSE;
+		bOutputB:= TRUE;	
+	ELSIF bManualToWork THEN
+		bOutputA:= TRUE;
+		bOutputB:= FALSE;
+	END_IF
+	bManualToHome:= FALSE;
+	bManualToWork:= FALSE;
+ELSIF Globals.bSimulation THEN
 	;
 ELSE
 	IF fbDebounceA.bValue AND fbDebounceB.bValue THEN
@@ -154,7 +165,14 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_Cylinder.M_Execute">
       <LineId Id="5" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="53" Count="1" />
+      <LineId Id="50" Count="1" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="49" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="56" Count="1" />
       <LineId Id="11" Count="0" />
       <LineId Id="23" Count="4" />
       <LineId Id="21" Count="1" />

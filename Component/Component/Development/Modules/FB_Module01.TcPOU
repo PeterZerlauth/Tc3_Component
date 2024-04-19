@@ -81,14 +81,14 @@ Globals.bSimulation:= TRUE;
 P_ID:= 'M001';
 
 
-fbMembers.M_Attach(THIS^, fbComponent1);
-fbMembers.M_Attach(THIS^, fbComponent2);
-fbMembers.M_Attach(THIS^, fbComponent3);
+fbMembers.M_Attach(fbComponent1);
+fbMembers.M_Attach(fbComponent2);
+fbMembers.M_Attach(fbComponent3);
 
 fbCylinder.P_ID:= 'Y1';
 M_Attach(fbCylinder);
 
-fbFunctions.M_Attach(THIS^, fbProcess);]]></ST>
+fbFunctions.M_Attach(fbProcess);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{eaffebca-5ff2-4f17-be84-3310a9ace22e}">

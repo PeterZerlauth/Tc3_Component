@@ -7,8 +7,8 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbMembers:					FB_ListComponent;
-	fbFunctions:				FB_ListComponent;
+	fbMembers:					FB_ListComponent(THIS^);
+	fbFunctions:				FB_ListComponent(THIS^);
 	fbLoggerFactory:			FB_LoggerFactory;;
 	fbTcLogger:					FB_TcLogger;
 	fbFileLogger:				FB_FileLogger;
@@ -35,8 +35,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[fbMembers.M_Add(Component);
-Component.P_Observer.M_Attach(THIS^);
-fbObserver.M_Attach(Component);]]></ST>
+Component.P_Event.P_Observer.M_Attach(THIS^);
+P_Event.P_Observer.M_Attach(Component);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Completing" Id="{59aee546-4f8e-0ca5-32cb-b922aa446d6e}">
@@ -81,8 +81,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[fbMembers.M_Remove(Component);
-Component.P_Observer.M_Detach(THIS^);
-fbObserver.M_Detach(Component);]]></ST>
+Component.P_Event.P_Observer.M_Detach(THIS^);
+P_Event.P_Observer.M_Detach(Component);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Holding" Id="{fa37cb7f-6c16-0b90-0f89-f9628b230d17}">
@@ -124,6 +124,9 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Initialise();
+
+fbMembers.iParent:= THIS^;
+fbFunctions.iParent:= THIS^;
 
 fbEvent.P_Settings.bPause:= TRUE;
 fbEvent.P_Settings.bHold:= TRUE;
@@ -307,6 +310,9 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_ModuleBase.M_Initialise">
       <LineId Id="106" Count="0" />
+      <LineId Id="127" Count="0" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="128" Count="0" />
       <LineId Id="122" Count="0" />
       <LineId Id="82" Count="0" />
       <LineId Id="121" Count="0" />
