@@ -11,11 +11,7 @@ VAR
 	fbDelay: 			TON;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
-IF iParent.P_Mode = E_Mode.Manual THEN
-	stActual.nNumber:= E_Sequence.Manual;
-	stActual.sMessage:= 'Manual';
-END_IF]]></ST>
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
     <Method Name="M_Set" Id="{1679b774-aff9-0900-1b9f-6b982123f170}">
       <Declaration><![CDATA[METHOD M_Set

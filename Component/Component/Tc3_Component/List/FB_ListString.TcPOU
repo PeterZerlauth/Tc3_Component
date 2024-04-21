@@ -9,9 +9,15 @@ VAR
 	{IF (defined (release))}
     	{attribute 'hide'}
 	{END_IF}
-	aList:			POINTER TO POINTER TO ARRAY [0..49] OF STRING(255):=ADR(pList);
+	aList:			POINTER TO POINTER TO ARRAY [0..Parameters.nList] OF STRING(255):=ADR(pList);
 END_VAR
-]]></Declaration>
+(*!<example> This sample shows how to use the function block</c>.
+
+The following code can be used to add string variable
+<code>fbList.M_Add('string item');</code>
+
+
+</example>*)]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>

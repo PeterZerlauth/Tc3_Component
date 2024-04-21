@@ -3,16 +3,19 @@
   <POU Name="FB_Event" Id="{59616103-7f2e-4b6f-81bd-583969a36d28}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Event IMPLEMENTS I_Event
 VAR_INPUT
+	fbObserver:			FB_Observer;				// Observer
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbObserver:			FB_Observer;				// Observer
+    {attribute 'hide'}
 	fbList:				FB_ListString;
 	iParent:			I_Component;
+    {attribute 'hide'}
 	stSettings:			ST_EventSettings;
 	stEvent:			ST_Event;
-	stLastError:		ST_Event;
+    {attribute 'hide'}
+	aHistory:			ARRAY [0..5] OF ST_Event;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
@@ -44,7 +47,10 @@ ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-stLastError:= stEvent;]]></ST>
+IF aHistory[0].sMessage = stEvent.sMessage THEN
+	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
+	aHistory[0]:= stEvent;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Hold" Id="{17e9f699-055d-0b58-313e-f492027bff52}">
@@ -75,7 +81,10 @@ ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-stLastError:= stEvent;
+IF aHistory[0].sMessage = stEvent.sMessage THEN
+	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
+	aHistory[0]:= stEvent;
+END_IF
 
 ]]></ST>
       </Implementation>
@@ -109,9 +118,33 @@ END_IF
 
 iParent.M_Request(E_Request.Stop);
 
-stLastError:= stEvent;]]></ST>
+IF aHistory[0].sMessage = stEvent.sMessage THEN
+	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
+	aHistory[0]:= stEvent;
+END_IF]]></ST>
       </Implementation>
     </Method>
+    <Property Name="P_History" Id="{3665e1b0-9cc6-03b2-3340-782cc05dee90}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+{attribute 'suppress_wrn_C0410'}
+PROPERTY PUBLIC P_History : REFERENCE TO ARRAY [0..5] OF ST_Event;]]></Declaration>
+      <Set Name="Set" Id="{28332c99-5893-03df-2133-bc9b1c978089}">
+        <Declaration><![CDATA[VAR
+END_VAR]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_History REF= aHistory;]]></ST>
+        </Implementation>
+      </Set>
+      <Get Name="Get" Id="{60569c4b-9435-0706-3cee-cc8248c2c07e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_History REF= aHistory;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="M_AddBOOL" Id="{55367f5b-ac71-0a63-095c-881721842948}">
       <Declaration><![CDATA[METHOD PUBLIC M_AddBOOL : I_Event
 VAR_INPUT
@@ -162,11 +195,16 @@ ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-stLastError:= stEvent;]]></ST>
+IF aHistory[0].sMessage = stEvent.sMessage THEN
+	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
+	aHistory[0]:= stEvent;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Settings" Id="{68796f7c-99b8-07cf-2ad8-b8337c846db0}">
-      <Declaration><![CDATA[{attribute 'suppress_wrn_C0410'}
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+{attribute 'suppress_wrn_C0410'}
 PROPERTY PUBLIC P_Settings : REFERENCE TO ST_EventSettings]]></Declaration>
       <Get Name="Get" Id="{99d0b6b6-67ae-0277-3e19-f34dadd5e871}">
         <Declaration><![CDATA[VAR
@@ -251,7 +289,10 @@ ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-stLastError:= stEvent;]]></ST>
+IF aHistory[0].sMessage = stEvent.sMessage THEN
+	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
+	aHistory[0]:= stEvent;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_AddTIME" Id="{a7c2a656-d860-0eb9-0cff-1e8b5b1d8573}">
@@ -294,7 +335,11 @@ END_IF
 
 iParent.M_Request(E_Request.Abort);
 
-stLastError:= stEvent;]]></ST>
+IF aHistory[0].sMessage = stEvent.sMessage THEN
+	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
+	aHistory[0]:= stEvent;
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_AddREAL" Id="{b0c25678-4933-0839-34f0-c4eb0def69fb}">
@@ -323,28 +368,6 @@ END_VAR
 fbObserver.iParent:= iParent;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_LastEvent" Id="{c2b20289-8ddd-0752-3101-0b1dcee9dda2}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-{attribute 'suppress_wrn_C0410'}
-PROPERTY PUBLIC P_LastEvent : REFERENCE TO ST_Event
-]]></Declaration>
-      <Set Name="Set" Id="{36a86630-9646-067c-0328-e85f41ed08d4}">
-        <Declaration><![CDATA[VAR
-END_VAR]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_LastEvent ref= stLastError;]]></ST>
-        </Implementation>
-      </Set>
-      <Get Name="Get" Id="{f11c9e71-9f65-05e9-2712-eccb99593b14}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_LastEvent ref= stLastError;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="M_Default" Id="{c94cd0c6-56df-0b94-2d8d-b10a55caeb26}">
       <Declaration><![CDATA[METHOD INTERNAL M_Default : STRING(255)
 VAR_INPUT
@@ -394,7 +417,8 @@ END_IF
 
 fbObserver.M_Notify(stEvent);
 
-stLastError:= stEvent;]]></ST>
+MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
+aHistory[0]:= stEvent;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Information" Id="{d9a244f2-1d6f-434f-aab4-cad6aacbb94f}">
@@ -425,8 +449,10 @@ ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-
-stLastError:= stEvent;]]></ST>
+IF aHistory[0].sMessage = stEvent.sMessage THEN
+	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
+	aHistory[0]:= stEvent;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Pause" Id="{ddbb1bca-23e7-0a08-2172-defb659ba3ac}">
@@ -457,8 +483,10 @@ ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-
-stLastError:= stEvent;]]></ST>
+IF aHistory[0].sMessage = stEvent.sMessage THEN
+	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
+	aHistory[0]:= stEvent;
+END_IF]]></ST>
       </Implementation>
     </Method>
   </POU>

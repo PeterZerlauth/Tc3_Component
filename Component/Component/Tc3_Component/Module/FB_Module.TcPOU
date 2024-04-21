@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_ModuleBase" Id="{0d3fc497-598e-0d21-1617-ce19be6391a0}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_ModuleBase EXTENDS FB_Component IMPLEMENTS I_Module
+  <POU Name="FB_Module" Id="{0d3fc497-598e-0d21-1617-ce19be6391a0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Module EXTENDS FB_Component IMPLEMENTS I_Module
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -240,7 +240,10 @@ fbFileLogger.sFilePathName:= 'C:\LOG\log.txt';]]></ST>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Resuming:= fbMembers.M_Request(E_Request.Start);]]></ST>
+        <ST><![CDATA[IF fbMembers.M_Request(E_Request.Start) THEN
+	M_Resuming:= TRUE;
+	fbLoggerFactory.M_Reset();
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Unholding" Id="{e6d01443-ae5b-0242-3775-c5c307506d4e}">
@@ -248,7 +251,10 @@ END_VAR]]></Declaration>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Unholding:= fbMembers.M_Request(E_Request.Start);]]></ST>
+        <ST><![CDATA[IF fbMembers.M_Request(E_Request.Start) THEN
+	M_Unholding:= TRUE;
+	fbLoggerFactory.M_Reset();
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Holding" Id="{fa37cb7f-6c16-0b90-0f89-f9628b230d17}">

@@ -34,6 +34,16 @@
     <AllowChecksForLibrary>false</AllowChecksForLibrary>
     <POUsForPropertyAccessIncluded>false</POUsForPropertyAccessIncluded>
     <GlobalVersionStructureIncluded>false</GlobalVersionStructureIncluded>
+    <LibraryCategories>
+      <LibraryCategory xmlns="">
+        <Id>{54581c00-a61d-4d50-81cd-05af51b2074d}</Id>
+        <Version>1.0.0.0</Version>
+        <DefaultName>Automaiton</DefaultName>
+      </LibraryCategory>
+    </LibraryCategories>
+    <SelectedLibraryCategories>
+      <Id xmlns="">{54581c00-a61d-4d50-81cd-05af51b2074d}</Id>
+    </SelectedLibraryCategories>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Component" />
@@ -45,6 +55,7 @@
     <Folder Include="LoggerFactory" />
     <Folder Include="Logger" />
     <Folder Include="Module" />
+    <Folder Include="Images" />
     <Folder Include="Utils" />
     <Folder Include="Object" />
     <Folder Include="Utils\File" />
@@ -124,6 +135,9 @@
     <Compile Include="List\FB_ListString.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="List\I_ListBase.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="List\I_ListComponent.TcIO">
       <SubType>Code</SubType>
     </Compile>
@@ -160,10 +174,13 @@
     <Compile Include="Logger\FB_FileLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Module\FB_ModuleBase.TcPOU">
+    <Compile Include="Module\FB_Module.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Module\I_Module.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Object\FB_Object.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Object\I_Object.TcIO">
@@ -232,15 +249,13 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Tc3_Component.tmc">
-      <SubType>Content</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Component\Event\Observer\Observer.png">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Component\StateModel.svg">
+    <Content Include="Images\StateModel.svg">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\test.jpg">
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>

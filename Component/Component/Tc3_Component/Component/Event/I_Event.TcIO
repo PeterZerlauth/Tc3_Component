@@ -24,6 +24,18 @@ VAR_INPUT
 	nID:					ULINT;
 END_VAR]]></Declaration>
     </Method>
+    <Property Name="P_History" Id="{3b68df0e-9b36-0033-2bb7-18281133547f}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+{attribute 'suppress_wrn_C0410'}
+PROPERTY PUBLIC P_History : REFERENCE TO ARRAY [0..5] OF ST_Event;]]></Declaration>
+      <Set Name="Set" Id="{37d5ed8c-d660-0e48-25f3-59445b481f6c}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+      <Get Name="Get" Id="{e96e5145-7bc2-0402-38ef-596b6699f417}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
     <Method Name="M_Complete" Id="{3cc7b94f-c170-003f-1746-5c84cc0dcccd}">
       <Declaration><![CDATA[METHOD PUBLIC M_Complete
 VAR_INPUT
@@ -38,18 +50,6 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Property Name="P_LastEvent" Id="{41bd9a8e-1b28-0f17-1663-e513323833e5}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-{attribute 'suppress_wrn_C0410'}
-PROPERTY PUBLIC P_LastEvent : REFERENCE TO ST_Event]]></Declaration>
-      <Set Name="Set" Id="{3fb6b9b0-d103-08da-0ac5-3e987acd2e0e}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
-      <Get Name="Get" Id="{da9a80ec-3d2b-0d39-2b03-3ff7d5b14a07}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
     <Method Name="M_AddBOOL" Id="{6fc486ba-f21e-0356-3f27-fe3c53264131}">
       <Declaration><![CDATA[METHOD PUBLIC M_AddBOOL : I_Event
 VAR_INPUT

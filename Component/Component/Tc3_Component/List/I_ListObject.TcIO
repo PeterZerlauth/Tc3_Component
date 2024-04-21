@@ -1,19 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <Itf Name="I_ListObject" Id="{89866f33-5c66-47f4-9f9b-486325a73916}">
-    <Declaration><![CDATA[INTERFACE I_ListObject
+    <Declaration><![CDATA[INTERFACE I_ListObject Extends I_ListBase
 ]]></Declaration>
-    <Method Name="M_Add" Id="{b0452453-b851-4454-a958-0966dda80209}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Add : BOOL
+    <Method Name="M_Find" Id="{01e077cb-06ab-4d21-8b2c-6969a4e1dc39}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
 VAR_INPUT
 	Object: 	I_Object;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="M_Clear" Id="{71968688-9bd5-40f4-9456-85ce4eb1eae3}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Clear : BOOL]]></Declaration>
-    </Method>
-    <Method Name="M_Find" Id="{01e077cb-06ab-4d21-8b2c-6969a4e1dc39}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
+    <Method Name="M_Add" Id="{b0452453-b851-4454-a958-0966dda80209}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Add : BOOL
 VAR_INPUT
 	Object: 	I_Object;
 END_VAR]]></Declaration>
@@ -31,14 +28,5 @@ VAR_INPUT
 	Object: 	I_Object;
 END_VAR]]></Declaration>
     </Method>
-    <Property Name="P_Length" Id="{8984ef33-2a6a-437c-9a3d-5db2df8c7b01}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Length : DINT
-]]></Declaration>
-      <Get Name="Get" Id="{76fb9fa3-a119-439a-9a41-9952f355a026}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
   </Itf>
 </TcPlcObject>

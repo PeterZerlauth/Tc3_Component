@@ -3,10 +3,12 @@
   <GVL Name="Parameters" Id="{a8306c1a-027b-005a-3454-c243d788d55f}" ParameterList="True">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL CONSTANT
-{attribute 'analysis' := '-33'}
+	{attribute 'analysis' := '-33'}
 	nEvents:						INT:= 49;		// Maximum of Events displayed in each Module
-{attribute 'analysis' := '-33'}
+	{attribute 'analysis' := '-33'}
 	nSequence:						UINT:= 9;		// Maximum of Sequence history
+	{attribute 'analysis' := '-33'}
+	nList:							UINT:= 46;		// Maximum of displayed items in list
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

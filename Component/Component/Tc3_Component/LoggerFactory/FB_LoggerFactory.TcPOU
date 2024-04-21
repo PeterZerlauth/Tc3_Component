@@ -10,21 +10,29 @@ VAR
 	aEvent:						ARRAY [0..Parameters.nEvents] OF ST_Event;
     {attribute 'hide'}
 	nIndex: 					DINT;
+    {attribute 'hide'}
+	nTimestamp: 				ULINT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
 
-nIndex:= 0;
-WHILE nIndex < nLength DO
-	IF aEvent[nIndex].stFlags.bActive THEN
-		IF aEvent[nIndex].stFlags.bRemove THEN
-			aEvent[nIndex].stFlags.bActive:= FALSE;
+// Execute each secound
+IF nTimestamp < F_GetSystemTime() THEN
+	nTimestamp:= F_GetSystemTime() + 10000000;
+	nIndex:= 0;
+	WHILE nIndex < nLength DO
+		IF aEvent[nIndex].stFlags.bActive THEN
+			IF aEvent[nIndex].stFlags.bRemove THEN
+				aEvent[nIndex].stFlags.bActive:= FALSE;
+			END_IF
+		ELSE
+			M_Remove(nIndex);
 		END_IF
-	ELSE
-		M_Remove(nIndex);
-	END_IF
-	nIndex := nIndex + 1;
-END_WHILE]]></ST>
+		nIndex := nIndex + 1;
+	END_WHILE
+END_IF
+
+]]></ST>
     </Implementation>
     <Property Name="P_Events" Id="{169098c7-9fee-01c4-0824-746b015810e7}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}

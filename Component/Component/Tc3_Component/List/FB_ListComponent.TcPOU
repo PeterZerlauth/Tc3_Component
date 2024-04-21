@@ -7,15 +7,13 @@ VAR_INPUT
 	iParent:		I_Component;
 END_VAR
 VAR
-
 	nLength:		DINT;
 	pList: 			POINTER TO I_Component;
 	{IF (defined (release))}
     	{attribute 'hide'}
 	{END_IF}
-	aList:			POINTER TO POINTER TO ARRAY [0..49] OF I_Component:=ADR(pList);
-END_VAR
-]]></Declaration>
+	aList:			POINTER TO POINTER TO ARRAY [0..Parameters.nList] OF I_Component:=ADR(pList);
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>

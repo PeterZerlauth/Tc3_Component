@@ -65,9 +65,6 @@
     <Compile Include="Modules\FB_Module01.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modules\FB_Module02.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>

@@ -55,7 +55,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF M_HasMode(E_Mode.Manual) THEN
+        <ST><![CDATA[IF P_Mode = E_Mode.Manual THEN
 	IF bManualToHome THEN
 		bOutputA:= FALSE;
 		bOutputB:= TRUE;	
@@ -120,7 +120,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[bOutputA:= TRUE;
 bOutputB:= FALSE;
-M_ToHome:= (bInputA AND NOT bInputB) OR Globals.bSimulation;]]></ST>
+M_ToHome:= (fbDebounceA.P_Value AND NOT fbDebounceB.P_Value) OR Globals.bSimulation;]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Settings" Id="{e36a7ccd-2016-0de5-3888-ff7d218b5f47}">
@@ -143,7 +143,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[bOutputA:= FALSE;
 bOutputB:= TRUE;
-M_ToWork:= (bInputB AND NOT bInputA) OR Globals.bSimulation;]]></ST>
+M_ToWork:= (fbDebounceB.P_Value AND NOT fbDebounceA.P_Value) OR Globals.bSimulation;]]></ST>
       </Implementation>
     </Method>
   </POU>
