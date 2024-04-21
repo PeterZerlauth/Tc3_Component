@@ -25,7 +25,8 @@
     <Author>Peter Zerlauth</Author>
     <PreserveCompiledLibComments>true</PreserveCompiledLibComments>
     <CombineIds>true</CombineIds>
-    <DocFormat>TcDocGen</DocFormat>
+    <DocFormat>
+    </DocFormat>
     <AutoUpdateVisuProfile>true</AutoUpdateVisuProfile>
     <AutoUpdateUmlProfile>true</AutoUpdateUmlProfile>
     <Description>State Model with Observer and Events</Description>
@@ -33,7 +34,7 @@
     <CompilerDefines>release</CompilerDefines>
     <AllowChecksForLibrary>false</AllowChecksForLibrary>
     <POUsForPropertyAccessIncluded>false</POUsForPropertyAccessIncluded>
-    <GlobalVersionStructureIncluded>false</GlobalVersionStructureIncluded>
+    <GlobalVersionStructureIncluded>true</GlobalVersionStructureIncluded>
     <LibraryCategories>
       <LibraryCategory xmlns="">
         <Id>{54581c00-a61d-4d50-81cd-05af51b2074d}</Id>
@@ -61,6 +62,7 @@
     <Folder Include="Utils\File" />
     <Folder Include="Utils\Digital" />
     <Folder Include="Utils\Analog" />
+    <Folder Include="Version" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\Event\E_Event.TcDUT">
@@ -90,10 +92,10 @@
     <Compile Include="Component\Event\ST_EventSettings.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Component\E_Request.TcDUT">
+    <Compile Include="Component\E_Mode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Component\E_Mode.TcDUT">
+    <Compile Include="Component\E_Request.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Component\E_State.TcDUT">
@@ -227,6 +229,9 @@
     <Compile Include="Utils\Digital\I_DigitalChannel.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Version\Global_Version.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <PlaceholderReference Include="Tc2_Standard">
@@ -241,12 +246,6 @@
       <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Utilities</Namespace>
     </PlaceholderReference>
-    <PlaceholderReference Include="UML State Chart Types">
-      <DefaultResolution>UML Statechart Types, 4.1.1.0 (3S - Smart Software Solutions GmbH)</DefaultResolution>
-      <Namespace>UML_SC</Namespace>
-      <SystemLibrary>true</SystemLibrary>
-      <ResolverGuid>d9a6b70a-92f0-4827-8ca3-8ce8a61652d9</ResolverGuid>
-    </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Component\Event\Observer\Observer.png">
@@ -258,9 +257,6 @@
     <Content Include="Images\test.jpg">
       <SubType>Content</SubType>
     </Content>
-    <None Include="Tc3_Component.tmc">
-      <SubType>Content</SubType>
-    </None>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
