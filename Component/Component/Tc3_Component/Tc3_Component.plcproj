@@ -258,6 +258,9 @@
     <Content Include="Images\test.jpg">
       <SubType>Content</SubType>
     </Content>
+    <None Include="Tc3_Component.tmc">
+      <SubType>Content</SubType>
+    </None>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
