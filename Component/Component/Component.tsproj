@@ -25,8 +25,13 @@
 		<ImageData Id="1001">424dd6020000000000003600000028000000100000000e0000000100180000000000a002000000000000000000000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ff008066008099008066008099008066ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff00ffff00000000ffff000000008099ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff00ffff00ffff00ffff00ffff008066ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff00ffff00ffff00ffff00ffff008099ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff00ffff00000000ffff000000008066ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff00ffffff000000ffffff0000008099ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff00ffff00ffff00ffff00ffff008066ff00ffff00ffff00ffff00ffff00ff66009999006666009999006666009999006600ffff00000000ffff000000008099ff00ffff00ffff00ffff00ffff00ff99006666009999006666009999006666009900ffff0000ff00ffff0000ff008066ff00ffff00ffff00ffff00ffff00ff66009999006666009999006666009999006600ffff00ffff00ffff00ffff008099ff00ffff00ffff00ffff00ffff00ff99006666009999006666009999006666009900ffff00000000ffff000000008066ff00ffff00ffff00ffff00ffff00ff66009999006666009999006666009999006600ffff00ffff00ffff00ffff008099ff00ffff00ffff00ffff00ffff00ff99006666009999006666009999006666009900ffff00800000ffff008000008066ff00ffff00ffff00ffff00ffff00ff66009999006666009999006666009999006600ffff00ffff00ffff00ffff008099ff00ffff00ffff00ffff00ffff00ff</ImageData>
 		<ImageData Id="1002">424de6000000000000007600000028000000100000000e000000010004000000000070000000c30e0000c30e000010000000100000000000ff00ff00ff00ff000000ffff000000ff000000ffff0000008000800080008000000080800000008000000080800080808000c0c0c000ffffff00000000001111111111111111fffffffffffffffffcfcfcfcfffff44ff4f4f4f4fffff44ffffffffffffffffffffffffffffffffffcfcfcfcfffff44ff4f4f4f4fffff44fffffffffffffffff55555511111111115555551111111111555555111111111155555511111111115555551111111111</ImageData>
 	</ImageDatas>
-	<Project ProjectGUID="{74E8F419-036C-4967-922D-C405C2CA94D5}" Target64Bit="true" ShowHideConfigurations="#x6">
+	<Project ProjectGUID="{74E8F419-036C-4967-922D-C405C2CA94D5}" TargetNetId="199.4.42.250.1.1" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
+			<Licenses>
+				<Target>
+					<ManualSelect>{35DD950F-F835-4461-879E-7CDC54724191}</ManualSelect>
+				</Target>
+			</Licenses>
 			<Tasks>
 				<Task Id="3" CreateSymbols="true" Priority="21" CycleTime="5000000" AmsPort="351" AdtTasks="true">
 					<Name>PlcTask</Name>
@@ -35,7 +40,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Development" PrjFilePath="Development\Development.plcproj" TmcFilePath="Development\Development.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{EFCBABBE-6E3E-0BFC-A5B7-96D1162F2785}" TmcPath="Development\Development.tmc">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{4A2BA557-EDF3-7474-E9BC-D160C5EF2ECD}" TmcPath="Development\Development.tmc">
 					<Name>Development Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -52,6 +57,14 @@
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
 						<Var>
+							<Name>MAIN.fbModule1.fbCylinder.bInputA</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbModule1.fbCylinder.bInputB</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>IO.bOn</Name>
 							<Type>BOOL</Type>
 						</Var>
@@ -61,14 +74,6 @@
 						</Var>
 						<Var>
 							<Name>IO.bDoorsOk</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbModule1.fbCylinder.bInputA</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbModule1.fbCylinder.bInputB</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -121,7 +126,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{71649981-AC0D-4A85-8722-507B2F4142F3}" Name="Tc3_Component" PrjFilePath="Tc3_Component\Tc3_Component.plcproj" TmcFilePath="Tc3_Component\Tc3_Component.tmc" ReloadTmc="true" AmsPort="854" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x085020c0" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{48C187AE-CAB8-0CD5-9C3D-421BBCD5BB38}" TmcPath="Tc3_Component\Tc3_Component.tmc">
+				<Instance Id="#x085020c0" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{817A0A48-CAA4-0053-B243-5924CD7B8E78}" TmcPath="Tc3_Component\Tc3_Component.tmc">
 					<Name>Tc3_Component Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -133,7 +138,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{640CD8E2-83AD-418E-8730-5775EDA13AE6}" Name="Testing" PrjFilePath="Testing\Testing.plcproj" TmcFilePath="Testing\Testing.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{78EE7532-A8E9-FC2C-ECAE-FD6DAC1490B1}" TmcPath="Testing\Testing.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{791F4604-B5DF-FD65-D0DB-96409B646E45}" TmcPath="Testing\Testing.tmc">
 					<Name>Testing Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>

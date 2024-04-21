@@ -25,10 +25,10 @@
     <Author>Peter Zerlauth</Author>
     <PreserveCompiledLibComments>true</PreserveCompiledLibComments>
     <CombineIds>true</CombineIds>
-    <DocFormat>reStructuredText</DocFormat>
+    <DocFormat>TcDocGen</DocFormat>
     <AutoUpdateVisuProfile>true</AutoUpdateVisuProfile>
     <AutoUpdateUmlProfile>true</AutoUpdateUmlProfile>
-    <Description>ISA88 State Model with Observer and Events</Description>
+    <Description>State Model with Observer and Events</Description>
     <ObjectRepresentation>base64</ObjectRepresentation>
     <CompilerDefines>release</CompilerDefines>
     <AllowChecksForLibrary>false</AllowChecksForLibrary>
@@ -257,7 +257,7 @@
           <d n="SubKeys" t="Hashtable" />
           <d n="Values" t="Hashtable" ckt="String" cvt="String">
             <v>CurrentUmlCompilerVersion</v>
-            <v>4.2.1.0</v>
+            <v>4.2.2.0</v>
           </d>
         </o>
         <v>{246001F4-279D-43AC-B241-948EB31120E1}</v>

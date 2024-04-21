@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <DUT Name="ST_Event" Id="{424f55e5-b514-4649-8354-f5dfeb5cecd2}">
-    <Declaration><![CDATA[TYPE ST_Event :
+    <Declaration><![CDATA[{attribute 'analysis' := '-33'}
+TYPE ST_Event :
 	STRUCT
 		iSource:		I_Component;
 		eEventType:		E_Event;

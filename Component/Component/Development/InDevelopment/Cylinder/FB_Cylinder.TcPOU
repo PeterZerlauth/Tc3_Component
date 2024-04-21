@@ -124,7 +124,8 @@ M_ToHome:= (bInputA AND NOT bInputB) OR Globals.bSimulation;]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Settings" Id="{e36a7ccd-2016-0de5-3888-ff7d218b5f47}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Settings : REFERENCE TO ST_CylinderSettings]]></Declaration>
+      <Declaration><![CDATA[{attribute 'suppress_wrn_C0410'}
+PROPERTY PUBLIC P_Settings : REFERENCE TO ST_CylinderSettings]]></Declaration>
       <Get Name="Get" Id="{42d7fca6-98d0-0422-2538-b20afcaaa99e}">
         <Declaration><![CDATA[VAR
 END_VAR

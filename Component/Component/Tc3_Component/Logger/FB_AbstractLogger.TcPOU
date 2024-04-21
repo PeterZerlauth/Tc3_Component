@@ -17,6 +17,7 @@ END_VAR
     <Method Name="M_Log" Id="{cb7d24f5-cc7a-048b-34f7-d4b522fb60d5}">
       <Declaration><![CDATA[METHOD PUBLIC M_Log
 VAR_INPUT
+	{attribute 'analysis' := '-33'}
 	stEvent	: ST_Event;
 END_VAR
 ]]></Declaration>

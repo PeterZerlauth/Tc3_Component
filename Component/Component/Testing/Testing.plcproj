@@ -82,7 +82,7 @@
           <d n="SubKeys" t="Hashtable" />
           <d n="Values" t="Hashtable" ckt="String" cvt="String">
             <v>CurrentUmlCompilerVersion</v>
-            <v>4.2.1.0</v>
+            <v>4.2.2.0</v>
           </d>
         </o>
         <v>{246001F4-279D-43AC-B241-948EB31120E1}</v>
