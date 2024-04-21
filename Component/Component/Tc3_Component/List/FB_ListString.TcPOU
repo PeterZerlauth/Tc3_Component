@@ -15,6 +15,109 @@ END_VAR
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
+    <Method Name="M_Index" Id="{4fa60bad-c3f8-4638-8847-d99493b30103}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Index : STRING(255)
+VAR_INPUT
+	Index: 	DINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Index <= nLength THEN
+	M_Index:= pList[Index];
+ELSE
+	M_Index:= '';
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Length" Id="{7aca605f-7c5c-46b0-9c23-c84c732ac048}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Length : DINT
+]]></Declaration>
+      <Get Name="Get" Id="{ead6107f-034c-4cd2-9d3c-8cd79ec92e98}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Length:= nLength;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="M_Clear" Id="{9b61a2bf-b2c0-4a00-be0f-faac4fae98b2}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Clear : BOOL
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF pList <> 0 THEN
+	nLength:= 0;
+	__DELETE(pList);
+END_IF
+M_Clear:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Find" Id="{a0712017-1bd6-4a85-bce4-d78b95058f43}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
+VAR_INPUT
+	Object: 	STRING(255);
+END_VAR
+VAR
+	nIndex: 	UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Object already in List
+M_Find := -1;
+WHILE nIndex < nLength DO
+    IF (pList[nIndex] = Object) THEN
+        M_Find := nIndex;
+        RETURN;
+    END_IF
+	nIndex := nIndex + 1;
+END_WHILE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Remove" Id="{b8847c87-fcaa-470a-84f6-74c98c423418}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Remove : BOOL
+VAR_INPUT
+	Object: 	STRING(255);
+END_VAR
+VAR
+	pOldList:			POINTER TO STRING(255);
+	nPosition: 			DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Object <> '' THEN
+	// First Item
+	IF nLength >= 0 THEN
+		// Item already in List
+		nPosition:= M_Find(Object);
+		IF nPosition <> -1 THEN
+			// backup 
+			pOldList:= pList;
+			// new Length
+			nLength:= nLength -1;
+			// new pointer
+			pList:= __NEW(POINTER TO I_Object,DINT_TO_UDINT(nLength));
+			// restore lower part
+			Memcpy(pList,pOldList, SIZEOF(STRING(255)) * DINT_TO_UDINT(nPosition));
+			//pList[nPosition]:= iObject;
+			Memcpy(pList + (SIZEOF(STRING(255))*nPosition),pOldList + (SIZEOF(STRING(255))*(nPosition + 1)), SIZEOF(STRING(255)) * DINT_TO_UDINT(nLength - nPosition));
+			// delete old
+			__DELETE(pOldList);
+		ELSE
+			M_Remove:= FALSE;	
+			RETURN;
+		END_IF
+	ELSE
+		M_Remove:= FALSE;	
+		RETURN;
+	END_IF
+	M_Remove:= TRUE;
+ELSE
+	M_Remove:= FALSE;	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="FB_exit" Id="{bd987a2f-0457-4569-bb70-f6bb86c88b6f}">
       <Declaration><![CDATA[METHOD FB_exit : BOOL
 VAR_INPUT
@@ -69,142 +172,5 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Clear" Id="{9b61a2bf-b2c0-4a00-be0f-faac4fae98b2}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Clear : BOOL
-
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF pList <> 0 THEN
-	nLength:= 0;
-	__DELETE(pList);
-END_IF
-M_Clear:= True;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Find" Id="{a0712017-1bd6-4a85-bce4-d78b95058f43}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
-VAR_INPUT
-	Object: 	STRING(255);
-END_VAR
-VAR
-	nIndex: 	UINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Object already in List
-M_Find := -1;
-WHILE nIndex < nLength DO
-    IF (pList[nIndex] = Object) THEN
-        M_Find := nIndex;
-        RETURN;
-    END_IF
-	nIndex := nIndex + 1;
-END_WHILE
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Index" Id="{4fa60bad-c3f8-4638-8847-d99493b30103}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Index : STRING(255)
-VAR_INPUT
-	Index: 	DINT;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF Index <= nLength THEN
-	M_Index:= pList[Index];
-ELSE
-	M_Index:= '';
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Remove" Id="{b8847c87-fcaa-470a-84f6-74c98c423418}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Remove : BOOL
-VAR_INPUT
-	Object: 	STRING(255);
-END_VAR
-VAR
-	pOldList:			POINTER TO STRING(255);
-	nPosition: 			DINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF Object <> '' THEN
-	// First Item
-	IF nLength >= 0 THEN
-		// Item already in List
-		nPosition:= M_Find(Object);
-		IF nPosition <> -1 THEN
-			// backup 
-			pOldList:= pList;
-			// new Length
-			nLength:= nLength -1;
-			// new pointer
-			pList:= __NEW(POINTER TO I_Object,DINT_TO_UDINT(nLength));
-			// restore lower part
-			Memcpy(pList,pOldList, SIZEOF(STRING(255)) * DINT_TO_UDINT(nPosition));
-			//pList[nPosition]:= iObject;
-			Memcpy(pList + (SIZEOF(STRING(255))*nPosition),pOldList + (SIZEOF(STRING(255))*(nPosition + 1)), SIZEOF(STRING(255)) * DINT_TO_UDINT(nLength - nPosition));
-			// delete old
-			__DELETE(pOldList);
-		ELSE
-			M_Remove:= FALSE;	
-			RETURN;
-		END_IF
-	ELSE
-		M_Remove:= FALSE;	
-		RETURN;
-	END_IF
-	M_Remove:= TRUE;
-ELSE
-	M_Remove:= FALSE;	
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Property Name="P_Length" Id="{7aca605f-7c5c-46b0-9c23-c84c732ac048}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Length : DINT
-]]></Declaration>
-      <Get Name="Get" Id="{ead6107f-034c-4cd2-9d3c-8cd79ec92e98}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Length:= nLength;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <LineIds Name="FB_ListString">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListString.FB_exit">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListString.M_Add">
-      <LineId Id="164" Count="22" />
-      <LineId Id="200" Count="1" />
-      <LineId Id="199" Count="0" />
-      <LineId Id="187" Count="4" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListString.M_Clear">
-      <LineId Id="3" Count="2" />
-      <LineId Id="2" Count="0" />
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListString.M_Find">
-      <LineId Id="66" Count="8" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListString.M_Index">
-      <LineId Id="23" Count="1" />
-      <LineId Id="29" Count="1" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListString.M_Remove">
-      <LineId Id="132" Count="28" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListString.P_Length.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

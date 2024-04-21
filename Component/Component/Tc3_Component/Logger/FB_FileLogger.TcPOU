@@ -35,16 +35,5 @@ END_VAR]]></Declaration>
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_FileLogger">
-      <LineId Id="9" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="24" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_FileLogger.M_Log">
-      <LineId Id="99" Count="1" />
-      <LineId Id="109" Count="0" />
-      <LineId Id="101" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

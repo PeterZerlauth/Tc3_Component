@@ -35,18 +35,5 @@ END_VAR
 P_ID:= 'M002';]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_Module02">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Module02.M_Cycle">
-      <LineId Id="5" Count="0" />
-      <LineId Id="15" Count="1" />
-      <LineId Id="6" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Module02.M_Initialise">
-      <LineId Id="24" Count="0" />
-      <LineId Id="110" Count="0" />
-      <LineId Id="105" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

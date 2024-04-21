@@ -19,26 +19,25 @@ END_VAR
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
-    <Method Name="FB_exit" Id="{86b1742d-19e1-4a3d-942a-39b46efa4e7f}">
-      <Declaration><![CDATA[METHOD FB_exit : BOOL
+    <Method Name="M_Find" Id="{20062c4e-124c-4cb3-98f6-8054f6c60d5b}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
 VAR_INPUT
-	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+	iObject: 	I_Component;
 END_VAR
-]]></Declaration>
+VAR
+	nIndex: 	UINT;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Clear();]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="FB_init" Id="{ad1b40eb-01b2-0bd3-0b0c-cf2f4945d6da}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	iParent:		I_Component;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[THIS^.iParent:= iParent;]]></ST>
+        <ST><![CDATA[// Find
+M_Find := -1;
+WHILE nIndex < nLength DO
+    IF (pList[nIndex] = iObject) THEN
+        M_Find := nIndex;
+        RETURN;
+    END_IF
+	nIndex := nIndex + 1;
+END_WHILE
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Add" Id="{2b676e03-0a2e-4542-9d45-8d0e1be34635}">
@@ -85,16 +84,16 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Attach" Id="{6b9e2d31-fd71-0253-0fd6-ea067b88b916}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Attach
+    <Method Name="M_Dettach" Id="{30e2c016-83f1-0ee5-27f0-766a178cdc30}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Dettach
 VAR_INPUT
 	iComponent:		I_Component;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Add(iComponent);
-iComponent.P_Event.P_Observer.M_Attach(iParent);
-iParent.P_Event.P_Observer.M_Attach(iComponent);]]></ST>
+        <ST><![CDATA[M_Remove(iComponent);
+iComponent.P_Event.P_Observer.M_Detach(iParent);
+iParent.P_Event.P_Observer.M_Detach(iComponent);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Clear" Id="{3e2c5687-bf15-40f5-99d0-ac9877db5017}">
@@ -110,37 +109,26 @@ M_Clear:= TRUE;
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Dettach" Id="{30e2c016-83f1-0ee5-27f0-766a178cdc30}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Dettach
+    <Method Name="M_Attach" Id="{6b9e2d31-fd71-0253-0fd6-ea067b88b916}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Attach
 VAR_INPUT
 	iComponent:		I_Component;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Remove(iComponent);
-iComponent.P_Event.P_Observer.M_Detach(iParent);
-iParent.P_Event.P_Observer.M_Detach(iComponent);]]></ST>
+        <ST><![CDATA[M_Add(iComponent);
+iComponent.P_Event.P_Observer.M_Attach(iParent);
+iParent.P_Event.P_Observer.M_Attach(iComponent);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Find" Id="{20062c4e-124c-4cb3-98f6-8054f6c60d5b}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
+    <Method Name="FB_exit" Id="{86b1742d-19e1-4a3d-942a-39b46efa4e7f}">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
 VAR_INPUT
-	iObject: 	I_Component;
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
 END_VAR
-VAR
-	nIndex: 	UINT;
-END_VAR]]></Declaration>
+]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Find
-M_Find := -1;
-WHILE nIndex < nLength DO
-    IF (pList[nIndex] = iObject) THEN
-        M_Find := nIndex;
-        RETURN;
-    END_IF
-	nIndex := nIndex + 1;
-END_WHILE
-]]></ST>
+        <ST><![CDATA[M_Clear();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Index" Id="{9eaa9448-53ef-4c51-8a5f-0c3baada6113}">
@@ -154,6 +142,32 @@ END_VAR
 IF Index <= nLength THEN
 	M_Index:= pList[Index];
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Length" Id="{a7fee46d-1216-4c1b-b269-41e22da51578}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Length : DINT
+]]></Declaration>
+      <Get Name="Get" Id="{a55579c9-f979-411c-8831-bafff0ca169f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Length:= nLength;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="FB_init" Id="{ad1b40eb-01b2-0bd3-0b0c-cf2f4945d6da}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	iParent:		I_Component;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.iParent:= iParent;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Remove" Id="{e210f5d7-9bdf-4aee-9085-7160fb8ea729}">
@@ -216,68 +230,5 @@ WHILE nIndex < nLength DO
 END_WHILE]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Length" Id="{a7fee46d-1216-4c1b-b269-41e22da51578}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Length : DINT
-]]></Declaration>
-      <Get Name="Get" Id="{a55579c9-f979-411c-8831-bafff0ca169f}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Length:= nLength;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <LineIds Name="FB_ListComponent">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListComponent.FB_exit">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListComponent.FB_init">
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListComponent.M_Add">
-      <LineId Id="216" Count="30" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListComponent.M_Attach">
-      <LineId Id="23" Count="1" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListComponent.M_Clear">
-      <LineId Id="10" Count="0" />
-      <LineId Id="3" Count="2" />
-      <LineId Id="2" Count="0" />
-      <LineId Id="7" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_ListComponent.M_Dettach">
-      <LineId Id="30" Count="1" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListComponent.M_Find">
-      <LineId Id="87" Count="8" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListComponent.M_Index">
-      <LineId Id="29" Count="0" />
-      <LineId Id="23" Count="1" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListComponent.M_Remove">
-      <LineId Id="183" Count="29" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListComponent.M_Request">
-      <LineId Id="175" Count="1" />
-      <LineId Id="202" Count="0" />
-      <LineId Id="178" Count="0" />
-      <LineId Id="204" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ListComponent.P_Length.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

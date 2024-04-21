@@ -11,30 +11,6 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
-    <Method Name="M_Find" Id="{f41793c9-9d9c-06d8-1e48-9d6c08695675}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
-VAR_INPUT
-	stEvent:	ST_Event;
-END_VAR
-VAR 
-	nIndex:		DINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Find event in buffer
-M_Find := -1;
-WHILE nIndex < nBuffer DO
-	IF (aBuffer[nIndex].iSource = stEvent.iSource) AND_THEN
-    	(aBuffer[nIndex].eEventType = stEvent.eEventType) AND_THEN
-		(aBuffer[nIndex].sInstance = stEvent.sInstance) AND_THEN
-		(aBuffer[nIndex].sClass = stEvent.sClass) AND_THEN
-		(aBuffer[nIndex].sMessage = stEvent.sMessage) THEN
-        M_Find := nIndex;
-        RETURN;
-    END_IF
-	nIndex := nIndex + 1;
-END_WHILE]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Log" Id="{9e2c1dc1-68d4-0b75-365d-62c1554c8296}">
       <Declaration><![CDATA[METHOD M_Log
 VAR_INPUT
@@ -68,22 +44,29 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_Logger">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Logger.M_Find">
-      <LineId Id="110" Count="0" />
-      <LineId Id="91" Count="0" />
-      <LineId Id="93" Count="10" />
-    </LineIds>
-    <LineIds Name="FB_Logger.M_Log">
-      <LineId Id="119" Count="0" />
-      <LineId Id="164" Count="0" />
-      <LineId Id="124" Count="0" />
-      <LineId Id="174" Count="0" />
-      <LineId Id="177" Count="13" />
-      <LineId Id="175" Count="1" />
-      <LineId Id="110" Count="0" />
-    </LineIds>
+    <Method Name="M_Find" Id="{f41793c9-9d9c-06d8-1e48-9d6c08695675}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
+VAR_INPUT
+	stEvent:	ST_Event;
+END_VAR
+VAR 
+	nIndex:		DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Find event in buffer
+M_Find := -1;
+WHILE nIndex < nBuffer DO
+	IF (aBuffer[nIndex].iSource = stEvent.iSource) AND_THEN
+    	(aBuffer[nIndex].eEventType = stEvent.eEventType) AND_THEN
+		(aBuffer[nIndex].sInstance = stEvent.sInstance) AND_THEN
+		(aBuffer[nIndex].sClass = stEvent.sClass) AND_THEN
+		(aBuffer[nIndex].sMessage = stEvent.sMessage) THEN
+        M_Find := nIndex;
+        RETURN;
+    END_IF
+	nIndex := nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
   </POU>
 </TcPlcObject>

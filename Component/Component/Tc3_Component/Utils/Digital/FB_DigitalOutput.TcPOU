@@ -15,14 +15,23 @@ END_VAR
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
-    <Property Name="P_ID" Id="{f50a731d-33e5-019b-0fc3-26d5f1374f48}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_ID : STRING(25)]]></Declaration>
-      <Get Name="Get" Id="{cfa231bf-ff32-0ded-1b81-f9ced6eebfc5}">
+    <Property Name="P_Value" Id="{696506a3-db60-0746-2f1d-1c14b42d34db}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Value : bool]]></Declaration>
+      <Set Name="Set" Id="{69af308d-96e0-0ca6-0d1c-c75ab3a009fc}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Channel:= P_Value;]]></ST>
+        </Implementation>
+      </Set>
+      <Get Name="Get" Id="{fde9f4b6-16df-028f-2ce8-9cfbd063a439}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_ID:= sIdentifier;]]></ST>
+          <ST><![CDATA[P_Value:= Channel;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -37,40 +46,16 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="P_Value" Id="{696506a3-db60-0746-2f1d-1c14b42d34db}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Value : bool]]></Declaration>
-      <Get Name="Get" Id="{fde9f4b6-16df-028f-2ce8-9cfbd063a439}">
+    <Property Name="P_ID" Id="{f50a731d-33e5-019b-0fc3-26d5f1374f48}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_ID : STRING(25)]]></Declaration>
+      <Get Name="Get" Id="{cfa231bf-ff32-0ded-1b81-f9ced6eebfc5}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_Value:= Channel;]]></ST>
+          <ST><![CDATA[P_ID:= sIdentifier;]]></ST>
         </Implementation>
       </Get>
-      <Set Name="Set" Id="{69af308d-96e0-0ca6-0d1c-c75ab3a009fc}">
-        <Declaration><![CDATA[PUBLIC 
-VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Channel:= P_Value;]]></ST>
-        </Implementation>
-      </Set>
     </Property>
-    <LineIds Name="FB_DigitalOutput">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_DigitalOutput.P_ID.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_DigitalOutput.P_State.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_DigitalOutput.P_Value.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_DigitalOutput.P_Value.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

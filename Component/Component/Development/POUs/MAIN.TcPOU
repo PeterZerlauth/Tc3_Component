@@ -13,11 +13,5 @@ fbModule1.M_Cycle();
 fbModule2.M_Cycle();
 ]]></ST>
     </Implementation>
-    <LineIds Name="MAIN">
-      <LineId Id="25" Count="0" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="56" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <Itf Name="I_Notify" Id="{8871f993-41ab-039c-386c-5b6563ec2cf9}">
-    <Declaration><![CDATA[INTERFACE I_Notify
+  <Itf Name="I_Notify" Id="{57d1f153-b955-0712-06ba-6b2be9fbd0f9}">
+    <Declaration><![CDATA[INTERFACE I_Notify EXTENDS I_Object
 ]]></Declaration>
-    <Method Name="M_Notify" Id="{0016685d-98a3-015d-11d2-045c1bc9d129}">
-      <Declaration><![CDATA[METHOD M_Notify : BOOL
+    <Method Name="M_Notify" Id="{d0a0ed14-7b79-0120-0441-d1a3d375e475}">
+      <Declaration><![CDATA[METHOD M_Notify
 VAR_INPUT
 	stEvent:		ST_Event;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     </Method>
   </Itf>
 </TcPlcObject>

@@ -34,13 +34,5 @@ END_VAR]]></Declaration>
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_TcLogger">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TcLogger.M_Log">
-      <LineId Id="110" Count="0" />
-      <LineId Id="113" Count="11" />
-      <LineId Id="111" Count="1" />
-    </LineIds>
   </POU>
 </TcPlcObject>

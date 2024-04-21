@@ -45,23 +45,5 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_PnozMulti">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_PnozMulti.M_Cycle">
-      <LineId Id="5" Count="0" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="6" Count="0" />
-      <LineId Id="8" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_PnozMulti.M_Resetting">
-      <LineId Id="12" Count="0" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="18" Count="4" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="7" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

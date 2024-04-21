@@ -17,16 +17,19 @@ IF iParent.P_Mode = E_Mode.Manual THEN
 	stActual.sMessage:= 'Manual';
 END_IF]]></ST>
     </Implementation>
-    <Method Name="FB_init" Id="{9410888f-1e8d-054b-01cb-f8f70c408f51}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
+    <Method Name="M_Set" Id="{1679b774-aff9-0900-1b9f-6b982123f170}">
+      <Declaration><![CDATA[METHOD M_Set
 VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	iParent:			I_Component;
+	nNumber:				INT;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.iParent:= iParent;]]></ST>
+        <ST><![CDATA[stActual.nNumber:= nNumber;
+stActual.sMessage:= 'M_Set';
+MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Sequence) * Parameters.nSequence);
+aHistory[0]:= stActual;
+fbDelay(IN:= FALSE);
+fbTimeout(IN:= FALSE);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Await" Id="{1bc0e82b-8467-4f35-a54e-996600fba2bc}">
@@ -79,43 +82,16 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Reset" Id="{4501245b-63d2-4732-9d5e-f656a322de01}">
-      <Declaration><![CDATA[METHOD M_Reset
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[stActual.nNumber:= E_Sequence.Start;
-stActual.sMessage:= 'E_Sequence.Start';
-MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Sequence) * Parameters.nSequence);
-aHistory[0]:= stActual;
-fbDelay(IN:= FALSE);
-fbTimeout(IN:= FALSE);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Set" Id="{1679b774-aff9-0900-1b9f-6b982123f170}">
-      <Declaration><![CDATA[METHOD M_Set
-VAR_INPUT
-	nNumber:				INT;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[stActual.nNumber:= nNumber;
-stActual.sMessage:= 'M_Set';
-MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Sequence) * Parameters.nSequence);
-aHistory[0]:= stActual;
-fbDelay(IN:= FALSE);
-fbTimeout(IN:= FALSE);]]></ST>
-      </Implementation>
-    </Method>
-    <Property Name="P_History" Id="{cb1a85b8-1509-020d-1784-a04480cb4fa4}">
+    <Property Name="P_Number" Id="{3cc751bf-6092-4aa8-8de5-3276200b64ad}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_History : REFERENCE TO ARRAY [0..Parameters.nSequence] OF ST_Sequence;]]></Declaration>
-      <Get Name="Get" Id="{46fc4467-8b25-035c-3de6-0aa4c3271749}">
+PROPERTY PUBLIC P_Number : INT]]></Declaration>
+      <Get Name="Get" Id="{92b3a1f5-52d3-44fe-8629-e1295a1ef489}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_History REF= aHistory;]]></ST>
+          <ST><![CDATA[P_Number:= stActual.nNumber;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -132,72 +108,50 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="P_Number" Id="{3cc751bf-6092-4aa8-8de5-3276200b64ad}">
+    <Method Name="M_Reset" Id="{4501245b-63d2-4732-9d5e-f656a322de01}">
+      <Declaration><![CDATA[METHOD M_Reset
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stActual.nNumber:= E_Sequence.Start;
+stActual.sMessage:= 'E_Sequence.Start';
+MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Sequence) * Parameters.nSequence);
+aHistory[0]:= stActual;
+fbDelay(IN:= FALSE);
+fbTimeout(IN:= FALSE);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{9410888f-1e8d-054b-01cb-f8f70c408f51}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	iParent:			I_Component;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.iParent:= iParent;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_History" Id="{cb1a85b8-1509-020d-1784-a04480cb4fa4}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Number : INT]]></Declaration>
-      <Get Name="Get" Id="{92b3a1f5-52d3-44fe-8629-e1295a1ef489}">
+{attribute 'suppress_wrn_C0410'}
+PROPERTY PUBLIC P_History : REFERENCE TO ARRAY [0..Parameters.nSequence] OF ST_Sequence;]]></Declaration>
+      <Set Name="Set" Id="{3178675e-8c77-0184-2ffb-07d5fd3790dd}">
+        <Declaration><![CDATA[VAR
+END_VAR]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_History REF= aHistory;]]></ST>
+        </Implementation>
+      </Set>
+      <Get Name="Get" Id="{46fc4467-8b25-035c-3de6-0aa4c3271749}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_Number:= stActual.nNumber;]]></ST>
+          <ST><![CDATA[P_History REF= aHistory;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <LineIds Name="FB_Sequence">
-      <LineId Id="52" Count="0" />
-      <LineId Id="37" Count="0" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="66" Count="0" />
-      <LineId Id="40" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Sequence.FB_init">
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Sequence.M_Await">
-      <LineId Id="13" Count="0" />
-      <LineId Id="56" Count="1" />
-      <LineId Id="61" Count="0" />
-      <LineId Id="109" Count="2" />
-      <LineId Id="62" Count="0" />
-      <LineId Id="85" Count="0" />
-      <LineId Id="65" Count="3" />
-      <LineId Id="64" Count="0" />
-      <LineId Id="63" Count="0" />
-      <LineId Id="59" Count="0" />
-      <LineId Id="98" Count="0" />
-      <LineId Id="97" Count="0" />
-      <LineId Id="95" Count="0" />
-      <LineId Id="108" Count="0" />
-      <LineId Id="84" Count="0" />
-      <LineId Id="70" Count="4" />
-      <LineId Id="60" Count="0" />
-      <LineId Id="32" Count="0" />
-      <LineId Id="42" Count="5" />
-      <LineId Id="40" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_Sequence.M_Reset">
-      <LineId Id="6" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="14" Count="1" />
-      <LineId Id="8" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_Sequence.M_Set">
-      <LineId Id="6" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="8" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_Sequence.P_History.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Sequence.P_Message.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Sequence.P_Number.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

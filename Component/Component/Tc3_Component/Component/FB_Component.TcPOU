@@ -38,22 +38,160 @@ END_VAR
     </Implementation>
     <Folder Name="Command" Id="{9635140d-5b18-006e-1e9e-963cbb8377f9}" />
     <Folder Name="State" Id="{ca15ba5f-c875-08b1-19c6-3566ddf8fed6}" />
-    <Method Name="FB_init" Id="{badf4989-5758-03ee-2097-25283f2924c2}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
+    <Method Name="M_Holding" Id="{0453e1ef-1254-097d-2836-c180f9c76437}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Holding : BOOL // Return state complete
 VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL:= TRUE;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Initialise();]]></ST>
+        <ST><![CDATA[// State Holding
+M_Holding:= True;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Aborted" Id="{f47ae709-6b97-0869-103e-462a949d9bd1}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Aborted
+    <Method Name="M_Execute" Id="{0a26e879-26ba-0448-077b-265f6eb411a3}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Execute:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Info" Id="{1f2686a8-22c2-03c1-3b18-3cdd0f1b6158}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Info : I_Info]]></Declaration>
+      <Get Name="Get" Id="{80d9a233-1863-0529-037a-9eeb24a670c8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Info:= fbInfo;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="M_Initialise" Id="{25962ce0-1492-0d73-2226-fd61bbb69809}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Initialise
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Paused" Id="{2c298a87-8477-08fb-1e4e-6f14369f8f00}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Paused // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Unholding" Id="{38e86df5-306b-0975-32bb-19e03b5147dc}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Unholding : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Holding
+M_Unholding:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Mode" Id="{3bb67a0e-6846-07bc-053e-b55a797fa512}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
+      <Get Name="Get" Id="{9d5d15ee-5102-0655-3457-a8f0100c4631}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Mode:= eMode;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_ID" Id="{3effb9b7-1c02-072b-311e-de8397111421}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_ID : STRING(25)]]></Declaration>
+      <Get Name="Get" Id="{0c21d00d-b7a9-0d38-0c40-7f63c6fb1b7c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_ID:= fbInfo.sIdentifier;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{9f14bced-b370-082e-1cc1-0212a2a60675}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[fbInfo.sIdentifier:= P_ID;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="M_Stopped" Id="{415168e7-f2ee-0214-0037-987f9ecb70ed}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopped
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Completed" Id="{47ba5a0a-8800-0f93-2645-874f5aa969a5}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completed
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_OnState" Id="{49afef72-99ac-0c9e-2ec3-7701e0509cd3}">
+      <Declaration><![CDATA[METHOD Protected M_OnState
+VAR_INPUT
+	eState:							E_State;						// Current state
+	eStatePrevious:					E_State;						// Previous state	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Event" Id="{4af7c41c-ce75-074c-247b-1e9cde87d3d0}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Event : I_Event
+]]></Declaration>
+      <Get Name="Get" Id="{581dbbf1-1871-0bc4-2167-11bb575e35b8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Event:= fbEvent;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Sequence" Id="{4fcbc993-ca53-00ae-2678-b4843b89ffee}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Sequence : I_Sequence]]></Declaration>
+      <Get Name="Get" Id="{8dc7e634-55d3-030d-2d39-2f9110866178}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Sequence:= fbSequence;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="M_OnMode" Id="{5404d353-f502-0cc7-293b-81200dd1aa4b}">
+      <Declaration><![CDATA[METHOD PROTECTED M_OnMode
+VAR_INPUT
+	eMode:							E_Mode;						// Current mode
+	eModePrevious:					E_Mode;						// Previous mode	
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[]]></ST>
       </Implementation>
@@ -69,23 +207,45 @@ M_Aborting:= TRUE;
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Completed" Id="{47ba5a0a-8800-0f93-2645-874f5aa969a5}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Completed
+    <Method Name="M_Stopping" Id="{752f6f5c-84eb-0065-086e-87701d5b75a9}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[// State Stopping
+M_Stopping:= True;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Completing" Id="{a6f0ed18-708c-02a1-0990-4f4a1b2b5a3a}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL // Return state complete
+    <Method Name="M_HasMode" Id="{75908801-23b6-0dfd-2c6e-534bb3174ba2}">
+      <Declaration><![CDATA[METHOD PROTECTED M_HasMode : BOOL
+VAR_INPUT
+	eMode:			E_Mode;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_HasMode:= THIS^.eMode = eMode;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Starting" Id="{7b4cc2a9-4be8-0ad5-3afd-3314d7249ec2}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// State Completing
-M_Completing:= True;]]></ST>
+        <ST><![CDATA[// State Starting
+M_Starting:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Resuming" Id="{811e0c52-9853-075c-3d1b-5e25fdee4124}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resuming : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Holding
+M_Resuming:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Cycle" Id="{8157620c-1844-0b4a-092c-fe72147fa392}">
@@ -385,134 +545,67 @@ IF eStatePrevious <> eState THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Execute" Id="{0a26e879-26ba-0448-077b-265f6eb411a3}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL // Return state complete
+    <Method Name="M_Switch" Id="{8661b760-0fa5-007a-151c-7fe805544fbb}" FolderPath="Command\">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
+METHOD PUBLIC M_Switch : BOOL
+VAR_INPUT
+	eMode:		E_Mode;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF eMode = E_Mode.Undefined THEN
+	M_Switch:= TRUE;
+ELSE
+	IF THIS^.eMode = eMode THEN
+		M_Switch:= TRUE;
+	ELSE
+		eModeRequest:= eMode;	
+	END_IF	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Resetting" Id="{9e5fa12d-dc9f-0271-3ab1-62fbd4e3c4cb}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Execute:= True;]]></ST>
+        <ST><![CDATA[// State Resetting
+M_Resetting:= True;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_HasMode" Id="{75908801-23b6-0dfd-2c6e-534bb3174ba2}">
-      <Declaration><![CDATA[METHOD PROTECTED M_HasMode : BOOL
-VAR_INPUT
-	eMode:			E_Mode;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[M_HasMode:= THIS^.eMode = eMode;
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Held" Id="{f81e94c9-4b34-0591-0431-3c8c41c7dc3f}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Held
+    <Method Name="M_Completing" Id="{a6f0ed18-708c-02a1-0990-4f4a1b2b5a3a}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL // Return state complete
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[// State Completing
+M_Completing:= True;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Holding" Id="{0453e1ef-1254-097d-2836-c180f9c76437}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Holding : BOOL // Return state complete
+    <Property Name="P_State" Id="{b623cabe-ac07-05b3-3398-a07000fa3104}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_State : E_State]]></Declaration>
+      <Get Name="Get" Id="{f9b2e5f6-eb20-00e6-39d5-99b5e96a63c5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State:= eState;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="FB_init" Id="{badf4989-5758-03ee-2097-25283f2924c2}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL:= TRUE;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// State Holding
-M_Holding:= True;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Idle" Id="{ee6be811-c2b8-059d-2e73-08e8c6ee3020}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Idle
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Idle]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Initialise" Id="{25962ce0-1492-0d73-2226-fd61bbb69809}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Initialise
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Notify" Id="{d8f6f158-ff95-0e77-1e0e-c4742a312f00}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Notify
-VAR_INPUT
-	stEvent:		ST_Event;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Method will be called by the Observer
-// Handle  state request
-CASE stEvent.eRequest OF
-    E_Request.Pause:
-		IF fbEvent.P_Settings.bPause THEN
-			M_Request(stEvent.eRequest);
-		END_IF
-    E_Request.Hold:
-		IF fbEvent.P_Settings.bHold THEN
-			M_Request(stEvent.eRequest);
-		END_IF
-	E_Request.Complete:
-		IF fbEvent.P_Settings.bComplete THEN
-			M_Request(stEvent.eRequest);
-		END_IF
-	E_Request.Stop, E_Request.Abort:
-		IF fbEvent.P_Settings.bHold THEN
-			M_Request(stEvent.eRequest);
-		END_IF
-END_CASE
-
-// Select new mode
-M_Switch(stEvent.eMode);
-
-// Notify all other components in observer
-fbEvent.P_Observer.M_Notify(stEvent);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_OnMode" Id="{5404d353-f502-0cc7-293b-81200dd1aa4b}">
-      <Declaration><![CDATA[METHOD PROTECTED M_OnMode
-VAR_INPUT
-	eMode:							E_Mode;						// Current mode
-	eModePrevious:					E_Mode;						// Previous mode	
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_OnState" Id="{49afef72-99ac-0c9e-2ec3-7701e0509cd3}">
-      <Declaration><![CDATA[METHOD Protected M_OnState
-VAR_INPUT
-	eState:							E_State;						// Current state
-	eStatePrevious:					E_State;						// Previous state	
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Paused" Id="{2c298a87-8477-08fb-1e4e-6f14369f8f00}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Paused // Return state complete
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Pausing" Id="{c4aa5598-07e6-01cf-3056-2987866628ee}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Pausing : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Holding
-M_Pausing:= True;]]></ST>
+        <ST><![CDATA[M_Initialise();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Request" Id="{bdd740c0-4464-0c1b-399c-16ea1aed66b8}" FolderPath="Command\">
@@ -589,26 +682,6 @@ CASE eRequest OF
 END_CASE]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Resetting" Id="{9e5fa12d-dc9f-0271-3ab1-62fbd4e3c4cb}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL // Return state complete
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Resetting
-M_Resetting:= True;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Resuming" Id="{811e0c52-9853-075c-3d1b-5e25fdee4124}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Resuming : BOOL // Return state complete
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Holding
-M_Resuming:= True;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Running" Id="{c183b15a-6638-0cac-2cc8-e5cd884bfdf8}" FolderPath="State\">
       <Declaration><![CDATA[METHOD PROTECTED M_Running
 VAR_INPUT
@@ -618,18 +691,62 @@ END_VAR
         <ST><![CDATA[// Will be called in all running states, for monitorings which not only in one state active]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Starting" Id="{7b4cc2a9-4be8-0ad5-3afd-3314d7249ec2}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL // Return state complete
+    <Method Name="M_Pausing" Id="{c4aa5598-07e6-01cf-3056-2987866628ee}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Pausing : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// State Starting
-M_Starting:= True;]]></ST>
+        <ST><![CDATA[// State Holding
+M_Pausing:= True;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Stopped" Id="{415168e7-f2ee-0214-0037-987f9ecb70ed}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Stopped
+    <Method Name="M_Notify" Id="{d8f6f158-ff95-0e77-1e0e-c4742a312f00}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Notify
+VAR_INPUT
+	stEvent:		ST_Event;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Method will be called by the Observer
+// Handle  state request
+CASE stEvent.eRequest OF
+    E_Request.Pause:
+		IF fbEvent.P_Settings.bPause THEN
+			M_Request(stEvent.eRequest);
+		END_IF
+		
+    E_Request.Hold:
+		IF fbEvent.P_Settings.bHold THEN
+			M_Request(stEvent.eRequest);
+		END_IF
+		
+	E_Request.Complete:
+		IF fbEvent.P_Settings.bComplete THEN
+			M_Request(stEvent.eRequest);
+		END_IF
+		
+	E_Request.Stop, E_Request.Abort:
+		M_Request(stEvent.eRequest);
+END_CASE
+
+// Select new mode
+M_Switch(stEvent.eMode);
+
+// Notify all other components in observer
+fbEvent.P_Observer.M_Notify(stEvent);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Idle" Id="{ee6be811-c2b8-059d-2e73-08e8c6ee3020}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Idle
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Idle]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Aborted" Id="{f47ae709-6b97-0869-103e-462a949d9bd1}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborted
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -637,505 +754,14 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Stopping" Id="{752f6f5c-84eb-0065-086e-87701d5b75a9}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL // Return state complete
+    <Method Name="M_Held" Id="{f81e94c9-4b34-0591-0431-3c8c41c7dc3f}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Held
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// State Stopping
-M_Stopping:= True;]]></ST>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Switch" Id="{8661b760-0fa5-007a-151c-7fe805544fbb}" FolderPath="Command\">
-      <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
-METHOD PUBLIC M_Switch : BOOL
-VAR_INPUT
-	eMode:		E_Mode;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF eMode = E_Mode.Undefined THEN
-	M_Switch:= TRUE;
-ELSE
-	IF THIS^.eMode = eMode THEN
-		M_Switch:= TRUE;
-	ELSE
-		eModeRequest:= eMode;	
-	END_IF	
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Unholding" Id="{38e86df5-306b-0975-32bb-19e03b5147dc}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Unholding : BOOL // Return state complete
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Holding
-M_Unholding:= True;]]></ST>
-      </Implementation>
-    </Method>
-    <Property Name="P_Event" Id="{4af7c41c-ce75-074c-247b-1e9cde87d3d0}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Event : I_Event
-]]></Declaration>
-      <Get Name="Get" Id="{581dbbf1-1871-0bc4-2167-11bb575e35b8}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Event:= fbEvent;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="P_ID" Id="{3effb9b7-1c02-072b-311e-de8397111421}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_ID : STRING(25)]]></Declaration>
-      <Get Name="Get" Id="{0c21d00d-b7a9-0d38-0c40-7f63c6fb1b7c}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_ID:= fbInfo.sIdentifier;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{9f14bced-b370-082e-1cc1-0212a2a60675}">
-        <Declaration><![CDATA[PUBLIC 
-VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[fbInfo.sIdentifier:= P_ID;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
-    <Property Name="P_Info" Id="{1f2686a8-22c2-03c1-3b18-3cdd0f1b6158}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Info : I_Info]]></Declaration>
-      <Get Name="Get" Id="{80d9a233-1863-0529-037a-9eeb24a670c8}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Info:= fbInfo;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="P_Mode" Id="{3bb67a0e-6846-07bc-053e-b55a797fa512}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
-      <Get Name="Get" Id="{9d5d15ee-5102-0655-3457-a8f0100c4631}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Mode:= eMode;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="P_Sequence" Id="{4fcbc993-ca53-00ae-2678-b4843b89ffee}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Sequence : I_Sequence]]></Declaration>
-      <Get Name="Get" Id="{8dc7e634-55d3-030d-2d39-2f9110866178}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Sequence:= fbSequence;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="P_State" Id="{b623cabe-ac07-05b3-3398-a07000fa3104}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_State : E_State]]></Declaration>
-      <Get Name="Get" Id="{f9b2e5f6-eb20-00e6-39d5-99b5e96a63c5}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_State:= eState;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <LineIds Name="FB_Component">
-      <LineId Id="160" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.FB_init">
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Aborted">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Aborting">
-      <LineId Id="9" Count="0" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="13" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Completed">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Completing">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Cycle">
-      <LineId Id="6" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="750" Count="0" />
-      <LineId Id="570" Count="0" />
-      <LineId Id="10" Count="1" />
-      <LineId Id="905" Count="3" />
-      <LineId Id="902" Count="0" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="394" Count="0" />
-      <LineId Id="24" Count="1" />
-      <LineId Id="648" Count="0" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="555" Count="0" />
-      <LineId Id="893" Count="2" />
-      <LineId Id="552" Count="2" />
-      <LineId Id="548" Count="0" />
-      <LineId Id="769" Count="0" />
-      <LineId Id="28" Count="0" />
-      <LineId Id="395" Count="0" />
-      <LineId Id="322" Count="1" />
-      <LineId Id="512" Count="0" />
-      <LineId Id="325" Count="0" />
-      <LineId Id="328" Count="0" />
-      <LineId Id="336" Count="0" />
-      <LineId Id="575" Count="3" />
-      <LineId Id="335" Count="0" />
-      <LineId Id="682" Count="0" />
-      <LineId Id="680" Count="0" />
-      <LineId Id="353" Count="0" />
-      <LineId Id="681" Count="0" />
-      <LineId Id="326" Count="0" />
-      <LineId Id="324" Count="0" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="396" Count="0" />
-      <LineId Id="48" Count="1" />
-      <LineId Id="647" Count="0" />
-      <LineId Id="50" Count="0" />
-      <LineId Id="341" Count="0" />
-      <LineId Id="511" Count="0" />
-      <LineId Id="579" Count="3" />
-      <LineId Id="351" Count="0" />
-      <LineId Id="354" Count="0" />
-      <LineId Id="340" Count="0" />
-      <LineId Id="51" Count="1" />
-      <LineId Id="397" Count="0" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="416" Count="0" />
-      <LineId Id="633" Count="0" />
-      <LineId Id="631" Count="1" />
-      <LineId Id="634" Count="0" />
-      <LineId Id="418" Count="0" />
-      <LineId Id="70" Count="0" />
-      <LineId Id="356" Count="0" />
-      <LineId Id="510" Count="0" />
-      <LineId Id="583" Count="3" />
-      <LineId Id="362" Count="0" />
-      <LineId Id="421" Count="1" />
-      <LineId Id="419" Count="0" />
-      <LineId Id="423" Count="2" />
-      <LineId Id="676" Count="2" />
-      <LineId Id="364" Count="0" />
-      <LineId Id="355" Count="0" />
-      <LineId Id="71" Count="1" />
-      <LineId Id="398" Count="0" />
-      <LineId Id="77" Count="1" />
-      <LineId Id="639" Count="0" />
-      <LineId Id="79" Count="0" />
-      <LineId Id="366" Count="0" />
-      <LineId Id="509" Count="0" />
-      <LineId Id="587" Count="0" />
-      <LineId Id="372" Count="0" />
-      <LineId Id="374" Count="0" />
-      <LineId Id="365" Count="0" />
-      <LineId Id="80" Count="2" />
-      <LineId Id="376" Count="0" />
-      <LineId Id="508" Count="0" />
-      <LineId Id="588" Count="0" />
-      <LineId Id="383" Count="0" />
-      <LineId Id="393" Count="0" />
-      <LineId Id="377" Count="1" />
-      <LineId Id="663" Count="1" />
-      <LineId Id="380" Count="0" />
-      <LineId Id="375" Count="0" />
-      <LineId Id="638" Count="0" />
-      <LineId Id="90" Count="1" />
-      <LineId Id="749" Count="0" />
-      <LineId Id="92" Count="1" />
-      <LineId Id="640" Count="0" />
-      <LineId Id="94" Count="2" />
-      <LineId Id="295" Count="0" />
-      <LineId Id="385" Count="0" />
-      <LineId Id="507" Count="0" />
-      <LineId Id="589" Count="0" />
-      <LineId Id="390" Count="0" />
-      <LineId Id="666" Count="0" />
-      <LineId Id="665" Count="0" />
-      <LineId Id="392" Count="0" />
-      <LineId Id="384" Count="0" />
-      <LineId Id="637" Count="0" />
-      <LineId Id="105" Count="1" />
-      <LineId Id="400" Count="0" />
-      <LineId Id="113" Count="1" />
-      <LineId Id="641" Count="0" />
-      <LineId Id="115" Count="0" />
-      <LineId Id="445" Count="0" />
-      <LineId Id="506" Count="0" />
-      <LineId Id="595" Count="3" />
-      <LineId Id="453" Count="2" />
-      <LineId Id="444" Count="0" />
-      <LineId Id="116" Count="1" />
-      <LineId Id="401" Count="0" />
-      <LineId Id="128" Count="0" />
-      <LineId Id="434" Count="0" />
-      <LineId Id="505" Count="0" />
-      <LineId Id="435" Count="1" />
-      <LineId Id="443" Count="0" />
-      <LineId Id="599" Count="3" />
-      <LineId Id="438" Count="0" />
-      <LineId Id="668" Count="1" />
-      <LineId Id="667" Count="0" />
-      <LineId Id="437" Count="0" />
-      <LineId Id="433" Count="0" />
-      <LineId Id="129" Count="1" />
-      <LineId Id="402" Count="0" />
-      <LineId Id="137" Count="2" />
-      <LineId Id="457" Count="0" />
-      <LineId Id="504" Count="0" />
-      <LineId Id="603" Count="3" />
-      <LineId Id="462" Count="1" />
-      <LineId Id="456" Count="0" />
-      <LineId Id="140" Count="1" />
-      <LineId Id="403" Count="0" />
-      <LineId Id="148" Count="1" />
-      <LineId Id="642" Count="0" />
-      <LineId Id="150" Count="0" />
-      <LineId Id="465" Count="0" />
-      <LineId Id="503" Count="0" />
-      <LineId Id="607" Count="3" />
-      <LineId Id="470" Count="1" />
-      <LineId Id="464" Count="0" />
-      <LineId Id="151" Count="1" />
-      <LineId Id="404" Count="0" />
-      <LineId Id="163" Count="0" />
-      <LineId Id="431" Count="0" />
-      <LineId Id="502" Count="0" />
-      <LineId Id="427" Count="1" />
-      <LineId Id="426" Count="0" />
-      <LineId Id="611" Count="3" />
-      <LineId Id="476" Count="0" />
-      <LineId Id="670" Count="2" />
-      <LineId Id="477" Count="0" />
-      <LineId Id="164" Count="0" />
-      <LineId Id="635" Count="0" />
-      <LineId Id="165" Count="0" />
-      <LineId Id="405" Count="0" />
-      <LineId Id="172" Count="2" />
-      <LineId Id="479" Count="0" />
-      <LineId Id="501" Count="0" />
-      <LineId Id="619" Count="3" />
-      <LineId Id="484" Count="1" />
-      <LineId Id="478" Count="0" />
-      <LineId Id="175" Count="1" />
-      <LineId Id="406" Count="0" />
-      <LineId Id="183" Count="1" />
-      <LineId Id="643" Count="0" />
-      <LineId Id="185" Count="0" />
-      <LineId Id="487" Count="0" />
-      <LineId Id="500" Count="0" />
-      <LineId Id="623" Count="3" />
-      <LineId Id="492" Count="1" />
-      <LineId Id="486" Count="0" />
-      <LineId Id="186" Count="1" />
-      <LineId Id="560" Count="0" />
-      <LineId Id="201" Count="0" />
-      <LineId Id="410" Count="0" />
-      <LineId Id="538" Count="0" />
-      <LineId Id="627" Count="3" />
-      <LineId Id="412" Count="0" />
-      <LineId Id="494" Count="0" />
-      <LineId Id="413" Count="1" />
-      <LineId Id="673" Count="2" />
-      <LineId Id="415" Count="0" />
-      <LineId Id="409" Count="0" />
-      <LineId Id="715" Count="0" />
-      <LineId Id="204" Count="0" />
-      <LineId Id="877" Count="0" />
-      <LineId Id="875" Count="0" />
-      <LineId Id="918" Count="2" />
-      <LineId Id="924" Count="0" />
-      <LineId Id="916" Count="1" />
-      <LineId Id="878" Count="0" />
-      <LineId Id="861" Count="0" />
-      <LineId Id="212" Count="1" />
-      <LineId Id="889" Count="0" />
-      <LineId Id="215" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Execute">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_HasMode">
-      <LineId Id="16" Count="0" />
-      <LineId Id="10" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Held">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Holding">
-      <LineId Id="9" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Idle">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Initialise">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Notify">
-      <LineId Id="80" Count="0" />
-      <LineId Id="134" Count="0" />
-      <LineId Id="104" Count="0" />
-      <LineId Id="112" Count="0" />
-      <LineId Id="116" Count="2" />
-      <LineId Id="113" Count="0" />
-      <LineId Id="120" Count="1" />
-      <LineId Id="119" Count="0" />
-      <LineId Id="114" Count="0" />
-      <LineId Id="123" Count="1" />
-      <LineId Id="122" Count="0" />
-      <LineId Id="115" Count="0" />
-      <LineId Id="126" Count="1" />
-      <LineId Id="125" Count="0" />
-      <LineId Id="107" Count="0" />
-      <LineId Id="133" Count="0" />
-      <LineId Id="91" Count="0" />
-      <LineId Id="93" Count="0" />
-      <LineId Id="132" Count="0" />
-      <LineId Id="131" Count="0" />
-      <LineId Id="99" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_OnMode">
-      <LineId Id="85" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_OnState">
-      <LineId Id="85" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Paused">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Pausing">
-      <LineId Id="9" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Request">
-      <LineId Id="117" Count="0" />
-      <LineId Id="60" Count="2" />
-      <LineId Id="100" Count="0" />
-      <LineId Id="63" Count="0" />
-      <LineId Id="105" Count="0" />
-      <LineId Id="124" Count="0" />
-      <LineId Id="126" Count="0" />
-      <LineId Id="159" Count="0" />
-      <LineId Id="125" Count="0" />
-      <LineId Id="99" Count="0" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="106" Count="0" />
-      <LineId Id="128" Count="0" />
-      <LineId Id="130" Count="0" />
-      <LineId Id="161" Count="1" />
-      <LineId Id="131" Count="0" />
-      <LineId Id="129" Count="0" />
-      <LineId Id="98" Count="0" />
-      <LineId Id="71" Count="0" />
-      <LineId Id="107" Count="0" />
-      <LineId Id="133" Count="1" />
-      <LineId Id="163" Count="1" />
-      <LineId Id="135" Count="0" />
-      <LineId Id="132" Count="0" />
-      <LineId Id="175" Count="0" />
-      <LineId Id="177" Count="6" />
-      <LineId Id="176" Count="0" />
-      <LineId Id="95" Count="0" />
-      <LineId Id="80" Count="0" />
-      <LineId Id="110" Count="0" />
-      <LineId Id="143" Count="1" />
-      <LineId Id="167" Count="1" />
-      <LineId Id="145" Count="0" />
-      <LineId Id="141" Count="0" />
-      <LineId Id="96" Count="0" />
-      <LineId Id="82" Count="0" />
-      <LineId Id="111" Count="0" />
-      <LineId Id="148" Count="1" />
-      <LineId Id="169" Count="1" />
-      <LineId Id="150" Count="0" />
-      <LineId Id="146" Count="0" />
-      <LineId Id="97" Count="0" />
-      <LineId Id="84" Count="0" />
-      <LineId Id="112" Count="0" />
-      <LineId Id="151" Count="2" />
-      <LineId Id="86" Count="0" />
-      <LineId Id="50" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Resetting">
-      <LineId Id="9" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Resuming">
-      <LineId Id="9" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Running">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Starting">
-      <LineId Id="9" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Stopped">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Stopping">
-      <LineId Id="9" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Switch">
-      <LineId Id="39" Count="7" />
-      <LineId Id="19" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.M_Unholding">
-      <LineId Id="9" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.P_Event.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.P_ID.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.P_ID.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.P_Info.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.P_Mode.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.P_Sequence.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Component.P_State.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

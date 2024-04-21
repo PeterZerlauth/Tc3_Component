@@ -21,6 +21,17 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="M_Disable" Id="{084d4cc3-90c8-03fb-3f3b-46af82c7c547}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Disable : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bOutputA:= FALSE;
+bOutputB:= FALSE;
+M_Disable:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Cycle" Id="{1e9e9c3d-3912-0fa8-3236-68f78e1ae73a}">
       <Declaration><![CDATA[METHOD PUBLIC M_Cycle
 VAR_INPUT
@@ -36,17 +47,6 @@ fbTimeout.IN:= FALSE;
 // Debounc inputs
 fbDebounceA(bInput:= bInputA);
 fbDebounceB(bInput:= bInputB);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Disable" Id="{084d4cc3-90c8-03fb-3f3b-46af82c7c547}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Disable : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[bOutputA:= FALSE;
-bOutputB:= FALSE;
-M_Disable:= TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Execute" Id="{3442fc22-050d-094c-015a-424104d580c9}">
@@ -123,17 +123,6 @@ bOutputB:= FALSE;
 M_ToHome:= (bInputA AND NOT bInputB) OR Globals.bSimulation;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_ToWork" Id="{f6a4519f-a033-0321-07a0-e77d6b54d36a}">
-      <Declaration><![CDATA[METHOD PUBLIC M_ToWork : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[bOutputA:= FALSE;
-bOutputB:= TRUE;
-M_ToWork:= (bInputB AND NOT bInputA) OR Globals.bSimulation;]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="P_Settings" Id="{e36a7ccd-2016-0de5-3888-ff7d218b5f47}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Settings : REFERENCE TO ST_CylinderSettings]]></Declaration>
       <Get Name="Get" Id="{42d7fca6-98d0-0422-2538-b20afcaaa99e}">
@@ -145,67 +134,16 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <LineIds Name="FB_Cylinder">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Cylinder.M_Cycle">
-      <LineId Id="5" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="6" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_Cylinder.M_Disable">
-      <LineId Id="9" Count="0" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="10" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Cylinder.M_Execute">
-      <LineId Id="5" Count="0" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="53" Count="1" />
-      <LineId Id="50" Count="1" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="49" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="45" Count="0" />
-      <LineId Id="56" Count="1" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="23" Count="4" />
-      <LineId Id="21" Count="1" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="28" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="33" Count="1" />
-      <LineId Id="31" Count="1" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="15" Count="1" />
-      <LineId Id="35" Count="6" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="10" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Cylinder.M_Starting">
-      <LineId Id="6" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="7" Count="1" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Cylinder.M_ToHome">
-      <LineId Id="11" Count="1" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Cylinder.M_ToWork">
-      <LineId Id="16" Count="1" />
-      <LineId Id="12" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Cylinder.P_Settings.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
+    <Method Name="M_ToWork" Id="{f6a4519f-a033-0321-07a0-e77d6b54d36a}">
+      <Declaration><![CDATA[METHOD PUBLIC M_ToWork : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bOutputA:= FALSE;
+bOutputB:= TRUE;
+M_ToWork:= (bInputB AND NOT bInputA) OR Globals.bSimulation;]]></ST>
+      </Implementation>
+    </Method>
   </POU>
 </TcPlcObject>

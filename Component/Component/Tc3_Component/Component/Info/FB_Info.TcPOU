@@ -27,38 +27,6 @@ END_IF
 // Read symbol information
 fbReadSymInfo();]]></ST>
     </Implementation>
-    <Method Name="FB_init" Id="{b3af4ade-e4ea-4784-b0ea-8fa1426af073}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	sInstancePath:			REFERENCE TO STRING(255);
-END_VAR
-VAR
-    sName:				STRING(255);
-    nPosition:			INT;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[THIS^.sInstancePath REF= sInstancePath;
-
-sName := CONCAT(TwinCAT_SystemInfoVarList._AppInfo.ProjectName, '.');
-
-nPosition := FIND(sInstancePath, sName);
-IF nPosition > 0 THEN
-    fbReadSymInfo.SYMNAME:= DELETE(sInstancePath, nPosition-1 + LEN(sName), 1);
-END_IF
-
-nPosition := FIND(fbReadSymInfo.SYMNAME, sName);
-
-IF nPosition > 0 THEN
-    fbReadSymInfo.SYMNAME:= DELETE(fbReadSymInfo.SYMNAME, nPosition - 1 + LEN(sName), 1);
-END_IF
-
-fbReadSymInfo.PORT:= TwinCAT_SystemInfoVarList._AppInfo.AdsPort;
-fbReadSymInfo.START:= TRUE;]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="P_Class" Id="{149d54ac-7219-431b-bfce-ba7c9704ea45}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
@@ -113,33 +81,37 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <LineIds Name="FB_Info">
-      <LineId Id="93" Count="0" />
-      <LineId Id="108" Count="0" />
-      <LineId Id="107" Count="0" />
-      <LineId Id="48" Count="0" />
-      <LineId Id="72" Count="0" />
-      <LineId Id="54" Count="1" />
-      <LineId Id="109" Count="0" />
-      <LineId Id="51" Count="0" />
-      <LineId Id="18" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Info.FB_init">
-      <LineId Id="9" Count="0" />
-      <LineId Id="16" Count="14" />
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Info.P_Class.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Info.P_Comment.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Info.P_Instance.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Info.P_Timestamp.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
+    <Method Name="FB_init" Id="{b3af4ade-e4ea-4784-b0ea-8fa1426af073}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	sInstancePath:			REFERENCE TO STRING(255);
+END_VAR
+VAR
+    sName:				STRING(255);
+    nPosition:			INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.sInstancePath REF= sInstancePath;
+
+sName := CONCAT(TwinCAT_SystemInfoVarList._AppInfo.ProjectName, '.');
+
+nPosition := FIND(sInstancePath, sName);
+IF nPosition > 0 THEN
+    fbReadSymInfo.SYMNAME:= DELETE(sInstancePath, nPosition-1 + LEN(sName), 1);
+END_IF
+
+nPosition := FIND(fbReadSymInfo.SYMNAME, sName);
+
+IF nPosition > 0 THEN
+    fbReadSymInfo.SYMNAME:= DELETE(fbReadSymInfo.SYMNAME, nPosition - 1 + LEN(sName), 1);
+END_IF
+
+fbReadSymInfo.PORT:= TwinCAT_SystemInfoVarList._AppInfo.AdsPort;
+fbReadSymInfo.START:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
   </POU>
 </TcPlcObject>

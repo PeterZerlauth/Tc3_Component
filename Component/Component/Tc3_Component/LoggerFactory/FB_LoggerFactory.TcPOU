@@ -26,26 +26,51 @@ WHILE nIndex < nLength DO
 	nIndex := nIndex + 1;
 END_WHILE]]></ST>
     </Implementation>
-    <Method Name="M_Attach" Id="{85d5015d-7e39-4cfd-a721-66b108eef110}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Attach
+    <Property Name="P_Events" Id="{169098c7-9fee-01c4-0824-746b015810e7}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+{attribute 'suppress_wrn_C0410'}
+PROPERTY PUBLIC P_Events : reference to ARRAY [0..Parameters.nEvents] OF ST_Event]]></Declaration>
+      <Get Name="Get" Id="{9b7ac390-07de-0289-077f-1e65941693f4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Events REF= aEvent;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{d8c2dea0-0041-0090-2189-94f7dfaa7238}">
+        <Declaration><![CDATA[VAR
+END_VAR]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Events REF= aEvent;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="M_Notify" Id="{5155c20e-f68f-08db-1abd-63d3d4c0d5f8}">
+      <Declaration><![CDATA[METHOD M_Notify 
 VAR_INPUT
-	Logger:		I_Logger;
+	stEvent	: ST_Event;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Attach
-fbList.M_Add(Logger);]]></ST>
+        <ST><![CDATA[M_Log(stEvent);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Dettach" Id="{693d57be-522c-4fd2-923e-e39bc4f52f84}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Dettach
+    <Method Name="M_Publish" Id="{578d5b47-6fac-0518-1a61-62b0162be35c}">
+      <Declaration><![CDATA[METHOD M_Publish
 VAR_INPUT
-	Logger:		I_Logger;
+	stEvent:	ST_Event;
 END_VAR
-]]></Declaration>
+VAR 
+	nIndex:		DINT;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Dettach
-fbList.M_Remove(Logger);]]></ST>
+        <ST><![CDATA[// Publis event
+WHILE nIndex < fbList.P_Length DO
+	fbList.M_Index(nIndex).M_Log(stEvent);
+	nIndex := nIndex + 1;
+END_WHILE]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Find" Id="{57ee7645-77de-477e-aa71-8b5ff862f016}">
@@ -72,6 +97,28 @@ WHILE nIndex < nLength DO
 END_WHILE]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Dettach" Id="{693d57be-522c-4fd2-923e-e39bc4f52f84}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Dettach
+VAR_INPUT
+	Logger:		I_Logger;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Dettach
+fbList.M_Remove(Logger);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Attach" Id="{85d5015d-7e39-4cfd-a721-66b108eef110}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Attach
+VAR_INPUT
+	Logger:		I_Logger;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Attach
+fbList.M_Add(Logger);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Log" Id="{970a1cce-913f-4f52-a720-54d7dfe3d1a3}">
       <Declaration><![CDATA[METHOD PUBLIC M_Log
 VAR_INPUT
@@ -95,30 +142,14 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Notify" Id="{5155c20e-f68f-08db-1abd-63d3d4c0d5f8}">
-      <Declaration><![CDATA[METHOD M_Notify : BOOL
+    <Method Name="M_Reset" Id="{9e416491-698f-0c93-2f87-8032ff6306d1}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset
 VAR_INPUT
-	stEvent	: ST_Event;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[M_Log(stEvent);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Publish" Id="{578d5b47-6fac-0518-1a61-62b0162be35c}">
-      <Declaration><![CDATA[METHOD M_Publish
-VAR_INPUT
-	stEvent:	ST_Event;
-END_VAR
-VAR 
-	nIndex:		DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Publis event
-WHILE nIndex < fbList.P_Length DO
-	fbList.M_Index(nIndex).M_Log(stEvent);
-	nIndex := nIndex + 1;
-END_WHILE]]></ST>
+        <ST><![CDATA[// Reset all events
+nLength:= 0;
+Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Remove" Id="{a03dc35c-ef8e-043d-3adb-f11c8fb4c08b}">
@@ -133,29 +164,6 @@ MEMCPY(ADR(aEvent[Index]), ADR(aEvent[Index + 1]), SIZEOF(ST_Event) * DINT_TO_UD
 nLength:= nLength - 1;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Reset" Id="{9e416491-698f-0c93-2f87-8032ff6306d1}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Reset
-VAR_INPUT
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Reset all events
-nLength:= 0;
-Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
-      </Implementation>
-    </Method>
-    <Property Name="P_Events" Id="{169098c7-9fee-01c4-0824-746b015810e7}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Events : reference to ARRAY [0..Parameters.nEvents] OF ST_Event]]></Declaration>
-      <Get Name="Get" Id="{9b7ac390-07de-0289-077f-1e65941693f4}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Events REF= aEvent;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Property Name="P_Length" Id="{e6432635-ebe1-06f3-2038-e8bcfc923da6}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
@@ -170,64 +178,5 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <LineIds Name="FB_LoggerFactory">
-      <LineId Id="468" Count="0" />
-      <LineId Id="438" Count="0" />
-      <LineId Id="338" Count="0" />
-      <LineId Id="394" Count="0" />
-      <LineId Id="340" Count="0" />
-      <LineId Id="377" Count="0" />
-      <LineId Id="341" Count="0" />
-      <LineId Id="380" Count="0" />
-      <LineId Id="342" Count="0" />
-      <LineId Id="362" Count="0" />
-      <LineId Id="352" Count="1" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_LoggerFactory.M_Attach">
-      <LineId Id="10" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_LoggerFactory.M_Dettach">
-      <LineId Id="10" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_LoggerFactory.M_Find">
-      <LineId Id="110" Count="0" />
-      <LineId Id="91" Count="0" />
-      <LineId Id="93" Count="10" />
-    </LineIds>
-    <LineIds Name="FB_LoggerFactory.M_Log">
-      <LineId Id="112" Count="1" />
-      <LineId Id="115" Count="0" />
-      <LineId Id="152" Count="1" />
-      <LineId Id="117" Count="1" />
-      <LineId Id="161" Count="2" />
-      <LineId Id="141" Count="0" />
-      <LineId Id="122" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_LoggerFactory.M_Notify">
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_LoggerFactory.M_Publish">
-      <LineId Id="17" Count="0" />
-      <LineId Id="8" Count="2" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_LoggerFactory.M_Remove">
-      <LineId Id="13" Count="0" />
-      <LineId Id="7" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_LoggerFactory.M_Reset">
-      <LineId Id="26" Count="0" />
-      <LineId Id="6" Count="0" />
-      <LineId Id="33" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_LoggerFactory.P_Events.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_LoggerFactory.P_Length.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

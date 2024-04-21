@@ -18,17 +18,6 @@ END_VAR]]></Declaration>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
 fbDebounce(bInput:= Channel, tTime:= tDebounce);]]></ST>
     </Implementation>
-    <Property Name="P_ID" Id="{d2592e33-0c09-00ed-2a19-2a2ac1387854}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_ID : String(25)]]></Declaration>
-      <Get Name="Get" Id="{db03f916-1db4-0ef0-2610-a102e9e38d81}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_ID:= sIdentifier;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Property Name="P_State" Id="{c3d8c2a3-d582-03a1-3305-487cd866c231}">
       <Declaration><![CDATA[PROPERTY P_State : EPlcMappingStatus]]></Declaration>
       <Get Name="Get" Id="{d84261ad-8c83-064f-0dc4-445397d3c6cc}">
@@ -37,6 +26,17 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[P_State:= F_GetMappingStatus(ADR(Channel), SIZEOF(BOOL));]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_ID" Id="{d2592e33-0c09-00ed-2a19-2a2ac1387854}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_ID : String(25)]]></Declaration>
+      <Get Name="Get" Id="{db03f916-1db4-0ef0-2610-a102e9e38d81}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_ID:= sIdentifier;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -60,21 +60,5 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <LineIds Name="FB_DigitalInput">
-      <LineId Id="60" Count="0" />
-      <LineId Id="47" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_DigitalInput.P_ID.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_DigitalInput.P_State.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_DigitalInput.P_Value.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_DigitalInput.P_Value.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

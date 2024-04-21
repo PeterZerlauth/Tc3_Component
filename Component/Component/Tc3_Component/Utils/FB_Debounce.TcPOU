@@ -41,20 +41,5 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <LineIds Name="FB_Debounce">
-      <LineId Id="40" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="19" Count="2" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="24" Count="1" />
-      <LineId Id="15" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_Debounce.P_Value.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

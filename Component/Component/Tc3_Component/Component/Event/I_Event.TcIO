@@ -3,6 +3,13 @@
   <Itf Name="I_Event" Id="{86200139-fcb7-4d9e-9f1b-6b3e88f31cc6}">
     <Declaration><![CDATA[INTERFACE I_Event EXTENDS I_Object
 ]]></Declaration>
+    <Method Name="M_Pause" Id="{213b4bd7-259f-0ca0-3e22-5024c76ef23b}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Pause
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
+END_VAR]]></Declaration>
+    </Method>
     <Method Name="M_Abort" Id="{23e2171c-74c6-00b8-2913-0c29fad8a6bb}">
       <Declaration><![CDATA[METHOD PUBLIC M_Abort
 VAR_INPUT
@@ -10,10 +17,57 @@ VAR_INPUT
 	nID:					ULINT;
 END_VAR]]></Declaration>
     </Method>
+    <Method Name="M_Hold" Id="{2f401732-d707-076b-0644-a0f5673bcf70}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Hold
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="M_Complete" Id="{3cc7b94f-c170-003f-1746-5c84cc0dcccd}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Complete
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="M_AddSTRING" Id="{3ed3c97e-76ae-02a4-026a-a11cdc8c444d}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddSTRING : I_Event
+VAR_INPUT
+	Value: STRING(255);
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="P_LastEvent" Id="{41bd9a8e-1b28-0f17-1663-e513323833e5}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+{attribute 'suppress_wrn_C0410'}
+PROPERTY PUBLIC P_LastEvent : REFERENCE TO ST_Event]]></Declaration>
+      <Set Name="Set" Id="{3fb6b9b0-d103-08da-0ac5-3e987acd2e0e}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+      <Get Name="Get" Id="{da9a80ec-3d2b-0d39-2b03-3ff7d5b14a07}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
     <Method Name="M_AddBOOL" Id="{6fc486ba-f21e-0356-3f27-fe3c53264131}">
       <Declaration><![CDATA[METHOD PUBLIC M_AddBOOL : I_Event
 VAR_INPUT
 	Value: 	BOOL;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="P_Observer" Id="{71855be2-d7dd-407c-bfc6-2b33d71db9ac}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>
+      <Get Name="Get" Id="{06fb4a5b-c62f-47d3-bed0-c50d2d77e5a7}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Method Name="M_Information" Id="{a0df6aac-21ac-0b65-3426-2421a14ee702}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Information
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
 END_VAR
 ]]></Declaration>
     </Method>
@@ -24,30 +78,24 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_AddREAL" Id="{ebc5d459-c769-0e97-2a4f-b9373812d338}">
-      <Declaration><![CDATA[METHOD PUBLIC M_AddREAL : I_Event
+    <Method Name="M_Warning" Id="{ae861465-4d88-0ffb-03b6-6d69b34da892}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Warning
 VAR_INPUT
-	Value: 	Lreal;
-	Decimals: INT;
+	sMessage:				STRING(255);
+	nID:					ULINT;
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_AddSTRING" Id="{3ed3c97e-76ae-02a4-026a-a11cdc8c444d}">
-      <Declaration><![CDATA[METHOD PUBLIC M_AddSTRING : I_Event
+    <Method Name="M_Error" Id="{afad8492-19cf-0779-1a83-3ea67e573ec9}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Error
 VAR_INPUT
-	Value: STRING(255);
+	sMessage:				STRING(255);
+	nID:					ULINT;
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_AddTIME" Id="{f0b3d8c4-ba50-0bc6-3568-c25bafa8b734}">
-      <Declaration><![CDATA[METHOD PUBLIC M_AddTIME : I_Event
-VAR_INPUT
-	Value: 	TIME;
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="M_Complete" Id="{3cc7b94f-c170-003f-1746-5c84cc0dcccd}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Complete
+    <Method Name="M_Stop" Id="{bc83aad4-ae26-008e-3b0c-5fc1c7225e6c}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Stop
 VAR_INPUT
 	sMessage:				STRING(255);
 	nID:					ULINT;
@@ -60,64 +108,20 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Error" Id="{afad8492-19cf-0779-1a83-3ea67e573ec9}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Error
+    <Method Name="M_AddREAL" Id="{ebc5d459-c769-0e97-2a4f-b9373812d338}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddREAL : I_Event
 VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
+	Value: 	Lreal;
+	Decimals: INT;
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Hold" Id="{2f401732-d707-076b-0644-a0f5673bcf70}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Hold
+    <Method Name="M_AddTIME" Id="{f0b3d8c4-ba50-0bc6-3568-c25bafa8b734}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddTIME : I_Event
 VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
-END_VAR]]></Declaration>
-    </Method>
-    <Method Name="M_Information" Id="{a0df6aac-21ac-0b65-3426-2421a14ee702}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Information
-VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
+	Value: 	TIME;
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Pause" Id="{213b4bd7-259f-0ca0-3e22-5024c76ef23b}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Pause
-VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
-END_VAR]]></Declaration>
-    </Method>
-    <Method Name="M_Stop" Id="{bc83aad4-ae26-008e-3b0c-5fc1c7225e6c}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Stop
-VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
-END_VAR]]></Declaration>
-    </Method>
-    <Method Name="M_Warning" Id="{ae861465-4d88-0ffb-03b6-6d69b34da892}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Warning
-VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
-END_VAR
-]]></Declaration>
-    </Method>
-    <Property Name="P_LastEvent" Id="{41bd9a8e-1b28-0f17-1663-e513323833e5}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_LastEvent : REFERENCE TO ST_Event]]></Declaration>
-      <Get Name="Get" Id="{da9a80ec-3d2b-0d39-2b03-3ff7d5b14a07}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
-    <Property Name="P_Observer" Id="{71855be2-d7dd-407c-bfc6-2b33d71db9ac}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>
-      <Get Name="Get" Id="{06fb4a5b-c62f-47d3-bed0-c50d2d77e5a7}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
   </Itf>
 </TcPlcObject>
