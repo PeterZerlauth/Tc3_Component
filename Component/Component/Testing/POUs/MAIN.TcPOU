@@ -32,54 +32,61 @@ fbComponent.M_Cycle();
 CASE fbTestsuite1.P_Testcase OF
 	
 	E_Testcase.Start:
-		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Reset), 'Reset');
+		CASE fbComponent.P_State OF
+			E_State.Execute, E_State.Held, E_State.Paused:
+				fbComponent.M_Request(E_Request.Abort);
+			
+			E_State.Aborted, E_State.Stopped, E_State.Completed:
+				fbComponent.M_Request(E_Request.Reset);
+				
+		END_CASE
 		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Idle, fbComponent.P_State, 'E_State.Idle');
-		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Reset)', '', 10);	
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Reset)', __POSITION(), 10);	
 	
 	10:	
 		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Start), 'Start');
 		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Execute, fbComponent.P_State, 'E_State.Execute');
-		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Start)', '', 20);
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Start)', __POSITION(), 20);
 		
 	20:
 		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Stop), 'Stop');
 		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Stopped, fbComponent.P_State, 'E_State.Stop');
-		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Stop)', '', 30);
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Stop)', __POSITION(), 30);
 		
 	30:
 		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Reset), 'Reset');
 		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Idle, fbComponent.P_State, 'E_State.Idle');
-		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Reset)', '', 40);
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Reset)', __POSITION(), 40);
 		
 	40:	
 		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Start), 'Start');
 		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Execute, fbComponent.P_State, 'E_State.Execute');
-		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Start)', '', 50);
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Start)', __POSITION(), 50);
 		
 	50:	
 		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Abort), 'Abort');
 		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Aborted, fbComponent.P_State, 'E_State.Aborted');
-		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Abort)', '', 60);
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Abort)', __POSITION(), 60);
 		
 	60:
 		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Reset), 'Reset');
 		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Idle, fbComponent.P_State, 'E_State.Idle');
-		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Reset)', '', 70);
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Reset)', __POSITION(), 70);
 		
 	70:	
 		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Start), 'Start');
 		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Execute, fbComponent.P_State, 'E_State.Execute');
-		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Start)', '', 80);	
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Start)', __POSITION(), 80);	
 	
 	80:	
 		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Complete), 'Complete');
 		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Completed, fbComponent.P_State, 'E_State.Complete');
-		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Complete)', '', 90);		
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Complete)', __POSITION(), 90);		
 
 	90:
 		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Reset), 'Reset');
 		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Idle, fbComponent.P_State, 'E_State.Idle');
-		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Reset)', '', E_Testcase.Done);		
+		fbTestsuite1.M_Testcase('FB_Component', T#1S, 'fbComponent.M_Request(E_Request.Reset)', __POSITION(), E_Testcase.Done);		
 		
 	E_Testcase.Done:;
 	

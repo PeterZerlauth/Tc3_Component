@@ -3,14 +3,28 @@
   <POU Name="MAIN" Id="{2d4d4998-19ee-0f89-2021-34d743efb262}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	fbModule1:	FB_Module01;
-	fbModule2:	FB_Module02;
-END_VAR
-]]></Declaration>
+	fbModule1:		FB_Module01;
+	fbComponent:	FB_Component;
+	bReset: BOOL;
+	bStart: BOOL;
+	bStop: BOOL;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[
 fbModule1.M_Cycle();
-fbModule2.M_Cycle();
+fbComponent.M_Cycle();
+
+IF bReset THEN
+	bReset:= NOT fbComponent.M_Request(E_Request.Reset);
+END_IF
+
+IF bStart THEN
+	bStart:= NOT fbComponent.M_Request(E_Request.Start);
+END_IF
+
+IF bStop THEN
+	bStop:= NOT fbComponent.M_Request(E_Request.Stop);
+END_IF
 ]]></ST>
     </Implementation>
   </POU>
