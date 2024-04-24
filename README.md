@@ -8,8 +8,6 @@ The concept is working quite stable.\
 Project is still under heavy development, and without any warranty!\
 There is still a lot of work to do, if somebody have ideas, contributors are welcome!\
 
-Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Libraries) or [TcOpen](https://docs.tcopengroup.org/)
-
 ## Concept  (FB_Component, FB_ModuleBase)
 ![Concept](docs/Concept.drawio.svg)
 
