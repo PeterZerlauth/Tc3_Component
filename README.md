@@ -13,7 +13,6 @@ There is still a lot of work to do, if somebody have ideas, contributors are wel
 
 ## Class (FB_Component)
 [<img src="docs/FB_Component.png" width="250"/>](docs/FB_Component.png)
-<img src="docs/FB_Component.png" width="250" height="100">
 
 ## State Machine (FB_Component)
 ![State Machine](docs/StateModel.svg)
