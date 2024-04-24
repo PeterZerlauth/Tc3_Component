@@ -14,7 +14,7 @@ Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Comm
 ![Concept](docs/Concept.drawio.svg)
 
 ## Class (FB_Component)
-![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/b70fa6e0-34f0-4d77-880c-6417ceb6093c)
+![FB_Component](docs/FB_Component.svg)
 
 ## State Machine (FB_Component)
 ![State Machine](docs/StateModel.svg)
