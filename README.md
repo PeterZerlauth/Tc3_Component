@@ -12,7 +12,7 @@ There is still a lot of work to do, if somebody have ideas, contributors are wel
 ![Concept](docs/Concept.drawio.svg)
 
 ## Class (FB_Component)
-<img src="docs/FB_Component.png" width="50" height="50">
+<img src="docs/FB_Component.png" width="100" height="100">
 
 ## State Machine (FB_Component)
 ![State Machine](docs/StateModel.svg)
