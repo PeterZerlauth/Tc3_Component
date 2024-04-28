@@ -1,15 +1,18 @@
 # Tc3_Component
-A library for TwinCAT 3 which ist using design patterns to standardize machine control software.\
+A library for TwinCAT 3 (4026) which is using design patterns to standardize machine control software.\
 The goal are to code reliable Software in a short time,\
-have a lightwight and modular Framework.
+have a lightweight and modular Framework.
 
-Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Community/SPT-Libraries) or [TcOpen](https://docs.tcopengroup.org/)
+## Info
+The concept is working quite stable.\
+Project is still under heavy development, and without any warranty!\
+There is still a lot of work to do, if somebody have ideas, contributors are welcome!\
 
 ## Concept  (FB_Component, FB_ModuleBase)
 ![Concept](docs/Concept.drawio.svg)
 
 ## Class (FB_Component)
-![grafik](https://github.com/PeterZerlauth/Tc3_Component/assets/48495545/b70fa6e0-34f0-4d77-880c-6417ceb6093c)
+[<img src="docs/FB_Component.png" width="250"/>](docs/FB_Component.png)
 
 ## State Machine (FB_Component)
 ![State Machine](docs/StateModel.svg)
@@ -21,13 +24,6 @@ Inspired by Frameworks like [SPT-Libraries](https://github.com/Beckhoff-USA-Comm
     [x] Eventlogger
     [x] Sequence Manager
     [x] Module to handle Components
-
-## Scrennshots
-
-## Info
-In general i made a lot of progress and the concept is working quite stable.\
-Project is still under heavy development, and without any warenty!\
-There is still a lot of work to do, if sombody have ideas, contributors are welcome!\
 
 [#####-----]
 
