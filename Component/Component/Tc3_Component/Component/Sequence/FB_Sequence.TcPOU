@@ -51,7 +51,7 @@ END_VAR
 			fbDelay(IN:= FALSE);
 			IF bPause THEN
 				IF iParent.P_Mode = E_Mode.Semiauto THEN
-					iParent.M_Request(E_Request.Pause);		
+					iParent.M_RequestState(E_Request.Pause);		
 				END_IF
 			END_IF	 
 		END_IF
@@ -63,7 +63,7 @@ END_VAR
 		fbTimeout(IN:= FALSE);
 		IF bPause THEN
 			IF iParent.P_Mode = E_Mode.Semiauto THEN
-				iParent.M_Request(E_Request.Pause);		
+				iParent.M_RequestState(E_Request.Pause);		
 			END_IF
 		END_IF	
 	END_IF		

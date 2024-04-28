@@ -52,6 +52,8 @@
     <Folder Include="Component\Event\Observer" />
     <Folder Include="Component\Info" />
     <Folder Include="Component\Sequence" />
+    <Folder Include="Layers" />
+    <Folder Include="Layers\Layer" />
     <Folder Include="List" />
     <Folder Include="LoggerFactory" />
     <Folder Include="Logger" />
@@ -130,6 +132,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Function\FB_Function.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Layers\FB_Layers.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Layers\I_Layers.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Layers\Layer\FB_Layer.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Layers\Layer\I_Layer.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">
@@ -267,6 +281,11 @@
     <None Include="Tc3_Component.tmc">
       <SubType>Content</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <SubObject Include="FB_Layer.P_List" />
+    <SubObject Include="I_Layer.P_List" />
+    <SubObject Include="I_Module.P_Layers" />
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

@@ -14,8 +14,8 @@ PROPERTY PUBLIC P_ID : STRING(25)]]></Declaration>
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
-    <Method Name="M_Switch" Id="{208c4c43-a103-0c2c-0258-2704597726e6}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Switch : BOOL
+    <Method Name="M_RequestMode" Id="{208c4c43-a103-0c2c-0258-2704597726e6}">
+      <Declaration><![CDATA[METHOD PUBLIC M_RequestMode : BOOL
 VAR_INPUT
 	eMode:		E_Mode;
 END_VAR
@@ -27,8 +27,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Request" Id="{5bce4574-fbb8-4134-a60e-e5f2d429768c}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Request : BOOL
+    <Method Name="M_RequestState" Id="{5bce4574-fbb8-4134-a60e-e5f2d429768c}">
+      <Declaration><![CDATA[METHOD PUBLIC M_RequestState : BOOL
 VAR_INPUT
 	eRequest:	E_Request;
 END_VAR

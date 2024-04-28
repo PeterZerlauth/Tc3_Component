@@ -3,9 +3,6 @@
   <POU Name="FB_ListComponent" Id="{38419e87-5698-4e05-9e30-1094a3671d1c}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'no_explicit_call' := 'do not call this POU directly'} 
 FUNCTION_BLOCK FB_ListComponent IMPLEMENTS I_ListComponent
-VAR_INPUT
-	iParent:		I_Component;
-END_VAR
 VAR
 	nLength:		DINT;
 	pList: 			POINTER TO I_Component;
@@ -82,18 +79,6 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Dettach" Id="{30e2c016-83f1-0ee5-27f0-766a178cdc30}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Dettach
-VAR_INPUT
-	iComponent:		I_Component;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[M_Remove(iComponent);
-iComponent.P_Event.P_Observer.M_Detach(iParent);
-iParent.P_Event.P_Observer.M_Detach(iComponent);]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Clear" Id="{3e2c5687-bf15-40f5-99d0-ac9877db5017}">
       <Declaration><![CDATA[METHOD PUBLIC M_Clear : BOOL
 ]]></Declaration>
@@ -105,18 +90,6 @@ IF pList <> 0 THEN
 END_IF
 M_Clear:= TRUE;
 ]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Attach" Id="{6b9e2d31-fd71-0253-0fd6-ea067b88b916}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Attach
-VAR_INPUT
-	iComponent:		I_Component;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[M_Add(iComponent);
-iComponent.P_Event.P_Observer.M_Attach(iParent);
-iParent.P_Event.P_Observer.M_Attach(iComponent);]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_exit" Id="{86b1742d-19e1-4a3d-942a-39b46efa4e7f}">
@@ -156,18 +129,6 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Method Name="FB_init" Id="{ad1b40eb-01b2-0bd3-0b0c-cf2f4945d6da}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	iParent:		I_Component;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[THIS^.iParent:= iParent;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Remove" Id="{e210f5d7-9bdf-4aee-9085-7160fb8ea729}">
       <Declaration><![CDATA[METHOD PUBLIC M_Remove : BOOL
 VAR_INPUT
@@ -209,23 +170,6 @@ IF iObject <> 0 THEN
 ELSE
 	M_Remove:= FALSE;	
 END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Request" Id="{f601ddf8-c594-0bc4-2a3b-1ad3e645e01b}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Request : BOOL
-VAR_INPUT
-	eRequest:		E_Request;
-END_VAR
-
-VAR
-	nIndex: 		INT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[M_Request:= TRUE;
-WHILE nIndex < nLength DO
-	M_Request:= M_Request AND M_Index(nIndex).M_Request(eRequest);
-	nIndex:= nIndex +1;
-END_WHILE]]></ST>
       </Implementation>
     </Method>
   </POU>

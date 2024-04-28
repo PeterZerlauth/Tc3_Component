@@ -106,16 +106,16 @@ P_ID:= 'M001';
 
 
 
-fbMembers.M_Attach(fbComponent2);
-fbMembers.M_Attach(fbComponent3);
+fbLayers.fbE0.M_Attach(fbComponent2);
+fbLayers.fbE1.M_Attach(fbComponent3);
 
 fbCylinder.P_ID:= 'Y1';
-M_Attach(fbCylinder);
+fbLayers.fbE1.M_Attach(fbCylinder);
 
 fbFunctions.M_Attach(fbProcess);
 
 FOR nIndex:= 0 TO 99 DO
-	fbMembers.M_Attach(fbComponents[nIndex]);
+	fbLayers.fbE1.M_Attach(fbComponents[nIndex]);
 END_FOR]]></ST>
       </Implementation>
     </Method>

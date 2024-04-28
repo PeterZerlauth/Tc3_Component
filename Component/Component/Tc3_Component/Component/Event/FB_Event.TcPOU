@@ -76,7 +76,7 @@ stEvent.stFlags.bRemove:= FALSE;
 
 IF fbObserver.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
-	iParent.M_Request(E_Request.Hold);
+	iParent.M_RequestState(E_Request.Hold);
 ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
@@ -116,7 +116,7 @@ ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-iParent.M_Request(E_Request.Stop);
+iParent.M_RequestState(E_Request.Stop);
 
 IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
@@ -284,7 +284,7 @@ stEvent.stFlags.bRemove:= FALSE;
 
 IF fbObserver.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
-	iParent.M_Request(E_Request.Complete);
+	iParent.M_RequestState(E_Request.Complete);
 ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
@@ -333,7 +333,7 @@ ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-iParent.M_Request(E_Request.Abort);
+iParent.M_RequestState(E_Request.Abort);
 
 IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
@@ -480,7 +480,7 @@ stEvent.stFlags.bRemove:= FALSE;
 
 IF fbObserver.P_Length = 0 THEN
 	fbLogger.M_Log(stEvent);
-	iParent.M_Request(E_Request.Pause);
+	iParent.M_RequestState(E_Request.Pause);
 ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF

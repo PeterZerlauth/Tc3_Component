@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Layer" Id="{6c2584ee-5a36-0c50-392e-89c20d77cace}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Layer EXTENDS FB_Component IMPLEMENTS I_Layer
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	iNext:				I_Component;
+	fbList:				FB_ListComponent;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Starting" Id="{4e318086-20a9-077e-347c-443a3af7042b}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL (* Return state complete*)
+VAR
+	nIndex: 		DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Starting:= TRUE;
+WHILE nIndex < fbList.P_Length DO
+	IF fbList.M_Index(nIndex).M_RequestState(E_Request.Start) THEN
+		;
+	ELSE
+		M_Starting:= FALSE;
+	END_IF	
+	nIndex:= nIndex + 1; 
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_List" Id="{5b2e53f7-6521-0d86-3718-b67d38d71e7b}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY P_List : I_ListComponent]]></Declaration>
+      <Get Name="Get" Id="{21be0766-0ebd-0ef1-1a3e-110c16bdb72e}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_List:= fbList;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="M_Resetting" Id="{6bdcf8ed-efdf-0507-28e5-80bd763eb1d5}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL (* Return state complete*)
+VAR
+	nIndex: 		DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Resetting:= TRUE;
+WHILE nIndex < fbList.P_Length DO
+	IF fbList.M_Index(nIndex).M_RequestState(E_Request.Reset) THEN
+		;
+	ELSE
+		M_Resetting:= FALSE;
+	END_IF	
+	nIndex:= nIndex + 1; 
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Next" Id="{bfe686ed-8a9d-0d34-34b1-66bc528ed390}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Next : I_Component]]></Declaration>
+      <Get Name="Get" Id="{2f320400-3836-06ec-0636-80ab33c8139d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Next:= iNext;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{9874dbcc-2957-0fba-1736-325d801c41fe}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[iNext:= P_Next;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="M_Attach" Id="{c25eb90e-66ec-060a-3b43-7637437bb3b8}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Attach
+VAR_INPUT
+	iComponent:		I_Component;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Add(iComponent);
+iComponent.P_Event.P_Observer.M_Attach(THIS^);
+fbEvent.P_Observer.M_Attach(iComponent);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Notify" Id="{debbf766-dd56-0948-0473-018dc5966f2b}">
+      <Declaration><![CDATA[METHOD M_Notify
+VAR_INPUT
+	stEvent	: ST_Event;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Notify(stEvent);
+iNext.M_Notify(stEvent);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Dettach" Id="{f13d487a-f32a-0ba9-20c0-98d3bf35cc8f}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Dettach
+VAR_INPUT
+	iComponent:		I_Component;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Remove(iComponent);
+iComponent.P_Event.P_Observer.M_Detach(THIS^);
+fbEvent.P_Observer.M_Detach(iComponent);]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

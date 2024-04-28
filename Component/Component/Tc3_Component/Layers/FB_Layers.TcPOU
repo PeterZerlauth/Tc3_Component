@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Layers" Id="{7feeae14-7e2a-00e8-1613-44dc7220a047}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Layers IMPLEMENTS I_Cycle, I_Layers
+VAR_INPUT
+	fbE0:							FB_Layer;
+	fbE1:							FB_Layer;
+	fbOn:							FB_Layer;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="P_On" Id="{250e0f48-37d3-0a4d-2a04-41a0f1afd42d}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_On : I_Layer
+]]></Declaration>
+      <Get Name="Get" Id="{1d9b94ac-636f-044f-3fc8-fca53d8dee88}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_On:= fbOn;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_E0" Id="{80ca99ad-2ce7-0a15-327c-d65212b27160}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_E0 : I_Layer
+]]></Declaration>
+      <Get Name="Get" Id="{5fa4ced3-ac0e-0505-3c90-bc6988e6b6ad}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_E0:= fbE0;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_E1" Id="{b19bcbaf-724a-0796-3a5d-f2120ddfbedd}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_E1 : I_Layer
+]]></Declaration>
+      <Get Name="Get" Id="{77092d26-208e-0b01-1081-92da6ee4394b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_E1:= fbE1;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="M_Cycle" Id="{b9913863-c27c-042e-377f-21193065b052}">
+      <Declaration><![CDATA[METHOD M_Cycle
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbE0.M_Cycle();
+fbE1.M_Cycle();
+fbOn.M_Cycle();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

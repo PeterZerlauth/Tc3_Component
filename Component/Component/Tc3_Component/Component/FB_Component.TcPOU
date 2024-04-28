@@ -535,16 +535,16 @@ IF eStatePrevious <> eState THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Switch" Id="{8661b760-0fa5-007a-151c-7fe805544fbb}" FolderPath="Command\">
+    <Method Name="M_RequestMode" Id="{8661b760-0fa5-007a-151c-7fe805544fbb}" FolderPath="Command\">
       <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
-METHOD PUBLIC M_Switch : BOOL
+METHOD PUBLIC M_RequestMode : BOOL
 VAR_INPUT
 	eMode:		E_Mode;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF THIS^.eMode = eMode THEN
-	M_Switch:= TRUE;
+	M_RequestMode:= TRUE;
 ELSE
 	eModeRequest:= eMode;	
 END_IF	]]></ST>
@@ -594,9 +594,9 @@ END_VAR
         <ST><![CDATA[M_Initialise();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Request" Id="{bdd740c0-4464-0c1b-399c-16ea1aed66b8}" FolderPath="Command\">
+    <Method Name="M_RequestState" Id="{bdd740c0-4464-0c1b-399c-16ea1aed66b8}" FolderPath="Command\">
       <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
-METHOD PUBLIC M_Request : BOOL
+METHOD PUBLIC M_RequestState : BOOL
 VAR_INPUT
 	eRequest:	E_Request;
 END_VAR
@@ -605,18 +605,18 @@ END_VAR
         <ST><![CDATA[// Request component states / Command Pattern
 CASE eRequest OF
 	E_Request.Undefined:
-		M_Request:= TRUE;
+		M_RequestState:= TRUE;
 		
 	E_Request.Start:
 		IF eState = E_State.Execute THEN
-			M_Request:= TRUE;
+			M_RequestState:= TRUE;
 		ELSE
 			eStateRequest:= eRequest;				
 		END_IF
 		
 	E_Request.Pause:
 		IF eState >= E_State.Paused THEN
-			M_Request:= TRUE;
+			M_RequestState:= TRUE;
 		ELSE
 			IF eStateRequest < eRequest THEN
 				eStateRequest:= eRequest;				
@@ -625,7 +625,7 @@ CASE eRequest OF
 		
 	E_Request.Hold:
 		IF eState >= E_State.Held THEN
-			M_Request:= TRUE;
+			M_RequestState:= TRUE;
 		ELSE
 			IF eStateRequest < eRequest THEN
 				eStateRequest:= eRequest;				
@@ -634,7 +634,7 @@ CASE eRequest OF
 		
 	E_Request.Complete:
 		IF eState = E_State.Completed THEN
-			M_Request:= TRUE;
+			M_RequestState:= TRUE;
 		ELSE
 			IF eStateRequest < eRequest THEN
 				eStateRequest:= eRequest;				
@@ -643,7 +643,7 @@ CASE eRequest OF
 		
 	E_Request.Stop:
 		IF eState = E_State.Stopped THEN
-			M_Request:= TRUE;
+			M_RequestState:= TRUE;
 		ELSE
 			IF eStateRequest < eRequest THEN
 				eStateRequest:= eRequest;				
@@ -652,7 +652,7 @@ CASE eRequest OF
 		
 	E_Request.Abort:
 		IF eState = E_State.Aborted THEN
-			M_Request:= TRUE;
+			M_RequestState:= TRUE;
 		ELSE
 			IF eStateRequest < eRequest THEN
 				eStateRequest:= eRequest;				
@@ -661,7 +661,7 @@ CASE eRequest OF
 
 	E_Request.Reset:
 		IF eState = E_State.Idle THEN
-			M_Request:= TRUE;
+			M_RequestState:= TRUE;
 		ELSE
 			eStateRequest:= eRequest;			
 		END_IF
@@ -698,25 +698,25 @@ END_VAR]]></Declaration>
 CASE stEvent.eRequest OF
     E_Request.Pause:
 		IF fbEvent.P_Settings.bPause THEN
-			M_Request(stEvent.eRequest);
+			M_RequestState(stEvent.eRequest);
 		END_IF
 		
     E_Request.Hold:
 		IF fbEvent.P_Settings.bHold THEN
-			M_Request(stEvent.eRequest);
+			M_RequestState(stEvent.eRequest);
 		END_IF
 		
 	E_Request.Complete:
 		IF fbEvent.P_Settings.bComplete THEN
-			M_Request(stEvent.eRequest);
+			M_RequestState(stEvent.eRequest);
 		END_IF
 		 
 	E_Request.Stop, E_Request.Abort:
-		M_Request(stEvent.eRequest);
+		M_RequestState(stEvent.eRequest);
 END_CASE
 
 // Select new mode
-M_Switch(stEvent.eMode);
+M_RequestMode(stEvent.eMode);
 
 // Notify all other components in observer
 fbEvent.P_Observer.M_Notify(stEvent);]]></ST>

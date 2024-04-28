@@ -7,8 +7,9 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbMembers:					FB_ListComponent(THIS^);
-	fbFunctions:				FB_ListComponent(THIS^);
+	nStartup:					DINT;
+	fbLayers:					FB_Layers;
+	fbFunctions:				FB_Layer;
 	fbLoggerFactory:			FB_LoggerFactory;;
 	fbTcLogger:					FB_TcLogger;
 	fbFileLogger:				FB_FileLogger;
@@ -27,19 +28,6 @@ fbEvent.M_AddSTRING(P_ID);
 fbEvent.M_Information('Module %s aborted, reset', 2);]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Members" Id="{0dae014c-8bf1-0ea8-0443-bc557f886d0d}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY P_Members : I_ListComponent]]></Declaration>
-      <Get Name="Get" Id="{1e93fc27-c675-09f0-0327-4e1fffff1db2}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Members:= fbMembers;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="M_Notify" Id="{3e3bd136-985e-02f3-13ad-fb2cf544334e}">
       <Declaration><![CDATA[METHOD PUBLIC M_Notify
 VAR_INPUT
@@ -82,18 +70,6 @@ END_VAR]]></Declaration>
 END_CASE]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Attach" Id="{579d130b-ed70-0843-1869-7cfcfab74d3d}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Attach
-VAR_INPUT
-	Component:		I_Component;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbMembers.M_Add(Component);
-Component.P_Event.P_Observer.M_Attach(THIS^);
-P_Event.P_Observer.M_Attach(Component);]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Completing" Id="{59aee546-4f8e-0ca5-32cb-b922aa446d6e}">
       <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL // Return state complete
 VAR_INPUT
@@ -104,8 +80,8 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Completing:= TRUE;
-WHILE nIndex < fbFunctions.P_Length DO
-	CASE fbFunctions.M_Index(nIndex).P_State OF
+WHILE nIndex < fbFunctions.P_List.P_Length DO
+	CASE fbFunctions.P_List.M_Index(nIndex).P_State OF
 		E_State.Idle,E_State.Completed,E_State.Stopped,E_State.Aborted:
 			;
 		ELSE
@@ -121,7 +97,20 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Starting:= fbMembers.M_Request(E_Request.Start);]]></ST>
+        <ST><![CDATA[CASE nStartup OF
+	0:
+		IF fbLayers.fbE0.M_RequestState(E_Request.Start) THEN
+			nStartup:= 1;
+		END_IF
+	1:
+		IF fbLayers.fbE1.M_RequestState(E_Request.Start) THEN
+			nStartup:= 2;
+		END_IF
+	2:
+		IF fbLayers.fbOn.M_RequestState(E_Request.Start) THEN
+			M_Starting:= TRUE;
+		END_IF
+END_CASE]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Resetting" Id="{61e3d89a-8bee-473b-9814-ba7482888f16}">
@@ -131,8 +120,10 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Resetting:= SUPER^.M_Resetting();
-fbMembers.M_Request(E_Request.Reset);
-fbFunctions.M_Request(E_Request.Reset);
+fbLayers.fbE0.M_RequestState(E_Request.Reset);
+fbLayers.fbE1.M_RequestState(E_Request.Reset);
+fbLayers.fbOn.M_RequestState(E_Request.Reset);
+fbFunctions.M_RequestState(E_Request.Reset);
 fbLoggerFactory.M_Reset();]]></ST>
       </Implementation>
     </Method>
@@ -147,6 +138,18 @@ fbEvent.M_AddSTRING(P_ID);
 fbEvent.M_Information('Module %s not started', 3);]]></ST>
       </Implementation>
     </Method>
+    <Property Name="P_Layers" Id="{7d592658-192b-02a8-1426-872f2de7dc9b}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+{attribute 'suppress_wrn_C0410'}
+PROPERTY PUBLIC P_Layers : I_Layers]]></Declaration>
+      <Get Name="Get" Id="{5e9545a3-869c-0efd-1436-1c507ab67edb}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Layers:= fbLayers;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="M_Running" Id="{8879f60a-43a4-0568-363b-e25a42eddf0c}">
       <Declaration><![CDATA[METHOD PROTECTED M_Running
 VAR_INPUT
@@ -154,18 +157,6 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Dettach" Id="{a667402b-5023-09c1-34b6-30ca3f961f61}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Dettach
-VAR_INPUT
-	Component:		I_Component;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbMembers.M_Remove(Component);
-Component.P_Event.P_Observer.M_Detach(THIS^);
-P_Event.P_Observer.M_Detach(Component);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Pausing" Id="{a7388aa8-4607-0ab0-06a2-4380b929ddfc}">
@@ -178,8 +169,8 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Pausing:= TRUE;
-WHILE nIndex < fbFunctions.P_Length DO
-	CASE fbFunctions.M_Index(nIndex).P_State OF
+WHILE nIndex < fbFunctions.P_List.P_Length DO
+	CASE fbFunctions.P_List.M_Index(nIndex).P_State OF
 		E_State.Idle,E_State.Completed,E_State.Stopped,E_State.Aborted:
 			;
 		ELSE
@@ -197,6 +188,11 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Cycle();
 
+
+fbLayers.M_Cycle();
+
+fbFunctions.M_Cycle();
+
 fbLoggerFactory();
 fbTcLogger();
 fbFileLogger();]]></ST>
@@ -205,7 +201,7 @@ fbFileLogger();]]></ST>
     <Property Name="P_Logger" Id="{c55063f0-992b-0aed-3c0c-919e65541396}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
-PROPERTY P_Logger : I_LoggerFactory]]></Declaration>
+PROPERTY PUBLIC P_Logger : I_LoggerFactory]]></Declaration>
       <Get Name="Get" Id="{9b209d20-0f0e-034c-3f13-7b78d0798434}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -223,8 +219,9 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Initialise();
 
-fbMembers.iParent:= THIS^;
-fbFunctions.iParent:= THIS^;
+fbLayers.fbE0.P_Next:= fbLayers.fbE1;
+fbLayers.fbE1.P_Next:= fbLayers.fbOn;
+fbLayers.fbOn.P_Next:= THIS^;
 
 fbEvent.P_Settings.bPause:= TRUE;
 fbEvent.P_Settings.bHold:= TRUE;
@@ -240,7 +237,7 @@ fbFileLogger.sFilePathName:= 'C:\LOG\log.txt';]]></ST>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF fbMembers.M_Request(E_Request.Start) THEN
+        <ST><![CDATA[IF fbLayers.fbE0.M_RequestState(E_Request.Start) THEN
 	M_Resuming:= TRUE;
 	fbLoggerFactory.M_Reset();
 END_IF]]></ST>
@@ -251,7 +248,7 @@ END_IF]]></ST>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF fbMembers.M_Request(E_Request.Start) THEN
+        <ST><![CDATA[IF fbLayers.fbE0.M_RequestState(E_Request.Start) THEN
 	M_Unholding:= TRUE;
 	fbLoggerFactory.M_Reset();
 END_IF]]></ST>
@@ -267,8 +264,8 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Holding:= TRUE;
-WHILE nIndex < fbFunctions.P_Length DO
-	CASE fbFunctions.M_Index(nIndex).P_State OF
+WHILE nIndex < fbFunctions.P_List.P_Length DO
+	CASE fbFunctions.P_List.M_Index(nIndex).P_State OF
 		E_State.Idle,E_State.Completed,E_State.Stopped,E_State.Aborted:
 			;
 		ELSE

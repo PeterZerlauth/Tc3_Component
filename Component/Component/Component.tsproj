@@ -41,7 +41,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Development" PrjFilePath="Development\Development.plcproj" TmcFilePath="Development\Development.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{75BF4F0E-575E-F431-DF35-49FB2D7A70FC}" TmcPath="Development\Development.tmc">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{5732039D-4415-E471-3595-DA9BD6457034}" TmcPath="Development\Development.tmc">
 					<Name>Development Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -58,14 +58,6 @@
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
 						<Var>
-							<Name>MAIN.fbModule1.fbCylinder.bInputA</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbModule1.fbCylinder.bInputB</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>IO.bOn</Name>
 							<Type>BOOL</Type>
 						</Var>
@@ -79,6 +71,14 @@
 						</Var>
 						<Var>
 							<Name>IO.bFuse</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbModule1.fbCylinder.bInputA</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbModule1.fbCylinder.bInputB</Name>
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>
