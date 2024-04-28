@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <Itf Name="I_ListBase" Id="{a3cd9153-0c75-00d3-05d8-20fe19f8ccb0}">
-    <Declaration><![CDATA[INTERFACE I_ListBase
-]]></Declaration>
+    <Declaration><![CDATA[INTERFACE I_ListBase EXTENDS I_Object]]></Declaration>
     <Property Name="P_Length" Id="{49615258-7cc8-4370-999e-56e1024f4c79}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}

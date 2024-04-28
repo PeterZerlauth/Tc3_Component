@@ -15,15 +15,15 @@ fbModule1.M_Cycle();
 fbComponent.M_Cycle();
 
 IF bReset THEN
-	bReset:= NOT fbComponent.M_Request(E_Request.Reset);
+	bReset:= NOT fbComponent.M_RequestState(E_Request.Reset);
 END_IF
 
 IF bStart THEN
-	bStart:= NOT fbComponent.M_Request(E_Request.Start);
+	bStart:= NOT fbComponent.M_RequestState(E_Request.Start);
 END_IF
 
 IF bStop THEN
-	bStop:= NOT fbComponent.M_Request(E_Request.Stop);
+	bStop:= NOT fbComponent.M_RequestState(E_Request.Stop);
 END_IF]]></ST>
     </Implementation>
   </POU>
