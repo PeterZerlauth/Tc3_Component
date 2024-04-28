@@ -1,18 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Module01" Id="{3744d03d-359c-4ab8-84fb-4ea93b7a5162}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_Module01 EXTENDS FB_ModuleBase
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Module01 EXTENDS FB_Module
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	bWarning:					BOOL;
+	nIndex:						INT;
 	fbComponent1:				FB_Component;
 	fbComponent2:				FB_Component;
 	fbComponent3:				FB_ComponentEx;
 	fbCylinder:					FB_Cylinder;
 	fbProcess:					FB_Component;
+	fbComponents:				ARRAY [0..99] OF FB_Component;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
@@ -43,9 +44,9 @@ END_VAR]]></Declaration>
 		M_Execute:= TRUE;
 END_CASE
 
-IF bWarning THEN
-	fbEvent.M_Warning('My secound Warning', 19 );	
-END_IF
+// IF bWarning THEN
+// 	fbEvent.M_Warning('My secound Warning', 19 );	
+// END_IF
 ]]></ST>
       </Implementation>
     </Method>
@@ -63,7 +64,10 @@ M_Stopping:= SUPER^.M_Stopping();]]></ST>
       <Declaration><![CDATA[METHOD PUBLIC M_Cycle
 VAR_INPUT
 END_VAR
-]]></Declaration>
+
+VAR
+
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Cycle();
 
@@ -74,8 +78,9 @@ fbCylinder.M_Cycle();
 
 fbProcess.M_Cycle();
 
-//P_Event.M_AddSTRING('Test');
-//P_Event.M_Warning('Some Warning %s', '');]]></ST>
+FOR nIndex:= 0 TO 99 DO
+	fbComponents[nIndex].M_Cycle();
+END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Starting" Id="{6f002794-61fc-043c-1d84-a8bc502c5d3a}">
@@ -100,14 +105,18 @@ Globals.bSimulation:= TRUE;
 P_ID:= 'M001';
 
 
-fbMembers.M_Attach(fbComponent1);
+
 fbMembers.M_Attach(fbComponent2);
 fbMembers.M_Attach(fbComponent3);
 
 fbCylinder.P_ID:= 'Y1';
 M_Attach(fbCylinder);
 
-fbFunctions.M_Attach(fbProcess);]]></ST>
+fbFunctions.M_Attach(fbProcess);
+
+FOR nIndex:= 0 TO 99 DO
+	fbMembers.M_Attach(fbComponents[nIndex]);
+END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{eaffebca-5ff2-4f17-be84-3310a9ace22e}">

@@ -57,6 +57,7 @@
     <Folder Include="Logger" />
     <Folder Include="Module" />
     <Folder Include="Images" />
+    <Folder Include="Function" />
     <Folder Include="Utils" />
     <Folder Include="Object" />
     <Folder Include="Utils\File" />
@@ -113,6 +114,9 @@
     <Compile Include="Component\I_Component.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Component\I_Cycle.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Component\Sequence\E_Sequence.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -123,6 +127,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Component\Sequence\ST_Sequence.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Function\FB_Function.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">
@@ -257,6 +264,9 @@
     <Content Include="Images\test.jpg">
       <SubType>Content</SubType>
     </Content>
+    <None Include="Tc3_Component.tmc">
+      <SubType>Content</SubType>
+    </None>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

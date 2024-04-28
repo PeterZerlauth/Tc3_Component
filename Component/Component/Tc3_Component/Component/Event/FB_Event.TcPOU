@@ -47,7 +47,7 @@ ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-IF aHistory[0].sMessage = stEvent.sMessage THEN
+IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
 	aHistory[0]:= stEvent;
 END_IF]]></ST>
@@ -81,7 +81,7 @@ ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-IF aHistory[0].sMessage = stEvent.sMessage THEN
+IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
 	aHistory[0]:= stEvent;
 END_IF
@@ -118,7 +118,7 @@ END_IF
 
 iParent.M_Request(E_Request.Stop);
 
-IF aHistory[0].sMessage = stEvent.sMessage THEN
+IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
 	aHistory[0]:= stEvent;
 END_IF]]></ST>
@@ -195,7 +195,7 @@ ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-IF aHistory[0].sMessage = stEvent.sMessage THEN
+IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
 	aHistory[0]:= stEvent;
 END_IF]]></ST>
@@ -289,7 +289,7 @@ ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-IF aHistory[0].sMessage = stEvent.sMessage THEN
+IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
 	aHistory[0]:= stEvent;
 END_IF]]></ST>
@@ -335,7 +335,7 @@ END_IF
 
 iParent.M_Request(E_Request.Abort);
 
-IF aHistory[0].sMessage = stEvent.sMessage THEN
+IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
 	aHistory[0]:= stEvent;
 END_IF
@@ -417,8 +417,10 @@ END_IF
 
 fbObserver.M_Notify(stEvent);
 
-MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
-aHistory[0]:= stEvent;]]></ST>
+IF aHistory[0].sMessage <> stEvent.sMessage THEN
+	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
+	aHistory[0]:= stEvent;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Information" Id="{d9a244f2-1d6f-434f-aab4-cad6aacbb94f}">
@@ -449,7 +451,7 @@ ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-IF aHistory[0].sMessage = stEvent.sMessage THEN
+IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
 	aHistory[0]:= stEvent;
 END_IF]]></ST>
@@ -483,7 +485,7 @@ ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-IF aHistory[0].sMessage = stEvent.sMessage THEN
+IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
 	aHistory[0]:= stEvent;
 END_IF]]></ST>

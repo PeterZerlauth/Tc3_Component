@@ -78,6 +78,18 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Property Name="P_Settings" Id="{a8b74489-2929-0fc5-37b2-003d61353c41}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+{attribute 'suppress_wrn_C0410'}
+PROPERTY PUBLIC P_Settings : REFERENCE TO ST_EventSettings]]></Declaration>
+      <Get Name="Get" Id="{81923264-ddc5-0b7d-1e4d-507c04cf98f9}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{cb02c832-afdd-047a-1d8f-7581d5ed309c}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
     <Method Name="M_Warning" Id="{ae861465-4d88-0ffb-03b6-6d69b34da892}">
       <Declaration><![CDATA[METHOD PUBLIC M_Warning
 VAR_INPUT
