@@ -9,7 +9,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	sIdentifier:				STRING(25);	// Equipment ID
-	Channel			AT%I*: INT;	// Link to input
+	Channel						AT%I*: INT;	// Link to input
 END_VAR
 ]]></Declaration>
     <Implementation>

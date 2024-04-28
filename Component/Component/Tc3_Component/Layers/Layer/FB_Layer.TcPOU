@@ -7,7 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	iNext:				I_Component;
+	iNext:				I_Component;	// Chain of Responsibility behavioral design pattern 
 	fbList:				FB_ListComponent;
 END_VAR
 ]]></Declaration>

@@ -17,6 +17,12 @@ END_VAR]]></Declaration>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
 IF NOT bCreate THEN
 	bCreate:= fbFile.M_Create(sFilePathName);
+END_IF
+
+IF aBuffer[0] <> '' THEN
+	IF fbFile.M_AppendLine(aBuffer[0]) THEN
+		aBuffer[0]:= '';
+	END_IF
 END_IF]]></ST>
     </Implementation>
     <Method Name="M_Log" Id="{545ba6e7-d98e-0935-1ff3-aa8c1264279b}">
@@ -30,8 +36,11 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF stEvent.eEventType >= eLogLevel THEN
-	sMessage:= Concat(Concat(stEvent.sInstance, ' | '), stEvent.sDefault);
-	fbFile.M_AppendLine(sMessage);
+	sMessage:= Concat(sMessage, TO_STRING(stEvent.nTimestamp));
+	sMessage:= Concat(sMessage, '[');
+	sMessage:= Concat(sMessage, TO_STRING(stEvent.eEventType));
+	sMessage:= Concat(Concat(stEvent.sInstance, '] '), stEvent.sDefault);
+	aBuffer[0]:= sMessage;
 END_IF]]></ST>
       </Implementation>
     </Method>
