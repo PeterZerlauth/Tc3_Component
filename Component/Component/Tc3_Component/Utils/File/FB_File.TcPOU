@@ -17,7 +17,16 @@ VAR_OUTPUT
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+fbCreateDir();
+fbLoad();
+fbOpen();
+fbClose();
+fbDelete();
+fbWrite();
+fbRead();
+
+]]></ST>
     </Implementation>
     <Method Name="M_Create" Id="{4073b930-08f8-085b-033b-17e9d35d4ea4}">
       <Declaration><![CDATA[METHOD PUBLIC M_Create : BOOL
@@ -31,8 +40,7 @@ VAR_INST
 	nPosition: INT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbCreateDir();
-nTemp := FIND(RIGHT(PathName, LEN(PathName) - nPosition), '\');
+        <ST><![CDATA[nTemp := FIND(RIGHT(PathName, LEN(PathName) - nPosition), '\');
 if nTemp <> 0 then
 	IF fbCreateDir.bExecute THEN
 		IF NOT fbCreateDir.bBusy THEN
@@ -64,8 +72,7 @@ END_VAR
 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbDelete();
-IF fbDelete.bExecute THEN
+        <ST><![CDATA[IF fbDelete.bExecute THEN
 	IF fbDelete.bError THEN
 		fbDelete.bExecute:= FALSE;
 		M_Delete:= TRUE;
@@ -91,8 +98,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbLoad();
-IF fbLoad.bExecute THEN
+        <ST><![CDATA[IF fbLoad.bExecute THEN
 	IF fbLoad.bError THEN
 		nError:= fbLoad.nErrId;
 		fbLoad.bExecute:= FALSE;
@@ -115,8 +121,7 @@ VAR_INPUT
 	Text:			STRING(255);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbWrite();
-IF fbWrite.bExecute THEN
+        <ST><![CDATA[IF fbWrite.bExecute THEN
 	IF fbWrite.bError THEN
 		nError:= fbWrite.nErrId;
 		fbWrite.bExecute:= FALSE;
@@ -140,8 +145,7 @@ VAR_INPUT
 	Value:		ANY;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbWrite();
-IF fbWrite.bExecute THEN
+        <ST><![CDATA[IF fbWrite.bExecute THEN
 	IF fbWrite.bError THEN
 		nError:= fbWrite.nErrId;
 		fbWrite.bExecute:= FALSE;
@@ -165,8 +169,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbClose();
-IF fbClose.bExecute THEN
+        <ST><![CDATA[IF fbClose.bExecute THEN
 	IF fbClose.hFile = 0 THEN
 		fbClose.bExecute:= FALSE;
 		M_Close:= TRUE;
@@ -198,8 +201,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbOpen();
-IF fbOpen.bExecute THEN
+        <ST><![CDATA[IF fbOpen.bExecute THEN
 	IF fbOpen.bError THEN
 		nError:= fbOpen.nErrId;
 		fbOpen.bExecute:= FALSE;
@@ -226,8 +228,7 @@ VAR_INPUT
 	Value:		ANY;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbRead();
-IF fbRead.bExecute THEN
+        <ST><![CDATA[IF fbRead.bExecute THEN
 	IF fbRead.bError THEN
 		nError:= fbRead.nErrId;
 		fbRead.bExecute:= FALSE;

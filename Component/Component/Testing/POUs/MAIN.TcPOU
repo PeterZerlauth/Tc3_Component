@@ -14,9 +14,7 @@ VAR
 	fbComponent2:			FB_Component;
 	
 	fbComponentLinked1:		FB_Component;
-	fbComponentLinked2:		FB_Component;	
-	
-
+	fbComponentLinked2:		FB_Component;
 END_VAR
 ]]></Declaration>
     <Implementation>

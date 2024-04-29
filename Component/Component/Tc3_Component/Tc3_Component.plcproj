@@ -49,7 +49,7 @@
   <ItemGroup>
     <Folder Include="Component" />
     <Folder Include="Component\Event" />
-    <Folder Include="Component\Event\Observer" />
+    <Folder Include="Component\Event\Observable" />
     <Folder Include="Component\Info" />
     <Folder Include="Component\Sequence" />
     <Folder Include="Layers" />
@@ -77,13 +77,13 @@
     <Compile Include="Component\Event\I_Event.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Component\Event\Observer\FB_Observer.TcPOU">
+    <Compile Include="Component\Event\Observable\FB_Observable.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Component\Event\Observer\I_Notify.TcIO">
+    <Compile Include="Component\Event\Observable\I_Observer.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Component\Event\Observer\I_Observer.TcIO">
+    <Compile Include="Component\Event\Observable\I_Observable.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Component\Event\ST_Event.TcDUT">
@@ -269,7 +269,7 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Component\Event\Observer\Observer.png">
+    <Content Include="Component\Event\Observable\Observer.png">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Images\StateModel.svg">

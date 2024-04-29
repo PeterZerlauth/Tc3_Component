@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_Observer" Id="{52aee6c6-b98c-4cb9-9b9b-2f523841c4cc}" SpecialFunc="None">
+  <POU Name="FB_Observable" Id="{52aee6c6-b98c-4cb9-9b9b-2f523841c4cc}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'no_explicit_call'} 
-FUNCTION_BLOCK PUBLIC FB_Observer IMPLEMENTS I_Observer
+FUNCTION_BLOCK PUBLIC FB_Observable IMPLEMENTS I_Observable
 VAR_INPUT
 	iParent:		I_Component;	
 END_VAR

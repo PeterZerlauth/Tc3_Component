@@ -102,14 +102,14 @@ END_VAR
 
 Globals.bSimulation:= TRUE;
 
-P_ID:= 'M001';
+P_Info.P_ID:= 'M001';
 
 
 
 fbLayers.fbE0.M_Attach(fbComponent2);
 fbLayers.fbE1.M_Attach(fbComponent3);
 
-fbCylinder.P_ID:= 'Y1';
+fbCylinder.P_Info.P_ID:= 'Y1';
 fbLayers.fbE1.M_Attach(fbCylinder);
 
 fbFunctions.M_Attach(fbProcess);

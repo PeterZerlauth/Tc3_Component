@@ -1,19 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <Itf Name="I_Component" Id="{84a5f8f6-b81b-4747-a25d-2c3abe61b573}">
-    <Declaration><![CDATA[INTERFACE I_Component EXTENDS I_Notify, I_Cycle
+    <Declaration><![CDATA[INTERFACE I_Component EXTENDS I_Observer, I_Cycle
 ]]></Declaration>
-    <Property Name="P_ID" Id="{1189c098-5eec-0d68-18e7-7614f6e3884e}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_ID : STRING(25)]]></Declaration>
-      <Get Name="Get" Id="{119ce5e0-3bc0-09ab-2641-05ccee762aba}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-      <Set Name="Set" Id="{681c1b60-d8b1-03de-1397-a3678979d92b}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
-    </Property>
     <Method Name="M_RequestMode" Id="{208c4c43-a103-0c2c-0258-2704597726e6}">
       <Declaration><![CDATA[METHOD PUBLIC M_RequestMode : BOOL
 VAR_INPUT

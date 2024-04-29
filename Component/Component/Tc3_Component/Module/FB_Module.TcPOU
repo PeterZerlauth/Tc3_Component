@@ -24,7 +24,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Aborted();
-fbEvent.M_AddSTRING(P_ID);
+fbEvent.M_AddSTRING(P_Info.P_ID);
 fbEvent.M_Information('Module %s aborted, reset', 2);]]></ST>
       </Implementation>
     </Method>
@@ -45,7 +45,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Stopped();
-fbEvent.M_AddSTRING(P_ID);
+fbEvent.M_AddSTRING(P_Info.P_ID);
 fbEvent.M_Information('Module %s stopped, reset', 5);]]></ST>
       </Implementation>
     </Method>
@@ -134,7 +134,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Idle();
-fbEvent.M_AddSTRING(P_ID);
+fbEvent.M_AddSTRING(P_Info.P_ID);
 fbEvent.M_Information('Module %s not started', 3);]]></ST>
       </Implementation>
     </Method>

@@ -14,7 +14,9 @@ VAR CONSTANT
 	nBuffer:					DINT:= 3;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+      <ST><![CDATA[fbFile();
+
+// https://github.com/PeterZerlauth/Tc3_Component
 IF NOT bCreate THEN
 	bCreate:= fbFile.M_Create(sFilePathName);
 END_IF

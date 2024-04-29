@@ -11,12 +11,12 @@ END_VAR
 VAR
 
 	sIdentifier:				STRING(25);	// Equipment ID
-	Channel			AT%I*: BOOL;	// Link to input
-	fbDebounce:		FB_Debounce;
+	bChannel				AT%I*: BOOL;	// Link to input
+	fbDebounce:				FB_Debounce;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
-fbDebounce(bInput:= Channel, tTime:= tDebounce);]]></ST>
+fbDebounce(bInput:= bChannel, tTime:= tDebounce);]]></ST>
     </Implementation>
     <Property Name="P_State" Id="{c3d8c2a3-d582-03a1-3305-487cd866c231}">
       <Declaration><![CDATA[PROPERTY P_State : EPlcMappingStatus]]></Declaration>
@@ -25,7 +25,7 @@ fbDebounce(bInput:= Channel, tTime:= tDebounce);]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_State:= F_GetMappingStatus(ADR(Channel), SIZEOF(BOOL));]]></ST>
+          <ST><![CDATA[P_State:= F_GetMappingStatus(ADR(bChannel), SIZEOF(BOOL));]]></ST>
         </Implementation>
       </Get>
     </Property>

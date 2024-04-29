@@ -3,19 +3,20 @@
   <POU Name="FB_Event" Id="{59616103-7f2e-4b6f-81bd-583969a36d28}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Event IMPLEMENTS I_Event
 VAR_INPUT
-	fbObserver:			FB_Observer;				// Observer
+	fbObserver:			FB_Observable;				// Observer
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	iParent:			I_Component;				// Parent component
     {attribute 'hide'}
-	fbList:				FB_ListString;
-	iParent:			I_Component;
+	fbList:				FB_ListString;				// contains a list with string values
+
     {attribute 'hide'}
-	stSettings:			ST_EventSettings;
-	stEvent:			ST_Event;
+	stSettings:			ST_EventSettings;			// Event settings
+	stEvent:			ST_Event;					// Event
     {attribute 'hide'}
-	aHistory:			ARRAY [0..5] OF ST_Event;
+	aHistory:			ARRAY [0..5] OF ST_Event;	// History of events
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
@@ -157,7 +158,7 @@ M_AddBOOL:= THIS^;]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Observer" Id="{5a2ea21c-aedb-0c6a-2f12-df08356b98aa}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observer]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observable]]></Declaration>
       <Get Name="Get" Id="{a355a491-866b-0089-1d02-e50cef149847}">
         <Declaration><![CDATA[VAR
 END_VAR
