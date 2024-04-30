@@ -116,7 +116,8 @@ fbFunctions.M_Attach(fbProcess);
 
 FOR nIndex:= 0 TO 99 DO
 	fbLayers.fbE1.M_Attach(fbComponents[nIndex]);
-END_FOR]]></ST>
+END_FOR
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{eaffebca-5ff2-4f17-be84-3310a9ace22e}">

@@ -85,9 +85,6 @@ ELSE
 		END_IF
 	END_IF
 END_IF
-IF iParent.P_State = E_State.Execute THEN
-	stRestore:= stActual;
-END_IF
 
 ]]></ST>
       </Implementation>
@@ -131,11 +128,19 @@ END_VAR
       <Implementation>
         <ST><![CDATA[stActual.nNumber:= E_Sequence.Start;
 stActual.sMessage:= 'E_Sequence.Start';
-stRestore:= stActual;
 MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Sequence) * Parameters.nSequence);
 aHistory[0]:= stActual;
 fbDelay(IN:= FALSE);
 fbTimeout(IN:= FALSE);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Save" Id="{8097faac-e0ea-037d-0757-09324610c774}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Save
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stRestore:= stActual;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{9410888f-1e8d-054b-01cb-f8f70c408f51}">
