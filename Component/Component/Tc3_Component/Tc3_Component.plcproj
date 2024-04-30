@@ -169,9 +169,6 @@
     <Compile Include="Logger\FB_AbstractLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logger\FB_JsonLogger.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Logger\FB_TcLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -211,6 +208,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utils\Analog\I_AnalogChannel.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\FB_ArrayDint.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utils\FB_Debounce.TcPOU">

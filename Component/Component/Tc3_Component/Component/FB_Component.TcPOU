@@ -267,6 +267,7 @@ CASE eState OF
 		IF M_Starting() THEN
 			eState:= E_State.Execute;
 			eStateRequest:= E_RequestState.Undefined;
+			fbSequence.M_Restore();
 		END_IF
 		CASE eStateRequest OF
 			

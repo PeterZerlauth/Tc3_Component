@@ -2,8 +2,15 @@
 <TcPlcObject Version="1.1.0.1">
   <Itf Name="I_Sequence" Id="{ab5e2af8-509e-42fb-9956-7609633302ce}">
     <Declaration><![CDATA[INTERFACE I_Sequence EXTENDS I_Object]]></Declaration>
+    <Method Name="M_Set" Id="{203e47bc-7cbc-0994-321f-f35f9b26fbd3}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Set
+VAR_INPUT
+	nNumber:				INT;
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="M_Reset" Id="{4610609d-250e-0cea-1947-6366c1b79c60}">
-      <Declaration><![CDATA[METHOD M_Reset]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset]]></Declaration>
     </Method>
     <Property Name="P_Number" Id="{79c47681-726d-072e-0b7d-db06b1d061b8}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}

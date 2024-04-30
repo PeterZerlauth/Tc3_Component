@@ -12,7 +12,6 @@ VAR
 	fbFunctions:				FB_Layer;
 	fbLogger:					FB_Logger;
 	fbTcLogger:					FB_TcLogger;
-	fbJsonLogger:				FB_JsonLogger;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
@@ -85,21 +84,26 @@ END_WHILE]]></ST>
       <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL
 VAR_INPUT
 END_VAR
+VAR
+	bReturn:			BOOL;
+END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE nStartup OF
-	0:
-		IF fbLayers.fbE0.M_RequestState(E_RequestState.Start) THEN
-			nStartup:= 1;
-		END_IF
-	1:
-		IF fbLayers.fbE1.M_RequestState(E_RequestState.Start) THEN
-			nStartup:= 2;
-		END_IF
-	2:
-		IF fbLayers.fbOn.M_RequestState(E_RequestState.Start) THEN
-			M_Starting:= TRUE;
-		END_IF
+        <ST><![CDATA[CASE fbSequence.P_Number OF
+	E_Sequence.Start:
+		bReturn:= fbLayers.fbE0.M_RequestState(E_RequestState.Start);
+		fbSequence.M_Await('Start layer 0', T#5S, T#1S, FALSE, bReturn, 10);
+		
+	10:
+		bReturn:= fbLayers.fbE1.M_RequestState(E_RequestState.Start);
+		fbSequence.M_Await('Start layer 1', T#5S, T#1S, FALSE, bReturn, 20);
+		
+	20:
+		bReturn:= fbLayers.fbOn.M_RequestState(E_RequestState.Start);
+		fbSequence.M_Await('Start layer 1', T#5S, T#1S, FALSE, bReturn, E_Sequence.Done);
+		
+	E_Sequence.Done:
+		M_Starting:= TRUE;
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -114,7 +118,8 @@ fbLayers.fbE0.M_RequestState(E_RequestState.Reset);
 fbLayers.fbE1.M_RequestState(E_RequestState.Reset);
 fbLayers.fbOn.M_RequestState(E_RequestState.Reset);
 fbFunctions.M_RequestState(E_RequestState.Reset);
-fbLogger.M_Reset();]]></ST>
+fbLogger.M_Reset();
+fbTcLogger.M_Reset();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Idle" Id="{6e9b6a1a-c168-0e2f-3b3d-1c86715a124a}">
@@ -184,8 +189,7 @@ fbLayers.M_Cycle();
 fbFunctions.M_Cycle();
 
 fbLogger();
-fbTcLogger();
-fbJsonLogger();]]></ST>
+fbTcLogger();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Initialise" Id="{d2ecc479-1ed6-0218-1db6-cf2c288ac295}">
@@ -220,6 +224,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[IF fbLayers.fbE0.M_RequestState(E_RequestState.Start) THEN
 	M_Resuming:= TRUE;
 	fbLogger.M_Reset();
+	fbTcLogger.M_Reset();
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -231,6 +236,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[IF fbLayers.fbE0.M_RequestState(E_RequestState.Start) THEN
 	M_Unholding:= TRUE;
 	fbLogger.M_Reset();
+	fbTcLogger.M_Reset();
 END_IF]]></ST>
       </Implementation>
     </Method>

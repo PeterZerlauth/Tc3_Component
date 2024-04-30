@@ -3,7 +3,6 @@
   <POU Name="FB_TcLogger" Id="{72d2883e-ad59-0356-2a9f-38b1de8737b2}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_TcLogger EXTENDS FB_AbstractLogger
 VAR 
-    {attribute 'hide'}
 	aEvent:						ARRAY [0..nSize - 1] OF ST_Event;
 END_VAR
 VAR CONSTANT 
@@ -68,6 +67,15 @@ ELSE
 		END_CASE
 	END_IF
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{cbf19873-fa53-0b82-1325-15b3130d0794}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Reset all events
+Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
       </Implementation>
     </Method>
   </POU>

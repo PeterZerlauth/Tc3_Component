@@ -105,7 +105,7 @@ Globals.bSimulation:= TRUE;
 P_Info.P_ID:= 'M001';
 
 
-
+fbLayers.fbE0.M_Attach(fbComponent1);
 fbLayers.fbE0.M_Attach(fbComponent2);
 fbLayers.fbE1.M_Attach(fbComponent3);
 
