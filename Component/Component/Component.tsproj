@@ -40,8 +40,8 @@
 			</Tasks>
 		</System>
 		<Plc>
-			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Development" PrjFilePath="Development\Development.plcproj" TmcFilePath="Development\Development.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{2575975F-A7EE-D272-6D0C-95F1FD2B1770}" TmcPath="Development\Development.tmc">
+			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Development" PrjFilePath="Development\Development.plcproj" TmcFilePath="Development\Development.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{742548FA-5C38-7DAB-9A4B-6637BC2AE9A3}" TmcPath="Development\Development.tmc">
 					<Name>Development Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -58,14 +58,6 @@
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
 						<Var>
-							<Name>MAIN.fbModule1.fbCylinder.bInputA</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbModule1.fbCylinder.bInputB</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
 							<Name>IO.bOn</Name>
 							<Type>BOOL</Type>
 						</Var>
@@ -79,6 +71,14 @@
 						</Var>
 						<Var>
 							<Name>IO.bFuse</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbModule1.fbCylinder.bInputA</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbModule1.fbCylinder.bInputB</Name>
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>
@@ -122,12 +122,12 @@
 						</Context>
 					</Contexts>
 					<TaskPouOids>
-						<TaskPouOid Prio="21" OTCID="#x08502042"/>
+						<TaskPouOid Prio="21" OTCID="#x08502001"/>
 					</TaskPouOids>
 				</Instance>
 			</Project>
-			<Project GUID="{71649981-AC0D-4A85-8722-507B2F4142F3}" Name="Tc3_Component" PrjFilePath="Tc3_Component\Tc3_Component.plcproj" TmcFilePath="Tc3_Component\Tc3_Component.tmc" ReloadTmc="true" AmsPort="854" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x085020c0" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{C37C285A-86B8-2D05-825D-7EA49223BD84}" TmcPath="Tc3_Component\Tc3_Component.tmc">
+			<Project GUID="{71649981-AC0D-4A85-8722-507B2F4142F3}" Name="Tc3_Component" PrjFilePath="Tc3_Component\Tc3_Component.plcproj" TmcFilePath="Tc3_Component\Tc3_Component.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{2DE74851-8E26-0260-A8EA-B7CAD1F83938}" TmcPath="Tc3_Component\Tc3_Component.tmc">
 					<Name>Tc3_Component Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -138,8 +138,8 @@
 					</Contexts>
 				</Instance>
 			</Project>
-			<Project GUID="{640CD8E2-83AD-418E-8730-5775EDA13AE6}" Name="Testing" PrjFilePath="Testing\Testing.plcproj" TmcFilePath="Testing\Testing.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{73CCA385-0F8F-CDD4-2AD5-F4FFB39331A2}" TmcPath="Testing\Testing.tmc">
+			<Project GUID="{640CD8E2-83AD-418E-8730-5775EDA13AE6}" Name="Testing" PrjFilePath="Testing\Testing.plcproj" TmcFilePath="Testing\Testing.tmc" ReloadTmc="true" AmsPort="853" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{B654639D-1FAF-6C36-3AE0-CA1891985D2D}" TmcPath="Testing\Testing.tmc">
 					<Name>Testing Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -154,7 +154,7 @@
 						</Context>
 					</Contexts>
 					<TaskPouOids>
-						<TaskPouOid Prio="21" OTCID="#x08502001"/>
+						<TaskPouOid Prio="21" OTCID="#x08502081"/>
 					</TaskPouOids>
 				</Instance>
 			</Project>

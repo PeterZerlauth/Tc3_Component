@@ -5,6 +5,7 @@
 TYPE ST_Event :
 	STRUCT
 		iSource:		I_Component;
+		iSender:		I_Observer;
 		eEventType:		E_Event;
 		nTimestamp:   	ULINT;
 		nID:			ULINT;
@@ -13,8 +14,8 @@ TYPE ST_Event :
 		sMessage:		STRING(255);
 		sDefault:		STRING(255);
 		sArguments:		STRING(255);
-		eRequest:		E_Request;
-		eMode:			E_Mode;
+		eRequest:		E_RequestState;
+		eMode:			E_RequestMode;
 		stFlags:		ST_EventFlags;
 	END_STRUCT
 END_TYPE]]></Declaration>

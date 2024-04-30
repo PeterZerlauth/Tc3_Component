@@ -12,13 +12,5 @@ PROPERTY PUBLIC P_Layers : I_Layers]]></Declaration>
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Property Name="P_Logger" Id="{fcaa14c7-3f8f-065c-2573-a0f2fa2a8baa}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Logger : I_LoggerFactory]]></Declaration>
-      <Get Name="Get" Id="{0e5f9ee4-dbec-0cf5-144d-ccdaf3eb6c54}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
   </Itf>
 </TcPlcObject>

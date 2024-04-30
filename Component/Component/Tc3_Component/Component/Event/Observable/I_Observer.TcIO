@@ -4,7 +4,7 @@
     <Declaration><![CDATA[INTERFACE I_Observer EXTENDS I_Object
 ]]></Declaration>
     <Method Name="M_Notify" Id="{d0a0ed14-7b79-0120-0441-d1a3d375e475}">
-      <Declaration><![CDATA[METHOD M_Notify
+      <Declaration><![CDATA[METHOD PUBLIC M_Notify
 VAR_INPUT
 	stEvent:		ST_Event;
 END_VAR

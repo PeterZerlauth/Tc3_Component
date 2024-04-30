@@ -4,8 +4,6 @@
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL CONSTANT
 	{attribute 'analysis' := '-33'}
-	nEvents:						INT:= 49;		// Maximum of Events displayed in each Module
-	{attribute 'analysis' := '-33'}
 	nSequence:						UINT:= 9;		// Maximum of Sequence history
 	{attribute 'analysis' := '-33'}
 	nList:							UINT:= 46;		// Maximum of displayed items in list

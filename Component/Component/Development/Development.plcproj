@@ -38,6 +38,9 @@
       </Events>
     </DeploymentEvents>
     <ObjectRepresentation>base64</ObjectRepresentation>
+    <AllowChecksForLibrary>false</AllowChecksForLibrary>
+    <POUsForPropertyAccessIncluded>false</POUsForPropertyAccessIncluded>
+    <GlobalVersionStructureIncluded>false</GlobalVersionStructureIncluded>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="GVLs\IO.TcGVL">

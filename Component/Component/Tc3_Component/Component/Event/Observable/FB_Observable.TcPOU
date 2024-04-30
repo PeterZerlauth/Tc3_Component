@@ -7,13 +7,13 @@ VAR_INPUT
 	iParent:		I_Component;	
 END_VAR
 VAR
-	pList: 			POINTER TO I_Component;
+	pList: 			POINTER TO I_Observer;
     {attribute 'hide'}
 	nLength:		DINT;
 	{IF (defined (release))}
     	{attribute 'hide'}
 	{END_IF}
-	aList:			POINTER TO POINTER TO ARRAY [0..100] OF I_Component:=ADR(pList);
+	aList:			POINTER TO POINTER TO ARRAY [0..100] OF I_Observer:=ADR(pList);
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -33,7 +33,7 @@ END_IF]]></ST>
     <Method Name="M_Find" Id="{315829c2-37f1-487f-acb0-fff200e1a3d8}">
       <Declaration><![CDATA[METHOD M_Find : DINT
 VAR_INPUT
-	Object: 	I_Component;
+	Object: 	I_Observer;
 END_VAR
 VAR
 	nIndex: 	UINT;
@@ -58,12 +58,12 @@ VAR_INPUT
 END_VAR
 
 VAR
-	iSource:		I_Component:= stEvent.iSource;
+	iSource:		I_Observer:= stEvent.iSender;
 	nIndex: 		DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Prevent Infinite loop from callbacks
-stEvent.iSource:= iParent;
+stEvent.iSender:= iParent;
 WHILE nIndex < nLength DO
 	IF pList[nIndex] <> iSource THEN
 		pList[nIndex].M_Notify(stEvent);		
@@ -73,7 +73,7 @@ END_WHILE]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Index" Id="{6e332950-284b-4ced-bcaa-31bfc1d4668b}">
-      <Declaration><![CDATA[METHOD M_Index : I_Component
+      <Declaration><![CDATA[METHOD M_Index : I_Observer
 VAR_INPUT
 	Index: 	DINT;
 END_VAR
@@ -87,10 +87,10 @@ END_IF]]></ST>
     <Method Name="M_Detach" Id="{6e982e5c-8b12-4999-bbf2-06e2eebe2934}">
       <Declaration><![CDATA[METHOD M_Detach : BOOL
 VAR_INPUT
-	Object: 	I_Component;
+	Object: 	I_Observer;
 END_VAR
 VAR
-	pOldList:			POINTER TO I_Component;
+	pOldList:			POINTER TO I_Observer;
 	nPosition: 			DINT;
 END_VAR]]></Declaration>
       <Implementation>
@@ -105,11 +105,11 @@ END_VAR]]></Declaration>
 			// new Length
 			nLength:= nLength -1;
 			// new pointer
-			pList:= __NEW(POINTER TO I_Component,DINT_TO_UDINT(nLength));
+			pList:= __NEW(POINTER TO I_Observer,DINT_TO_UDINT(nLength));
 			// restore lower part
-			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Component) * DINT_TO_UDINT(nPosition));
+			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Observer) * DINT_TO_UDINT(nPosition));
 			//pList[nPosition]:= iObject;
-			Memcpy(pList + (SIZEOF(POINTER TO I_Component)*nPosition),pOldList + (SIZEOF(POINTER TO I_Component)*(nPosition + 1)), SIZEOF(POINTER TO I_Component) * DINT_TO_UDINT(nLength - nPosition));
+			Memcpy(pList + (SIZEOF(POINTER TO I_Observer)*nPosition),pOldList + (SIZEOF(POINTER TO I_Observer)*(nPosition + 1)), SIZEOF(POINTER TO I_Observer) * DINT_TO_UDINT(nLength - nPosition));
 			// delete old
 			__DELETE(pOldList);
 		ELSE
@@ -153,10 +153,10 @@ END_VAR
     <Method Name="M_Attach" Id="{a96df4cc-8cea-4396-beb7-115ce888674b}">
       <Declaration><![CDATA[METHOD M_Attach : BOOL
 VAR_INPUT
-	Object: 	I_Component;
+	Object: 	I_Observer;
 END_VAR
 VAR
-	pOldList: 	POINTER TO I_Component;
+	pOldList: 	POINTER TO I_Observer;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -164,7 +164,7 @@ END_VAR
 	// First Item
 	IF pList = 0 THEN
 		nLength:= nLength + 1;
-		pList:= __NEW(POINTER TO I_Component,DINT_TO_UDINT(nLength));
+		pList:= __NEW(POINTER TO I_Observer,DINT_TO_UDINT(nLength));
 	ELSE
 		// Item already in List
 		IF M_Find(Object) = -1 THEN
@@ -173,9 +173,9 @@ END_VAR
 			// new Length
 			nLength:= nLength + 1;
 			// new pointer
-			pList:= __NEW(POINTER TO I_Component,DINT_TO_UDINT(nLength));
+			pList:= __NEW(POINTER TO I_Observer,DINT_TO_UDINT(nLength));
 			// restore
-			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Component)*DINT_TO_UDINT(nLength -1));
+			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Observer)*DINT_TO_UDINT(nLength -1));
 			// delete old
 			__DELETE(pOldList);
 		ELSE

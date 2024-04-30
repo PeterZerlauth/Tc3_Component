@@ -30,6 +30,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
+stEvent.iSender:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Debug;
@@ -37,13 +38,13 @@ stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= 0;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_Request.Undefined;
+stEvent.eRequest:= E_RequestState.Undefined;
 stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;
 
 IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Log(stEvent);
+	fbLogger.M_Notify(stEvent);
 ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
@@ -63,6 +64,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
+stEvent.iSender:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
@@ -70,14 +72,14 @@ stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_Request.Hold;
+stEvent.eRequest:= E_RequestState.Hold;
 stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= FALSE;
 
 IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Log(stEvent);
-	iParent.M_RequestState(E_Request.Hold);
+	fbLogger.M_Notify(stEvent);
+	iParent.M_RequestState(E_RequestState.Hold);
 ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
@@ -99,6 +101,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
+stEvent.iSender:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
@@ -106,18 +109,18 @@ stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_Request.Stop;
+stEvent.eRequest:= E_RequestState.Stop;
 stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= FALSE;
 
 IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Log(stEvent);
+	fbLogger.M_Notify(stEvent);
 ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-iParent.M_RequestState(E_Request.Stop);
+iParent.M_RequestState(E_RequestState.Stop);
 
 IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
@@ -178,6 +181,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
+stEvent.iSender:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
@@ -185,13 +189,13 @@ stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_Request.Undefined;
+stEvent.eRequest:= E_RequestState.Undefined;
 stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;
 
 IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Log(stEvent);
+	fbLogger.M_Notify(stEvent);
 ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
@@ -271,6 +275,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
+stEvent.iSender:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
@@ -278,14 +283,14 @@ stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_Request.Complete;
+stEvent.eRequest:= E_RequestState.Complete;
 stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= FALSE;
 
 IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Log(stEvent);
-	iParent.M_RequestState(E_Request.Complete);
+	fbLogger.M_Notify(stEvent);
+	iParent.M_RequestState(E_RequestState.Complete);
 ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
@@ -316,6 +321,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
+stEvent.iSender:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
@@ -323,18 +329,18 @@ stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_Request.Abort;
+stEvent.eRequest:= E_RequestState.Abort;
 stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= FALSE;
 
 IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Log(stEvent);
+	fbLogger.M_Notify(stEvent);
 ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
 
-iParent.M_RequestState(E_Request.Abort);
+iParent.M_RequestState(E_RequestState.Abort);
 
 IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
@@ -398,6 +404,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
+stEvent.iSender:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Warning;
@@ -405,13 +412,13 @@ stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_Request.Undefined;
+stEvent.eRequest:= E_RequestState.Undefined;
 stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;
 
 IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Log(stEvent);
+	fbLogger.M_Notify(stEvent);
 ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
@@ -434,6 +441,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
+stEvent.iSender:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Information;
@@ -441,13 +449,13 @@ stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_Request.Undefined;
+stEvent.eRequest:= E_RequestState.Undefined;
 stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;
 
 IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Log(stEvent);
+	fbLogger.M_Notify(stEvent);
 ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF
@@ -467,6 +475,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
+stEvent.iSender:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
@@ -474,14 +483,14 @@ stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_Request.Pause;
+stEvent.eRequest:= E_RequestState.Pause;
 stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= FALSE;
 
 IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Log(stEvent);
-	iParent.M_RequestState(E_Request.Pause);
+	fbLogger.M_Notify(stEvent);
+	iParent.M_RequestState(E_RequestState.Pause);
 ELSE
 	fbObserver.M_Notify(stEvent);
 END_IF

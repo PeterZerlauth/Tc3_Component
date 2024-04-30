@@ -14,18 +14,18 @@ VAR
 	fbSequence:						FB_Sequence(THIS^);			// Sequence (abort = reset)
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '1'}
-	eStateRequest:					E_Request;					// State command
+	eStateRequest:					E_RequestState;					// State command
     {attribute 'hide'}
 	eState:							E_State;					// Current state
     {attribute 'hide'}
 	eStatePrevious:					E_State;					// Previous state
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '1'}
-	eModeRequest:					E_Mode;						// Requested mode
+	eModeRequest:					E_RequestMode;						// Requested mode
     {attribute 'hide'}
-	eMode:							E_Mode;						// Current mode
+	eMode:							E_RequestMode;						// Current mode
     {attribute 'hide'}
-	eModePrevious:					E_Mode;						// Previous mode	
+	eModePrevious:					E_RequestMode;						// Previous mode	
 END_VAR
 
 ]]></Declaration>
@@ -97,7 +97,7 @@ M_Unholding:= True;]]></ST>
     <Property Name="P_Mode" Id="{3bb67a0e-6846-07bc-053e-b55a797fa512}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
+PROPERTY PUBLIC P_Mode : E_RequestMode]]></Declaration>
       <Get Name="Get" Id="{9d5d15ee-5102-0655-3457-a8f0100c4631}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -163,8 +163,8 @@ END_VAR
     <Method Name="M_OnMode" Id="{5404d353-f502-0cc7-293b-81200dd1aa4b}">
       <Declaration><![CDATA[METHOD PROTECTED M_OnMode
 VAR_INPUT
-	eMode:							E_Mode;						// Current mode
-	eModePrevious:					E_Mode;						// Previous mode	
+	eMode:							E_RequestMode;						// Current mode
+	eModePrevious:					E_RequestMode;						// Previous mode	
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[]]></ST>
@@ -225,20 +225,20 @@ fbSequence();
 CASE eState OF
 	E_State.Undefined:
 		M_Initialise();
-		eMode:= E_Mode.Automatic;
+		eMode:= E_RequestMode.Automatic;
 		eState:= E_State.Idle;
 				
 	E_State.Resetting:
 		M_Running();
 		IF M_Resetting() THEN
 			eState:= E_State.Idle;
-			eStateRequest:= E_Request.Undefined;
+			eStateRequest:= E_RequestState.Undefined;
 		END_IF
 		CASE eStateRequest OF
-			E_Request.Stop:
+			E_RequestState.Stop:
 				eState:= E_State.Stopping;
 				
-			E_Request.Abort:
+			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 				
 		END_CASE
@@ -248,17 +248,17 @@ CASE eState OF
 		M_Idle();
 		CASE eStateRequest OF
 			
-			E_Request.Start:
+			E_RequestState.Start:
 				eState:= E_State.Starting;
 				
-			E_Request.Stop:
+			E_RequestState.Stop:
 				eState:= E_State.Stopping;
 				
-			E_Request.Abort:
+			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 				
 			ELSE
-				eStateRequest:= E_Request.Undefined;
+				eStateRequest:= E_RequestState.Undefined;
 				
 		END_CASE
 
@@ -266,14 +266,14 @@ CASE eState OF
 		M_Running();
 		IF M_Starting() THEN
 			eState:= E_State.Execute;
-			eStateRequest:= E_Request.Undefined;
+			eStateRequest:= E_RequestState.Undefined;
 		END_IF
 		CASE eStateRequest OF
 			
-			E_Request.Stop:
+			E_RequestState.Stop:
 				eState:= E_State.Stopping;
 				
-			E_Request.Abort:
+			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 				
 		END_CASE
@@ -283,27 +283,27 @@ CASE eState OF
 		IF M_Execute() THEN
 			CASE eStateRequest OF
 				
-				E_Request.Complete:
+				E_RequestState.Complete:
 					eState:= E_State.Completing;
 					
 			END_CASE
 		END_IF
 		CASE eStateRequest OF
-			E_Request.Complete:;
-			E_Request.Stop:
+			E_RequestState.Complete:;
+			E_RequestState.Stop:
 				eState:= E_State.Stopping;
 				
-			E_Request.Abort:
+			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 
-			E_Request.Hold:
+			E_RequestState.Hold:
 				eState:= E_State.Holding;
 				
-			E_Request.Pause:
+			E_RequestState.Pause:
 				eState:= E_State.Pausing;
 				
 			ELSE
-				eStateRequest:= E_Request.Undefined;
+				eStateRequest:= E_RequestState.Undefined;
 				
 		END_CASE
 		
@@ -311,11 +311,11 @@ CASE eState OF
 		M_Running();
 		IF M_Stopping() THEN
 			eState:= E_State.Stopped;
-			eStateRequest:= E_Request.Undefined;
+			eStateRequest:= E_RequestState.Undefined;
 		END_IF
 		CASE eStateRequest OF
 			
-			E_Request.Abort:
+			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 				
 		END_CASE
@@ -324,14 +324,14 @@ CASE eState OF
 		M_Stopped();
 		CASE eStateRequest OF
 			
-			E_Request.Abort:
+			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 				
-			E_Request.Reset:
+			E_RequestState.Reset:
 				eState:= E_State.Resetting;
 				
 		ELSE
-			eStateRequest:= E_Request.Undefined;				
+			eStateRequest:= E_RequestState.Undefined;				
 		END_CASE
 		
 		
@@ -339,18 +339,18 @@ CASE eState OF
 		fbSequence.M_Reset();
 		IF M_Aborting() THEN
 			eState:= E_State.Aborted;
-			eStateRequest:= E_Request.Undefined;
+			eStateRequest:= E_RequestState.Undefined;
 		END_IF
 		
 	E_State.Aborted:
 		M_Aborted();
 		CASE eStateRequest OF
 			
-			E_Request.Reset:
+			E_RequestState.Reset:
 				eState:= E_State.Resetting;
 				
 		ELSE
-			eStateRequest:= E_Request.Undefined;				
+			eStateRequest:= E_RequestState.Undefined;				
 		END_CASE
 
 		
@@ -358,14 +358,14 @@ CASE eState OF
 		M_Running();
 		IF M_Pausing() THEN
 			eState:= E_State.Paused;
-			eStateRequest:= E_Request.Undefined;
+			eStateRequest:= E_RequestState.Undefined;
 		END_IF
 		CASE eStateRequest OF
 			
-			E_Request.Stop:
+			E_RequestState.Stop:
 				eState:= E_State.Stopping;
 				
-			E_Request.Abort:
+			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 
 		END_CASE
@@ -376,17 +376,17 @@ CASE eState OF
 		M_Paused();
 		CASE eStateRequest OF
 			
-			E_Request.Start:
+			E_RequestState.Start:
 				eState:= E_State.Resuming;
 				
-			E_Request.Stop:
+			E_RequestState.Stop:
 				eState:= E_State.Stopping;
 				
-			E_Request.Abort:
+			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 						
 		ELSE
-			eStateRequest:= E_Request.Undefined;
+			eStateRequest:= E_RequestState.Undefined;
 
 		END_CASE
 		
@@ -397,10 +397,10 @@ CASE eState OF
 		END_IF
 		CASE eStateRequest OF
 			
-			E_Request.Stop:
+			E_RequestState.Stop:
 				eState:= E_State.Stopping;
 				
-			E_Request.Abort:
+			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 
 		END_CASE
@@ -409,14 +409,14 @@ CASE eState OF
 		M_Running();
 		IF M_Holding() THEN
 			eState:= E_State.Held;
-			eStateRequest:= E_Request.Undefined;
+			eStateRequest:= E_RequestState.Undefined;
 		END_IF
 		CASE eStateRequest OF
 			
-			E_Request.Stop:
+			E_RequestState.Stop:
 				eState:= E_State.Stopping;
 				
-			E_Request.Abort:
+			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 
 		END_CASE
@@ -426,17 +426,17 @@ CASE eState OF
 		M_Held();
 		CASE eStateRequest OF
 			
-			E_Request.Start:
+			E_RequestState.Start:
 				eState:= E_State.Unholding;
 
-			E_Request.Stop:
+			E_RequestState.Stop:
 				eState:= E_State.Stopping;
 				
-			E_Request.Abort:
+			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 				
 			ELSE
-				eStateRequest:= E_Request.Undefined;
+				eStateRequest:= E_RequestState.Undefined;
 
 		END_CASE
 		
@@ -447,10 +447,10 @@ CASE eState OF
 		END_IF
 		CASE eStateRequest OF
 			
-			E_Request.Stop:
+			E_RequestState.Stop:
 				eState:= E_State.Stopping;
 				
-			E_Request.Abort:
+			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 
 		END_CASE
@@ -459,14 +459,14 @@ CASE eState OF
 		M_Running();
 		IF M_Completing() THEN
 			eState:= E_State.Completed;
-			eStateRequest:= E_Request.Undefined;
+			eStateRequest:= E_RequestState.Undefined;
 		END_IF
 		CASE eStateRequest OF
 			
-			E_Request.Stop:
+			E_RequestState.Stop:
 				eState:= E_State.Stopping;
 				
-			E_Request.Abort:
+			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 
 		END_CASE
@@ -476,30 +476,30 @@ CASE eState OF
 		M_Completed();
 		CASE eStateRequest OF
 			
-			E_Request.Stop:
+			E_RequestState.Stop:
 				eState:= E_State.Stopping;
 				
-			E_Request.Abort:
+			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 					
-			E_Request.Reset:
+			E_RequestState.Reset:
 				eState:= E_State.Resetting;
 				
 			ELSE
-				eStateRequest:= E_Request.Undefined;
+				eStateRequest:= E_RequestState.Undefined;
 				
 		END_CASE
 		
 END_CASE
 
-IF eModeRequest <> E_Mode.Undefined THEN
+IF eModeRequest <> E_RequestMode.Undefined THEN
 	IF eMode <> eModeRequest THEN
 		eModePrevious:= eMode;
 		eMode:= eModeRequest;
 		M_OnMode(eMode, eModePrevious);
 	END_IF
 END_IF
-eModeRequest:= E_Mode.Undefined;
+eModeRequest:= E_RequestMode.Undefined;
 	
 // Detect state changed
 IF eStatePrevious <> eState THEN
@@ -512,7 +512,7 @@ END_IF]]></ST>
       <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
 METHOD PUBLIC M_RequestMode : BOOL
 VAR_INPUT
-	eMode:		E_Mode;
+	eMode:		E_RequestMode;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -571,23 +571,23 @@ END_VAR
       <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
 METHOD PUBLIC M_RequestState : BOOL
 VAR_INPUT
-	eRequest:	E_Request;
+	eRequest:	E_RequestState;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Request component states / Command Pattern
 CASE eRequest OF
-	E_Request.Undefined:
+	E_RequestState.Undefined:
 		M_RequestState:= TRUE;
 		
-	E_Request.Start:
+	E_RequestState.Start:
 		IF eState = E_State.Execute THEN
 			M_RequestState:= TRUE;
 		ELSE
 			eStateRequest:= eRequest;				
 		END_IF
 		
-	E_Request.Pause:
+	E_RequestState.Pause:
 		IF eState >= E_State.Paused THEN
 			M_RequestState:= TRUE;
 		ELSE
@@ -596,7 +596,7 @@ CASE eRequest OF
 			END_IF		
 		END_IF
 		
-	E_Request.Hold:
+	E_RequestState.Hold:
 		IF eState >= E_State.Held THEN
 			M_RequestState:= TRUE;
 		ELSE
@@ -605,7 +605,7 @@ CASE eRequest OF
 			END_IF		
 		END_IF
 		
-	E_Request.Complete:
+	E_RequestState.Complete:
 		IF eState = E_State.Completed THEN
 			M_RequestState:= TRUE;
 		ELSE
@@ -614,7 +614,7 @@ CASE eRequest OF
 			END_IF		
 		END_IF
 		
-	E_Request.Stop:
+	E_RequestState.Stop:
 		IF eState = E_State.Stopped THEN
 			M_RequestState:= TRUE;
 		ELSE
@@ -623,7 +623,7 @@ CASE eRequest OF
 			END_IF		
 		END_IF
 		
-	E_Request.Abort:
+	E_RequestState.Abort:
 		IF eState = E_State.Aborted THEN
 			M_RequestState:= TRUE;
 		ELSE
@@ -632,7 +632,7 @@ CASE eRequest OF
 			END_IF		
 		END_IF
 
-	E_Request.Reset:
+	E_RequestState.Reset:
 		IF eState = E_State.Idle THEN
 			M_RequestState:= TRUE;
 		ELSE
@@ -669,22 +669,22 @@ END_VAR]]></Declaration>
         <ST><![CDATA[// Method will be called by the Observer
 // Handle  state request
 CASE stEvent.eRequest OF
-    E_Request.Pause:
+    E_RequestState.Pause:
 		IF fbEvent.P_Settings.bPause THEN
 			M_RequestState(stEvent.eRequest);
 		END_IF
 		
-    E_Request.Hold:
+    E_RequestState.Hold:
 		IF fbEvent.P_Settings.bHold THEN
 			M_RequestState(stEvent.eRequest);
 		END_IF
 		
-	E_Request.Complete:
+	E_RequestState.Complete:
 		IF fbEvent.P_Settings.bComplete THEN
 			M_RequestState(stEvent.eRequest);
 		END_IF
 		 
-	E_Request.Stop, E_Request.Abort:
+	E_RequestState.Stop, E_RequestState.Abort:
 		M_RequestState(stEvent.eRequest);
 END_CASE
 

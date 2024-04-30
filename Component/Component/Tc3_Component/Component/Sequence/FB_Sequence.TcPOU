@@ -50,8 +50,8 @@ END_VAR
 		stActual.nNumber:= nNumber;
 			fbDelay(IN:= FALSE);
 			IF bPause THEN
-				IF iParent.P_Mode = E_Mode.Semiauto THEN
-					iParent.M_RequestState(E_Request.Pause);		
+				IF iParent.P_Mode = E_RequestMode.Semiauto THEN
+					iParent.M_RequestState(E_RequestState.Pause);		
 				END_IF
 			END_IF	 
 		END_IF
@@ -62,8 +62,8 @@ END_VAR
 		stActual.nNumber:= nNumber;
 		fbTimeout(IN:= FALSE);
 		IF bPause THEN
-			IF iParent.P_Mode = E_Mode.Semiauto THEN
-				iParent.M_RequestState(E_Request.Pause);		
+			IF iParent.P_Mode = E_RequestMode.Semiauto THEN
+				iParent.M_RequestState(E_RequestState.Pause);		
 			END_IF
 		END_IF	
 	END_IF		

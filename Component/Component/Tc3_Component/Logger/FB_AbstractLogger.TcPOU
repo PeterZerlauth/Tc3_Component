@@ -1,21 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_AbstractLogger" Id="{e1ce12d2-0f5a-084d-22cb-52e1ac20f2a6}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT FB_AbstractLogger IMPLEMENTS I_Logger
-VAR_INPUT
-	eLogLevel:					E_Event:= E_Event.Verbose;		// Log level for the logger
-END_VAR
-VAR_OUTPUT
-END_VAR
+    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT FB_AbstractLogger IMPLEMENTS I_Observer
 VAR
-END_VAR
-]]></Declaration>
+	eLogLevel:					E_Event:= E_Event.Verbose;		// Log level for the logger
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
 // Abstract Logger as base for all loggers]]></ST>
     </Implementation>
-    <Method Name="M_Log" Id="{cb7d24f5-cc7a-048b-34f7-d4b522fb60d5}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Log
+    <Property Name="P_LogLevel" Id="{4e7eac4b-247b-0a29-2a35-dc1e925ca3fc}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_LogLevel : E_Event]]></Declaration>
+      <Set Name="Set" Id="{cbc4d059-bbb9-0cc2-32d2-a303205d4a3f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[eLogLevel:= P_LogLevel;]]></ST>
+        </Implementation>
+      </Set>
+      <Get Name="Get" Id="{fa88e4d7-b0fb-00eb-0a8c-f1eece58ba13}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_LogLevel:= eLogLevel;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="M_Notify" Id="{fc617794-ce89-0ddb-20b8-91fea411c68d}">
+      <Declaration><![CDATA[METHOD M_Notify
 VAR_INPUT
 	{attribute 'analysis' := '-33'}
 	stEvent	: ST_Event;

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_TcLogger" Id="{72d2883e-ad59-0356-2a9f-38b1de8737b2}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_TcLogger EXTENDS FB_AbstractLogger
+  <POU Name="FB_GlobalLogger" Id="{e1e358e0-2104-0577-0348-94cd81bffe81}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_GlobalLogger EXTENDS FB_AbstractLogger
 VAR 
     {attribute 'hide'}
 	aEvent:						ARRAY [0..nSize - 1] OF ST_Event;
@@ -12,31 +12,7 @@ END_VAR ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
-    <Method Name="M_Find" Id="{8673586f-520d-08ba-3c29-c2fa20d66b2f}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
-VAR_INPUT
-	stEvent:	ST_Event;
-END_VAR
-VAR 
-	nIndex:		DINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Find event in buffer
-M_Find := -1;
-WHILE nIndex < nSize - 1 DO
-	IF (aEvent[nIndex].iSender = stEvent.iSender) AND_THEN
-    	(aEvent[nIndex].eEventType = stEvent.eEventType) AND_THEN
-		(aEvent[nIndex].sInstance = stEvent.sInstance) AND_THEN
-		(aEvent[nIndex].sClass = stEvent.sClass) AND_THEN
-		(aEvent[nIndex].sMessage = stEvent.sMessage) THEN
-        M_Find := nIndex;
-        RETURN;
-    END_IF
-	nIndex := nIndex + 1;
-END_WHILE]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Notify" Id="{b49d5339-ffee-0708-31e9-7df1e04a7ae3}">
+    <Method Name="M_Notify" Id="{92e19fe0-1284-0bd8-2857-6fa3f9525a45}">
       <Declaration><![CDATA[METHOD M_Notify
 VAR_INPUT
 	{attribute 'analysis' := '-33'}
@@ -53,7 +29,7 @@ ELSE
 	IF stEvent.eEventType >= SUPER^.eLogLevel THEN
 		MEMCPY(ADR(aEvent[1]), ADR(aEvent[0]), DINT_TO_UDINT(SIZEOF(ST_Event) * (nSize - 1)));
 		aEvent[0]:= stEvent;
-		sMessage:= Concat(Concat(stEvent.sInstance, ' | '), stEvent.sDefault);
+		sMessage:= Concat(Concat(stEvent.sInstance, ' | fbObserver.P_Length = 0 | '), stEvent.sDefault);
 		CASE stEvent.eEventType OF
 			E_Event.Error:
 				ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := '%s', strArg := sMessage);
@@ -68,6 +44,31 @@ ELSE
 		END_CASE
 	END_IF
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Find" Id="{f41793c9-9d9c-06d8-1e48-9d6c08695675}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
+VAR_INPUT
+	stEvent:	ST_Event;
+END_VAR
+VAR 
+	nIndex:		DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Find event in buffer
+M_Find := -1;
+
+WHILE nIndex < nSize - 1 DO
+	IF (aEvent[nIndex].iSender = stEvent.iSender) AND_THEN
+    	(aEvent[nIndex].eEventType = stEvent.eEventType) AND_THEN
+		(aEvent[nIndex].sInstance = stEvent.sInstance) AND_THEN
+		(aEvent[nIndex].sClass = stEvent.sClass) AND_THEN
+		(aEvent[nIndex].sMessage = stEvent.sMessage) THEN
+        M_Find := nIndex;
+        RETURN;
+    END_IF
+	nIndex := nIndex + 1;
+END_WHILE]]></ST>
       </Implementation>
     </Method>
   </POU>

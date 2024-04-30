@@ -55,7 +55,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF P_Mode = E_Mode.Manual THEN
+        <ST><![CDATA[IF P_Mode = E_RequestMode.Manual THEN
 	IF bManualToHome THEN
 		bOutputA:= FALSE;
 		bOutputB:= TRUE;	

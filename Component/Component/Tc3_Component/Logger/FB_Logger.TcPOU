@@ -1,50 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_Logger" Id="{e1e358e0-2104-0577-0348-94cd81bffe81}" SpecialFunc="None">
+  <POU Name="FB_Logger" Id="{fd2ecca2-796f-0c21-1b02-56f5057704fe}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Logger EXTENDS FB_AbstractLogger
 VAR
-	aBuffer:					ARRAY [0..nBuffer] OF ST_Event;
-END_VAR
-VAR CONSTANT
-	nBuffer:					DINT:= 3;
-END_VAR]]></Declaration>
+    {attribute 'hide'}
+	nLength:					DINT;
+    {attribute 'hide'}
+	aEvent:						ARRAY [0..nSize - 1] OF ST_Event;
+    {attribute 'hide'}
+	nIndex: 					DINT;
+    {attribute 'hide'}
+	nTimestamp: 				ULINT;
+END_VAR	
+VAR CONSTANT 
+	nSize: DINT:= 50; 
+END_VAR 
+]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
+      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+// Execute each secound
+IF nTimestamp < F_GetSystemTime() THEN
+	nTimestamp:= F_GetSystemTime() + 10000000;
+	nIndex:= 0;
+	WHILE nIndex < nLength DO
+		IF aEvent[nIndex].stFlags.bActive THEN
+			IF aEvent[nIndex].stFlags.bRemove THEN
+				aEvent[nIndex].stFlags.bActive:= FALSE;
+			END_IF
+		ELSE
+			M_Delete(nIndex);
+		END_IF
+		nIndex := nIndex + 1;
+	END_WHILE
+END_IF
+]]></ST>
     </Implementation>
-    <Method Name="M_Log" Id="{9e2c1dc1-68d4-0b75-365d-62c1554c8296}">
-      <Declaration><![CDATA[METHOD M_Log
-VAR_INPUT
-	stEvent	: 			ST_Event;
+    <Property Name="P_Length" Id="{0e0d1439-0084-08da-049d-e75171bf4532}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Length : DINT
+]]></Declaration>
+      <Get Name="Get" Id="{bcca406a-0083-09d7-21ec-d8f15b3ff11d}">
+        <Declaration><![CDATA[VAR
 END_VAR
-VAR
-	nIndex:				DINT;
-	sMessage:			STRING(255);
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
-	;
-ELSE
-	IF stEvent.eEventType >= eLogLevel THEN
-		MEMCPY(ADR(aBuffer[1]), ADR(aBuffer[0]), DINT_To_Udint(SIZEOF(ST_Event) * (nBuffer - 1)));
-		aBuffer[0]:= stEvent;
-		sMessage:= Concat(Concat(stEvent.sInstance, ' | fbObserver.P_Length = 0 | '), stEvent.sDefault);
-		CASE stEvent.eEventType OF
-			E_Event.Error:
-				ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := '%s', strArg := sMessage);
-			E_Event.Warning:
-				ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_WARN , msgFmtStr := '%s', strArg := sMessage);
-			E_Event.Information:
-				ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
-			E_Event.Debug:
-				ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT, msgFmtStr := '%s', strArg := sMessage);
-			E_Event.Verbose:
-				ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
-		END_CASE
-	END_IF
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Find" Id="{f41793c9-9d9c-06d8-1e48-9d6c08695675}">
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Length:= nLength;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="M_Find" Id="{7446ea89-7013-0042-2993-bd13114e3454}">
       <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
 VAR_INPUT
 	stEvent:	ST_Event;
@@ -55,17 +60,81 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Find event in buffer
 M_Find := -1;
-WHILE nIndex < nBuffer DO
-	IF (aBuffer[nIndex].iSource = stEvent.iSource) AND_THEN
-    	(aBuffer[nIndex].eEventType = stEvent.eEventType) AND_THEN
-		(aBuffer[nIndex].sInstance = stEvent.sInstance) AND_THEN
-		(aBuffer[nIndex].sClass = stEvent.sClass) AND_THEN
-		(aBuffer[nIndex].sMessage = stEvent.sMessage) THEN
+WHILE nIndex < nLength DO
+	IF (aEvent[nIndex].iSender = stEvent.iSender) AND_THEN
+    	(aEvent[nIndex].eEventType = stEvent.eEventType) AND_THEN
+		(aEvent[nIndex].sInstance = stEvent.sInstance) AND_THEN
+		(aEvent[nIndex].sClass = stEvent.sClass) AND_THEN
+		(aEvent[nIndex].sMessage = stEvent.sMessage) THEN
         M_Find := nIndex;
         RETURN;
     END_IF
 	nIndex := nIndex + 1;
 END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{e0d35cb8-a065-06e5-0aeb-333f8aeafd2a}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Reset all events
+nLength:= 0;
+Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Delete" Id="{f3be1f6f-20c3-0e2d-3ceb-b9f0f6d0978c}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Delete : BOOL
+VAR_INPUT
+	nIndex: 			DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// new Length
+nLength:= nLength -1;
+//pList[nPosition]:= iObject;
+Memcpy(ADR(aEvent[nIndex]), ADR(aEvent[nIndex +1]), SIZEOF(POINTER TO ST_Event) * DINT_TO_UDINT(nSize - nIndex));]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Events" Id="{f7917afc-4283-0ff7-2622-47e4f0a69ac7}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+{attribute 'suppress_wrn_C0410'}
+PROPERTY PUBLIC P_Events : REFERENCE TO ARRAY [0..nSize - 1] OF ST_Event]]></Declaration>
+      <Set Name="Set" Id="{0f60bc6a-e42f-0797-0ecd-a00ef628de11}">
+        <Declaration><![CDATA[VAR
+END_VAR]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Events REF= aEvent;]]></ST>
+        </Implementation>
+      </Set>
+      <Get Name="Get" Id="{f022bdae-95d6-08b3-0454-e010076042ee}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Events REF= aEvent;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="M_Notify" Id="{fd45db9b-595d-048a-1bc0-4df6868d7fde}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Notify
+VAR_INPUT
+	stEvent:		ST_Event;
+END_VAR
+VAR
+	nIndex:			DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
+	// Update existing events
+	aEvent[nIndex].sArguments:= stEvent.sArguments;
+	aEvent[nIndex].sDefault:= stEvent.sDefault;
+	aEvent[nIndex].stFlags:= stEvent.stFlags;
+ELSE
+	// add new event
+	aEvent[nLength]:= stEvent;
+	nLength:= nLength + 1;
+END_IF]]></ST>
       </Implementation>
     </Method>
   </POU>

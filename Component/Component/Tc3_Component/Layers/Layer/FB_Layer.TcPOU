@@ -22,7 +22,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Starting:= TRUE;
 WHILE nIndex < fbList.P_Length DO
-	IF fbList.M_Index(nIndex).M_RequestState(E_Request.Start) THEN
+	IF fbList.M_Index(nIndex).M_RequestState(E_RequestState.Start) THEN
 		;
 	ELSE
 		M_Starting:= FALSE;
@@ -50,7 +50,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Resetting:= TRUE;
 WHILE nIndex < fbList.P_Length DO
-	IF fbList.M_Index(nIndex).M_RequestState(E_Request.Reset) THEN
+	IF fbList.M_Index(nIndex).M_RequestState(E_RequestState.Reset) THEN
 		;
 	ELSE
 		M_Resetting:= FALSE;

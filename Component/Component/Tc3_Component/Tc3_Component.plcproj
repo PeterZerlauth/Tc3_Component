@@ -55,7 +55,6 @@
     <Folder Include="Layers" />
     <Folder Include="Layers\Layer" />
     <Folder Include="List" />
-    <Folder Include="LoggerFactory" />
     <Folder Include="Logger" />
     <Folder Include="Module" />
     <Folder Include="Images" />
@@ -95,10 +94,10 @@
     <Compile Include="Component\Event\ST_EventSettings.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Component\E_Mode.TcDUT">
+    <Compile Include="Component\E_RequestMode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Component\E_Request.TcDUT">
+    <Compile Include="Component\E_RequestState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Component\E_State.TcDUT">
@@ -152,9 +151,6 @@
     <Compile Include="List\FB_ListObject.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="List\FB_ListLogger.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="List\FB_ListString.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -167,25 +163,13 @@
     <Compile Include="List\I_ListObject.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="List\I_ListLogger.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="List\I_ListString.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LoggerFactory\FB_LoggerFactory.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LoggerFactory\I_Logger.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LoggerFactory\I_LoggerFactory.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LoggerFactory\ST_LoggerFactoryTags.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Logger\FB_AbstractLogger.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Logger\FB_JsonLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\FB_TcLogger.TcPOU">
@@ -194,7 +178,7 @@
     <Compile Include="Logger\FB_Logger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logger\FB_FileLogger.TcPOU">
+    <Compile Include="Logger\FB_GlobalLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Module\FB_Module.TcPOU">
@@ -267,11 +251,12 @@
       <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Utilities</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_JsonXml">
+      <DefaultResolution>Tc3_JsonXml, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_JsonXml</Namespace>
+    </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Component\Event\Observable\Observer.png">
-      <SubType>Content</SubType>
-    </Content>
     <Content Include="Images\StateModel.svg">
       <SubType>Content</SubType>
     </Content>

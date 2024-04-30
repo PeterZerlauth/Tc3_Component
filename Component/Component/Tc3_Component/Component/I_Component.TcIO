@@ -6,7 +6,7 @@
     <Method Name="M_RequestMode" Id="{208c4c43-a103-0c2c-0258-2704597726e6}">
       <Declaration><![CDATA[METHOD PUBLIC M_RequestMode : BOOL
 VAR_INPUT
-	eMode:		E_Mode;
+	eMode:		E_RequestMode;
 END_VAR
 ]]></Declaration>
     </Method>
@@ -19,7 +19,7 @@ END_VAR
     <Method Name="M_RequestState" Id="{5bce4574-fbb8-4134-a60e-e5f2d429768c}">
       <Declaration><![CDATA[METHOD PUBLIC M_RequestState : BOOL
 VAR_INPUT
-	eRequest:	E_Request;
+	eRequest:	E_RequestState;
 END_VAR
 ]]></Declaration>
     </Method>
@@ -40,7 +40,7 @@ PROPERTY PUBLIC P_Info : I_Info]]></Declaration>
     <Property Name="P_Mode" Id="{ac79278b-f5c1-087f-1df4-04b8948d8870}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
+PROPERTY PUBLIC P_Mode : E_RequestMode]]></Declaration>
       <Get Name="Get" Id="{120a4ba9-e3fe-0253-2437-c4d9e2f883ff}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
