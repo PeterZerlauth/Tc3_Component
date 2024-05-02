@@ -7,6 +7,8 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	tDelay:				TIME;
+	tTimeout:			TIME;
 	iNext:				I_Component;	// Chain of Responsibility behavioral design pattern 
 	fbList:				FB_ListComponent;
 END_VAR
@@ -14,6 +16,48 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Property Name="P_Timeout" Id="{01f26eeb-6c6b-02c4-0fcb-62f31a16fed9}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Timeout : TIME]]></Declaration>
+      <Get Name="Get" Id="{0570771d-029d-0b8f-2b5a-becbbf8a5d00}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Timeout:= tTimeout;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{e8694fb5-77f0-061f-0a67-2379ce2b721c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[tTimeout:= P_Timeout;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_Delay" Id="{025530c0-f768-09d0-3010-fc03e1193849}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Delay : TIME]]></Declaration>
+      <Set Name="Set" Id="{ebbb2dfd-aa69-0756-05f8-655b26706c51}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[tDelay:= P_Delay;]]></ST>
+        </Implementation>
+      </Set>
+      <Get Name="Get" Id="{fdc39499-fd84-0c96-0b7b-d6d64c3c2f23}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Delay:= tDelay;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="M_Starting" Id="{4e318086-20a9-077e-347c-443a3af7042b}">
       <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL (* Return state complete*)
 VAR
@@ -100,7 +144,9 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Notify(stEvent);
-iNext.M_Notify(stEvent);]]></ST>
+IF iNext <> 0 THEN
+	iNext.M_Notify(stEvent);
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Dettach" Id="{f13d487a-f32a-0ba9-20c0-98d3bf35cc8f}">

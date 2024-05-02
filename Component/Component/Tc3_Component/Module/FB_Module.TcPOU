@@ -7,7 +7,6 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	nStartup:					DINT;
 	fbLayers:					FB_Layers;
 	fbFunctions:				FB_Layer;
 	fbLogger:					FB_Logger;

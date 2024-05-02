@@ -4,7 +4,6 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Sequence IMPLEMENTS I_Sequence
 VAR
 	iParent:			I_Component;
-	nNextNumber:		INT;
 	stActual:			ST_Sequence;
 	stRestore:			ST_Sequence;
 	aHistory:			ARRAY [0..Parameters.nSequence] OF ST_Sequence;
@@ -52,7 +51,7 @@ END_VAR
 		fbDelay.PT:= tDelay;
 		fbDelay.IN:= TRUE;
 		IF fbDelay.Q THEN
-			stActual.sMessage:= sMessage;
+			stActual.sMessage:= sMessage;;
 			MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Sequence) * Parameters.nSequence);
 			aHistory[0]:= stActual;
 			stActual.nNumber:= nNumber;
@@ -128,8 +127,6 @@ END_VAR
       <Implementation>
         <ST><![CDATA[stActual.nNumber:= E_Sequence.Start;
 stActual.sMessage:= 'E_Sequence.Start';
-MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Sequence) * Parameters.nSequence);
-aHistory[0]:= stActual;
 fbDelay(IN:= FALSE);
 fbTimeout(IN:= FALSE);]]></ST>
       </Implementation>

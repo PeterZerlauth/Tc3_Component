@@ -132,7 +132,7 @@ VAR_INPUT
 	eStatePrevious:					E_State;						// Previous state	
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbSequence.M_Reset();]]></ST>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Event" Id="{4af7c41c-ce75-074c-247b-1e9cde87d3d0}">
@@ -233,13 +233,17 @@ CASE eState OF
 		IF M_Resetting() THEN
 			eState:= E_State.Idle;
 			eStateRequest:= E_RequestState.Undefined;
+			fbSequence.M_Reset();
 		END_IF
 		CASE eStateRequest OF
 			E_RequestState.Stop:
 				eState:= E_State.Stopping;
+				fbSequence.M_Reset();
 				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
+				fbSequence.M_Reset();
+				fbSequence.M_Save();
 				
 		END_CASE
 		
@@ -250,12 +254,16 @@ CASE eState OF
 			
 			E_RequestState.Start:
 				eState:= E_State.Starting;
+				fbSequence.M_Reset();
 				
 			E_RequestState.Stop:
 				eState:= E_State.Stopping;
+				fbSequence.M_Reset();
 				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
+				fbSequence.M_Reset();
+				fbSequence.M_Save();
 				
 			ELSE
 				eStateRequest:= E_RequestState.Undefined;
@@ -287,6 +295,7 @@ CASE eState OF
 				
 				E_RequestState.Complete:
 					eState:= E_State.Completing;
+					fbSequence.M_Reset();
 					
 			END_CASE
 		END_IF
@@ -294,15 +303,19 @@ CASE eState OF
 			E_RequestState.Complete:;
 			E_RequestState.Stop:
 				eState:= E_State.Stopping;
+				fbSequence.M_Reset();
 				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
+				fbSequence.M_Reset();
 
 			E_RequestState.Hold:
 				eState:= E_State.Holding;
+				fbSequence.M_Reset();
 				
 			E_RequestState.Pause:
 				eState:= E_State.Pausing;
+				fbSequence.M_Reset();
 				
 			ELSE
 				eStateRequest:= E_RequestState.Undefined;
@@ -315,11 +328,14 @@ CASE eState OF
 		IF M_Stopping() THEN
 			eState:= E_State.Stopped;
 			eStateRequest:= E_RequestState.Undefined;
+			fbSequence.M_Reset();
 		END_IF
 		CASE eStateRequest OF
 			
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
+				fbSequence.M_Reset();
+				fbSequence.M_Save();
 				
 		END_CASE
 
@@ -329,9 +345,12 @@ CASE eState OF
 			
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
+				fbSequence.M_Reset();
+				fbSequence.M_Save();
 				
 			E_RequestState.Reset:
 				eState:= E_State.Resetting;
+				fbSequence.M_Reset();
 				
 		ELSE
 			eStateRequest:= E_RequestState.Undefined;				
@@ -342,6 +361,8 @@ CASE eState OF
 		IF M_Aborting() THEN
 			eState:= E_State.Aborted;
 			eStateRequest:= E_RequestState.Undefined;
+			fbSequence.M_Reset();
+			fbSequence.M_Save();
 		END_IF
 		
 	E_State.Aborted:
@@ -350,6 +371,7 @@ CASE eState OF
 			
 			E_RequestState.Reset:
 				eState:= E_State.Resetting;
+				fbSequence.M_Reset();
 				
 		ELSE
 			eStateRequest:= E_RequestState.Undefined;				
@@ -361,14 +383,18 @@ CASE eState OF
 		IF M_Pausing() THEN
 			eState:= E_State.Paused;
 			eStateRequest:= E_RequestState.Undefined;
+			fbSequence.M_Reset();
 		END_IF
 		CASE eStateRequest OF
 			
 			E_RequestState.Stop:
 				eState:= E_State.Stopping;
+				fbSequence.M_Reset();
 				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
+				fbSequence.M_Reset();
+				fbSequence.M_Save();
 
 		END_CASE
 		
@@ -380,12 +406,16 @@ CASE eState OF
 			
 			E_RequestState.Start:
 				eState:= E_State.Resuming;
+				fbSequence.M_Reset();
 				
 			E_RequestState.Stop:
 				eState:= E_State.Stopping;
+				fbSequence.M_Reset();
 				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
+				fbSequence.M_Reset();
+				fbSequence.M_Save();
 						
 		ELSE
 			eStateRequest:= E_RequestState.Undefined;
@@ -396,15 +426,19 @@ CASE eState OF
 		M_Running();
 		IF M_Resuming() THEN
 			eState:= E_State.Execute;
+			fbSequence.M_Reset();
 		END_IF
 		CASE eStateRequest OF
 			
 			E_RequestState.Stop:
 				eState:= E_State.Stopping;
+				fbSequence.M_Reset();
 				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
-
+				fbSequence.M_Reset();
+				fbSequence.M_Save();
+				
 		END_CASE
 
 	E_State.Holding:
@@ -412,14 +446,18 @@ CASE eState OF
 		IF M_Holding() THEN
 			eState:= E_State.Held;
 			eStateRequest:= E_RequestState.Undefined;
+			fbSequence.M_Reset();
 		END_IF
 		CASE eStateRequest OF
 			
 			E_RequestState.Stop:
 				eState:= E_State.Stopping;
+				fbSequence.M_Reset();
 				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
+				fbSequence.M_Reset();
+				fbSequence.M_Save();
 
 		END_CASE
 
@@ -430,12 +468,16 @@ CASE eState OF
 			
 			E_RequestState.Start:
 				eState:= E_State.Unholding;
+				fbSequence.M_Reset();
 
 			E_RequestState.Stop:
 				eState:= E_State.Stopping;
+				fbSequence.M_Reset();
 				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
+				fbSequence.M_Reset();
+				fbSequence.M_Save();
 				
 			ELSE
 				eStateRequest:= E_RequestState.Undefined;
@@ -446,14 +488,18 @@ CASE eState OF
 		M_Running();
 		IF M_Unholding() THEN
 			eState:= E_State.Execute;
+			fbSequence.M_Reset();
 		END_IF
 		CASE eStateRequest OF
 			
 			E_RequestState.Stop:
 				eState:= E_State.Stopping;
+				fbSequence.M_Reset();
 				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
+				fbSequence.M_Reset();			
+				fbSequence.M_Save();		
 
 		END_CASE
 		
@@ -462,15 +508,18 @@ CASE eState OF
 		IF M_Completing() THEN
 			eState:= E_State.Completed;
 			eStateRequest:= E_RequestState.Undefined;
+			fbSequence.M_Reset();
 		END_IF
 		CASE eStateRequest OF
 			
 			E_RequestState.Stop:
 				eState:= E_State.Stopping;
+				fbSequence.M_Reset();
 				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
-
+				fbSequence.M_Reset();
+				fbSequence.M_Save();
 		END_CASE
 		
 	E_State.Completed:
@@ -480,12 +529,16 @@ CASE eState OF
 			
 			E_RequestState.Stop:
 				eState:= E_State.Stopping;
+				fbSequence.M_Reset();
 				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
+				fbSequence.M_Reset();
 					
 			E_RequestState.Reset:
 				eState:= E_State.Resetting;
+				fbSequence.M_Reset();
+				fbSequence.M_Save();
 				
 			ELSE
 				eStateRequest:= E_RequestState.Undefined;

@@ -7,6 +7,8 @@ VAR
 	bReset:			BOOL;
 	bStart:			BOOL;
 	bStop:			BOOL;
+	bPause:			BOOL;
+	bHold:			BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[
@@ -22,6 +24,14 @@ END_IF
 
 IF bStop THEN
 	bStop:= NOT fbModule1.M_RequestState(E_RequestState.Stop);
+END_IF
+
+IF bPause THEN
+	bPause:= NOT fbModule1.M_RequestState(E_RequestState.Pause);
+END_IF
+
+IF bHold THEN
+	bHold:= NOT fbModule1.M_RequestState(E_RequestState.Hold);
 END_IF
 
 ]]></ST>
