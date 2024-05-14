@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Logger" Id="{88be7450-bc52-061e-2cb9-3df6d391e125}">
+    <Declaration><![CDATA[INTERFACE I_Logger EXTENDS I_Object
+]]></Declaration>
+    <Method Name="M_Log" Id="{6a062c36-2ed5-0ed3-3cfa-49f3c3949c89}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Log
+VAR_INPUT
+	{attribute 'analysis' := '-33'}
+	stEvent	: ST_Event;
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

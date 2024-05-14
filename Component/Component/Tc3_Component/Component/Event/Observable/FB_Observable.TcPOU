@@ -7,125 +7,19 @@ VAR_INPUT
 	iParent:		I_Component;	
 END_VAR
 VAR
-	pList: 			POINTER TO I_Observer;
+	pList: 			POINTER TO I_Component;
     {attribute 'hide'}
 	nLength:		DINT;
 	{IF (defined (release))}
     	{attribute 'hide'}
 	{END_IF}
-	aList:			POINTER TO POINTER TO ARRAY [0..100] OF I_Observer:=ADR(pList);
+	aList:			POINTER TO POINTER TO ARRAY [0..100] OF I_Component:=ADR(pList);
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
 ]]></ST>
     </Implementation>
-    <Method Name="M_Clear" Id="{307f5dd9-2a35-4b04-93bb-a7de0406e653}">
-      <Declaration><![CDATA[METHOD M_Clear
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF pList <> 0 THEN
-	nLength:= 0;
-	__DELETE(pList);
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Find" Id="{315829c2-37f1-487f-acb0-fff200e1a3d8}">
-      <Declaration><![CDATA[METHOD M_Find : DINT
-VAR_INPUT
-	Object: 	I_Observer;
-END_VAR
-VAR
-	nIndex: 	UINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Object already in List
-M_Find := -1;
-WHILE nIndex < nLength DO
-    IF (pList[nIndex] = Object) THEN
-        M_Find := nIndex;
-        RETURN;
-    END_IF
-	nIndex := nIndex + 1;
-END_WHILE
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Notify" Id="{3d3fb67b-dd6a-440b-9c1c-e8b43c7588bf}">
-      <Declaration><![CDATA[METHOD M_Notify
-VAR_INPUT
-	stEvent:		ST_Event;
-END_VAR
-
-VAR
-	iSource:		I_Observer:= stEvent.iSender;
-	nIndex: 		DINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Prevent Infinite loop from callbacks
-stEvent.iSender:= iParent;
-WHILE nIndex < nLength DO
-	IF pList[nIndex] <> iSource THEN
-		pList[nIndex].M_Notify(stEvent);		
-	END_IF
-	nIndex:= nIndex + 1; 
-END_WHILE]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Index" Id="{6e332950-284b-4ced-bcaa-31bfc1d4668b}">
-      <Declaration><![CDATA[METHOD M_Index : I_Observer
-VAR_INPUT
-	Index: 	DINT;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF Index <= nLength THEN
-	M_Index:= pList[Index];
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Detach" Id="{6e982e5c-8b12-4999-bbf2-06e2eebe2934}">
-      <Declaration><![CDATA[METHOD M_Detach : BOOL
-VAR_INPUT
-	Object: 	I_Observer;
-END_VAR
-VAR
-	pOldList:			POINTER TO I_Observer;
-	nPosition: 			DINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF Object <> 0 THEN
-	// First Item
-	IF nLength >= 0 THEN
-		// Item already in List
-		nPosition:= M_Find(Object);
-		IF nPosition <> -1 THEN
-			// backup 
-			pOldList:= pList;
-			// new Length
-			nLength:= nLength -1;
-			// new pointer
-			pList:= __NEW(POINTER TO I_Observer,DINT_TO_UDINT(nLength));
-			// restore lower part
-			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Observer) * DINT_TO_UDINT(nPosition));
-			//pList[nPosition]:= iObject;
-			Memcpy(pList + (SIZEOF(POINTER TO I_Observer)*nPosition),pOldList + (SIZEOF(POINTER TO I_Observer)*(nPosition + 1)), SIZEOF(POINTER TO I_Observer) * DINT_TO_UDINT(nLength - nPosition));
-			// delete old
-			__DELETE(pOldList);
-		ELSE
-			M_Detach:= FALSE;	
-			RETURN;
-		END_IF
-	ELSE
-		M_Detach:= FALSE;	
-		RETURN;
-	END_IF
-	M_Detach:= TRUE;
-ELSE
-	M_Detach:= FALSE;	
-END_IF]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="FB_exit" Id="{8920c8e0-5709-4e5e-a21f-0871704cdcd1}">
       <Declaration><![CDATA[METHOD FB_exit : BOOL
 VAR_INPUT
@@ -136,27 +30,13 @@ END_VAR
         <ST><![CDATA[M_Clear();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Length" Id="{8da11863-b503-4855-a3f1-c1f64dac07a1}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY P_Length : DINT
-]]></Declaration>
-      <Get Name="Get" Id="{81573980-0484-490c-84fc-be91d0b14826}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Length:= nLength;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="M_Attach" Id="{a96df4cc-8cea-4396-beb7-115ce888674b}">
       <Declaration><![CDATA[METHOD M_Attach : BOOL
 VAR_INPUT
-	Object: 	I_Observer;
+	Object: 	I_Component;
 END_VAR
 VAR
-	pOldList: 	POINTER TO I_Observer;
+	pOldList: 	POINTER TO I_Component;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -164,7 +44,7 @@ END_VAR
 	// First Item
 	IF pList = 0 THEN
 		nLength:= nLength + 1;
-		pList:= __NEW(POINTER TO I_Observer,DINT_TO_UDINT(nLength));
+		pList:= __NEW(POINTER TO I_Component,DINT_TO_UDINT(nLength));
 	ELSE
 		// Item already in List
 		IF M_Find(Object) = -1 THEN
@@ -173,9 +53,9 @@ END_VAR
 			// new Length
 			nLength:= nLength + 1;
 			// new pointer
-			pList:= __NEW(POINTER TO I_Observer,DINT_TO_UDINT(nLength));
+			pList:= __NEW(POINTER TO I_Component,DINT_TO_UDINT(nLength));
 			// restore
-			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Observer)*DINT_TO_UDINT(nLength -1));
+			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Component)*DINT_TO_UDINT(nLength -1));
 			// delete old
 			__DELETE(pOldList);
 		ELSE
@@ -194,5 +74,124 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Clear" Id="{307f5dd9-2a35-4b04-93bb-a7de0406e653}">
+      <Declaration><![CDATA[METHOD M_Clear
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF pList <> 0 THEN
+	nLength:= 0;
+	__DELETE(pList);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Detach" Id="{6e982e5c-8b12-4999-bbf2-06e2eebe2934}">
+      <Declaration><![CDATA[METHOD M_Detach : BOOL
+VAR_INPUT
+	Object: 	I_Component;
+END_VAR
+VAR
+	pOldList:			POINTER TO I_Component;
+	nPosition: 			DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Object <> 0 THEN
+	// First Item
+	IF nLength >= 0 THEN
+		// Item already in List
+		nPosition:= M_Find(Object);
+		IF nPosition <> -1 THEN
+			// backup 
+			pOldList:= pList;
+			// new Length
+			nLength:= nLength -1;
+			// new pointer
+			pList:= __NEW(POINTER TO I_Component,DINT_TO_UDINT(nLength));
+			// restore lower part
+			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Component) * DINT_TO_UDINT(nPosition));
+			//pList[nPosition]:= iObject;
+			Memcpy(pList + (SIZEOF(POINTER TO I_Component)*nPosition),pOldList + (SIZEOF(POINTER TO I_Component)*(nPosition + 1)), SIZEOF(POINTER TO I_Component) * DINT_TO_UDINT(nLength - nPosition));
+			// delete old
+			__DELETE(pOldList);
+		ELSE
+			M_Detach:= FALSE;	
+			RETURN;
+		END_IF
+	ELSE
+		M_Detach:= FALSE;	
+		RETURN;
+	END_IF
+	M_Detach:= TRUE;
+ELSE
+	M_Detach:= FALSE;	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Find" Id="{315829c2-37f1-487f-acb0-fff200e1a3d8}">
+      <Declaration><![CDATA[METHOD M_Find : DINT
+VAR_INPUT
+	Object: 	I_Component;
+END_VAR
+VAR
+	nIndex: 	UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Object already in List
+M_Find := -1;
+WHILE nIndex < nLength DO
+    IF (pList[nIndex] = Object) THEN
+        M_Find := nIndex;
+        RETURN;
+    END_IF
+	nIndex := nIndex + 1;
+END_WHILE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Index" Id="{6e332950-284b-4ced-bcaa-31bfc1d4668b}">
+      <Declaration><![CDATA[METHOD M_Index : I_Observer
+VAR_INPUT
+	Index: 	DINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Index <= nLength THEN
+	M_Index:= pList[Index];
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Notify" Id="{3d3fb67b-dd6a-440b-9c1c-e8b43c7588bf}">
+      <Declaration><![CDATA[METHOD M_Notify
+VAR_INPUT
+	iSender:		I_Component;
+	eRequest:		E_RequestState;
+END_VAR
+
+VAR
+	nIndex: 		DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Prevent Infinite loop from callbacks
+WHILE nIndex < nLength DO
+	IF pList[nIndex] <> iSender THEN
+		pList[nIndex].M_Notify(iParent, eRequest);		
+	END_IF
+	nIndex:= nIndex + 1; 
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Length" Id="{8da11863-b503-4855-a3f1-c1f64dac07a1}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY P_Length : DINT
+]]></Declaration>
+      <Get Name="Get" Id="{81573980-0484-490c-84fc-be91d0b14826}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Length:= nLength;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
   </POU>
 </TcPlcObject>

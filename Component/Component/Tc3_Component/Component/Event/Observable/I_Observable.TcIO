@@ -3,6 +3,19 @@
   <Itf Name="I_Observable" Id="{af54216d-3f5e-4287-8176-18b478632bd5}">
     <Declaration><![CDATA[INTERFACE I_Observable EXTENDS I_Observer
 ]]></Declaration>
+    <Method Name="M_Attach" Id="{e1012f71-0b48-4ada-ba34-823492d9c2fe}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Attach : BOOL
+VAR_INPUT
+	Object: 	I_Component;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Detach" Id="{e09cef4f-639e-464f-affe-bde457fdaa63}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Detach : BOOL
+VAR_INPUT
+	Object: 	I_Component;
+END_VAR]]></Declaration>
+    </Method>
     <Property Name="P_Length" Id="{b558abeb-888e-0699-2ea6-95610585a3fc}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
@@ -12,18 +25,5 @@ PROPERTY P_Length : DINT
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Method Name="M_Detach" Id="{e09cef4f-639e-464f-affe-bde457fdaa63}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Detach : BOOL
-VAR_INPUT
-	Object: 	I_Observer;
-END_VAR]]></Declaration>
-    </Method>
-    <Method Name="M_Attach" Id="{e1012f71-0b48-4ada-ba34-823492d9c2fe}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Attach : BOOL
-VAR_INPUT
-	Object: 	I_Observer;
-END_VAR
-]]></Declaration>
-    </Method>
   </Itf>
 </TcPlcObject>

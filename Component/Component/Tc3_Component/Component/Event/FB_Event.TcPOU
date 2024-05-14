@@ -8,12 +8,11 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	iLogger:			I_Logger;
 	iParent:			I_Component;				// Parent component
     {attribute 'hide'}
 	fbList:				FB_ListString;				// contains a list with string values
 
-    {attribute 'hide'}
-	stSettings:			ST_EventSettings;			// Event settings
 	stEvent:			ST_Event;					// Event
     {attribute 'hide'}
 	aHistory:			ARRAY [0..5] OF ST_Event;	// History of events
@@ -21,42 +20,21 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
-    <Method Name="M_Debug" Id="{0a2b992b-2a4a-0251-0210-713b326debf6}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Debug
+    <Method Name="FB_init" Id="{be23ffcc-529d-4010-ace3-b17baed191a5}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
-	sMessage:				STRING(255);
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	iParent:			I_Component;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= sMessage;
-stEvent.iSource:= iParent;
-stEvent.iSender:= iParent;
-stEvent.sInstance:= iParent.P_Info.P_Instance;
-stEvent.sClass:= iParent.P_Info.P_Class;
-stEvent.eEventType:= E_Event.Debug;
-stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.nID:= 0;
-stEvent.sDefault:= M_Default(sMessage);
-stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_RequestState.Undefined;
-stEvent.eMode:= iParent.P_Mode;
-stEvent.stFlags.bActive:= TRUE;
-stEvent.stFlags.bRemove:= TRUE;
-
-IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Notify(stEvent);
-ELSE
-	fbObserver.M_Notify(stEvent);
-END_IF
-
-IF aHistory[0].sMessage <> stEvent.sMessage THEN
-	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
-	aHistory[0]:= stEvent;
-END_IF]]></ST>
+        <ST><![CDATA[THIS^.iParent:= iParent;
+fbObserver.iParent:= iParent;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Hold" Id="{17e9f699-055d-0b58-313e-f492027bff52}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Hold
+    <Method Name="M_Abort" Id="{a968dc5e-d8ee-079a-0799-c81d1c9d2558}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Abort
 VAR_INPUT
 	sMessage:				STRING(255);
 	nID:					ULINT;
@@ -64,7 +42,6 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
-stEvent.iSender:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
@@ -72,83 +49,26 @@ stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_RequestState.Hold;
-stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= FALSE;
 
-IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Notify(stEvent);
-	iParent.M_RequestState(E_RequestState.Hold);
+IF iLogger = 0 THEN
+	fbLogger.M_Log(stEvent);
 ELSE
-	fbObserver.M_Notify(stEvent);
+	iLogger.M_Log(stEvent);
 END_IF
+
+iParent.M_RequestState(E_RequestState.Abort);
+
+fbObserver.M_Notify(iParent, E_RequestState.Abort);
 
 IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
 	aHistory[0]:= stEvent;
 END_IF
-
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Stop" Id="{20d0062d-a518-02ec-13ef-e4c8c4295653}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Stop
-VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= sMessage;
-stEvent.iSource:= iParent;
-stEvent.iSender:= iParent;
-stEvent.sInstance:= iParent.P_Info.P_Instance;
-stEvent.sClass:= iParent.P_Info.P_Class;
-stEvent.eEventType:= E_Event.Error;
-stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.nID:= nID;
-stEvent.sDefault:= M_Default(sMessage);
-stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_RequestState.Stop;
-stEvent.eMode:= iParent.P_Mode;
-stEvent.stFlags.bActive:= TRUE;
-stEvent.stFlags.bRemove:= FALSE;
-
-IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Notify(stEvent);
-ELSE
-	fbObserver.M_Notify(stEvent);
-END_IF
-
-iParent.M_RequestState(E_RequestState.Stop);
-
-IF aHistory[0].sMessage <> stEvent.sMessage THEN
-	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
-	aHistory[0]:= stEvent;
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Property Name="P_History" Id="{3665e1b0-9cc6-03b2-3340-782cc05dee90}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-{attribute 'suppress_wrn_C0410'}
-PROPERTY PUBLIC P_History : REFERENCE TO ARRAY [0..5] OF ST_Event;]]></Declaration>
-      <Set Name="Set" Id="{28332c99-5893-03df-2133-bc9b1c978089}">
-        <Declaration><![CDATA[VAR
-END_VAR]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_History REF= aHistory;]]></ST>
-        </Implementation>
-      </Set>
-      <Get Name="Get" Id="{60569c4b-9435-0706-3cee-cc8248c2c07e}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_History REF= aHistory;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="M_AddBOOL" Id="{55367f5b-ac71-0a63-095c-881721842948}">
       <Declaration><![CDATA[METHOD PUBLIC M_AddBOOL : I_Event
 VAR_INPUT
@@ -160,73 +80,52 @@ END_VAR
 M_AddBOOL:= THIS^;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Observer" Id="{5a2ea21c-aedb-0c6a-2f12-df08356b98aa}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observable]]></Declaration>
-      <Get Name="Get" Id="{a355a491-866b-0089-1d02-e50cef149847}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Observer:= fbObserver;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Method Name="M_Error" Id="{648ad3fe-ab2e-0b8d-0134-eed394027742}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Error
+    <Method Name="M_AddINT" Id="{77c01fd5-65e9-07ed-2cff-a79b9d444c15}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddINT : I_Event
 VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
+	Value: 	LINT;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= sMessage;
-stEvent.iSource:= iParent;
-stEvent.iSender:= iParent;
-stEvent.sInstance:= iParent.P_Info.P_Instance;
-stEvent.sClass:= iParent.P_Info.P_Class;
-stEvent.eEventType:= E_Event.Error;
-stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.nID:= nID;
-stEvent.sDefault:= M_Default(sMessage);
-stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_RequestState.Undefined;
-stEvent.eMode:= iParent.P_Mode;
-stEvent.stFlags.bActive:= TRUE;
-stEvent.stFlags.bRemove:= TRUE;
-
-IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Notify(stEvent);
-ELSE
-	fbObserver.M_Notify(stEvent);
-END_IF
-
-IF aHistory[0].sMessage <> stEvent.sMessage THEN
-	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
-	aHistory[0]:= stEvent;
-END_IF]]></ST>
+        <ST><![CDATA[fbList.M_Add(LINT_TO_STRING(Value));
+M_AddINT:= THIS^;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Settings" Id="{68796f7c-99b8-07cf-2ad8-b8337c846db0}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-{attribute 'suppress_wrn_C0410'}
-PROPERTY PUBLIC P_Settings : REFERENCE TO ST_EventSettings]]></Declaration>
-      <Get Name="Get" Id="{99d0b6b6-67ae-0277-3e19-f34dadd5e871}">
-        <Declaration><![CDATA[VAR
+    <Method Name="M_AddREAL" Id="{b0c25678-4933-0839-34f0-c4eb0def69fb}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddREAL : I_Event
+VAR_INPUT
+	Value: 	Lreal;
+	Decimals: INT;
 END_VAR
 ]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Settings ref= stSettings;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{ef6dd3ab-a964-0418-3e1a-9b0e922f2696}">
-        <Declaration><![CDATA[VAR
-END_VAR]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Settings ref= stSettings;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Add(LREAL_TO_FMTSTR(Value, Decimals, TRUE));
+M_AddREAL:= THIS^;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_AddSTRING" Id="{8ae81d27-cb47-01bb-2b19-fe8608e777a8}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddSTRING : I_Event
+VAR_INPUT
+	Value: STRING(255);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Add(Value);
+M_AddSTRING:= THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_AddTIME" Id="{a7c2a656-d860-0eb9-0cff-1e8b5b1d8573}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddTIME : I_Event
+VAR_INPUT
+	Value: 	TIME;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Add(TIME_TO_STRING(Value));
+M_AddTIME:= THIS^;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Arguments" Id="{70779266-7b36-4bce-9e6f-049e951fd75a}">
       <Declaration><![CDATA[METHOD INTERNAL M_Arguments : STRING(255)
 VAR_INPUT
@@ -244,135 +143,35 @@ END_WHILE
 fbList.M_Clear();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_AddINT" Id="{77c01fd5-65e9-07ed-2cff-a79b9d444c15}">
-      <Declaration><![CDATA[METHOD PUBLIC M_AddINT : I_Event
-VAR_INPUT
-	Value: 	LINT;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbList.M_Add(LINT_TO_STRING(Value));
-M_AddINT:= THIS^;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_AddSTRING" Id="{8ae81d27-cb47-01bb-2b19-fe8608e777a8}">
-      <Declaration><![CDATA[METHOD PUBLIC M_AddSTRING : I_Event
-VAR_INPUT
-	Value: STRING(255);
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbList.M_Add(Value);
-M_AddSTRING:= THIS^;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Complete" Id="{a3cb2a04-b524-09e6-0ee9-27eeadc1dd20}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Complete
+    <Method Name="M_Debug" Id="{0a2b992b-2a4a-0251-0210-713b326debf6}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Debug
 VAR_INPUT
 	sMessage:				STRING(255);
-	nID:					ULINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
-stEvent.iSender:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
-stEvent.eEventType:= E_Event.Error;
+stEvent.eEventType:= E_Event.Debug;
 stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.nID:= nID;
+stEvent.nID:= 0;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_RequestState.Complete;
-stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
-stEvent.stFlags.bRemove:= FALSE;
+stEvent.stFlags.bRemove:= TRUE;
 
-IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Notify(stEvent);
-	iParent.M_RequestState(E_RequestState.Complete);
+IF iLogger = 0 THEN
+	fbLogger.M_Log(stEvent);
 ELSE
-	fbObserver.M_Notify(stEvent);
+	iLogger.M_Log(stEvent);
 END_IF
 
 IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
 	aHistory[0]:= stEvent;
 END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_AddTIME" Id="{a7c2a656-d860-0eb9-0cff-1e8b5b1d8573}">
-      <Declaration><![CDATA[METHOD PUBLIC M_AddTIME : I_Event
-VAR_INPUT
-	Value: 	TIME;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbList.M_Add(TIME_TO_STRING(Value));
-M_AddTIME:= THIS^;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Abort" Id="{a968dc5e-d8ee-079a-0799-c81d1c9d2558}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Abort
-VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= sMessage;
-stEvent.iSource:= iParent;
-stEvent.iSender:= iParent;
-stEvent.sInstance:= iParent.P_Info.P_Instance;
-stEvent.sClass:= iParent.P_Info.P_Class;
-stEvent.eEventType:= E_Event.Error;
-stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.nID:= nID;
-stEvent.sDefault:= M_Default(sMessage);
-stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_RequestState.Abort;
-stEvent.eMode:= iParent.P_Mode;
-stEvent.stFlags.bActive:= TRUE;
-stEvent.stFlags.bRemove:= FALSE;
-
-IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Notify(stEvent);
-ELSE
-	fbObserver.M_Notify(stEvent);
-END_IF
-
-iParent.M_RequestState(E_RequestState.Abort);
-
-IF aHistory[0].sMessage <> stEvent.sMessage THEN
-	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
-	aHistory[0]:= stEvent;
-END_IF
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_AddREAL" Id="{b0c25678-4933-0839-34f0-c4eb0def69fb}">
-      <Declaration><![CDATA[METHOD PUBLIC M_AddREAL : I_Event
-VAR_INPUT
-	Value: 	Lreal;
-	Decimals: INT;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbList.M_Add(LREAL_TO_FMTSTR(Value, Decimals, TRUE));
-M_AddREAL:= THIS^;
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="FB_init" Id="{be23ffcc-529d-4010-ace3-b17baed191a5}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	iParent:			I_Component;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[THIS^.iParent:= iParent;
-fbObserver.iParent:= iParent;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Default" Id="{c94cd0c6-56df-0b94-2d8d-b10a55caeb26}">
@@ -394,6 +193,105 @@ END_WHILE
 M_Default:= sMessage;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Error" Id="{648ad3fe-ab2e-0b8d-0134-eed394027742}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Error
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stEvent.sMessage:= sMessage;
+stEvent.iSource:= iParent;
+stEvent.sInstance:= iParent.P_Info.P_Instance;
+stEvent.sClass:= iParent.P_Info.P_Class;
+stEvent.eEventType:= E_Event.Error;
+stEvent.nTimestamp:= F_GetSystemTime();
+stEvent.nID:= nID;
+stEvent.sDefault:= M_Default(sMessage);
+stEvent.sArguments:= M_Arguments();
+stEvent.stFlags.bActive:= TRUE;
+stEvent.stFlags.bRemove:= TRUE;
+
+IF iLogger = 0 THEN
+	fbLogger.M_Log(stEvent);
+ELSE
+	iLogger.M_Log(stEvent);
+END_IF
+
+IF aHistory[0].sMessage <> stEvent.sMessage THEN
+	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
+	aHistory[0]:= stEvent;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Info" Id="{d9a244f2-1d6f-434f-aab4-cad6aacbb94f}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Info
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stEvent.sMessage:= sMessage;
+stEvent.iSource:= iParent;
+stEvent.sInstance:= iParent.P_Info.P_Instance;
+stEvent.sClass:= iParent.P_Info.P_Class;
+stEvent.eEventType:= E_Event.Information;
+stEvent.nTimestamp:= F_GetSystemTime();
+stEvent.nID:= nID;
+stEvent.sDefault:= M_Default(sMessage);
+stEvent.sArguments:= M_Arguments();
+stEvent.stFlags.bActive:= TRUE;
+stEvent.stFlags.bRemove:= TRUE;
+
+IF iLogger = 0 THEN
+	fbLogger.M_Log(stEvent);
+ELSE
+	iLogger.M_Log(stEvent);
+END_IF
+
+IF aHistory[0].sMessage <> stEvent.sMessage THEN
+	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
+	aHistory[0]:= stEvent;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stop" Id="{20d0062d-a518-02ec-13ef-e4c8c4295653}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Stop
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stEvent.sMessage:= sMessage;
+stEvent.iSource:= iParent;
+stEvent.sInstance:= iParent.P_Info.P_Instance;
+stEvent.sClass:= iParent.P_Info.P_Class;
+stEvent.eEventType:= E_Event.Error;
+stEvent.nTimestamp:= F_GetSystemTime();
+stEvent.nID:= nID;
+stEvent.sDefault:= M_Default(sMessage);
+stEvent.sArguments:= M_Arguments();
+stEvent.stFlags.bActive:= TRUE;
+stEvent.stFlags.bRemove:= FALSE;
+
+IF iLogger = 0 THEN
+	fbLogger.M_Log(stEvent);
+ELSE
+	iLogger.M_Log(stEvent);
+END_IF
+
+iParent.M_RequestState(E_RequestState.Stop);
+
+fbObserver.M_Notify(iParent, E_RequestState.Abort);
+
+IF aHistory[0].sMessage <> stEvent.sMessage THEN
+	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
+	aHistory[0]:= stEvent;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Warning" Id="{d443b8bb-774e-487e-80a2-79cf66a0376c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Warning
 VAR_INPUT
@@ -404,7 +302,6 @@ END_VAR
       <Implementation>
         <ST><![CDATA[stEvent.sMessage:= sMessage;
 stEvent.iSource:= iParent;
-stEvent.iSender:= iParent;
 stEvent.sInstance:= iParent.P_Info.P_Instance;
 stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Warning;
@@ -412,18 +309,14 @@ stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
 stEvent.sDefault:= M_Default(sMessage);
 stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_RequestState.Undefined;
-stEvent.eMode:= iParent.P_Mode;
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;
 
-IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Notify(stEvent);
+IF iLogger = 0 THEN
+	fbLogger.M_Log(stEvent);
 ELSE
-	fbObserver.M_Notify(stEvent);
+	iLogger.M_Log(stEvent);
 END_IF
-
-fbObserver.M_Notify(stEvent);
 
 IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
@@ -431,75 +324,56 @@ IF aHistory[0].sMessage <> stEvent.sMessage THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Information" Id="{d9a244f2-1d6f-434f-aab4-cad6aacbb94f}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Information
-VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
+    <Property Name="P_History" Id="{3665e1b0-9cc6-03b2-3340-782cc05dee90}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+{attribute 'suppress_wrn_C0410'}
+PROPERTY PUBLIC P_History : REFERENCE TO ARRAY [0..5] OF ST_Event;]]></Declaration>
+      <Get Name="Get" Id="{60569c4b-9435-0706-3cee-cc8248c2c07e}">
+        <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= sMessage;
-stEvent.iSource:= iParent;
-stEvent.iSender:= iParent;
-stEvent.sInstance:= iParent.P_Info.P_Instance;
-stEvent.sClass:= iParent.P_Info.P_Class;
-stEvent.eEventType:= E_Event.Information;
-stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.nID:= nID;
-stEvent.sDefault:= M_Default(sMessage);
-stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_RequestState.Undefined;
-stEvent.eMode:= iParent.P_Mode;
-stEvent.stFlags.bActive:= TRUE;
-stEvent.stFlags.bRemove:= TRUE;
-
-IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Notify(stEvent);
-ELSE
-	fbObserver.M_Notify(stEvent);
-END_IF
-
-IF aHistory[0].sMessage <> stEvent.sMessage THEN
-	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
-	aHistory[0]:= stEvent;
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Pause" Id="{ddbb1bca-23e7-0a08-2172-defb659ba3ac}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Pause
-VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
+        <Implementation>
+          <ST><![CDATA[P_History REF= aHistory;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{28332c99-5893-03df-2133-bc9b1c978089}">
+        <Declaration><![CDATA[VAR
 END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= sMessage;
-stEvent.iSource:= iParent;
-stEvent.iSender:= iParent;
-stEvent.sInstance:= iParent.P_Info.P_Instance;
-stEvent.sClass:= iParent.P_Info.P_Class;
-stEvent.eEventType:= E_Event.Error;
-stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.nID:= nID;
-stEvent.sDefault:= M_Default(sMessage);
-stEvent.sArguments:= M_Arguments();
-stEvent.eRequest:= E_RequestState.Pause;
-stEvent.eMode:= iParent.P_Mode;
-stEvent.stFlags.bActive:= TRUE;
-stEvent.stFlags.bRemove:= FALSE;
-
-IF fbObserver.P_Length = 0 THEN
-	fbLogger.M_Notify(stEvent);
-	iParent.M_RequestState(E_RequestState.Pause);
-ELSE
-	fbObserver.M_Notify(stEvent);
-END_IF
-
-IF aHistory[0].sMessage <> stEvent.sMessage THEN
-	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
-	aHistory[0]:= stEvent;
-END_IF]]></ST>
-      </Implementation>
-    </Method>
+        <Implementation>
+          <ST><![CDATA[P_History REF= aHistory;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_Logger" Id="{7db5ebbd-2df4-0da4-1172-1f7f59531c54}">
+      <Declaration><![CDATA[PROPERTY P_Logger : I_Logger]]></Declaration>
+      <Get Name="Get" Id="{c30909c8-bc71-0c3f-2d6b-a056f1f6fe1b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Logger:= iLogger;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{69321800-5ac3-0207-1f07-4cc88412ab84}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[iLogger:= P_Logger;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_Observer" Id="{5a2ea21c-aedb-0c6a-2f12-df08356b98aa}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Observer : I_Observable]]></Declaration>
+      <Get Name="Get" Id="{a355a491-866b-0089-1d02-e50cef149847}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Observer:= fbObserver;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
   </POU>
 </TcPlcObject>

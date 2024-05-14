@@ -153,7 +153,7 @@ CASE fbTestsuite2.P_Testcase OF
 		fbTestsuite2.M_Testcase(fbComponent1.P_Info.P_Class, T#1S, 'fbComponent.M_RequestState(E_RequestState.Start)', __POSITION(), 80);	
 	
 	80:	
-		fbComponent2.P_Event.M_Complete('Complete event',1);
+// 		fbComponent2.P_Event.M_Complete('Complete event',1);
 		fbTestsuite2.P_Assert.M_Equals_INT(E_State.Completed, fbComponent2.P_State, 'E_State.Complete');
 		fbTestsuite2.M_Testcase(fbComponent1.P_Info.P_Class, T#1S, 'fbComponent.M_RequestState(E_RequestState.Complete)', __POSITION(), 90);		
 
@@ -177,16 +177,6 @@ CASE fbTestsuite3.P_Testcase OF
 	E_Testcase.Start:
 		fbComponentLinked1.P_Event.P_Observer.M_Detach(fbComponentLinked2);
 		fbComponentLinked2.P_Event.P_Observer.M_Detach(fbComponentLinked1);
-		fbComponentLinked1.P_Event.P_Settings.bComplete:= TRUE;
-		fbComponentLinked2.P_Event.P_Settings.bComplete:= TRUE;
-		CASE fbComponentLinked1.P_State OF
-			E_State.Execute, E_State.Held, E_State.Paused:
-				fbComponentLinked1.M_RequestState(E_RequestState.Abort);
-			
-			E_State.Aborted, E_State.Stopped, E_State.Completed:
-				fbComponentLinked1.M_RequestState(E_RequestState.Reset);
-				
-		END_CASE
 		CASE fbComponentLinked2.P_State OF
 			E_State.Execute, E_State.Held, E_State.Paused:
 				fbComponentLinked2.M_RequestState(E_RequestState.Abort);
@@ -235,7 +225,7 @@ CASE fbTestsuite3.P_Testcase OF
 		fbTestsuite3.M_Testcase(fbComponent1.P_Info.P_Class, T#1S, 'fbComponentLinked.M_RequestState(E_RequestState.Start)', __POSITION(), 80);
 	
 	80:	
-		fbComponentLinked1.P_Event.M_Complete('Complete', 0);
+// 		fbComponentLinked1.P_Event.M_Complete('Complete', 0);
 		fbTestsuite3.P_Assert.M_Equals_INT(E_State.Completed, fbComponentLinked2.P_State, 'E_State.Completed');
 		fbTestsuite3.M_Testcase(fbComponent1.P_Info.P_Class, T#1S, 'fbComponentLinked2.M_RequestState(E_RequestState.Completed)', __POSITION(), E_Testcase.Done);
 	

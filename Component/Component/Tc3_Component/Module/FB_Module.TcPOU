@@ -23,18 +23,95 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Aborted();
 fbEvent.M_AddSTRING(P_Info.P_ID);
-fbEvent.M_Information('Module %s aborted, reset', 2);]]></ST>
+fbEvent.M_Info('Module %s aborted, reset', 2);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Stopped" Id="{43b02a69-b318-0eb0-3e6f-2d210026cf6d}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Stopped
+    <Method Name="M_Completing" Id="{59aee546-4f8e-0ca5-32cb-b922aa446d6e}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+
+VAR
+	nIndex: INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Completing:= TRUE;
+WHILE nIndex < fbFunctions.P_List.P_Length DO
+	CASE fbFunctions.P_List.M_Index(nIndex).P_State OF
+		E_State.Idle,E_State.Completed,E_State.Stopped,E_State.Aborted:
+			;
+		ELSE
+			M_Completing:= FALSE;
+	END_CASE
+	nIndex:= nIndex +1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Cycle" Id="{ba6e3712-faea-4bef-b491-24a585067e68}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.M_Stopped();
+        <ST><![CDATA[SUPER^.M_Cycle();
+
+
+fbLayers.M_Cycle();
+
+fbFunctions.M_Cycle();
+
+fbLogger();
+fbTcLogger();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Holding" Id="{fa37cb7f-6c16-0b90-0f89-f9628b230d17}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Holding : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+
+VAR
+	nIndex: INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Holding:= TRUE;
+WHILE nIndex < fbFunctions.P_List.P_Length DO
+	CASE fbFunctions.P_List.M_Index(nIndex).P_State OF
+		E_State.Idle,E_State.Completed,E_State.Stopped,E_State.Aborted:
+			;
+		ELSE
+			M_Holding:= FALSE;
+	END_CASE
+	nIndex:= nIndex +1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Idle" Id="{6e9b6a1a-c168-0e2f-3b3d-1c86715a124a}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Idle
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Idle();
 fbEvent.M_AddSTRING(P_Info.P_ID);
-fbEvent.M_Information('Module %s stopped, reset', 5);]]></ST>
+fbEvent.M_Info('Module %s not started', 3);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Initialise" Id="{d2ecc479-1ed6-0218-1db6-cf2c288ac295}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Initialise
+VAR_INPUT
+END_VAR
+
+VAR
+	fbLoggerFactory: INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Initialise();
+
+fbLayers.fbE0.P_Next:= fbLayers.fbE1;
+fbLayers.fbE1.P_Next:= fbLayers.fbOn;
+fbLayers.fbOn.P_Next:= THIS^;
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_OnMode" Id="{549d817a-659a-0f3e-10ea-6f23f3ce8adf}">
@@ -58,8 +135,8 @@ END_VAR]]></Declaration>
 END_CASE]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Completing" Id="{59aee546-4f8e-0ca5-32cb-b922aa446d6e}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL // Return state complete
+    <Method Name="M_Pausing" Id="{a7388aa8-4607-0ab0-06a2-4380b929ddfc}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Pausing : BOOL
 VAR_INPUT
 END_VAR
 
@@ -67,16 +144,52 @@ VAR
 	nIndex: INT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Completing:= TRUE;
+        <ST><![CDATA[M_Pausing:= TRUE;
 WHILE nIndex < fbFunctions.P_List.P_Length DO
 	CASE fbFunctions.P_List.M_Index(nIndex).P_State OF
 		E_State.Idle,E_State.Completed,E_State.Stopped,E_State.Aborted:
 			;
 		ELSE
-			M_Completing:= FALSE;
+			M_Pausing:= FALSE;
 	END_CASE
 	nIndex:= nIndex +1;
 END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Resetting" Id="{61e3d89a-8bee-473b-9814-ba7482888f16}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Resetting:= SUPER^.M_Resetting();
+fbLayers.fbE0.M_RequestState(E_RequestState.Reset);
+fbLayers.fbE1.M_RequestState(E_RequestState.Reset);
+fbLayers.fbOn.M_RequestState(E_RequestState.Reset);
+fbFunctions.M_RequestState(E_RequestState.Reset);
+fbLogger.M_Reset();
+fbTcLogger.M_Reset();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Resuming" Id="{d9ef3688-d135-0f0b-1ce4-980e688e3f9f}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resuming : BOOL // Return state complete
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbLayers.fbE0.M_RequestState(E_RequestState.Start) THEN
+	M_Resuming:= TRUE;
+	fbLogger.M_Reset();
+	fbTcLogger.M_Reset();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Running" Id="{8879f60a-43a4-0568-363b-e25a42eddf0c}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Running
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Starting" Id="{5a9fb78b-3ed4-0195-387d-72e3c96a0cbd}">
@@ -106,125 +219,15 @@ END_VAR
 END_CASE]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Resetting" Id="{61e3d89a-8bee-473b-9814-ba7482888f16}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL
+    <Method Name="M_Stopped" Id="{43b02a69-b318-0eb0-3e6f-2d210026cf6d}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopped
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Resetting:= SUPER^.M_Resetting();
-fbLayers.fbE0.M_RequestState(E_RequestState.Reset);
-fbLayers.fbE1.M_RequestState(E_RequestState.Reset);
-fbLayers.fbOn.M_RequestState(E_RequestState.Reset);
-fbFunctions.M_RequestState(E_RequestState.Reset);
-fbLogger.M_Reset();
-fbTcLogger.M_Reset();]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Idle" Id="{6e9b6a1a-c168-0e2f-3b3d-1c86715a124a}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Idle
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.M_Idle();
+        <ST><![CDATA[SUPER^.M_Stopped();
 fbEvent.M_AddSTRING(P_Info.P_ID);
-fbEvent.M_Information('Module %s not started', 3);]]></ST>
-      </Implementation>
-    </Method>
-    <Property Name="P_Layers" Id="{7d592658-192b-02a8-1426-872f2de7dc9b}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-{attribute 'suppress_wrn_C0410'}
-PROPERTY PUBLIC P_Layers : I_Layers]]></Declaration>
-      <Get Name="Get" Id="{5e9545a3-869c-0efd-1436-1c507ab67edb}">
-        <Declaration><![CDATA[]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Layers:= fbLayers;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Method Name="M_Running" Id="{8879f60a-43a4-0568-363b-e25a42eddf0c}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Running
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Pausing" Id="{a7388aa8-4607-0ab0-06a2-4380b929ddfc}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Pausing : BOOL
-VAR_INPUT
-END_VAR
-
-VAR
-	nIndex: INT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[M_Pausing:= TRUE;
-WHILE nIndex < fbFunctions.P_List.P_Length DO
-	CASE fbFunctions.P_List.M_Index(nIndex).P_State OF
-		E_State.Idle,E_State.Completed,E_State.Stopped,E_State.Aborted:
-			;
-		ELSE
-			M_Pausing:= FALSE;
-	END_CASE
-	nIndex:= nIndex +1;
-END_WHILE]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Cycle" Id="{ba6e3712-faea-4bef-b491-24a585067e68}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.M_Cycle();
-
-
-fbLayers.M_Cycle();
-
-fbFunctions.M_Cycle();
-
-fbLogger();
-fbTcLogger();]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Initialise" Id="{d2ecc479-1ed6-0218-1db6-cf2c288ac295}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Initialise
-VAR_INPUT
-END_VAR
-
-VAR
-	fbLoggerFactory: INT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.M_Initialise();
-
-fbLayers.fbE0.P_Next:= fbLayers.fbE1;
-fbLayers.fbE1.P_Next:= fbLayers.fbOn;
-fbLayers.fbOn.P_Next:= THIS^;
-
-fbEvent.P_Settings.bPause:= TRUE;
-fbEvent.P_Settings.bHold:= TRUE;
-fbEvent.P_Settings.bComplete:= TRUE;
-
-fbEvent.P_Observer.M_Attach(fbLogger);
-fbEvent.P_Observer.M_Attach(fbTcLogger);
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Resuming" Id="{d9ef3688-d135-0f0b-1ce4-980e688e3f9f}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Resuming : BOOL // Return state complete
-VAR_INPUT
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF fbLayers.fbE0.M_RequestState(E_RequestState.Start) THEN
-	M_Resuming:= TRUE;
-	fbLogger.M_Reset();
-	fbTcLogger.M_Reset();
-END_IF]]></ST>
+fbEvent.M_Info('Module %s stopped, reset', 5);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Unholding" Id="{e6d01443-ae5b-0242-3775-c5c307506d4e}">
@@ -239,26 +242,17 @@ END_VAR]]></Declaration>
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Holding" Id="{fa37cb7f-6c16-0b90-0f89-f9628b230d17}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Holding : BOOL // Return state complete
-VAR_INPUT
-END_VAR
-
-VAR
-	nIndex: INT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[M_Holding:= TRUE;
-WHILE nIndex < fbFunctions.P_List.P_Length DO
-	CASE fbFunctions.P_List.M_Index(nIndex).P_State OF
-		E_State.Idle,E_State.Completed,E_State.Stopped,E_State.Aborted:
-			;
-		ELSE
-			M_Holding:= FALSE;
-	END_CASE
-	nIndex:= nIndex +1;
-END_WHILE]]></ST>
-      </Implementation>
-    </Method>
+    <Property Name="P_Layers" Id="{7d592658-192b-02a8-1426-872f2de7dc9b}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+{attribute 'suppress_wrn_C0410'}
+PROPERTY PUBLIC P_Layers : I_Layers]]></Declaration>
+      <Get Name="Get" Id="{5e9545a3-869c-0efd-1436-1c507ab67edb}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Layers:= fbLayers;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
   </POU>
 </TcPlcObject>

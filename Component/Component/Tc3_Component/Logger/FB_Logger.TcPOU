@@ -35,54 +35,6 @@ IF nTimestamp < F_GetSystemTime() THEN
 END_IF
 ]]></ST>
     </Implementation>
-    <Property Name="P_Length" Id="{0e0d1439-0084-08da-049d-e75171bf4532}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Length : DINT
-]]></Declaration>
-      <Get Name="Get" Id="{bcca406a-0083-09d7-21ec-d8f15b3ff11d}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Length:= nLength;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Method Name="M_Find" Id="{7446ea89-7013-0042-2993-bd13114e3454}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
-VAR_INPUT
-	stEvent:	ST_Event;
-END_VAR
-VAR 
-	nIndex:		DINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Find event in buffer
-M_Find := -1;
-WHILE nIndex < nLength DO
-	IF (aEvent[nIndex].iSender = stEvent.iSender) AND_THEN
-    	(aEvent[nIndex].eEventType = stEvent.eEventType) AND_THEN
-		(aEvent[nIndex].sInstance = stEvent.sInstance) AND_THEN
-		(aEvent[nIndex].sClass = stEvent.sClass) AND_THEN
-		(aEvent[nIndex].sMessage = stEvent.sMessage) THEN
-        M_Find := nIndex;
-        RETURN;
-    END_IF
-	nIndex := nIndex + 1;
-END_WHILE]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Reset" Id="{e0d35cb8-a065-06e5-0aeb-333f8aeafd2a}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Reset
-VAR_INPUT
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Reset all events
-nLength:= 0;
-Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Delete" Id="{f3be1f6f-20c3-0e2d-3ceb-b9f0f6d0978c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Delete : BOOL
 VAR_INPUT
@@ -95,29 +47,32 @@ nLength:= nLength -1;
 Memcpy(ADR(aEvent[nIndex]), ADR(aEvent[nIndex +1]), SIZEOF(POINTER TO ST_Event) * DINT_TO_UDINT(nSize - nIndex));]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Events" Id="{f7917afc-4283-0ff7-2622-47e4f0a69ac7}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-{attribute 'suppress_wrn_C0410'}
-PROPERTY PUBLIC P_Events : REFERENCE TO ARRAY [0..nSize - 1] OF ST_Event]]></Declaration>
-      <Set Name="Set" Id="{0f60bc6a-e42f-0797-0ecd-a00ef628de11}">
-        <Declaration><![CDATA[VAR
-END_VAR]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Events REF= aEvent;]]></ST>
-        </Implementation>
-      </Set>
-      <Get Name="Get" Id="{f022bdae-95d6-08b3-0454-e010076042ee}">
-        <Declaration><![CDATA[VAR
+    <Method Name="M_Find" Id="{7446ea89-7013-0042-2993-bd13114e3454}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
+VAR_INPUT
+	stEvent:	ST_Event;
 END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Events REF= aEvent;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Method Name="M_Notify" Id="{fd45db9b-595d-048a-1bc0-4df6868d7fde}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Notify
+VAR 
+	nIndex:		DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Find event in buffer
+M_Find := -1;
+WHILE nIndex < nLength DO
+	IF (aEvent[nIndex].iSource = stEvent.iSource) AND_THEN
+    	(aEvent[nIndex].eEventType = stEvent.eEventType) AND_THEN
+		(aEvent[nIndex].sInstance = stEvent.sInstance) AND_THEN
+		(aEvent[nIndex].sClass = stEvent.sClass) AND_THEN
+		(aEvent[nIndex].sMessage = stEvent.sMessage) THEN
+        M_Find := nIndex;
+        RETURN;
+    END_IF
+	nIndex := nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Log" Id="{fd45db9b-595d-048a-1bc0-4df6868d7fde}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Log
 VAR_INPUT
 	stEvent:		ST_Event;
 END_VAR
@@ -137,5 +92,50 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Reset" Id="{e0d35cb8-a065-06e5-0aeb-333f8aeafd2a}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Reset all events
+nLength:= 0;
+Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Events" Id="{f7917afc-4283-0ff7-2622-47e4f0a69ac7}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+{attribute 'suppress_wrn_C0410'}
+PROPERTY PUBLIC P_Events : REFERENCE TO ARRAY [0..nSize - 1] OF ST_Event]]></Declaration>
+      <Get Name="Get" Id="{f022bdae-95d6-08b3-0454-e010076042ee}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Events REF= aEvent;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{0f60bc6a-e42f-0797-0ecd-a00ef628de11}">
+        <Declaration><![CDATA[VAR
+END_VAR]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Events REF= aEvent;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_Length" Id="{0e0d1439-0084-08da-049d-e75171bf4532}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Length : DINT
+]]></Declaration>
+      <Get Name="Get" Id="{bcca406a-0083-09d7-21ec-d8f15b3ff11d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Length:= nLength;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
   </POU>
 </TcPlcObject>

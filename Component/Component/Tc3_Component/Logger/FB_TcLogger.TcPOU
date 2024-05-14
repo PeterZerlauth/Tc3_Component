@@ -23,7 +23,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[// Find event in buffer
 M_Find := -1;
 WHILE nIndex < nSize - 1 DO
-	IF (aEvent[nIndex].iSender = stEvent.iSender) AND_THEN
+	IF (aEvent[nIndex].iSource = stEvent.iSource) AND_THEN
     	(aEvent[nIndex].eEventType = stEvent.eEventType) AND_THEN
 		(aEvent[nIndex].sInstance = stEvent.sInstance) AND_THEN
 		(aEvent[nIndex].sClass = stEvent.sClass) AND_THEN
@@ -35,8 +35,8 @@ WHILE nIndex < nSize - 1 DO
 END_WHILE]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Notify" Id="{b49d5339-ffee-0708-31e9-7df1e04a7ae3}">
-      <Declaration><![CDATA[METHOD M_Notify
+    <Method Name="M_Log" Id="{b49d5339-ffee-0708-31e9-7df1e04a7ae3}">
+      <Declaration><![CDATA[METHOD M_Log
 VAR_INPUT
 	{attribute 'analysis' := '-33'}
 	stEvent	: ST_Event;

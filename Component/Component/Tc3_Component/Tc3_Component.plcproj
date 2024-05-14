@@ -91,9 +91,6 @@
     <Compile Include="Component\Event\ST_EventFlags.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Component\Event\ST_EventSettings.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Component\E_RequestMode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -176,6 +173,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\FB_GlobalLogger.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Logger\I_Logger.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Module\FB_Module.TcPOU">
