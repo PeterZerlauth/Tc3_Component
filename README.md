@@ -6,16 +6,13 @@ have a lightweight and modular Framework.
 ## Info
 The concept is working quite stable.\
 Project is still under heavy development, and without any warranty!\
-There is still a lot of work to do, if somebody have ideas, contributors are welcome!\
-
-## Concept  (FB_Component, FB_ModuleBase)
-![Concept](docs/Concept.drawio.svg)
-
-## Class (FB_Component)
-[<img src="docs/FB_Component.png" width="250"/>](docs/FB_Component.png)
+There is still a lot of work to do, if somebody have ideas, contributors are welcome!
 
 ## State Machine (FB_Component)
 ![State Machine](docs/StateModel.svg)
+
+## Class (FB_Component)
+[<img src="docs/FB_Component.png" width="250"/>](docs/FB_Component.png)
 
 ## Description
     [x] State Machine
