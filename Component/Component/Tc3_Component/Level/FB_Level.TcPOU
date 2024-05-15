@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_Layer" Id="{6c2584ee-5a36-0c50-392e-89c20d77cace}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_Layer EXTENDS FB_Component IMPLEMENTS I_Layer
+  <POU Name="FB_Level" Id="{6c2584ee-5a36-0c50-392e-89c20d77cace}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Level EXTENDS FB_Component IMPLEMENTS I_Level
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -25,7 +25,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[fbList.M_Add(iComponent);
 iComponent.P_Event.P_Observer.M_Attach(THIS^);
-fbEvent.P_Observer.M_Attach(iComponent);]]></ST>
+fbEvent.P_Observer.M_Attach(iComponent);
+iComponent.P_Event.P_Logger:= fbEvent.P_Logger;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Dettach" Id="{f13d487a-f32a-0ba9-20c0-98d3bf35cc8f}">
@@ -37,7 +38,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[fbList.M_Remove(iComponent);
 iComponent.P_Event.P_Observer.M_Detach(THIS^);
-fbEvent.P_Observer.M_Detach(iComponent);]]></ST>
+fbEvent.P_Observer.M_Detach(iComponent);
+iComponent.P_Event.P_Logger:= 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Notify" Id="{debbf766-dd56-0948-0473-018dc5966f2b}">

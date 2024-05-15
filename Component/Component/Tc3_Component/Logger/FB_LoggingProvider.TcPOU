@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_LoggingProvider" Id="{4a4f693c-530f-0a5d-020c-3e6103eac851}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_LoggingProvider IMPLEMENTS I_Logger
+VAR
+	pList: 			POINTER TO I_Logger;
+    {attribute 'hide'}
+	nLength:		DINT;
+	{IF (defined (release))}
+    	{attribute 'hide'}
+	{END_IF}
+	aList:			POINTER TO POINTER TO ARRAY [0..100] OF I_Logger:=ADR(pList);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FB_exit" Id="{4bdc0931-246d-0cde-28c9-eb24196b7200}">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
+VAR_INPUT
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Clear();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Attach" Id="{d9eceb3d-d2e3-0e81-1092-90dd2b94ee40}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Attach : BOOL
+VAR_INPUT
+	iLogger: 	I_Logger;
+END_VAR
+VAR
+	pOldList: 	POINTER TO I_Logger;	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF iLogger <> 0 THEN
+	// First Item
+	IF pList = 0 THEN
+		nLength:= nLength + 1;
+		pList:= __NEW(POINTER TO I_Logger,DINT_TO_UDINT(nLength));
+	ELSE
+		// Item already in List
+		IF M_Find(iLogger) = -1 THEN
+			// backup 
+			pOldList:= pList;
+			// new Length
+			nLength:= nLength + 1;
+			// new pointer
+			pList:= __NEW(POINTER TO I_Logger,DINT_TO_UDINT(nLength));
+			// restore
+			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Logger)*DINT_TO_UDINT(nLength -1));
+			// delete old
+			__DELETE(pOldList);
+		ELSE
+			M_Attach:= FALSE;	
+			RETURN;
+		END_IF
+	END_IF
+	IF pList = 0 THEN
+		RETURN;
+	END_IF
+	// add new Object
+	pList[nLength-1]:= iLogger;
+	M_Attach:= TRUE;
+ELSE
+	M_Attach:= FALSE;	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Clear" Id="{e450e6b9-a72e-0da5-10d2-d210a8f6878d}">
+      <Declaration><![CDATA[METHOD M_Clear
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF pList <> 0 THEN
+	nLength:= 0;
+	__DELETE(pList);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Detach" Id="{4ede103b-d27d-07d2-0043-c0a9a79a5d5a}">
+      <Declaration><![CDATA[METHOD M_Detach : BOOL
+VAR_INPUT
+	iLogger: 	I_Logger;
+END_VAR
+VAR
+	pOldList:			POINTER TO I_Logger;
+	nPosition: 			DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF iLogger <> 0 THEN
+	// First Item
+	IF nLength >= 0 THEN
+		// Item already in List
+		nPosition:= M_Find(iLogger);
+		IF nPosition <> -1 THEN
+			// backup 
+			pOldList:= pList;
+			// new Length
+			nLength:= nLength -1;
+			// new pointer
+			pList:= __NEW(POINTER TO I_Logger,DINT_TO_UDINT(nLength));
+			// restore lower part
+			Memcpy(pList,pOldList, SIZEOF(POINTER TO I_Logger) * DINT_TO_UDINT(nPosition));
+			//pList[nPosition]:= iObject;
+			Memcpy(pList + (SIZEOF(POINTER TO I_Logger)*nPosition),pOldList + (SIZEOF(POINTER TO I_Logger)*(nPosition + 1)), SIZEOF(POINTER TO I_Logger) * DINT_TO_UDINT(nLength - nPosition));
+			// delete old
+			__DELETE(pOldList);
+		ELSE
+			M_Detach:= FALSE;	
+			RETURN;
+		END_IF
+	ELSE
+		M_Detach:= FALSE;	
+		RETURN;
+	END_IF
+	M_Detach:= TRUE;
+ELSE
+	M_Detach:= FALSE;	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Find" Id="{6b22dc59-8c11-0362-1d64-f1bba4bcff7b}">
+      <Declaration><![CDATA[METHOD M_Find : DINT
+VAR_INPUT
+	iLogger: 	I_Logger;
+END_VAR
+VAR
+	nIndex: 	UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Object already in List
+M_Find := -1;
+WHILE nIndex < nLength DO
+    IF (pList[nIndex] = iLogger) THEN
+        M_Find := nIndex;
+        RETURN;
+    END_IF
+	nIndex := nIndex + 1;
+END_WHILE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Log" Id="{1ac56ebc-be78-03ab-1b77-8752d6886ce1}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Log
+VAR_INPUT
+	stEvent	: ST_Event;
+END_VAR
+VAR
+	nIndex: 		DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[WHILE nIndex < nLength DO
+	pList[nIndex].M_Log(stEvent);		
+	nIndex:= nIndex + 1; 
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{a488c4f2-32d2-06b2-1289-c196d9264ad7}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset
+VAR_INPUT
+END_VAR
+VAR
+	nIndex: 		DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[WHILE nIndex < nLength DO
+	pList[nIndex].M_Reset();	
+	nIndex:= nIndex + 1; 
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

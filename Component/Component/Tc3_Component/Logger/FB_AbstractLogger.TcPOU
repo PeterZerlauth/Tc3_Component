@@ -20,6 +20,14 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Reset" Id="{c77fdecd-2f35-039d-02c1-c6998597e69e}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="P_LogLevel" Id="{4e7eac4b-247b-0a29-2a35-dc1e925ca3fc}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_LogLevel : E_Event]]></Declaration>
       <Get Name="Get" Id="{fa88e4d7-b0fb-00eb-0a8c-f1eece58ba13}">

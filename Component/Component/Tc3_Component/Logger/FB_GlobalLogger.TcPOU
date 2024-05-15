@@ -28,7 +28,6 @@ WHILE nIndex < nSize - 1 DO
 	IF (aEvent[nIndex].iSource = stEvent.iSource) AND_THEN
     	(aEvent[nIndex].eEventType = stEvent.eEventType) AND_THEN
 		(aEvent[nIndex].sInstance = stEvent.sInstance) AND_THEN
-		(aEvent[nIndex].sClass = stEvent.sClass) AND_THEN
 		(aEvent[nIndex].sMessage = stEvent.sMessage) THEN
         M_Find := nIndex;
         RETURN;
@@ -69,6 +68,14 @@ ELSE
 		END_CASE
 	END_IF
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{17ac7f2d-ffdc-067d-33fb-858d2cc2c684}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
   </POU>

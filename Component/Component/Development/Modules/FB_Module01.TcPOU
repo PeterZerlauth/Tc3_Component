@@ -18,6 +18,29 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
+    <Method Name="M_Cycle" Id="{655447dc-389e-494a-be91-78d8a111b7aa}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
+VAR_INPUT
+END_VAR
+
+VAR
+
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.M_Cycle();
+
+fbComponent1.M_Cycle();
+fbComponent2.M_Cycle();
+fbComponent3.M_Cycle();
+fbCylinder.M_Cycle();
+
+fbProcess.M_Cycle();
+
+FOR nIndex:= 0 TO 99 DO
+	fbComponents[nIndex].M_Cycle();
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Execute" Id="{0f7f4331-8af5-0744-015a-f65d0021dd06}">
       <Declaration><![CDATA[METHOD PROTECTED M_Execute : bool
 VAR_INPUT
@@ -50,48 +73,6 @@ END_CASE
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Stopping" Id="{478c517c-d184-0eaf-2697-597088f6cf3f}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL // Return state complete
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Stopping
-M_Stopping:= SUPER^.M_Stopping();]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Cycle" Id="{655447dc-389e-494a-be91-78d8a111b7aa}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
-VAR_INPUT
-END_VAR
-
-VAR
-
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.M_Cycle();
-
-fbComponent1.M_Cycle();
-fbComponent2.M_Cycle();
-fbComponent3.M_Cycle();
-fbCylinder.M_Cycle();
-
-fbProcess.M_Cycle();
-
-FOR nIndex:= 0 TO 99 DO
-	fbComponents[nIndex].M_Cycle();
-END_FOR]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Starting" Id="{6f002794-61fc-043c-1d84-a8bc502c5d3a}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[M_Starting:= SUPER^.M_Starting();]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Initialise" Id="{714c485c-83a6-4af2-a706-fec3f6b598e5}">
       <Declaration><![CDATA[METHOD PROTECTED M_Initialise
 VAR_INPUT
@@ -105,17 +86,17 @@ Globals.bSimulation:= TRUE;
 P_Info.P_ID:= 'M001';
 
 
-fbLayers.fbE0.M_Attach(fbComponent1);
-fbLayers.fbE0.M_Attach(fbComponent2);
-fbLayers.fbE1.M_Attach(fbComponent3);
+fbLevelE0.M_Attach(fbComponent1);
+fbLevelE1.M_Attach(fbComponent2);
+fbLevelE1.M_Attach(fbComponent3);
 
 fbCylinder.P_Info.P_ID:= 'Y1';
-fbLayers.fbE1.M_Attach(fbCylinder);
+fbLevelE1.M_Attach(fbCylinder);
 
 fbFunctions.M_Attach(fbProcess);
 
 FOR nIndex:= 0 TO 99 DO
-	fbLayers.fbE1.M_Attach(fbComponents[nIndex]);
+	fbLevelE1.M_Attach(fbComponents[nIndex]);
 END_FOR
 ]]></ST>
       </Implementation>
@@ -138,6 +119,25 @@ ELSIF NOT IO.bDoorsOk THEN
 ELSIF NOT IO.bFuse THEN	
 	fbEvent.M_Stop('Fuse Triped', 18);		
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Starting" Id="{6f002794-61fc-043c-1d84-a8bc502c5d3a}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Starting:= SUPER^.M_Starting();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stopping" Id="{478c517c-d184-0eaf-2697-597088f6cf3f}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Stopping
+M_Stopping:= SUPER^.M_Stopping();]]></ST>
       </Implementation>
     </Method>
   </POU>

@@ -1,29 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <Itf Name="I_Layer" Id="{8f4734e9-8603-08d1-26cb-b0fac42f0340}">
-    <Declaration><![CDATA[INTERFACE I_Layer EXTENDS I_Component
+  <Itf Name="I_Level" Id="{8f4734e9-8603-08d1-26cb-b0fac42f0340}">
+    <Declaration><![CDATA[INTERFACE I_Level EXTENDS I_Component
 ]]></Declaration>
-    <Property Name="P_Timeout" Id="{1d97d7c7-00c6-0561-3a33-bb19b42f1c63}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Timeout : TIME]]></Declaration>
-      <Get Name="Get" Id="{1df594d1-7177-0f07-12ed-8f8aff8ed630}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-      <Set Name="Set" Id="{25ff2210-9835-09df-2adc-823fa0d3de93}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
-    </Property>
-    <Property Name="P_List" Id="{5f16ca22-2e9f-0624-17c9-8649b64dfee2}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY P_List : I_ListComponent]]></Declaration>
-      <Get Name="Get" Id="{02a31d1a-c1c4-0420-3d69-4899685629b3}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
     <Method Name="M_Attach" Id="{79642475-2d99-0bbf-2634-5569c28ece9f}">
       <Declaration><![CDATA[METHOD PUBLIC M_Attach
+VAR_INPUT
+	iComponent:		I_Component;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Dettach" Id="{c474b0cc-3eba-08ca-0ece-5ec0960fd264}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Dettach
 VAR_INPUT
 	iComponent:		I_Component;
 END_VAR
@@ -40,13 +28,14 @@ PROPERTY PUBLIC P_Delay : TIME]]></Declaration>
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
-    <Method Name="M_Dettach" Id="{c474b0cc-3eba-08ca-0ece-5ec0960fd264}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Dettach
-VAR_INPUT
-	iComponent:		I_Component;
-END_VAR
-]]></Declaration>
-    </Method>
+    <Property Name="P_List" Id="{5f16ca22-2e9f-0624-17c9-8649b64dfee2}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY P_List : I_ListComponent]]></Declaration>
+      <Get Name="Get" Id="{02a31d1a-c1c4-0420-3d69-4899685629b3}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
     <Property Name="P_Next" Id="{e45d8bd2-ecda-0a90-05dc-dc02c54ffcca}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
@@ -55,6 +44,17 @@ PROPERTY PUBLIC P_Next : I_Component]]></Declaration>
         <Declaration><![CDATA[]]></Declaration>
       </Get>
       <Set Name="Set" Id="{ddb2951c-a0b5-041c-2026-704c21188550}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="P_Timeout" Id="{1d97d7c7-00c6-0561-3a33-bb19b42f1c63}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Timeout : TIME]]></Declaration>
+      <Get Name="Get" Id="{1df594d1-7177-0f07-12ed-8f8aff8ed630}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{25ff2210-9835-09df-2adc-823fa0d3de93}">
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>

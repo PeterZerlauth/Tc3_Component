@@ -26,7 +26,6 @@ WHILE nIndex < nSize - 1 DO
 	IF (aEvent[nIndex].iSource = stEvent.iSource) AND_THEN
     	(aEvent[nIndex].eEventType = stEvent.eEventType) AND_THEN
 		(aEvent[nIndex].sInstance = stEvent.sInstance) AND_THEN
-		(aEvent[nIndex].sClass = stEvent.sClass) AND_THEN
 		(aEvent[nIndex].sMessage = stEvent.sMessage) THEN
         M_Find := nIndex;
         RETURN;

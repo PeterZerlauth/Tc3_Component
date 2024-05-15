@@ -7,8 +7,11 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbLayers:					FB_Layers;
-	fbFunctions:				FB_Layer;
+	fbLevelE0:					FB_Level;
+	fbLevelE1:					FB_Level;
+	fbLevelE2:					FB_Level;
+	fbFunctions:				FB_Level;
+	fbLogging:					FB_LoggingProvider;
 	fbLogger:					FB_Logger;
 	fbTcLogger:					FB_TcLogger;
 END_VAR]]></Declaration>
@@ -55,9 +58,9 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Cycle();
 
-
-fbLayers.M_Cycle();
-
+fbLevelE0.M_Cycle();
+fbLevelE1.M_Cycle();
+fbLevelE2.M_Cycle();
 fbFunctions.M_Cycle();
 
 fbLogger();
@@ -107,11 +110,19 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Initialise();
 
-fbLayers.fbE0.P_Next:= fbLayers.fbE1;
-fbLayers.fbE1.P_Next:= fbLayers.fbOn;
-fbLayers.fbOn.P_Next:= THIS^;
+fbEvent.P_Logger:= fbLogging;
 
-]]></ST>
+fbLevelE0.P_Next:= fbLevelE1;
+fbLevelE0.P_Event.P_Logger:= fbEvent.P_Logger;
+
+fbLevelE1.P_Next:= fbLevelE2;
+fbLevelE1.P_Event.P_Logger:= fbEvent.P_Logger;
+
+fbLevelE2.P_Next:= THIS^;
+fbLevelE2.P_Event.P_Logger:= fbEvent.P_Logger;
+
+fbLogging.M_Attach(fbLogger);
+fbLogging.M_Attach(fbTcLogger);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_OnMode" Id="{549d817a-659a-0f3e-10ea-6f23f3ce8adf}">
@@ -132,7 +143,11 @@ END_VAR]]></Declaration>
 		fbEvent.M_AddSTRING(TO_STRING(eModePrevious));
 		fbEvent.M_AddSTRING(TO_STRING(eMode));
 		fbEvent.M_Debug('Mode changed form %s to %s');
-END_CASE]]></ST>
+END_CASE
+
+fbLevelE0.M_RequestMode(eMode);
+fbLevelE1.M_RequestMode(eMode);
+fbLevelE2.M_RequestMode(eMode);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Pausing" Id="{a7388aa8-4607-0ab0-06a2-4380b929ddfc}">
@@ -163,12 +178,11 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Resetting:= SUPER^.M_Resetting();
-fbLayers.fbE0.M_RequestState(E_RequestState.Reset);
-fbLayers.fbE1.M_RequestState(E_RequestState.Reset);
-fbLayers.fbOn.M_RequestState(E_RequestState.Reset);
+fbLevelE0.M_RequestState(E_RequestState.Reset);
+fbLevelE1.M_RequestState(E_RequestState.Reset);
+fbLevelE2.M_RequestState(E_RequestState.Reset);
 fbFunctions.M_RequestState(E_RequestState.Reset);
-fbLogger.M_Reset();
-fbTcLogger.M_Reset();]]></ST>
+fbLogging.M_Reset();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Resuming" Id="{d9ef3688-d135-0f0b-1ce4-980e688e3f9f}">
@@ -176,11 +190,8 @@ fbTcLogger.M_Reset();]]></ST>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF fbLayers.fbE0.M_RequestState(E_RequestState.Start) THEN
-	M_Resuming:= TRUE;
-	fbLogger.M_Reset();
-	fbTcLogger.M_Reset();
-END_IF]]></ST>
+        <ST><![CDATA[fbLogging.M_Reset();
+M_Resuming:= TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{8879f60a-43a4-0568-363b-e25a42eddf0c}">
@@ -203,15 +214,15 @@ END_VAR
       <Implementation>
         <ST><![CDATA[CASE fbSequence.P_Number OF
 	E_Sequence.Start:
-		bReturn:= fbLayers.fbE0.M_RequestState(E_RequestState.Start);
+		bReturn:= fbLevelE0.M_RequestState(E_RequestState.Start);
 		fbSequence.M_Await('Start layer 0', T#5S, T#1S, FALSE, bReturn, 10);
 		
 	10:
-		bReturn:= fbLayers.fbE1.M_RequestState(E_RequestState.Start);
+		bReturn:= fbLevelE1.M_RequestState(E_RequestState.Start);
 		fbSequence.M_Await('Start layer 1', T#5S, T#1S, FALSE, bReturn, 20);
 		
 	20:
-		bReturn:= fbLayers.fbOn.M_RequestState(E_RequestState.Start);
+		bReturn:= fbLevelE2.M_RequestState(E_RequestState.Start);
 		fbSequence.M_Await('Start layer 1', T#5S, T#1S, FALSE, bReturn, E_Sequence.Done);
 		
 	E_Sequence.Done:
@@ -235,24 +246,10 @@ fbEvent.M_Info('Module %s stopped, reset', 5);]]></ST>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF fbLayers.fbE0.M_RequestState(E_RequestState.Start) THEN
-	M_Unholding:= TRUE;
-	fbLogger.M_Reset();
-	fbTcLogger.M_Reset();
-END_IF]]></ST>
+        <ST><![CDATA[fbLogging.M_Reset();
+M_Unholding:= TRUE;
+]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Layers" Id="{7d592658-192b-02a8-1426-872f2de7dc9b}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-{attribute 'suppress_wrn_C0410'}
-PROPERTY PUBLIC P_Layers : I_Layers]]></Declaration>
-      <Get Name="Get" Id="{5e9545a3-869c-0efd-1436-1c507ab67edb}">
-        <Declaration><![CDATA[]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Layers:= fbLayers;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
   </POU>
 </TcPlcObject>

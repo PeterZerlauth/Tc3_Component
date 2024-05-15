@@ -62,7 +62,6 @@ WHILE nIndex < nLength DO
 	IF (aEvent[nIndex].iSource = stEvent.iSource) AND_THEN
     	(aEvent[nIndex].eEventType = stEvent.eEventType) AND_THEN
 		(aEvent[nIndex].sInstance = stEvent.sInstance) AND_THEN
-		(aEvent[nIndex].sClass = stEvent.sClass) AND_THEN
 		(aEvent[nIndex].sMessage = stEvent.sMessage) THEN
         M_Find := nIndex;
         RETURN;
@@ -84,6 +83,7 @@ END_VAR]]></Declaration>
 	// Update existing events
 	aEvent[nIndex].sArguments:= stEvent.sArguments;
 	aEvent[nIndex].sDefault:= stEvent.sDefault;
+	aEvent[nIndex].sClass:= stEvent.sClass;
 	aEvent[nIndex].stFlags:= stEvent.stFlags;
 ELSE
 	// add new event
