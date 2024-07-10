@@ -65,25 +65,6 @@ M_Aborting:= TRUE;
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Completed" Id="{47ba5a0a-8800-0f93-2645-874f5aa969a5}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Completed
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Completing" Id="{a6f0ed18-708c-02a1-0990-4f4a1b2b5a3a}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL // Return state complete
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Completing
-M_Completing:= True;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Cycle" Id="{8157620c-1844-0b4a-092c-fe72147fa392}">
       <Declaration><![CDATA[METHOD PUBLIC M_Cycle
 VAR_INPUT
@@ -175,7 +156,7 @@ CASE eState OF
 				eState:= E_State.Aborting;
 				fbSequence.M_Reset();
 
-			E_RequestState.Hold:
+			E_RequestState.Sleep:
 				eState:= E_State.Holding;
 				fbSequence.M_Reset();
 				
@@ -252,10 +233,10 @@ CASE eState OF
 				
 		END_CASE
 
-	E_State.Holding:
+	E_State.Sleeping:
 		M_Running();
-		IF M_Holding() THEN
-			eState:= E_State.Held;
+		IF M_Sleeping() THEN
+			eState:= E_State.Sleeped;
 			eStateRequest:= E_RequestState.Undefined;
 			fbSequence.M_Reset();
 		END_IF
@@ -272,9 +253,9 @@ CASE eState OF
 
 		END_CASE
 
-	E_State.Held:
+	E_State.Sleeped:
 		M_Running();
-		M_Held();
+		M_Sleeped();
 		CASE eStateRequest OF
 			
 			E_RequestState.Start:
@@ -377,25 +358,6 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Execute:= True;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Held" Id="{f81e94c9-4b34-0591-0431-3c8c41c7dc3f}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Held
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Holding" Id="{0453e1ef-1254-097d-2836-c180f9c76437}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Holding : BOOL // Return state complete
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Holding
-M_Holding:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Idle" Id="{ee6be811-c2b8-059d-2e73-08e8c6ee3020}" FolderPath="State\">
@@ -512,7 +474,7 @@ CASE eRequest OF
 			END_IF		
 		END_IF
 		
-	E_RequestState.Hold:
+	E_RequestState.Sleep:
 		IF eState >= E_State.Held THEN
 			M_RequestState:= TRUE;
 		ELSE
@@ -577,6 +539,25 @@ END_VAR
         <ST><![CDATA[// Will be called in all running states, for monitorings which not only in one state active]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Sleeped" Id="{f81e94c9-4b34-0591-0431-3c8c41c7dc3f}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Sleeped
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Sleeping" Id="{0453e1ef-1254-097d-2836-c180f9c76437}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Sleeping : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Holding
+M_Sleeping:= True;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Starting" Id="{7b4cc2a9-4be8-0ad5-3afd-3314d7249ec2}" FolderPath="State\">
       <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL // Return state complete
 VAR_INPUT
@@ -604,16 +585,6 @@ END_VAR
       <Implementation>
         <ST><![CDATA[// State Stopping
 M_Stopping:= True;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Unholding" Id="{38e86df5-306b-0975-32bb-19e03b5147dc}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Unholding : BOOL // Return state complete
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Holding
-M_Unholding:= True;]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Event" Id="{4af7c41c-ce75-074c-247b-1e9cde87d3d0}">

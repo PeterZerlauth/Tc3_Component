@@ -19,9 +19,9 @@ TYPE E_State :
 	Paused			:= 5,
 	Resuming		:= 6,
 	
-// Hold
-	Holding			:= 7,
-	Held			:= 8,
+// Sleep
+	Sleeping		:= 7,
+	Sleeped			:= 8,
 
 // Stop
 	Stopping		:= 9,

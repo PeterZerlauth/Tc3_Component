@@ -14,7 +14,7 @@ TYPE E_RequestState :
 	{attribute 'analysis' := '-27'}
     Start       := 2,
     Pause       := 4,	
-    Hold      	:= 8,
+    Sleep      	:= 8,
 	Stop		:= 16,
 	Abort       := 32
 );
