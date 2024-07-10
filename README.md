@@ -9,7 +9,7 @@ Project is still under heavy development, and without any warranty!\
 There is still a lot of work to do, if somebody have ideas, contributors are welcome!
 
 ## State Machine (FB_Component)
-![State Machine](docs/StateModel.svg)
+![State Machine](docs/StateMachine.drawio.svg)
 
 ## Class (FB_Component)
 [<img src="docs/FB_Component.png" width="250"/>](docs/FB_Component.png)
