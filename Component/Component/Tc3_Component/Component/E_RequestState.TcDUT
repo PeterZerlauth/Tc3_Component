@@ -15,9 +15,8 @@ TYPE E_RequestState :
     Start       := 2,
     Pause       := 4,	
     Hold      	:= 8,
-	Complete	:= 16,	
-	Stop		:= 32,
-	Abort       := 64
+	Stop		:= 16,
+	Abort       := 32
 );
 END_TYPE]]></Declaration>
   </DUT>

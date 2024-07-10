@@ -18,38 +18,6 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
     </Implementation>
-    <Method Name="M_Aborted" Id="{0b832f7f-4585-09d1-3d1d-4466841374ad}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Aborted
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.M_Aborted();
-fbEvent.M_AddSTRING(P_Info.P_ID);
-fbEvent.M_Info('Module %s aborted, reset', 2);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Completing" Id="{59aee546-4f8e-0ca5-32cb-b922aa446d6e}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL // Return state complete
-VAR_INPUT
-END_VAR
-
-VAR
-	nIndex: INT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[M_Completing:= TRUE;
-WHILE nIndex < fbFunctions.P_List.P_Length DO
-	CASE fbFunctions.P_List.M_Index(nIndex).P_State OF
-		E_State.Idle,E_State.Completed,E_State.Stopped,E_State.Aborted:
-			;
-		ELSE
-			M_Completing:= FALSE;
-	END_CASE
-	nIndex:= nIndex +1;
-END_WHILE]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Cycle" Id="{ba6e3712-faea-4bef-b491-24a585067e68}">
       <Declaration><![CDATA[METHOD PUBLIC M_Cycle
 VAR_INPUT
@@ -65,38 +33,6 @@ fbFunctions.M_Cycle();
 
 fbLogger();
 fbTcLogger();]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Holding" Id="{fa37cb7f-6c16-0b90-0f89-f9628b230d17}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Holding : BOOL // Return state complete
-VAR_INPUT
-END_VAR
-
-VAR
-	nIndex: INT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[M_Holding:= TRUE;
-WHILE nIndex < fbFunctions.P_List.P_Length DO
-	CASE fbFunctions.P_List.M_Index(nIndex).P_State OF
-		E_State.Idle,E_State.Completed,E_State.Stopped,E_State.Aborted:
-			;
-		ELSE
-			M_Holding:= FALSE;
-	END_CASE
-	nIndex:= nIndex +1;
-END_WHILE]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Idle" Id="{6e9b6a1a-c168-0e2f-3b3d-1c86715a124a}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Idle
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.M_Idle();
-fbEvent.M_AddSTRING(P_Info.P_ID);
-fbEvent.M_Info('Module %s not started', 3);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Initialise" Id="{d2ecc479-1ed6-0218-1db6-cf2c288ac295}">
@@ -150,27 +86,6 @@ fbLevelE1.M_RequestMode(eMode);
 fbLevelE2.M_RequestMode(eMode);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Pausing" Id="{a7388aa8-4607-0ab0-06a2-4380b929ddfc}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Pausing : BOOL
-VAR_INPUT
-END_VAR
-
-VAR
-	nIndex: INT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[M_Pausing:= TRUE;
-WHILE nIndex < fbFunctions.P_List.P_Length DO
-	CASE fbFunctions.P_List.M_Index(nIndex).P_State OF
-		E_State.Idle,E_State.Completed,E_State.Stopped,E_State.Aborted:
-			;
-		ELSE
-			M_Pausing:= FALSE;
-	END_CASE
-	nIndex:= nIndex +1;
-END_WHILE]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Resetting" Id="{61e3d89a-8bee-473b-9814-ba7482888f16}">
       <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL
 VAR_INPUT
@@ -183,15 +98,6 @@ fbLevelE1.M_RequestState(E_RequestState.Reset);
 fbLevelE2.M_RequestState(E_RequestState.Reset);
 fbFunctions.M_RequestState(E_RequestState.Reset);
 fbLogging.M_Reset();]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Resuming" Id="{d9ef3688-d135-0f0b-1ce4-980e688e3f9f}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Resuming : BOOL // Return state complete
-VAR_INPUT
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbLogging.M_Reset();
-M_Resuming:= TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{8879f60a-43a4-0568-363b-e25a42eddf0c}">
@@ -228,27 +134,6 @@ END_VAR
 	E_Sequence.Done:
 		M_Starting:= TRUE;
 END_CASE]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Stopped" Id="{43b02a69-b318-0eb0-3e6f-2d210026cf6d}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Stopped
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.M_Stopped();
-fbEvent.M_AddSTRING(P_Info.P_ID);
-fbEvent.M_Info('Module %s stopped, reset', 5);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Unholding" Id="{e6d01443-ae5b-0242-3775-c5c307506d4e}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Unholding : BOOL // Return state complete
-VAR_INPUT
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbLogging.M_Reset();
-M_Unholding:= TRUE;
-]]></ST>
       </Implementation>
     </Method>
   </POU>

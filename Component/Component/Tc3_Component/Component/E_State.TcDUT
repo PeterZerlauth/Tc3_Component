@@ -22,22 +22,17 @@ TYPE E_State :
 // Hold
 	Holding			:= 7,
 	Held			:= 8,
-	Unholding		:= 9,
-	
-// Complete
-	Completing		:= 10,
-	Completed		:= 11,
 
 // Stop
-	Stopping		:= 12,
-	Stopped			:= 13,
+	Stopping		:= 9,
+	Stopped			:= 10,
 
 // Abort	
-	Aborting		:= 14,
-	Aborted			:= 15,
+	Aborting		:= 11,
+	Aborted			:= 12,
 
 // Reset
-	Resetting		:= 16
+	Resetting		:= 13
 
 );
 END_TYPE

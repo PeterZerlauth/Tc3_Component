@@ -284,7 +284,7 @@ END_IF
 
 iParent.M_RequestState(E_RequestState.Stop);
 
-fbObserver.M_Notify(iParent, E_RequestState.Abort);
+fbObserver.M_Notify(iParent, E_RequestState.Stop);
 
 IF aHistory[0].sMessage <> stEvent.sMessage THEN
 	MemCpy(ADR(aHistory[1]), ADR(aHistory[0]), SIZEOF(ST_Event) * 5);
