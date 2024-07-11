@@ -137,6 +137,9 @@ CASE eState OF
 			E_RequestState.Stop:
 				eState:= E_State.Stopping;
 				
+			E_RequestState.Hold:
+				eState:= E_State.Holding;
+				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 				
@@ -145,98 +148,31 @@ CASE eState OF
 	E_State.Execute:
 		M_Running();
 		IF M_Execute() THEN
-			;
+			eState:= E_State.Stopping;
 		END_IF
 		CASE eStateRequest OF
 			E_RequestState.Stop:
 				eState:= E_State.Stopping;
 				fbSequence.M_Reset();
 				
+			E_RequestState.Hold:
+				eState:= E_State.Holding;
+				fbSequence.M_Reset();
+				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 				fbSequence.M_Reset();
 
-			E_RequestState.Sleep:
-				eState:= E_State.Holding;
-				fbSequence.M_Reset();
-				
-			E_RequestState.Pause:
-				eState:= E_State.Pausing;
-				fbSequence.M_Reset();
-				
 			ELSE
 				eStateRequest:= E_RequestState.Undefined;
 				
 		END_CASE
 		fbSequence.M_Save();
-		
-	E_State.Pausing:
-		M_Running();
-		IF M_Pausing() THEN
-			eState:= E_State.Paused;
-			eStateRequest:= E_RequestState.Undefined;
-			fbSequence.M_Reset();
-		END_IF
-		CASE eStateRequest OF
-			
-			E_RequestState.Stop:
-				eState:= E_State.Stopping;
-				fbSequence.M_Reset();
-				
-			E_RequestState.Abort:
-				eState:= E_State.Aborting;
-				fbSequence.M_Reset();
-				fbSequence.M_Save();
 
-		END_CASE
-		
-	
-	E_State.Paused:
+	E_State.Holding:
 		M_Running();
-		M_Paused();
-		CASE eStateRequest OF
-			
-			E_RequestState.Start:
-				eState:= E_State.Resuming;
-				fbSequence.M_Reset();
-				
-			E_RequestState.Stop:
-				eState:= E_State.Stopping;
-				fbSequence.M_Reset();
-				
-			E_RequestState.Abort:
-				eState:= E_State.Aborting;
-				fbSequence.M_Reset();
-				fbSequence.M_Save();
-						
-		ELSE
-			eStateRequest:= E_RequestState.Undefined;
-
-		END_CASE
-		
-	E_State.Resuming:
-		M_Running();
-		IF M_Resuming() THEN
-			eState:= E_State.Execute;
-			fbSequence.M_Reset();
-		END_IF
-		CASE eStateRequest OF
-			
-			E_RequestState.Stop:
-				eState:= E_State.Stopping;
-				fbSequence.M_Reset();
-				
-			E_RequestState.Abort:
-				eState:= E_State.Aborting;
-				fbSequence.M_Reset();
-				fbSequence.M_Save();
-				
-		END_CASE
-
-	E_State.Sleeping:
-		M_Running();
-		IF M_Sleeping() THEN
-			eState:= E_State.Sleeped;
+		IF M_Holding() THEN
+			eState:= E_State.Held;
 			eStateRequest:= E_RequestState.Undefined;
 			fbSequence.M_Reset();
 		END_IF
@@ -253,9 +189,9 @@ CASE eState OF
 
 		END_CASE
 
-	E_State.Sleeped:
+	E_State.Held:
 		M_Running();
-		M_Sleeped();
+		M_Held();
 		CASE eStateRequest OF
 			
 			E_RequestState.Start:
@@ -358,6 +294,25 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Execute:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Held" Id="{f81e94c9-4b34-0591-0431-3c8c41c7dc3f}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Held
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Holding" Id="{0453e1ef-1254-097d-2836-c180f9c76437}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Holding : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Holding
+M_Holding:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Idle" Id="{ee6be811-c2b8-059d-2e73-08e8c6ee3020}" FolderPath="State\">
@@ -474,7 +429,7 @@ CASE eRequest OF
 			END_IF		
 		END_IF
 		
-	E_RequestState.Sleep:
+	E_RequestState.Hold:
 		IF eState >= E_State.Held THEN
 			M_RequestState:= TRUE;
 		ELSE
@@ -537,25 +492,6 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Will be called in all running states, for monitorings which not only in one state active]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Sleeped" Id="{f81e94c9-4b34-0591-0431-3c8c41c7dc3f}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Sleeped
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Sleeping" Id="{0453e1ef-1254-097d-2836-c180f9c76437}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Sleeping : BOOL // Return state complete
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// State Holding
-M_Sleeping:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Starting" Id="{7b4cc2a9-4be8-0ad5-3afd-3314d7249ec2}" FolderPath="State\">

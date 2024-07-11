@@ -13,10 +13,9 @@ TYPE E_RequestState :
 	Reset       := 1,
 	{attribute 'analysis' := '-27'}
     Start       := 2,
-    Pause       := 4,	
-    Sleep      	:= 8,
-	Stop		:= 16,
-	Abort       := 32
+    Hold      	:= 4,
+	Stop		:= 8,
+	Abort       := 16
 );
 END_TYPE]]></Declaration>
   </DUT>

@@ -14,25 +14,20 @@ TYPE E_State :
 	Starting		:= 2,
 	Execute			:= 3,
 	
-// Pause
-	Pausing			:= 4,
-	Paused			:= 5,
-	Resuming		:= 6,
+// Stop
+	Stopping		:= 4,
+	Stopped			:= 5,	
 	
 // Sleep
-	Sleeping		:= 7,
-	Sleeped			:= 8,
-
-// Stop
-	Stopping		:= 9,
-	Stopped			:= 10,
+	Holding			:= 6,
+	Held			:= 7,
 
 // Abort	
-	Aborting		:= 11,
-	Aborted			:= 12,
+	Aborting		:= 8,
+	Aborted			:= 9,
 
 // Reset
-	Resetting		:= 13
+	Resetting		:= 10
 
 );
 END_TYPE
