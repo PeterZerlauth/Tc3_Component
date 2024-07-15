@@ -176,8 +176,8 @@ CASE eState OF
 			eState:= E_State.Resetting;
 		END_IF
 		CASE eStateRequest OF
-			E_RequestState.Stop:
-				eState:= E_State.Stopping;
+			E_RequestState.Reset:
+				eState:= E_State.Resetting;
 				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
