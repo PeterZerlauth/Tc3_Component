@@ -3,7 +3,7 @@
   <POU Name="MAIN" Id="{2d4d4998-19ee-0f89-2021-34d743efb262}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	fbModule1:		FB_Module01;
+	fbModule1:		FB_ComponentEX;
 	bReset:			BOOL;
 	bStart:			BOOL;
 	bStop:			BOOL;
@@ -26,9 +26,9 @@ IF bStop THEN
 	bStop:= NOT fbModule1.M_RequestState(E_RequestState.Stop);
 END_IF
 
-IF bPause THEN
-	bPause:= NOT fbModule1.M_RequestState(E_RequestState.Pause);
-END_IF
+// IF bPause THEN
+// 	bPause:= NOT fbModule1.M_RequestState(E_RequestState.Pause);
+// END_IF
 
 IF bHold THEN
 	bHold:= NOT fbModule1.M_RequestState(E_RequestState.Hold);

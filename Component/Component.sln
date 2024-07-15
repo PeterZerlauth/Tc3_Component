@@ -150,7 +150,6 @@ Global
 		{640CD8E2-83AD-418E-8730-5775EDA13AE6}.Release|TwinCAT OS (x64).ActiveCfg = Release|TwinCAT OS (x64)
 		{640CD8E2-83AD-418E-8730-5775EDA13AE6}.Release|TwinCAT OS (x64).Build.0 = Release|TwinCAT OS (x64)
 		{640CD8E2-83AD-418E-8730-5775EDA13AE6}.Release|TwinCAT RT (x64).ActiveCfg = Release|TwinCAT RT (x64)
-		{640CD8E2-83AD-418E-8730-5775EDA13AE6}.Release|TwinCAT RT (x64).Build.0 = Release|TwinCAT RT (x64)
 		{640CD8E2-83AD-418E-8730-5775EDA13AE6}.Release|TwinCAT RT (x86).ActiveCfg = Release|TwinCAT RT (x86)
 		{640CD8E2-83AD-418E-8730-5775EDA13AE6}.Release|TwinCAT RT (x86).Build.0 = Release|TwinCAT RT (x86)
 	EndGlobalSection

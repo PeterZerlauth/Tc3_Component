@@ -36,12 +36,8 @@ fbTcLogger();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Initialise" Id="{d2ecc479-1ed6-0218-1db6-cf2c288ac295}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Initialise
+      <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL
 VAR_INPUT
-END_VAR
-
-VAR
-	fbLoggerFactory: INT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Initialise();

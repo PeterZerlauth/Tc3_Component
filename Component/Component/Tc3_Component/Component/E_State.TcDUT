@@ -8,24 +8,17 @@ TYPE E_State :
 (
 	{attribute 'hide'}
 	Undefined		:= 0,
-	Idle			:= 1,
-	
+	Stopped			:= 1,		
 // Start
 	Starting		:= 2,
 	Execute			:= 3,
-	
-// Stop
 	Stopping		:= 4,
-	Stopped			:= 5,	
-	
-// Sleep
+// Hold
 	Holding			:= 6,
-	Held			:= 7,
-
+	Holded			:= 7,
 // Abort	
 	Aborting		:= 8,
 	Aborted			:= 9,
-
 // Reset
 	Resetting		:= 10
 

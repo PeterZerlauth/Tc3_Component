@@ -61,6 +61,13 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="M_Hold" Id="{bc83aad4-ae26-008e-3b0c-5fc1c7225e6c}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Hold
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
+END_VAR]]></Declaration>
+    </Method>
     <Method Name="M_Info" Id="{a0df6aac-21ac-0b65-3426-2421a14ee702}">
       <Declaration><![CDATA[METHOD PUBLIC M_Info
 VAR_INPUT
@@ -68,13 +75,6 @@ VAR_INPUT
 	nID:					ULINT;
 END_VAR
 ]]></Declaration>
-    </Method>
-    <Method Name="M_Stop" Id="{bc83aad4-ae26-008e-3b0c-5fc1c7225e6c}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Stop
-VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
-END_VAR]]></Declaration>
     </Method>
     <Method Name="M_Warning" Id="{ae861465-4d88-0ffb-03b6-6d69b34da892}">
       <Declaration><![CDATA[METHOD PUBLIC M_Warning
@@ -84,18 +84,6 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Property Name="P_History" Id="{3b68df0e-9b36-0033-2bb7-18281133547f}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-{attribute 'suppress_wrn_C0410'}
-PROPERTY PUBLIC P_History : REFERENCE TO ARRAY [0..5] OF ST_Event;]]></Declaration>
-      <Get Name="Get" Id="{e96e5145-7bc2-0402-38ef-596b6699f417}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-      <Set Name="Set" Id="{37d5ed8c-d660-0e48-25f3-59445b481f6c}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
-    </Property>
     <Property Name="P_Logger" Id="{5297d762-0962-093c-1788-b3248e051bbb}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Logger : I_Logger]]></Declaration>
       <Get Name="Get" Id="{ba995cf7-0617-078c-2004-094714cb4612}">
