@@ -347,7 +347,7 @@ CASE eRequest OF
 		END_IF
 		
 	E_RequestState.Hold:
-		IF eState = E_State.Holded THEN
+		IF eState = E_State.Holded OR eState = E_State.Aborted THEN
 			M_RequestState:= TRUE;
 		ELSE
 			eStateRequest:= eRequest;
@@ -357,7 +357,7 @@ CASE eRequest OF
 		IF eState = E_State.Aborted THEN
 			M_RequestState:= TRUE;
 		ELSE
-			eStateRequest:= eRequest;	
+			eStateRequest:= eRequest;
 		END_IF
 
 	E_RequestState.Reset:
