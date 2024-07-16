@@ -2,40 +2,10 @@
 <TcPlcObject Version="1.1.0.1">
   <Itf Name="I_Sequence" Id="{ab5e2af8-509e-42fb-9956-7609633302ce}">
     <Declaration><![CDATA[INTERFACE I_Sequence EXTENDS I_Object]]></Declaration>
-    <Method Name="M_Set" Id="{203e47bc-7cbc-0994-321f-f35f9b26fbd3}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Set
-VAR_INPUT
-	nNumber:				INT;
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="M_Reset" Id="{4610609d-250e-0cea-1947-6366c1b79c60}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Reset]]></Declaration>
-    </Method>
-    <Property Name="P_Number" Id="{79c47681-726d-072e-0b7d-db06b1d061b8}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Number : int]]></Declaration>
-      <Get Name="Get" Id="{13626b38-7d56-0229-1412-a244cbeeba25}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
-    <Property Name="P_History" Id="{d0b26644-b629-0098-0e28-b9500c8b113c}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-{attribute 'suppress_wrn_C0410'}
-PROPERTY PUBLIC P_History : REFERENCE TO ARRAY [0..Parameters.nSequence] OF ST_Sequence;]]></Declaration>
-      <Get Name="Get" Id="{4b019089-eac0-0347-14c0-3a03b744dae6}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-      <Set Name="Set" Id="{a761ea1d-68f5-0034-3da2-235886f97fbb}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
-    </Property>
-    <Method Name="M_Await" Id="{e833a426-ec07-456c-8ba3-4d13a00bf184}">
+    <Method Name="M_Await" Id="{4c086c76-e23a-02bc-19a2-d100bd189494}">
       <Declaration><![CDATA[METHOD PUBLIC M_Await 
 VAR_INPUT
-	sMessage:				STRING(255);
+	sMessage:				STRING(255);		
 	tTimeout:				TIME;
 	tDelay:					TIME;	
 	bPause:					BOOL;
@@ -44,11 +14,22 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Property Name="P_Message" Id="{fae44d97-05a2-0836-3256-3b86d5bc206c}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Message : STRING(255)]]></Declaration>
-      <Get Name="Get" Id="{9929608c-3921-06d1-3694-1432b877bad6}">
+    <Method Name="M_Reset" Id="{6ae65845-7a65-086f-09b8-1762ec11889e}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset
+]]></Declaration>
+    </Method>
+    <Method Name="M_Set" Id="{bcc09950-a8c4-0f56-3714-e531095026ea}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Set
+VAR_INPUT
+	sMessage:				STRING(255);	
+	nNumber:				INT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="P_Number" Id="{631a24ea-a4e3-0d29-2b7c-383d8bcd6e7f}">
+      <Declaration><![CDATA[
+PROPERTY PUBLIC P_Number : INT]]></Declaration>
+      <Get Name="Get" Id="{b1cbf18b-3abe-0f1f-0c64-012ccffcae4c}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>

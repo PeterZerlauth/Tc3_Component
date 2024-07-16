@@ -119,7 +119,7 @@
     </Compile>
     <Compile Include="Component\Sequence\FB_Sequence.TcPOU">
       <SubType>Code</SubType>
-      <ExcludeFromBuild>true</ExcludeFromBuild>
+      <ExcludeFromBuild>false</ExcludeFromBuild>
     </Compile>
     <Compile Include="Component\Sequence\I_Sequence.TcIO">
       <SubType>Code</SubType>

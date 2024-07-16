@@ -8,21 +8,18 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-    {attribute 'hide'}
 	fbInfo:							FB_Info;					// Info about function block
 	fbEvent:						FB_Event(THIS^);			// Event creator
-// 	fbSequence:						FB_Sequence(THIS^);			// Sequence (abort = reset)
+	fbSequence:						FB_Sequence(THIS^);			// Sequence (abort = reset)
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '1'}
 	eStateRequest:					E_RequestState;					// State command
-    {attribute 'hide'}
 	eState:							E_State;					// Current state
     {attribute 'hide'}
 	eStatePrevious:					E_State;					// Previous state
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '1'}
 	eModeRequest:					E_RequestMode;						// Requested mode
-    {attribute 'hide'}
 	eMode:							E_RequestMode;						// Current mode
     {attribute 'hide'}
 	eModePrevious:					E_RequestMode;						// Previous mode	
@@ -73,6 +70,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[fbInfo();
 fbEvent();
+fbSequence();
 
 // Handle Module Type Package states
 CASE eState OF
@@ -440,9 +438,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="P_Info" Id="{1f2686a8-22c2-03c1-3b18-3cdd0f1b6158}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Info : I_Info]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Info : I_Info]]></Declaration>
       <Get Name="Get" Id="{80d9a233-1863-0529-037a-9eeb24a670c8}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -453,9 +449,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="P_Mode" Id="{3bb67a0e-6846-07bc-053e-b55a797fa512}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Mode : E_RequestMode]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Mode : E_RequestMode]]></Declaration>
       <Get Name="Get" Id="{9d5d15ee-5102-0655-3457-a8f0100c4631}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -466,9 +460,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="P_State" Id="{b623cabe-ac07-05b3-3398-a07000fa3104}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_State : E_State]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC P_State : E_State]]></Declaration>
       <Get Name="Get" Id="{f9b2e5f6-eb20-00e6-39d5-99b5e96a63c5}">
         <Declaration><![CDATA[VAR
 END_VAR
