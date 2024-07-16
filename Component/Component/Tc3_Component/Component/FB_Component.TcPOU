@@ -66,18 +66,49 @@ M_Aborting:= TRUE;
       <Declaration><![CDATA[METHOD PUBLIC M_Cycle
 VAR_INPUT
 END_VAR
-]]></Declaration>
+
+//                            +-----------------+                                 
+//                            |                 |                                 
+//          +-----------------+   Initialise    |                                 
+//          |                 |                 |                                 
+//          |                 +-----------------+                                 
+//          |                                                                     
+//          |                 +-----------------+                                 
+//          |                 |                 |                                 
+//          +-----------------+   Stopping      |<---------Stop------------------+
+//          |                 |                 |                                |
+//          |                 +-----------------+                                |
+//          v                                                                    |
+// +-----------------+        +-----------------+     +-----------------+        |
+// |                 |        |                 |     |                 |        |
+// |  Stopped        +-Start->|   Starting      +---->|   Execute       +--------+
+// |                 |        |                 |     |                 |         
+// +-----------------+        +-----------------+     +-----------------+         
+//          ^                                                                     
+//          |                                                                     
+// +--------+--------+        +-----------------+     +-----------------+         
+// |                 |        |                 |     |                 |         
+// |   Resetting     |<-Reset-+  Holded         |<----+  Holding        |<-Hold---
+// |                 |        |                 |     |                 |         
+// +-----------------+        +-----------------+     +-----------------+         
+//          ^                                                                     
+//          |                                                                     
+//          |                 +-----------------+     +-----------------+         
+//          |                 |                 |     |                 |         
+//          +----------Reset--+  Aborted        |<----+   Aborting      |<-Abort--
+//                            |                 |     |                 |         
+//                     		  +-----------------+     +-----------------+           ]]></Declaration>
       <Implementation>
         <ST><![CDATA[fbInfo();
 fbEvent();
 fbSequence();
 
-// Handle Module Type Package states
 CASE eState OF
 	E_State.Undefined:
-		M_Initialise();
-		eMode:= E_RequestMode.Automatic;
-		eState:= E_State.Stopped;
+		IF M_Initialise() THEN
+			eMode:= E_RequestMode.Automatic;
+			eState:= E_State.Stopped;			
+		END_IF
 				
 	E_State.Resetting:
 		IF M_Resetting() THEN
@@ -86,7 +117,7 @@ CASE eState OF
 		END_IF
 		CASE eStateRequest OF
 			E_RequestState.Hold:
-				eState:= E_State.Stopping;
+				eState:= E_State.Holding;
 				
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
@@ -158,11 +189,7 @@ CASE eState OF
 		IF M_Holding() THEN
 			eState:= E_State.Holded;
 		END_IF
-		CASE eStateRequest OF
-			
-			E_RequestState.Stop:
-				eState:= E_State.Stopping;
-				
+		CASE eStateRequest OF	
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 
