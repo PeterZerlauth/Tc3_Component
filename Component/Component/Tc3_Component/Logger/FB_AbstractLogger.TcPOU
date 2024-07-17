@@ -6,7 +6,7 @@ VAR
 	eLogLevel:					E_Event:= E_Event.Verbose;		// Log level for the logger
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+      <ST><![CDATA[// https://peterzerlauth.com/
 // Abstract Logger as base for all loggers]]></ST>
     </Implementation>
     <Method Name="M_Log" Id="{fc617794-ce89-0ddb-20b8-91fea411c68d}">

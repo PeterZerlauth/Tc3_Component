@@ -27,7 +27,7 @@ END_VAR
 
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
+      <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
     </Implementation>
     <Folder Name="Command" Id="{9635140d-5b18-006e-1e9e-963cbb8377f9}" />
     <Folder Name="State" Id="{ca15ba5f-c875-08b1-19c6-3566ddf8fed6}" />
@@ -65,39 +65,7 @@ M_Aborting:= TRUE;
     <Method Name="M_Cycle" Id="{8157620c-1844-0b4a-092c-fe72147fa392}">
       <Declaration><![CDATA[METHOD PUBLIC M_Cycle
 VAR_INPUT
-END_VAR
-
-//                            +-----------------+                                 
-//                            |                 |                                 
-//          +-----------------+   Initialise    |                                 
-//          |                 |                 |                                 
-//          |                 +-----------------+                                 
-//          |                                                                     
-//          |                 +-----------------+                                 
-//          |                 |                 |                                 
-//          +-----------------+   Stopping      |<---------Stop------------------+
-//          |                 |                 |                                |
-//          |                 +-----------------+                                |
-//          v                                                                    |
-// +-----------------+        +-----------------+     +-----------------+        |
-// |                 |        |                 |     |                 |        |
-// |  Stopped        +-Start->|   Starting      +---->|   Execute       +--------+
-// |                 |        |                 |     |                 |         
-// +-----------------+        +-----------------+     +-----------------+         
-//          ^                                                                     
-//          |                                                                     
-// +--------+--------+        +-----------------+     +-----------------+         
-// |                 |        |                 |     |                 |         
-// |   Resetting     |<-Reset-+  Holded         |<----+  Holding        |<-Hold---
-// |                 |        |                 |     |                 |         
-// +-----------------+        +-----------------+     +-----------------+         
-//          ^                                                                     
-//          |                                                                     
-//          |                 +-----------------+     +-----------------+         
-//          |                 |                 |     |                 |         
-//          +----------Reset--+  Aborted        |<----+   Aborting      |<-Abort--
-//                            |                 |     |                 |         
-//                     		  +-----------------+     +-----------------+           ]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[fbInfo();
 fbEvent();
@@ -293,7 +261,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[M_Initialise:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Notify" Id="{d8f6f158-ff95-0e77-1e0e-c4742a312f00}">

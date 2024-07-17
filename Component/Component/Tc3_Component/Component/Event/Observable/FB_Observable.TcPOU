@@ -17,7 +17,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+      <ST><![CDATA[// https://peterzerlauth.com/
 ]]></ST>
     </Implementation>
     <Method Name="FB_exit" Id="{8920c8e0-5709-4e5e-a21f-0871704cdcd1}">

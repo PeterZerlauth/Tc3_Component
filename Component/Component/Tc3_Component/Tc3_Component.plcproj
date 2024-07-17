@@ -255,6 +255,9 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Component\StateMachine.jpg">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Images\StateModel.svg">
       <SubType>Content</SubType>
     </Content>

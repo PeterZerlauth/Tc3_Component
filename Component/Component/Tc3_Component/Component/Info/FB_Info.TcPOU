@@ -19,7 +19,7 @@ VAR_STAT
 	nTimestamp: 				ULINT;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+      <ST><![CDATA[// https://peterzerlauth.com/
 
 // Update once for all function blocks
 IF nCycle <> TwinCAT_SystemInfoVarList._TaskInfo[GETCURTASKINDEXEX()].CycleCount THEN
@@ -35,6 +35,31 @@ IF NOT fbReadSymInfo.START THEN
 	fbReadSymInfo.START:= TRUE;
 END_IF]]></ST>
     </Implementation>
+    <Method Name="M_Initialise" Id="{7bcb89f8-215a-0ea7-2f48-9c7517dad36a}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Initialise
+VAR_INPUT
+END_VAR
+VAR
+    sName:				STRING(255);
+    nPosition:			INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[sName := CONCAT(TwinCAT_SystemInfoVarList._AppInfo.ProjectName, '.');
+
+nPosition := FIND(sInstancePath, sName);
+IF nPosition > 0 THEN
+    fbReadSymInfo.SYMNAME:= DELETE(sInstancePath, nPosition-1 + LEN(sName), 1);
+END_IF
+
+nPosition := FIND(fbReadSymInfo.SYMNAME, sName);
+
+IF nPosition > 0 THEN
+    fbReadSymInfo.SYMNAME:= DELETE(fbReadSymInfo.SYMNAME, nPosition - 1 + LEN(sName), 1);
+END_IF
+
+fbReadSymInfo.SYMNAME:= Left(fbReadSymInfo.SYMNAME, LEN(fbReadSymInfo.SYMNAME) - 7);]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="P_Class" Id="{149d54ac-7219-431b-bfce-ba7c9704ea45}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
@@ -85,31 +110,6 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Method Name="M_Initialise" Id="{7bcb89f8-215a-0ea7-2f48-9c7517dad36a}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Initialise
-VAR_INPUT
-END_VAR
-VAR
-    sName:				STRING(255);
-    nPosition:			INT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[sName := CONCAT(TwinCAT_SystemInfoVarList._AppInfo.ProjectName, '.');
-
-nPosition := FIND(sInstancePath, sName);
-IF nPosition > 0 THEN
-    fbReadSymInfo.SYMNAME:= DELETE(sInstancePath, nPosition-1 + LEN(sName), 1);
-END_IF
-
-nPosition := FIND(fbReadSymInfo.SYMNAME, sName);
-
-IF nPosition > 0 THEN
-    fbReadSymInfo.SYMNAME:= DELETE(fbReadSymInfo.SYMNAME, nPosition - 1 + LEN(sName), 1);
-END_IF
-
-fbReadSymInfo.SYMNAME:= Left(fbReadSymInfo.SYMNAME, LEN(fbReadSymInfo.SYMNAME) - 7);]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="P_Instance" Id="{9eb0e8a4-0ed9-4848-97b2-cb18e1840110}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}

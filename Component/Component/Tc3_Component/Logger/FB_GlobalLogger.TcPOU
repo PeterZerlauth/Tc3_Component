@@ -10,7 +10,7 @@ VAR CONSTANT
 	nSize: DINT:= 50; 
 END_VAR ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
+      <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
     </Implementation>
     <Method Name="M_Find" Id="{f41793c9-9d9c-06d8-1e48-9d6c08695675}">
       <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT

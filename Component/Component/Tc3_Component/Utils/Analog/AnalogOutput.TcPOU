@@ -12,8 +12,20 @@ VAR
 	Channel			AT%Q*: INT;	// Link to input
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
+      <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
     </Implementation>
+    <Method Name="FB_init" Id="{fc427ba8-2be8-0fc8-1ba1-4c059d06ed11}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	ID:				STRING(25);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.sIdentifier:= ID;]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="P_ID" Id="{030e0eaa-c0a4-09b4-3514-eb98d5fd7097}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_ID : String(25)]]></Declaration>
       <Get Name="Get" Id="{25c131a6-5f18-024c-3a39-ec1eed18a7fb}">
@@ -56,17 +68,5 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Method Name="FB_init" Id="{fc427ba8-2be8-0fc8-1ba1-4c059d06ed11}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	ID:				STRING(25);
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[THIS^.sIdentifier:= ID;]]></ST>
-      </Implementation>
-    </Method>
   </POU>
 </TcPlcObject>

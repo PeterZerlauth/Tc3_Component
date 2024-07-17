@@ -16,7 +16,7 @@ VAR
 	fbTcLogger:					FB_TcLogger;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
+      <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
     </Implementation>
     <Method Name="M_Cycle" Id="{ba6e3712-faea-4bef-b491-24a585067e68}">
       <Declaration><![CDATA[METHOD PUBLIC M_Cycle

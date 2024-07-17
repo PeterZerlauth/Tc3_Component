@@ -13,19 +13,8 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
+      <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
     </Implementation>
-    <Property Name="P_State" Id="{5cd81f9d-9d09-0ac9-22c0-8458e557abfb}">
-      <Declaration><![CDATA[PROPERTY P_State : EPlcMappingStatus]]></Declaration>
-      <Get Name="Get" Id="{550aa5b6-4e2e-02eb-086b-4a4d1283c230}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_State:= F_GetMappingStatus(ADR(Channel), SIZEOF(INT));]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Property Name="P_ID" Id="{a66b090d-1b03-0814-2c19-26bfc0a32879}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_ID : String(25)]]></Declaration>
       <Get Name="Get" Id="{fc6b929d-a455-0724-220a-60cfdcf325e2}">
@@ -34,6 +23,17 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[P_ID:= sIdentifier;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_State" Id="{5cd81f9d-9d09-0ac9-22c0-8458e557abfb}">
+      <Declaration><![CDATA[PROPERTY P_State : EPlcMappingStatus]]></Declaration>
+      <Get Name="Get" Id="{550aa5b6-4e2e-02eb-086b-4a4d1283c230}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State:= F_GetMappingStatus(ADR(Channel), SIZEOF(INT));]]></ST>
         </Implementation>
       </Get>
     </Property>

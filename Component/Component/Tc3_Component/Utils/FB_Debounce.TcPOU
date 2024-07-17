@@ -15,7 +15,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+      <ST><![CDATA[// https://peterzerlauth.com/
 IF bInput THEN
 	fbTimerOn(IN:= TRUE, PT:= tTime);
 	fbTimerOff(IN:= FALSE);

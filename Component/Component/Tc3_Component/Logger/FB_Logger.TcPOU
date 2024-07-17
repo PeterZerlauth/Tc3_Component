@@ -17,7 +17,7 @@ VAR CONSTANT
 END_VAR 
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+      <ST><![CDATA[// https://peterzerlauth.com/
 // Execute each secound
 IF nTimestamp < F_GetSystemTime() THEN
 	nTimestamp:= F_GetSystemTime() + 10000000;

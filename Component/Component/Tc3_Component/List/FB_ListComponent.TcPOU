@@ -12,27 +12,16 @@ VAR
 	aList:			POINTER TO POINTER TO ARRAY [0..Parameters.nList] OF I_Component:=ADR(pList);
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
+      <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
     </Implementation>
-    <Method Name="M_Find" Id="{20062c4e-124c-4cb3-98f6-8054f6c60d5b}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
+    <Method Name="FB_exit" Id="{86b1742d-19e1-4a3d-942a-39b46efa4e7f}">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
 VAR_INPUT
-	iObject: 	I_Component;
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
 END_VAR
-VAR
-	nIndex: 	UINT;
-END_VAR]]></Declaration>
+]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Find
-M_Find := -1;
-WHILE nIndex < nLength DO
-    IF (pList[nIndex] = iObject) THEN
-        M_Find := nIndex;
-        RETURN;
-    END_IF
-	nIndex := nIndex + 1;
-END_WHILE
-]]></ST>
+        <ST><![CDATA[M_Clear();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Add" Id="{2b676e03-0a2e-4542-9d45-8d0e1be34635}">
@@ -92,14 +81,25 @@ M_Clear:= TRUE;
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="FB_exit" Id="{86b1742d-19e1-4a3d-942a-39b46efa4e7f}">
-      <Declaration><![CDATA[METHOD FB_exit : BOOL
+    <Method Name="M_Find" Id="{20062c4e-124c-4cb3-98f6-8054f6c60d5b}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
 VAR_INPUT
-	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+	iObject: 	I_Component;
 END_VAR
-]]></Declaration>
+VAR
+	nIndex: 	UINT;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Clear();]]></ST>
+        <ST><![CDATA[// Find
+M_Find := -1;
+WHILE nIndex < nLength DO
+    IF (pList[nIndex] = iObject) THEN
+        M_Find := nIndex;
+        RETURN;
+    END_IF
+	nIndex := nIndex + 1;
+END_WHILE
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Index" Id="{9eaa9448-53ef-4c51-8a5f-0c3baada6113}">
@@ -115,20 +115,6 @@ IF Index <= nLength THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Length" Id="{a7fee46d-1216-4c1b-b269-41e22da51578}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Length : DINT
-]]></Declaration>
-      <Get Name="Get" Id="{a55579c9-f979-411c-8831-bafff0ca169f}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Length:= nLength;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Method Name="M_Remove" Id="{e210f5d7-9bdf-4aee-9085-7160fb8ea729}">
       <Declaration><![CDATA[METHOD PUBLIC M_Remove : BOOL
 VAR_INPUT
@@ -172,5 +158,19 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Property Name="P_Length" Id="{a7fee46d-1216-4c1b-b269-41e22da51578}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Length : DINT
+]]></Declaration>
+      <Get Name="Get" Id="{a55579c9-f979-411c-8831-bafff0ca169f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Length:= nLength;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
   </POU>
 </TcPlcObject>

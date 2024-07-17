@@ -13,28 +13,8 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
+      <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
     </Implementation>
-    <Property Name="P_Value" Id="{711982f6-1bc6-027f-0555-b3e528249a82}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Value : Lreal]]></Declaration>
-      <Get Name="Get" Id="{749639a9-b40a-04f7-372b-90c0cf46c5dc}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Value:= Channel;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{a71cc7a5-13cb-09b6-21a8-44c832246944}">
-        <Declaration><![CDATA[PUBLIC 
-VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Channel:= LREAL_TO_INT(P_Value);]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
     <Property Name="P_ID" Id="{a1e5cff1-4f73-0d2e-3e16-ce3f636e41a8}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_ID : String(25)]]></Declaration>
       <Get Name="Get" Id="{e42a3203-1b5f-064b-1f28-b27bccc29dad}">
@@ -56,6 +36,26 @@ END_VAR
           <ST><![CDATA[P_State:= F_GetMappingStatus(ADR(Channel), SIZEOF(INT));]]></ST>
         </Implementation>
       </Get>
+    </Property>
+    <Property Name="P_Value" Id="{711982f6-1bc6-027f-0555-b3e528249a82}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Value : Lreal]]></Declaration>
+      <Get Name="Get" Id="{749639a9-b40a-04f7-372b-90c0cf46c5dc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Value:= Channel;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{a71cc7a5-13cb-09b6-21a8-44c832246944}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Channel:= LREAL_TO_INT(P_Value);]]></ST>
+        </Implementation>
+      </Set>
     </Property>
   </POU>
 </TcPlcObject>

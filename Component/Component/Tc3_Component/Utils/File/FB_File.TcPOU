@@ -17,7 +17,7 @@ VAR_OUTPUT
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component
+      <ST><![CDATA[// https://peterzerlauth.com/
 fbCreateDir();
 fbLoad();
 fbOpen();
@@ -28,6 +28,71 @@ fbRead();
 
 ]]></ST>
     </Implementation>
+    <Method Name="M_Append" Id="{78c6ac39-a28e-0b21-27e6-004ffe5404c6}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Append : BOOL
+VAR_INPUT
+	Text:			STRING(255);
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbWrite.bExecute THEN
+	IF fbWrite.bError THEN
+		nError:= fbWrite.nErrId;
+		fbWrite.bExecute:= FALSE;
+	ELSIF fbWrite.bBusy THEN
+		;
+	ELSE
+		M_Append:= TRUE;
+		fbWrite.bExecute:= FALSE;
+	END_IF
+ELSE
+	fbWrite.bExecute:= TRUE;
+	fbWrite.pWriteBuff:= ADR(Text);
+	fbWrite.cbWriteLen:= INT_TO_UDINT(Len(Text));
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_AppendLine" Id="{fc6936eb-07c3-02c3-280c-06c07ac940fe}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AppendLine : BOOL
+VAR_INPUT
+	Text:			STRING(255);
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Text:= Concat(Text, '$R');
+M_AppendLine:= M_Append(Text);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Close" Id="{a6e4c170-c2a8-0973-34b1-dd6175461376}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Close : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbClose.bExecute THEN
+	IF fbClose.hFile = 0 THEN
+		fbClose.bExecute:= FALSE;
+		M_Close:= TRUE;
+	ELSIF fbClose.bError THEN
+		fbClose.bExecute:= FALSE;
+		nError:= fbClose.nErrId;
+	ELSIF fbClose.bBusy THEN
+		;
+	ELSE
+		nError:= 0;	
+		fbRead.hFile:= 0;
+		fbWrite.hFile:= 0;
+		fbClose.hFile:= 0;
+		fbClose.bExecute:= FALSE;
+		M_Close:= TRUE;
+	END_IF
+ELSE
+	fbClose.bExecute:= TRUE;
+END_IF
+
+
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Create" Id="{4073b930-08f8-085b-033b-17e9d35d4ea4}">
       <Declaration><![CDATA[METHOD PUBLIC M_Create : BOOL
 VAR_INPUT
@@ -115,85 +180,6 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Append" Id="{78c6ac39-a28e-0b21-27e6-004ffe5404c6}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Append : BOOL
-VAR_INPUT
-	Text:			STRING(255);
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF fbWrite.bExecute THEN
-	IF fbWrite.bError THEN
-		nError:= fbWrite.nErrId;
-		fbWrite.bExecute:= FALSE;
-	ELSIF fbWrite.bBusy THEN
-		;
-	ELSE
-		M_Append:= TRUE;
-		fbWrite.bExecute:= FALSE;
-	END_IF
-ELSE
-	fbWrite.bExecute:= TRUE;
-	fbWrite.pWriteBuff:= ADR(Text);
-	fbWrite.cbWriteLen:= INT_TO_UDINT(Len(Text));
-END_IF
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Write" Id="{7f9391cc-0fce-0658-28cd-425ed8bace11}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Write : BOOL
-VAR_INPUT
-	Value:		ANY;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF fbWrite.bExecute THEN
-	IF fbWrite.bError THEN
-		nError:= fbWrite.nErrId;
-		fbWrite.bExecute:= FALSE;
-	ELSIF fbWrite.bBusy THEN
-		M_Write:= FALSE;
-	ELSE
-		M_Write:= TRUE;
-		fbWrite.bExecute:= FALSE;
-	END_IF
-ELSE
-	fbWrite.bExecute:= TRUE;
-	fbRead.pReadBuff:= Value.pValue;
-	fbRead.cbReadLen:= DINT_TO_UDINT(Value.diSize);
-END_IF
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Close" Id="{a6e4c170-c2a8-0973-34b1-dd6175461376}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Close : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF fbClose.bExecute THEN
-	IF fbClose.hFile = 0 THEN
-		fbClose.bExecute:= FALSE;
-		M_Close:= TRUE;
-	ELSIF fbClose.bError THEN
-		fbClose.bExecute:= FALSE;
-		nError:= fbClose.nErrId;
-	ELSIF fbClose.bBusy THEN
-		;
-	ELSE
-		nError:= 0;	
-		fbRead.hFile:= 0;
-		fbWrite.hFile:= 0;
-		fbClose.hFile:= 0;
-		fbClose.bExecute:= FALSE;
-		M_Close:= TRUE;
-	END_IF
-ELSE
-	fbClose.bExecute:= TRUE;
-END_IF
-
-
-]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Open" Id="{ce40d925-b733-0bc2-12cf-7db636ed0601}">
       <Declaration><![CDATA[METHOD PUBLIC M_Open : BOOL
 VAR_INPUT
@@ -247,14 +233,28 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_AppendLine" Id="{fc6936eb-07c3-02c3-280c-06c07ac940fe}">
-      <Declaration><![CDATA[METHOD PUBLIC M_AppendLine : BOOL
+    <Method Name="M_Write" Id="{7f9391cc-0fce-0658-28cd-425ed8bace11}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Write : BOOL
 VAR_INPUT
-	Text:			STRING(255);
+	Value:		ANY;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Text:= Concat(Text, '$R');
-M_AppendLine:= M_Append(Text);]]></ST>
+        <ST><![CDATA[IF fbWrite.bExecute THEN
+	IF fbWrite.bError THEN
+		nError:= fbWrite.nErrId;
+		fbWrite.bExecute:= FALSE;
+	ELSIF fbWrite.bBusy THEN
+		M_Write:= FALSE;
+	ELSE
+		M_Write:= TRUE;
+		fbWrite.bExecute:= FALSE;
+	END_IF
+ELSE
+	fbWrite.bExecute:= TRUE;
+	fbRead.pReadBuff:= Value.pValue;
+	fbRead.cbReadLen:= DINT_TO_UDINT(Value.diSize);
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Error" Id="{ffbbfa3b-bbb8-0e33-3bbe-fc5460add55d}">

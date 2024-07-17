@@ -12,12 +12,11 @@ VAR
 	iParent:			I_Component;				// Parent component
     {attribute 'hide'}
 	fbList:				FB_ListString;				// contains a list with string values
-
 	stEvent:			ST_Event;					// Event
 	stLastEvent:		ST_Event;					// History of events
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://github.com/PeterZerlauth/Tc3_Component]]></ST>
+      <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{be23ffcc-529d-4010-ace3-b17baed191a5}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
@@ -46,7 +45,7 @@ stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
 stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
-stEvent.sDefault:= M_Default(sMessage);
+stEvent.sDefault:= M_Build(sMessage);
 stEvent.sArguments:= M_Arguments();
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= FALSE;
@@ -138,34 +137,8 @@ END_WHILE
 fbList.M_Clear();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Debug" Id="{0a2b992b-2a4a-0251-0210-713b326debf6}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Debug
-VAR_INPUT
-	sMessage:				STRING(255);
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= sMessage;
-stEvent.iSource:= iParent;
-stEvent.sInstance:= iParent.P_Info.P_Instance;
-stEvent.sClass:= iParent.P_Info.P_Class;
-stEvent.eEventType:= E_Event.Debug;
-stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.nID:= 0;
-stEvent.sDefault:= M_Default(sMessage);
-stEvent.sArguments:= M_Arguments();
-stEvent.stFlags.bActive:= TRUE;
-stEvent.stFlags.bRemove:= TRUE;
-
-IF iLogger = 0 THEN
-	fbLogger.M_Log(stEvent);
-ELSE
-	iLogger.M_Log(stEvent);
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Default" Id="{c94cd0c6-56df-0b94-2d8d-b10a55caeb26}">
-      <Declaration><![CDATA[METHOD INTERNAL M_Default : STRING(255)
+    <Method Name="M_Build" Id="{c94cd0c6-56df-0b94-2d8d-b10a55caeb26}">
+      <Declaration><![CDATA[METHOD INTERNAL M_Build : STRING(255)
 VAR_INPUT
 	sMessage:		STRING(255);
 END_VAR
@@ -180,7 +153,33 @@ WHILE nPosition <> 0 DO
 	nPosition:= Find(sMessage, '%s');
 	nIndex:= nIndex + 1;
 END_WHILE
-M_Default:= sMessage;]]></ST>
+M_Build:= sMessage;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Debug" Id="{0a2b992b-2a4a-0251-0210-713b326debf6}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Debug
+VAR_INPUT
+	sMessage:				STRING(255);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stEvent.sMessage:= sMessage;
+stEvent.iSource:= iParent;
+stEvent.sInstance:= iParent.P_Info.P_Instance;
+stEvent.sClass:= iParent.P_Info.P_Class;
+stEvent.eEventType:= E_Event.Debug;
+stEvent.nTimestamp:= F_GetSystemTime();
+stEvent.nID:= 0;
+stEvent.sDefault:= M_Build(sMessage);
+stEvent.sArguments:= M_Arguments();
+stEvent.stFlags.bActive:= TRUE;
+stEvent.stFlags.bRemove:= TRUE;
+
+IF iLogger = 0 THEN
+	fbLogger.M_Log(stEvent);
+ELSE
+	iLogger.M_Log(stEvent);
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Error" Id="{648ad3fe-ab2e-0b8d-0134-eed394027742}">
@@ -198,7 +197,7 @@ stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
 stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
-stEvent.sDefault:= M_Default(sMessage);
+stEvent.sDefault:= M_Build(sMessage);
 stEvent.sArguments:= M_Arguments();
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;
@@ -224,7 +223,7 @@ stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Error;
 stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
-stEvent.sDefault:= M_Default(sMessage);
+stEvent.sDefault:= M_Build(sMessage);
 stEvent.sArguments:= M_Arguments();
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= FALSE;
@@ -257,7 +256,7 @@ stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Information;
 stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
-stEvent.sDefault:= M_Default(sMessage);
+stEvent.sDefault:= M_Build(sMessage);
 stEvent.sArguments:= M_Arguments();
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;
@@ -284,7 +283,7 @@ stEvent.sClass:= iParent.P_Info.P_Class;
 stEvent.eEventType:= E_Event.Warning;
 stEvent.nTimestamp:= F_GetSystemTime();
 stEvent.nID:= nID;
-stEvent.sDefault:= M_Default(sMessage);
+stEvent.sDefault:= M_Build(sMessage);
 stEvent.sArguments:= M_Arguments();
 stEvent.stFlags.bActive:= TRUE;
 stEvent.stFlags.bRemove:= TRUE;
