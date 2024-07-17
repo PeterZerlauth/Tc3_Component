@@ -22,21 +22,20 @@ END_VAR]]></Declaration>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// CASE fbSequence.P_Number OF
-// 	E_Sequence.Start:
-// 		fbSequence.M_Await('Start', T#0S, T#0S, TRUE, bReturn, 10);
-// 	
-// 	10:
-// 		fbSequence.M_Await('Step 10', T#0S, T#0S, TRUE, bReturn, 20);
-// 		
-// 	20:
-// 		fbSequence.M_Await('Step 20', T#0S, T#0S, FALSE, bReturn, E_Sequence.Done);	
-// 		
-// 	E_Sequence.Done:
-// 		fbSequence.M_Reset();
-// 		M_Execute:= TRUE;
-// 		
-// END_CASE
+        <ST><![CDATA[CASE fbSequence.P_Number OF
+	E_Sequence.Start:
+		fbSequence.M_Await('Start', T#0S, T#0S, TRUE, TRUE, 10);
+	
+	10:
+		fbSequence.M_Await('Step 10', T#0S, T#0S, TRUE, TRUE, 20);
+		
+	20:
+		fbSequence.M_Await('Step 20', T#0S, T#0S, FALSE, TRUE, E_Sequence.Done);	
+		
+	E_Sequence.Done:
+		fbSequence.M_Reset();
+		
+END_CASE
 
 IF bAbort THEN
 	bAbort:= FALSE;

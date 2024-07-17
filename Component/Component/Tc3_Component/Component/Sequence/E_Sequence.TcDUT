@@ -7,8 +7,6 @@
 
 TYPE E_Sequence :
 (
-	Manual			:= -32768,
-	{attribute 'analysis' := '-27'}
 	Start			:= 0,
 	Done			:= 32767
 );

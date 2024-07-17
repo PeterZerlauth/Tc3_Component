@@ -13,16 +13,20 @@ VAR
 	fbSequence:						FB_Sequence(THIS^);			// Sequence (abort = reset)
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '1'}
-	eStateRequest:					E_RequestState;					// State command
+	eStateRequest:					E_RequestState;				// State command
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Access' := '2'}
 	eState:							E_State;					// Current state
     {attribute 'hide'}
 	eStatePrevious:					E_State;					// Previous state
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '1'}
-	eModeRequest:					E_RequestMode;						// Requested mode
-	eMode:							E_RequestMode;						// Current mode
+	eModeRequest:					E_RequestMode;				// Requested mode
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Access' := '2'}
+	eMode:							E_RequestMode;				// Current mode
     {attribute 'hide'}
-	eModePrevious:					E_RequestMode;						// Previous mode	
+	eModePrevious:					E_RequestMode;				// Previous mode	
 END_VAR
 
 ]]></Declaration>
@@ -193,7 +197,7 @@ CASE eState OF
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 				
-		END_CASE		
+		END_CASE	
 		
 	E_State.Aborting:
 		IF M_Aborting() THEN

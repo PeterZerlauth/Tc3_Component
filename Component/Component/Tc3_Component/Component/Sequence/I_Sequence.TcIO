@@ -8,7 +8,7 @@ VAR_INPUT
 	sMessage:				STRING(255);		
 	tTimeout:				TIME;
 	tDelay:					TIME;	
-	bPause:					BOOL;
+	bHold:					BOOL;
 	bReturn:				BOOL;
 	nNumber:				INT;
 END_VAR
