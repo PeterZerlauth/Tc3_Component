@@ -62,6 +62,9 @@
     <Compile Include="InDevelopment\FB_ComponentEX.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="InDevelopment\FB_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="InDevelopment\PnozMulti\FB_PnozMulti.TcPOU">
       <SubType>Code</SubType>
     </Compile>

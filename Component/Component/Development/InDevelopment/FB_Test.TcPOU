@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Test" Id="{7c7acc8a-6f0b-0aa3-2b16-e85279a26443}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Test EXTENDS FB_Component
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	bReturn: 		BOOL;
+	bError:			BOOL;
+	bAbort:			BOOL;
+	bHold:			BOOL;
+	bInformation:	BOOL;
+	bWarning:		BOOL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Aborted" Id="{eeb82b43-bcc8-0c9b-1481-bd5bf2db4bcf}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborted : BOOL (* Return*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Aborted:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Execute" Id="{a6e2a60f-133a-04c9-0c57-a6176e774dfa}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Execute:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stopped" Id="{ba77014d-3704-01e3-2b81-84cca842cbf0}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopped : BOOL (* Return*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Stopped:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="N_Holded" Id="{21fc28f9-c87c-00e7-19fb-5684fb61710c}">
+      <Declaration><![CDATA[METHOD PROTECTED N_Holded : BOOL (* Return*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[N_Holded:= True;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

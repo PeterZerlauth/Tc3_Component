@@ -7,10 +7,11 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	tDelay:				TIME;
-	tTimeout:			TIME;
-	iNext:				I_Component;	// Chain of Responsibility behavioral design pattern 
-	fbList:				FB_ListComponent;
+	tDelay:					TIME;
+	tTimeout:				TIME;
+	fbListAbort:			FB_ListComponent;
+	fbListStop:				FB_ListComponent;
+	fbListExecute:			FB_ListComponent;	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -19,11 +20,12 @@ END_VAR
     <Method Name="M_Attach" Id="{c25eb90e-66ec-060a-3b43-7637437bb3b8}">
       <Declaration><![CDATA[METHOD PUBLIC M_Attach
 VAR_INPUT
+	
 	iComponent:		I_Component;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbList.M_Add(iComponent);
+        <ST><![CDATA[fbListAbort.M_Add(iComponent);
 iComponent.P_Event.P_Observer.M_Attach(THIS^);
 fbEvent.P_Observer.M_Attach(iComponent);
 iComponent.P_Event.P_Logger:= fbEvent.P_Logger;]]></ST>
@@ -36,7 +38,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbList.M_Remove(iComponent);
+        <ST><![CDATA[fbListAbort.M_Remove(iComponent);
 iComponent.P_Event.P_Observer.M_Detach(THIS^);
 fbEvent.P_Observer.M_Detach(iComponent);
 iComponent.P_Event.P_Logger:= 0;]]></ST>
@@ -63,8 +65,8 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Resetting:= TRUE;
-WHILE nIndex < fbList.P_Length DO
-	IF fbList.M_Index(nIndex).M_RequestState(E_RequestState.Reset) THEN
+WHILE nIndex < fbListAbort.P_Length DO
+	IF fbListAbort.M_Index(nIndex).M_RequestState(E_RequestState.Reset) THEN
 		;
 	ELSE
 		M_Resetting:= FALSE;
@@ -80,8 +82,8 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Starting:= TRUE;
-WHILE nIndex < fbList.P_Length DO
-	IF fbList.M_Index(nIndex).M_RequestState(E_RequestState.Start) THEN
+WHILE nIndex < fbListAbort.P_Length DO
+	IF fbListAbort.M_Index(nIndex).M_RequestState(E_RequestState.Start) THEN
 		;
 	ELSE
 		M_Starting:= FALSE;
@@ -118,7 +120,7 @@ PROPERTY P_List : I_ListComponent]]></Declaration>
       <Get Name="Get" Id="{21be0766-0ebd-0ef1-1a3e-110c16bdb72e}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_List:= fbList;]]></ST>
+          <ST><![CDATA[P_List:= fbListAbort;]]></ST>
         </Implementation>
       </Get>
     </Property>

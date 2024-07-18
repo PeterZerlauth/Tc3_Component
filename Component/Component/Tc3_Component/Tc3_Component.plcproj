@@ -130,6 +130,9 @@
     <Compile Include="Function\FB_Function.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Level\E_Level.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Level\FB_Level.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -177,7 +180,7 @@
     </Compile>
     <Compile Include="Module\FB_Module.TcPOU">
       <SubType>Code</SubType>
-      <ExcludeFromBuild>true</ExcludeFromBuild>
+      <ExcludeFromBuild>false</ExcludeFromBuild>
     </Compile>
     <Compile Include="Module\I_Module.TcIO">
       <SubType>Code</SubType>

@@ -8,15 +8,15 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	sIdentifier:						STRING(25):= 'Identifier';				// Identifier
+	sIdentifier:						STRING(25):= 'Identifier';					// Identifier
 	{attribute 'instance-path'} 
     {attribute 'noinit'}
-    sInstancePath:				STRING(255);									// Instance-Path
-	fbReadSymInfo: 				PLC_ReadSymInfoByNameEx;						// Read symbol infos
+    sInstancePath:						STRING(255);									// Instance-Path
+	fbReadSymInfo: 						PLC_ReadSymInfoByNameEx;						// Read symbol infos
 END_VAR
 VAR_STAT
-	nCycle: 					UDINT;
-	nTimestamp: 				ULINT;
+	nCycle: 							UDINT;											// Cycle counter
+	nTimestamp: 						ULINT;											// Current timestamp
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/

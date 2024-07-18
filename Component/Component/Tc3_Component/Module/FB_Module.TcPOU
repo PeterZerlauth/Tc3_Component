@@ -7,8 +7,8 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbLevelE0:					FB_Level;
-	fbLevelE1:					FB_Level;
+	fbAbort:					FB_Level;
+	fbStop:						FB_Level;
 	fbLevelE2:					FB_Level;
 	fbFunctions:				FB_Level;
 	fbLogging:					FB_LoggingProvider;
@@ -26,8 +26,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Cycle();
 
-fbLevelE0.M_Cycle();
-fbLevelE1.M_Cycle();
+fbAbort.M_Cycle();
+fbStop.M_Cycle();
 fbLevelE2.M_Cycle();
 fbFunctions.M_Cycle();
 
@@ -44,11 +44,11 @@ END_VAR]]></Declaration>
 
 fbEvent.P_Logger:= fbLogging;
 
-fbLevelE0.P_Next:= fbLevelE1;
-fbLevelE0.P_Event.P_Logger:= fbEvent.P_Logger;
+fbAbort.P_Next:= fbStop;
+fbAbort.P_Event.P_Logger:= fbEvent.P_Logger;
 
-fbLevelE1.P_Next:= fbLevelE2;
-fbLevelE1.P_Event.P_Logger:= fbEvent.P_Logger;
+fbStop.P_Next:= fbLevelE2;
+fbStop.P_Event.P_Logger:= fbEvent.P_Logger;
 
 fbLevelE2.P_Next:= THIS^;
 fbLevelE2.P_Event.P_Logger:= fbEvent.P_Logger;
@@ -77,8 +77,8 @@ END_VAR]]></Declaration>
 		fbEvent.M_Debug('Mode changed form %s to %s');
 END_CASE
 
-fbLevelE0.M_RequestMode(eMode);
-fbLevelE1.M_RequestMode(eMode);
+fbAbort.M_RequestMode(eMode);
+fbStop.M_RequestMode(eMode);
 fbLevelE2.M_RequestMode(eMode);]]></ST>
       </Implementation>
     </Method>
@@ -89,8 +89,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Resetting:= SUPER^.M_Resetting();
-fbLevelE0.M_RequestState(E_RequestState.Reset);
-fbLevelE1.M_RequestState(E_RequestState.Reset);
+fbAbort.M_RequestState(E_RequestState.Reset);
+fbStop.M_RequestState(E_RequestState.Reset);
 fbLevelE2.M_RequestState(E_RequestState.Reset);
 fbFunctions.M_RequestState(E_RequestState.Reset);
 fbLogging.M_Reset();]]></ST>
@@ -116,11 +116,11 @@ END_VAR
       <Implementation>
         <ST><![CDATA[CASE fbSequence.P_Number OF
 	E_Sequence.Start:
-		bReturn:= fbLevelE0.M_RequestState(E_RequestState.Start);
+		bReturn:= fbAbort.M_RequestState(E_RequestState.Start);
 		fbSequence.M_Await('Start layer 0', T#5S, T#1S, FALSE, bReturn, 10);
 		
 	10:
-		bReturn:= fbLevelE1.M_RequestState(E_RequestState.Start);
+		bReturn:= fbStop.M_RequestState(E_RequestState.Start);
 		fbSequence.M_Await('Start layer 1', T#5S, T#1S, FALSE, bReturn, 20);
 		
 	20:

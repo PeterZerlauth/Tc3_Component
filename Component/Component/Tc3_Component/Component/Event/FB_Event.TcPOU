@@ -8,12 +8,12 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	iLogger:			I_Logger;
+	iLogger:			I_Logger;					// Event logger
 	iParent:			I_Component;				// Parent component
     {attribute 'hide'}
 	fbList:				FB_ListString;				// contains a list with string values
 	stEvent:			ST_Event;					// Event
-	stLastEvent:		ST_Event;					// History of events
+	stLastEvent:		ST_Event;					// Last Event
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
