@@ -3,7 +3,8 @@
   <POU Name="MAIN" Id="{2d4d4998-19ee-0f89-2021-34d743efb262}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	fbModule1:		FB_ComponentEX;
+	fbComponent:		FB_ComponentEX;
+	fbComponentAuto:		FB_ComponentAuto;
 	bReset:			BOOL;
 	bStart:			BOOL;
 	bStop:			BOOL;
@@ -12,26 +13,27 @@ VAR
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-fbModule1.M_Cycle();
+fbComponent.M_Cycle();
+fbComponentAuto.M_Cycle();
 
 IF bReset THEN
-	bReset:= NOT fbModule1.M_RequestState(E_RequestState.Reset);
+	bReset:= NOT fbComponent.M_RequestState(E_RequestState.Reset);
 END_IF
 
 IF bStart THEN
-	bStart:= NOT fbModule1.M_RequestState(E_RequestState.Start);
+	bStart:= NOT fbComponent.M_RequestState(E_RequestState.Start);
 END_IF
 
 IF bStop THEN
-	bStop:= NOT fbModule1.M_RequestState(E_RequestState.Stop);
+	bStop:= NOT fbComponent.M_RequestState(E_RequestState.Stop);
 END_IF
 
 IF bHold THEN
-	bHold:= NOT fbModule1.M_RequestState(E_RequestState.Hold);
+	bHold:= NOT fbComponent.M_RequestState(E_RequestState.Hold);
 END_IF
 
 IF bAbort THEN
-	bAbort:= NOT fbModule1.M_RequestState(E_RequestState.Abort);
+	bAbort:= NOT fbComponent.M_RequestState(E_RequestState.Abort);
 END_IF
 
 ]]></ST>

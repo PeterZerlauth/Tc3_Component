@@ -56,7 +56,6 @@
     <Folder Include="List" />
     <Folder Include="Logger" />
     <Folder Include="Module" />
-    <Folder Include="Images" />
     <Folder Include="Function" />
     <Folder Include="Utils" />
     <Folder Include="Object" />
@@ -135,6 +134,7 @@
     </Compile>
     <Compile Include="Level\FB_Level.TcPOU">
       <SubType>Code</SubType>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
     </Compile>
     <Compile Include="Level\I_Level.TcIO">
       <SubType>Code</SubType>
@@ -180,7 +180,7 @@
     </Compile>
     <Compile Include="Module\FB_Module.TcPOU">
       <SubType>Code</SubType>
-      <ExcludeFromBuild>false</ExcludeFromBuild>
+      <ExcludeFromBuild>true</ExcludeFromBuild>
     </Compile>
     <Compile Include="Module\I_Module.TcIO">
       <SubType>Code</SubType>
@@ -259,12 +259,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Component\StateMachine.jpg">
-      <SubType>Content</SubType>
-    </Content>
-    <Content Include="Images\StateModel.svg">
-      <SubType>Content</SubType>
-    </Content>
-    <Content Include="Images\test.jpg">
       <SubType>Content</SubType>
     </Content>
     <None Include="Tc3_Component.tmc">

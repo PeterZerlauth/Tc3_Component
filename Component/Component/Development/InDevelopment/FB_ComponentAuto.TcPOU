@@ -1,18 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_Test" Id="{7c7acc8a-6f0b-0aa3-2b16-e85279a26443}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_Test EXTENDS FB_Component
+  <POU Name="FB_ComponentAuto" Id="{7c7acc8a-6f0b-0aa3-2b16-e85279a26443}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ComponentAuto EXTENDS FB_Component
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	bReturn: 		BOOL;
-	bError:			BOOL;
-	bAbort:			BOOL;
-	bHold:			BOOL;
-	bInformation:	BOOL;
-	bWarning:		BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
