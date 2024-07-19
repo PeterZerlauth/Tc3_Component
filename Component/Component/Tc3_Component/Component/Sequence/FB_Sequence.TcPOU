@@ -5,6 +5,7 @@
 VAR
 	iParent:			I_Component;
 	stActual:			ST_Sequence;
+	stSave:				ST_Sequence;
 	fbTimeout:			TON;
 	fbDelay: 			TON;
 END_VAR]]></Declaration>
@@ -14,7 +15,11 @@ fbTimeout();
 fbTimeout.IN:= FALSE;
 
 fbDelay();
-fbDelay.IN:= FALSE;]]></ST>
+fbDelay.IN:= FALSE;
+
+IF iParent.P_State = E_State.Execute THEN
+	stActual:= stSave;
+END_IF]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{9410888f-1e8d-054b-01cb-f8f70c408f51}">
       <Declaration><![CDATA[METHOD FB_init : BOOL

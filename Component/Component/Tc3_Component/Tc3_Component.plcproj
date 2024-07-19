@@ -52,7 +52,6 @@
     <Folder Include="Component\Event\Observable" />
     <Folder Include="Component\Info" />
     <Folder Include="Component\Sequence" />
-    <Folder Include="Level" />
     <Folder Include="List" />
     <Folder Include="Logger" />
     <Folder Include="Module" />
@@ -129,16 +128,6 @@
     <Compile Include="Function\FB_Function.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Level\E_Level.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Level\FB_Level.TcPOU">
-      <SubType>Code</SubType>
-      <ExcludeFromBuild>true</ExcludeFromBuild>
-    </Compile>
-    <Compile Include="Level\I_Level.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -180,7 +169,7 @@
     </Compile>
     <Compile Include="Module\FB_Module.TcPOU">
       <SubType>Code</SubType>
-      <ExcludeFromBuild>true</ExcludeFromBuild>
+      <ExcludeFromBuild>false</ExcludeFromBuild>
     </Compile>
     <Compile Include="Module\I_Module.TcIO">
       <SubType>Code</SubType>
@@ -396,6 +385,12 @@
             <v>ReplaceConstants</v>
             <v>True</v>
           </d>
+        </o>
+        <v>{F66C7017-BDD8-4114-926C-81D6D687E35F}</v>
+        <o>
+          <v n="Name">"{F66C7017-BDD8-4114-926C-81D6D687E35F}"</v>
+          <d n="SubKeys" t="Hashtable" />
+          <d n="Values" t="Hashtable" />
         </o>
       </d>
       <d n="Values" t="Hashtable" />

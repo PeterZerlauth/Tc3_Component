@@ -4,7 +4,6 @@
     <Declaration><![CDATA[TYPE ST_Sequence :
 STRUCT
 	sMessage:				STRING(255);
-	nExeute:				INT;
 	nNumber:				INT;
 END_STRUCT
 END_TYPE

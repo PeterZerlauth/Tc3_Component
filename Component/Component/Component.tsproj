@@ -34,14 +34,17 @@
 				</Target>
 			</Licenses>
 			<Tasks>
-				<Task Id="3" CreateSymbols="true" Priority="21" CycleTime="1000000" AmsPort="351" AdtTasks="true">
+				<Task Id="3" CreateSymbols="true" Priority="21" CycleTime="5000000" AmsPort="351" AdtTasks="true">
 					<Name>PlcTask</Name>
+				</Task>
+				<Task Id="4" Priority="1" CycleTime="10000" AmsPort="350" AdtTasks="true">
+					<Name>UnitTestTask</Name>
 				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Development" PrjFilePath="Development\Development.plcproj" TmcFilePath="Development\Development.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{98B40EA0-5D63-7EBC-94E9-ADEE2959C1B3}" TmcPath="Development\Development.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{A9EDD051-E611-1100-A724-A1F337D416CB}" TmcPath="Development\Development.tmc">
 					<Name>Development Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -99,7 +102,7 @@
 								<OTCID>#x02010030</OTCID>
 							</ManualConfig>
 							<Priority>21</Priority>
-							<CycleTime>100000000</CycleTime>
+							<CycleTime>500000000</CycleTime>
 						</Context>
 					</Contexts>
 					<TaskPouOids>
@@ -119,8 +122,8 @@
 					</Contexts>
 				</Instance>
 			</Project>
-			<Project Disabled="true" GUID="{640CD8E2-83AD-418E-8730-5775EDA13AE6}" Name="Testing" PrjFilePath="Testing\Testing.plcproj" TmcFilePath="Testing\Testing.tmc" ReloadTmc="true" AmsPort="853" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{9FEBA622-06F8-B12E-31B5-60993CDFBC35}" TmcPath="Testing\Testing.tmc">
+			<Project GUID="{640CD8E2-83AD-418E-8730-5775EDA13AE6}" Name="Testing" PrjFilePath="Testing\Testing.plcproj" TmcFilePath="Testing\Testing.tmc" ReloadTmc="true" AmsPort="853" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502080" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{42F5AD38-1820-3F52-FCC2-62662A68CB1C}" TmcPath="Testing\Testing.tmc">
 					<Name>Testing Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -128,14 +131,14 @@
 							<Id>0</Id>
 							<Name>PlcTask</Name>
 							<ManualConfig>
-								<OTCID>#x02010030</OTCID>
+								<OTCID>#x02010040</OTCID>
 							</ManualConfig>
-							<Priority>21</Priority>
-							<CycleTime>100000000</CycleTime>
+							<Priority>1</Priority>
+							<CycleTime>1000000</CycleTime>
 						</Context>
 					</Contexts>
 					<TaskPouOids>
-						<TaskPouOid Prio="21" OTCID="#x08502081"/>
+						<TaskPouOid Prio="1" OTCID="#x08502081"/>
 					</TaskPouOids>
 				</Instance>
 			</Project>

@@ -26,10 +26,8 @@ VAR
 	{attribute 'OPC.UA.DA.Access' := '2'}
 	eMode:							E_RequestMode;				// Current mode
     {attribute 'hide'}
-	eModePrevious:					E_RequestMode;				// Previous mode	
-END_VAR
-
-]]></Declaration>
+	eModePrevious:					E_RequestMode;				// Previous mode
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
     </Implementation>

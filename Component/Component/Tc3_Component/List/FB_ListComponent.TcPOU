@@ -4,7 +4,10 @@
     <Declaration><![CDATA[{attribute 'no_explicit_call' := 'do not call this POU directly'} 
 FUNCTION_BLOCK FB_ListComponent IMPLEMENTS I_ListComponent
 VAR
-	nLength:		DINT;
+	{IF (defined (release))}
+    	{attribute 'hide'}
+	{END_IF}
+	nLength:		INT;
 	pList: 			POINTER TO I_Component;
 	{IF (defined (release))}
     	{attribute 'hide'}

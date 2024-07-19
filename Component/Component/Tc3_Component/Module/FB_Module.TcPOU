@@ -7,10 +7,10 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbAbort:					FB_Level;
-	fbStop:						FB_Level;
-	fbLevelE2:					FB_Level;
-	fbFunctions:				FB_Level;
+	fbStop:						FB_ListComponent;
+	fbAbort:					FB_ListComponent;
+	fbHold:						FB_ListComponent;
+	fbFunction:					FB_ListComponent;
 	fbLogging:					FB_LoggingProvider;
 	fbLogger:					FB_Logger;
 	fbTcLogger:					FB_TcLogger;
@@ -26,11 +26,6 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Cycle();
 
-fbAbort.M_Cycle();
-fbStop.M_Cycle();
-fbLevelE2.M_Cycle();
-fbFunctions.M_Cycle();
-
 fbLogger();
 fbTcLogger();]]></ST>
       </Implementation>
@@ -40,21 +35,11 @@ fbTcLogger();]]></ST>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.M_Initialise();
-
-fbEvent.P_Logger:= fbLogging;
-
-fbAbort.P_Next:= fbStop;
-fbAbort.P_Event.P_Logger:= fbEvent.P_Logger;
-
-fbStop.P_Next:= fbLevelE2;
-fbStop.P_Event.P_Logger:= fbEvent.P_Logger;
-
-fbLevelE2.P_Next:= THIS^;
-fbLevelE2.P_Event.P_Logger:= fbEvent.P_Logger;
-
+        <ST><![CDATA[fbEvent.P_Logger:= fbLogging;
 fbLogging.M_Attach(fbLogger);
-fbLogging.M_Attach(fbTcLogger);]]></ST>
+fbLogging.M_Attach(fbTcLogger);
+
+SUPER^.M_Initialise();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_OnMode" Id="{549d817a-659a-0f3e-10ea-6f23f3ce8adf}">
@@ -75,11 +60,7 @@ END_VAR]]></Declaration>
 		fbEvent.M_AddSTRING(TO_STRING(eModePrevious));
 		fbEvent.M_AddSTRING(TO_STRING(eMode));
 		fbEvent.M_Debug('Mode changed form %s to %s');
-END_CASE
-
-fbAbort.M_RequestMode(eMode);
-fbStop.M_RequestMode(eMode);
-fbLevelE2.M_RequestMode(eMode);]]></ST>
+END_CASE]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Resetting" Id="{61e3d89a-8bee-473b-9814-ba7482888f16}">
@@ -88,11 +69,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Resetting:= SUPER^.M_Resetting();
-fbAbort.M_RequestState(E_RequestState.Reset);
-fbStop.M_RequestState(E_RequestState.Reset);
-fbLevelE2.M_RequestState(E_RequestState.Reset);
-fbFunctions.M_RequestState(E_RequestState.Reset);
+        <ST><![CDATA[M_Resetting:= TRUE;
 fbLogging.M_Reset();]]></ST>
       </Implementation>
     </Method>
@@ -103,33 +80,6 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Starting" Id="{5a9fb78b-3ed4-0195-387d-72e3c96a0cbd}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL
-VAR_INPUT
-END_VAR
-VAR
-	bReturn:			BOOL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[CASE fbSequence.P_Number OF
-	E_Sequence.Start:
-		bReturn:= fbAbort.M_RequestState(E_RequestState.Start);
-		fbSequence.M_Await('Start layer 0', T#5S, T#1S, FALSE, bReturn, 10);
-		
-	10:
-		bReturn:= fbStop.M_RequestState(E_RequestState.Start);
-		fbSequence.M_Await('Start layer 1', T#5S, T#1S, FALSE, bReturn, 20);
-		
-	20:
-		bReturn:= fbLevelE2.M_RequestState(E_RequestState.Start);
-		fbSequence.M_Await('Start layer 1', T#5S, T#1S, FALSE, bReturn, E_Sequence.Done);
-		
-	E_Sequence.Done:
-		M_Starting:= TRUE;
-END_CASE]]></ST>
       </Implementation>
     </Method>
   </POU>
