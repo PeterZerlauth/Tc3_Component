@@ -74,29 +74,28 @@ END_CASE
       </Implementation>
     </Method>
     <Method Name="M_Initialise" Id="{714c485c-83a6-4af2-a706-fec3f6b598e5}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Initialise
+      <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.M_Initialise();
+        <ST><![CDATA[M_Initialise:= SUPER^.M_Initialise();
 
 Globals.bSimulation:= TRUE;
 
 P_Info.P_ID:= 'M001';
 
 
-fbLevelE0.M_Attach(fbComponent1);
-fbLevelE1.M_Attach(fbComponent2);
-fbLevelE1.M_Attach(fbComponent3);
+fbLevelE0.M_Add(fbComponent1);
+fbLevelE1.M_Add(fbComponent2);
+fbLevelE1.M_Add(fbComponent3);
 
 fbCylinder.P_Info.P_ID:= 'Y1';
-fbLevelE1.M_Attach(fbCylinder);
+fbLevelE1.M_Add(fbCylinder);
 
-fbFunctions.M_Attach(fbProcess);
 
 FOR nIndex:= 0 TO 99 DO
-	fbLevelE1.M_Attach(fbComponents[nIndex]);
+	fbLevelE1.M_Add(fbComponents[nIndex]);
 END_FOR
 ]]></ST>
       </Implementation>
@@ -115,9 +114,9 @@ ELSIF NOT IO. bEMStop THEN
 	fbEvent.M_Abort('Emergency stop not ok %s', 16);
 ELSIF NOT IO.bDoorsOk THEN
 	fbEvent.M_AddSTRING('BMK3');
-	fbEvent.M_Stop('Door Not OK', 17);	
+	fbEvent.M_Hold('Door Not OK', 17);	
 ELSIF NOT IO.bFuse THEN	
-	fbEvent.M_Stop('Fuse Triped', 18);		
+	fbEvent.M_Hold('Fuse Triped', 18);		
 END_IF]]></ST>
       </Implementation>
     </Method>

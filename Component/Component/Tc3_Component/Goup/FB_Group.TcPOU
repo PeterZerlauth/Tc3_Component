@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Group" Id="{cd8da5ab-5393-0aad-280e-8aa1aa48dea2}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Group EXTENDS FB_Component IMPLEMENTS I_ListComponent
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	fbList:				FB_ListComponent;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Add" Id="{9c08c7b2-ab85-00c9-3480-9a43f675355a}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Add : BOOL
+VAR_INPUT
+	iObject: 	I_Component;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Add:= fbList.M_Add(iObject);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Clear" Id="{b74916b3-0731-06cc-1514-59e87a142e63}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Clear : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Clear:= fbList.M_Clear();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Execute" Id="{739f618d-960d-085a-2597-a01bc9ee0d46}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL (* Return*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Find" Id="{7a793730-fca2-04f1-1573-9eb24a75dd34}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
+VAR_INPUT
+	iObject: 	I_Component;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Find:= fbList.M_Find(iObject);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Index" Id="{3dd4476f-cd28-0695-26f0-40f72ef51136}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Index : I_Component
+VAR_INPUT
+	Index: 	DINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Index:= fbList.M_Index(Index);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Remove" Id="{b8b6ee02-1540-0cd2-232c-e59d9cf5dcc4}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Remove : BOOL
+VAR_INPUT
+	iObject: 	I_Component;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Remove:= fbList.M_Remove(iObject);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Starting" Id="{ae13c90b-3cbf-07f6-16fc-7e76ef730bbf}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL (* Return state complete*)
+
+VAR
+	nIndex: DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Starting:= TRUE;
+WHILE nIndex > fbList.P_Length DO
+	IF fbList.M_Index(nIndex).M_RequestState(E_RequestState.Start) THEN
+		;
+	ELSE
+		M_Starting:= FALSE;
+	END_IF
+	
+	nIndex:= nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stopping" Id="{e019d36a-59f9-03ae-0272-fef9a290f8db}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL (* Return state complete*)
+
+VAR
+	nIndex: DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Stopping:= TRUE;
+WHILE nIndex > fbList.P_Length DO
+	IF fbList.M_Index(nIndex).M_RequestState(E_RequestState.Start) THEN
+		;
+	ELSE
+		M_Stopping:= FALSE;
+	END_IF
+
+	nIndex:= nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Length" Id="{32118cce-8490-049c-31f6-2dfa71e28a60}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Length : DINT
+]]></Declaration>
+      <Get Name="Get" Id="{33935b9d-82d7-070c-0ed2-27aac4dfa2d4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Length:= fbList.P_Length;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

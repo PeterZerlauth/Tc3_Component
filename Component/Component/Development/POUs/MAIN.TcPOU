@@ -3,7 +3,7 @@
   <POU Name="MAIN" Id="{2d4d4998-19ee-0f89-2021-34d743efb262}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	fbComponent:		FB_ComponentEX;
+	fbComponent:		FB_Module01;
 	fbComponentAuto:		FB_ComponentAuto;
 	bReset:			BOOL;
 	bStart:			BOOL;

@@ -7,10 +7,10 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbStop:						FB_ListComponent;
-	fbAbort:					FB_ListComponent;
-	fbHold:						FB_ListComponent;
-	fbFunction:					FB_ListComponent;
+	fbLevelE0:					FB_Group;
+	fbLevelE1:					FB_Group;
+	fbLevelE2:					FB_Group;
+	
 	fbLogging:					FB_LoggingProvider;
 	fbLogger:					FB_Logger;
 	fbTcLogger:					FB_TcLogger;
@@ -26,6 +26,10 @@ END_VAR
       <Implementation>
         <ST><![CDATA[SUPER^.M_Cycle();
 
+fbLevelE0.M_Cycle();
+fbLevelE1.M_Cycle();
+fbLevelE2.M_Cycle();
+
 fbLogger();
 fbTcLogger();]]></ST>
       </Implementation>
@@ -39,7 +43,14 @@ END_VAR]]></Declaration>
 fbLogging.M_Attach(fbLogger);
 fbLogging.M_Attach(fbTcLogger);
 
-SUPER^.M_Initialise();]]></ST>
+fbLevelE0.M_Add(fbLevelE1);
+fbLevelE0.P_Event.P_Logger:= fbLogging;
+fbLevelE1.M_Add(fbLevelE2);
+fbLevelE1.P_Event.P_Logger:= fbLogging;
+fbLevelE2.M_Add(THIS^);
+fbLevelE2.P_Event.P_Logger:= fbLogging;
+
+M_Initialise:= SUPER^.M_Initialise();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_OnMode" Id="{549d817a-659a-0f3e-10ea-6f23f3ce8adf}">
