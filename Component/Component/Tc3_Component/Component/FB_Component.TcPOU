@@ -246,7 +246,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Execute:= True;]]></ST>
+        <ST><![CDATA[M_Execute:= False;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Holded" Id="{f81e94c9-4b34-0591-0431-3c8c41c7dc3f}" FolderPath="State\">

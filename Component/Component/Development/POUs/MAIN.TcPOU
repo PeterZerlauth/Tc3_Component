@@ -4,7 +4,6 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	fbComponent:		FB_Module01;
-	fbComponentAuto:		FB_ComponentAuto;
 	bReset:			BOOL;
 	bStart:			BOOL;
 	bStop:			BOOL;
@@ -14,7 +13,6 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[
 fbComponent.M_Cycle();
-fbComponentAuto.M_Cycle();
 
 IF bReset THEN
 	bReset:= NOT fbComponent.M_RequestState(E_RequestState.Reset);

@@ -7,13 +7,9 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	nIndex:						INT;
-	fbComponent1:				FB_Component;
-	fbComponent2:				FB_Component;
-	fbComponent3:				FB_ComponentEx;
-	fbCylinder:					FB_Cylinder;
-	fbProcess:					FB_Component;
-	fbComponents:				ARRAY [0..99] OF FB_Component;
+	fbComponentE0:				FB_ComponentEx;
+	fbComponentE1:				FB_ComponentEx;
+	fbComponentE2:				FB_ComponentEx;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
@@ -29,16 +25,9 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Cycle();
 
-fbComponent1.M_Cycle();
-fbComponent2.M_Cycle();
-fbComponent3.M_Cycle();
-fbCylinder.M_Cycle();
-
-fbProcess.M_Cycle();
-
-FOR nIndex:= 0 TO 99 DO
-	fbComponents[nIndex].M_Cycle();
-END_FOR]]></ST>
+fbComponentE0.M_Cycle();
+fbComponentE1.M_Cycle();
+fbComponentE2.M_Cycle();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Execute" Id="{0f7f4331-8af5-0744-015a-f65d0021dd06}">
@@ -51,15 +40,15 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[CASE fbSequence.P_Number OF
 	E_Sequence.Start:
-		bReturn:= fbCylinder.M_Disable();
+		bReturn:= TRUE;
 		fbSequence.M_Await('Start 0', T#0S, T#0S, TRUE, bReturn, 10);
 	
 	10:
-		bReturn:= fbCylinder.M_ToHome();
+		bReturn:= TRUE;
 		fbSequence.M_Await('Step 10', T#0S, T#0S, TRUE, bReturn, 20);
 		
 	20:
-		bReturn:= fbCylinder.M_ToWork();
+		bReturn:= TRUE;
 		fbSequence.M_Await('Step 20', T#0S, T#0S, FALSE, bReturn, E_Sequence.Done);	
 		
 	E_Sequence.Done:
@@ -86,17 +75,9 @@ Globals.bSimulation:= TRUE;
 P_Info.P_ID:= 'M001';
 
 
-fbLevelE0.M_Add(fbComponent1);
-fbLevelE1.M_Add(fbComponent2);
-fbLevelE1.M_Add(fbComponent3);
-
-fbCylinder.P_Info.P_ID:= 'Y1';
-fbLevelE1.M_Add(fbCylinder);
-
-
-FOR nIndex:= 0 TO 99 DO
-	fbLevelE1.M_Add(fbComponents[nIndex]);
-END_FOR
+fbLevelE0.M_Attach(fbComponentE0);
+fbLevelE1.M_Attach(fbComponentE1);
+fbLevelE2.M_Attach(fbComponentE2);
 ]]></ST>
       </Implementation>
     </Method>

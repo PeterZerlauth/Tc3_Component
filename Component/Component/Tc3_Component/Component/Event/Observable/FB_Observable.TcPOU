@@ -33,21 +33,21 @@ END_VAR
     <Method Name="M_Attach" Id="{a96df4cc-8cea-4396-beb7-115ce888674b}">
       <Declaration><![CDATA[METHOD M_Attach : BOOL
 VAR_INPUT
-	Object: 	I_Component;
+	iObject: 	I_Component;
 END_VAR
 VAR
 	pOldList: 	POINTER TO I_Component;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Object <> 0 THEN
+        <ST><![CDATA[IF iObject <> 0 THEN
 	// First Item
 	IF pList = 0 THEN
 		nLength:= nLength + 1;
 		pList:= __NEW(POINTER TO I_Component,DINT_TO_UDINT(nLength));
 	ELSE
 		// Item already in List
-		IF M_Find(Object) = -1 THEN
+		IF M_Find(iObject) = -1 THEN
 			// backup 
 			pOldList:= pList;
 			// new Length
@@ -67,7 +67,7 @@ END_VAR
 		RETURN;
 	END_IF
 	// add new Object
-	pList[nLength-1]:= Object;
+	pList[nLength-1]:= iObject;
 	M_Attach:= TRUE;
 ELSE
 	M_Attach:= FALSE;	
@@ -87,18 +87,18 @@ END_IF]]></ST>
     <Method Name="M_Detach" Id="{6e982e5c-8b12-4999-bbf2-06e2eebe2934}">
       <Declaration><![CDATA[METHOD M_Detach : BOOL
 VAR_INPUT
-	Object: 	I_Component;
+	iObject: 	I_Component;
 END_VAR
 VAR
 	pOldList:			POINTER TO I_Component;
 	nPosition: 			DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Object <> 0 THEN
+        <ST><![CDATA[IF iObject <> 0 THEN
 	// First Item
 	IF nLength >= 0 THEN
 		// Item already in List
-		nPosition:= M_Find(Object);
+		nPosition:= M_Find(iObject);
 		IF nPosition <> -1 THEN
 			// backup 
 			pOldList:= pList;
@@ -129,7 +129,7 @@ END_IF]]></ST>
     <Method Name="M_Find" Id="{315829c2-37f1-487f-acb0-fff200e1a3d8}">
       <Declaration><![CDATA[METHOD M_Find : DINT
 VAR_INPUT
-	Object: 	I_Component;
+	iObject: 	I_Component;
 END_VAR
 VAR
 	nIndex: 	UINT;
@@ -138,7 +138,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[// Object already in List
 M_Find := -1;
 WHILE nIndex < nLength DO
-    IF (pList[nIndex] = Object) THEN
+    IF (pList[nIndex] = iObject) THEN
         M_Find := nIndex;
         RETURN;
     END_IF
@@ -150,12 +150,12 @@ END_WHILE
     <Method Name="M_Index" Id="{6e332950-284b-4ced-bcaa-31bfc1d4668b}">
       <Declaration><![CDATA[METHOD M_Index : I_Observer
 VAR_INPUT
-	Index: 	DINT;
+	nIndex: 	DINT;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Index <= nLength THEN
-	M_Index:= pList[Index];
+        <ST><![CDATA[IF nIndex <= nLength THEN
+	M_Index:= pList[nIndex];
 END_IF]]></ST>
       </Implementation>
     </Method>

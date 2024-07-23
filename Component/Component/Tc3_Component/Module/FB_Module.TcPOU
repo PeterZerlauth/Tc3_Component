@@ -7,9 +7,9 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbLevelE0:					FB_Group;
-	fbLevelE1:					FB_Group;
-	fbLevelE2:					FB_Group;
+	fbLevelE0:					FB_Level;
+	fbLevelE1:					FB_Level;
+	fbLevelE2:					FB_Level;
 	
 	fbLogging:					FB_LoggingProvider;
 	fbLogger:					FB_Logger;
@@ -43,11 +43,11 @@ END_VAR]]></Declaration>
 fbLogging.M_Attach(fbLogger);
 fbLogging.M_Attach(fbTcLogger);
 
-fbLevelE0.M_Add(fbLevelE1);
+fbLevelE0.P_Event.P_Observer.M_Attach(fbLevelE1);
 fbLevelE0.P_Event.P_Logger:= fbLogging;
-fbLevelE1.M_Add(fbLevelE2);
+fbLevelE1.P_Event.P_Observer.M_Attach(fbLevelE2);
 fbLevelE1.P_Event.P_Logger:= fbLogging;
-fbLevelE2.M_Add(THIS^);
+fbLevelE2.P_Event.P_Observer.M_Attach(THIS^);
 fbLevelE2.P_Event.P_Logger:= fbLogging;
 
 M_Initialise:= SUPER^.M_Initialise();]]></ST>
@@ -81,7 +81,11 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Resetting:= TRUE;
-fbLogging.M_Reset();]]></ST>
+fbLogging.M_Reset();
+fbLevelE0.M_RequestState(E_RequestState.Reset);
+fbLevelE1.M_RequestState(E_RequestState.Reset);
+fbLevelE2.M_RequestState(E_RequestState.Reset);
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{8879f60a-43a4-0568-363b-e25a42eddf0c}">
@@ -91,6 +95,17 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Starting" Id="{1cc97cfa-38a4-0e77-03d9-70ce05bfa7e9}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL (* Return state complete*)
+
+VAR
+	nIndex: DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Starting:= fbLevelE0.M_RequestState(E_RequestState.Start) AND_THEN fbLevelE1.M_RequestState(E_RequestState.Start) AND_THEN fbLevelE2.M_RequestState(E_RequestState.Start); 
+]]></ST>
       </Implementation>
     </Method>
   </POU>

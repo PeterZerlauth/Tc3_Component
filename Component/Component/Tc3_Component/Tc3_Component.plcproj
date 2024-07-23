@@ -56,7 +56,7 @@
     <Folder Include="Logger" />
     <Folder Include="Module" />
     <Folder Include="Function" />
-    <Folder Include="Goup" />
+    <Folder Include="Level" />
     <Folder Include="Utils" />
     <Folder Include="Object" />
     <Folder Include="Utils\File" />
@@ -129,7 +129,10 @@
     <Compile Include="Function\FB_Function.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Goup\FB_Group.TcPOU">
+    <Compile Include="Level\FB_Level.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Level\I_Level.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">
