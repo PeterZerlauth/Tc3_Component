@@ -1,14 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <Itf Name="I_Component" Id="{84a5f8f6-b81b-4747-a25d-2c3abe61b573}">
-    <Declaration><![CDATA[INTERFACE I_Component EXTENDS I_Observer, I_Cycle
+    <Declaration><![CDATA[INTERFACE I_Component EXTENDS I_Observer
 ]]></Declaration>
-    <Method Name="M_Cycle" Id="{427419d8-61f7-0788-36ef-f367cd14b183}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
     <Method Name="M_RequestMode" Id="{208c4c43-a103-0c2c-0258-2704597726e6}">
       <Declaration><![CDATA[METHOD PUBLIC M_RequestMode : BOOL
 VAR_INPUT

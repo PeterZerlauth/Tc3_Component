@@ -3,11 +3,8 @@
   <POU Name="FB_Logger" Id="{fd2ecca2-796f-0c21-1b02-56f5057704fe}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Logger EXTENDS FB_AbstractLogger
 VAR
-    {attribute 'hide'}
 	nLength:					DINT;
-    {attribute 'hide'}
 	aEvent:						ARRAY [0..nSize - 1] OF ST_Event;
-    {attribute 'hide'}
 	nIndex: 					DINT;
     {attribute 'hide'}
 	nTimestamp: 				ULINT;
@@ -89,6 +86,10 @@ ELSE
 	// add new event
 	aEvent[nLength]:= stEvent;
 	nLength:= nLength + 1;
+END_IF
+
+IF iNext <> 0 THEN
+	iNext.M_Log(stEvent);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -99,43 +100,12 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Reset all events
 nLength:= 0;
-Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
+Memset(ADR(aEvent), 0, SIZEOF(aEvent));
+
+IF iNext <> 0 THEN
+	iNext.M_Reset();
+END_IF]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Events" Id="{f7917afc-4283-0ff7-2622-47e4f0a69ac7}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-{attribute 'suppress_wrn_C0410'}
-PROPERTY PUBLIC P_Events : REFERENCE TO ARRAY [0..nSize - 1] OF ST_Event]]></Declaration>
-      <Get Name="Get" Id="{f022bdae-95d6-08b3-0454-e010076042ee}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Events REF= aEvent;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{0f60bc6a-e42f-0797-0ecd-a00ef628de11}">
-        <Declaration><![CDATA[VAR
-END_VAR]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Events REF= aEvent;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
-    <Property Name="P_Length" Id="{0e0d1439-0084-08da-049d-e75171bf4532}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Length : DINT
-]]></Declaration>
-      <Get Name="Get" Id="{bcca406a-0083-09d7-21ec-d8f15b3ff11d}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Length:= nLength;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
   </POU>
 </TcPlcObject>

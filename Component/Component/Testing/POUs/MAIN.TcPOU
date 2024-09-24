@@ -6,16 +6,20 @@ VAR
 	bInitialise: 			BOOL:= TRUE;
 	bExecute: 				BOOL;
 	fbTestsuites:			FB_Testsuites;
-	fbComponent:			FB_Component;
-	fbTestsuite1:			FB_Testsuite;
+	fbListObject:			FB_ListObjectTests;
+	fbListComponent:		FB_ListComponentTests;
+	fbListString:			FB_ListStringTests;
+	fbMembers:				FB_MembersTests;	
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF bInitialise THEN
 	bInitialise:= False;
-	fbTestsuites.M_Add(fbTestsuite1);
+	fbTestsuites.M_Add(fbListObject.fbTestsuite);
+	fbTestsuites.M_Add(fbListComponent.fbTestsuite);
+	fbTestsuites.M_Add(fbListString.fbTestsuite);
+	fbTestsuites.M_Add(fbMembers.fbTestsuite);
 	fbTestsuites.P_Options.sFilePathName:= 'C:\report.xml';
-	fbTestsuite1.P_Options.bAbortOnError:= FALSE;
 END_IF
 
 IF bExecute THEN
@@ -24,69 +28,14 @@ END_IF
 
 fbTestsuites();
 
-fbTestsuite1();
 
-fbComponent.M_Cycle();
+fbListObject();
+fbListComponent();
+fbListString();
+fbMembers();
 
-CASE fbTestsuite1.P_Testcase OF
-	
-	E_Testcase.Start:
-		CASE fbComponent.P_State OF
-			E_State.Stopped:;
-			
-			E_State.Aborted, E_State.Holded:
-				fbComponent.M_RequestState(E_RequestState.Reset);
-				
-			ELSE
-				fbComponent.M_RequestState(E_RequestState.Stop);
-				
-		END_CASE
-		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Stopped, fbComponent.P_State, 'E_State.Stopped');
-		fbTestsuite1.M_Testcase(fbComponent.P_Info.P_Class, T#2S, 'fbComponent.M_RequestState(E_RequestState.Stopped)', '', 10);	
-	
-	10:	
-		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Start), 'Start');
-		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Execute, fbComponent.P_State, 'E_State.Execute');
-		fbTestsuite1.M_Testcase(fbComponent.P_Info.P_Class, T#2S, 'fbComponent.M_RequestState(E_RequestState.Start)', '', 20);
-		
-	20:
-		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Stop), 'Stop');
-		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Stopped, fbComponent.P_State, 'E_State.Stop');
-		fbTestsuite1.M_Testcase(fbComponent.P_Info.P_Class, T#2S, 'fbComponent.M_RequestState(E_RequestState.Stop)', '', 30);
-		
-	30:	
-		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Start), 'Start');
-		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Execute, fbComponent.P_State, 'E_State.Execute');
-		fbTestsuite1.M_Testcase(fbComponent.P_Info.P_Class, T#2S, 'fbComponent.M_RequestState(E_RequestState.Start)', '', 50);
-		
-	50:	
-		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Abort), 'Abort');
-		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Aborted, fbComponent.P_State, 'E_State.Aborted');
-		fbTestsuite1.M_Testcase(fbComponent.P_Info.P_Class, T#2S, 'fbComponent.M_RequestState(E_RequestState.Abort)', '', 60);
-		
-	60:
-		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Reset), 'Reset');
-		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Stopped, fbComponent.P_State, 'E_State.Stopped');
-		fbTestsuite1.M_Testcase(fbComponent.P_Info.P_Class, T#2S, 'fbComponent.M_RequestState(E_RequestState.Reset)', '', 70);
-		
-	70:	
-		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Start), 'Start');
-		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Execute, fbComponent.P_State, 'E_State.Execute');
-		fbTestsuite1.M_Testcase(fbComponent.P_Info.P_Class, T#2S, 'fbComponent.M_RequestState(E_RequestState.Start)', '', 80);	
-	
-	80:	
-		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Hold), 'Hold');
-		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Holded, fbComponent.P_State, 'E_State.Hold');
-		fbTestsuite1.M_Testcase(fbComponent.P_Info.P_Class, T#2S, 'fbComponent.M_RequestState(E_RequestState.Hold)', '', 90);		
 
-	90:
-		fbTestsuite1.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Reset), 'Reset');
-		fbTestsuite1.P_Assert.M_Equals_INT(E_State.Stopped, fbComponent.P_State, 'E_State.Idle');
-		fbTestsuite1.M_Testcase(fbComponent.P_Info.P_Class, T#2S, 'fbComponent.M_RequestState(E_RequestState.Reset)', '', E_Testcase.Done);		
-		
-	E_Testcase.Done:;
-	
-END_CASE]]></ST>
+]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

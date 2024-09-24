@@ -65,6 +65,10 @@ ELSE
 				ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
 		END_CASE
 	END_IF
+END_IF
+
+IF iNext <> 0 THEN
+	iNext.M_Log(stEvent);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -74,7 +78,11 @@ VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Reset all events
-Memset(ADR(aEvent), 0, SIZEOF(aEvent));]]></ST>
+Memset(ADR(aEvent), 0, SIZEOF(aEvent));
+
+IF iNext <> 0 THEN
+	iNext.M_Reset();
+END_IF]]></ST>
       </Implementation>
     </Method>
   </POU>

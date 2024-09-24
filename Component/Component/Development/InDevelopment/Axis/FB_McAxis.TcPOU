@@ -50,56 +50,7 @@ VAR PERSISTENT
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
-    </Implementation>
-    <Folder Name="Parameter" Id="{0e484f89-9995-4abb-9390-f90862e0e610}" />
-    <Folder Name="Motion" Id="{35718791-19fd-46a5-b6e2-dfab848a97c3}" />
-    <Method Name="M_ReadBOOL" Id="{02a60cb8-49c4-4a64-a774-516a4a612dd1}" FolderPath="Parameter\">
-      <Declaration><![CDATA[METHOD PUBLIC M_ReadBOOL : BOOL
-VAR_INPUT
-	 eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
-	 bValue:				REFERENCE TO BOOL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbReadBoolParameter.Enable:= TRUE;
-fbReadBoolParameter.ParameterNumber:= eParameterNumber;
-fbReadBoolParameter.ReadMode:= E_ReadMode.READMODE_ONCE;
-IF fbReadBoolParameter.Valid THEN
-	IF __ISVALIDREF(bValue) THEN
-		bValue:= fbReadBoolParameter.Value;
-		M_ReadBOOL:= TRUE;		
-	END_IF
-END_IF
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Home" Id="{07120cca-6a59-06c1-3fea-8c3d8aa8e99a}" FolderPath="Motion\">
-      <Declaration><![CDATA[METHOD PUBLIC M_Home : BOOL
-VAR_INPUT
-	fPosition:					LREAL;
-	eHomingMode:				MC_HomingMode;
-	bClearPositionLag: 			BOOL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbHome.Execute:= TRUE;
-fbHome.Position:= fPosition;
-fbHome.HomingMode:= eHomingMode;
-fbHome.Options.ClearPositionLag:= bClearPositionLag;
-IF fbHome.Done THEN
-	fbReset.Execute:= TRUE;
-	M_Home:= TRUE;
-END_IF
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Cycle" Id="{0852f1be-8285-04e9-03b6-228c3ccff121}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.M_Cycle();
+      <ST><![CDATA[SUPER^();
 
 stAxis.ReadStatus();
 
@@ -165,79 +116,9 @@ IF stAxis.Status.NcApplicationRequest THEN
 END_IF
 
 stAxis.PlcToNc.PositionCorrection:= fPositionCorrection;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_MoveVelocity" Id="{0af94af4-81a3-0869-12db-9ff6b7bbcb7c}" FolderPath="Motion\">
-      <Declaration><![CDATA[METHOD PUBLIC M_MoveVelocity : BOOL
-VAR_INPUT
-	fVelocity:				LREAL;
-	fAcceleration:			LREAL;
-	fDeceleration:			LREAL;
-	fJerk:					LREAL;	
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF fbPower.Status THEN
-	fbMoveVelocity.Execute:= 			TRUE;
-	fbMoveVelocity.Velocity:= 			fVelocity;
-	fbMoveVelocity.Acceleration:= 		fAcceleration;
-	fbMoveVelocity.Deceleration:= 		fDeceleration;
-	fbMoveVelocity.Jerk:= 				fJerk;
-	IF fVelocity >= 0.0 THEN
-		fbMoveVelocity.Direction:= 			MC_Direction.MC_Positive_Direction;
-	ELSE
-		fbMoveVelocity.Direction:= 			MC_Direction.MC_Negative_Direction;	
-	END_IF
-	
-	M_MoveVelocity:= fbMoveVelocity.InVelocity;
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_ReadParameterSet" Id="{1bb636e7-d53c-4c4b-91b9-c85f306fed69}" FolderPath="Parameter\">
-      <Declaration><![CDATA[METHOD PUBLIC M_ReadParameterSet : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbReadParameterSet.Execute:= TRUE;
-M_ReadParameterSet:= fbReadParameterSet.Done;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_ReadComponents" Id="{1fa6fe63-2c8b-4f6e-8c40-5778e559293e}" FolderPath="Parameter\">
-      <Declaration><![CDATA[METHOD PUBLIC M_ReadComponents : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbReadAxisComponents.Execute:= TRUE;
-M_ReadComponents:= fbReadAxisComponents.Done;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_WriteBOOL" Id="{3697379d-8d19-4764-bd73-6f9a4dcf9537}" FolderPath="Parameter\">
-      <Declaration><![CDATA[METHOD PUBLIC M_WriteBOOL : BOOL
-VAR_INPUT
-	eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
-	bPersistent:			BOOL;
-	bValue:					BOOL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF bPersistent THEN
-	fbWriteBoolParameterPersistent.Execute:= TRUE;
-	fbWriteBoolParameterPersistent.ParameterNumber:= eParameterNumber;
-	fbWriteBoolParameterPersistent.Value:= bValue;
-	IF fbWriteBoolParameterPersistent.Done THEN
-		M_WriteBOOL:= TRUE;
-	END_IF
-ELSE
-	fbWriteBoolParameter.Execute:= TRUE;
-	fbWriteBoolParameter.ParameterNumber:= eParameterNumber;
-	fbWriteBoolParameter.Value:= bValue;
-	IF fbWriteBoolParameter.Done THEN
-		M_WriteBOOL:= TRUE;
-	END_IF
-END_IF]]></ST>
-      </Implementation>
-    </Method>
+    </Implementation>
+    <Folder Name="Motion" Id="{35718791-19fd-46a5-b6e2-dfab848a97c3}" />
+    <Folder Name="Parameter" Id="{0e484f89-9995-4abb-9390-f90862e0e610}" />
     <Method Name="M_Halt" Id="{4cc16a25-74cd-4585-8a87-63dca814490d}" FolderPath="Motion\">
       <Declaration><![CDATA[METHOD PUBLIC M_Halt : BOOL
 VAR_INPUT
@@ -248,104 +129,24 @@ END_VAR
 M_Halt:= stAxis.Status.NotMoving;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Stop" Id="{55bb621f-dd36-4b44-9fa9-14be755211b0}" FolderPath="Motion\">
-      <Declaration><![CDATA[METHOD PUBLIC M_Stop : BOOL
+    <Method Name="M_Home" Id="{07120cca-6a59-06c1-3fea-8c3d8aa8e99a}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_Home : BOOL
 VAR_INPUT
+	fPosition:					LREAL;
+	eHomingMode:				MC_HomingMode;
+	bClearPositionLag: 			BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbStop.Execute:= TRUE;
-M_Stop:=  stAxis.Status.NotMoving;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_MoveRelative" Id="{654b517f-8657-00b1-32c2-f62692e554ae}" FolderPath="Motion\">
-      <Declaration><![CDATA[METHOD PUBLIC M_MoveRelative : BOOL
-VAR_INPUT
-	fDistance:				LREAL;
-	fVelocity:				LREAL;
-	fAcceleration:			LREAL;
-	fDeceleration:			LREAL;
-	fJerk:					LREAL;	
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF fbPower.Status THEN
-	fbMoveRelative.Execute:= 			TRUE;
-	fbMoveRelative.Distance:= 			fDistance;
-	fbMoveRelative.Velocity:= 			fVelocity;
-	fbMoveRelative.Acceleration:= 		fAcceleration;
-	fbMoveRelative.Deceleration:= 		fDeceleration;
-	fbMoveRelative.Jerk:= 				fJerk;
-	M_MoveRelative:= 					fbMoveRelative.Done;
-END_IF
-
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_WriteLREAL" Id="{792f0875-e60b-4e8d-a418-ada5e45e3f6f}" FolderPath="Parameter\">
-      <Declaration><![CDATA[METHOD PUBLIC M_WriteLREAL : BOOL
-VAR_INPUT
-	eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
-	bPersistent:			BOOL;
-	fValue:					LREAL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF bPersistent THEN
-	fbWriteParameterPersistent.Execute:= TRUE;
-	fbWriteParameterPersistent.ParameterNumber:= eParameterNumber;
-	fbWriteParameterPersistent.Value:= fValue;
-	IF fbWriteParameterPersistent.Done THEN
-		M_WriteLREAL:= TRUE;
-	END_IF
-ELSE
-	fbWriteParameter.Execute:= TRUE;
-	fbWriteParameter.ParameterNumber:= eParameterNumber;
-	fbWriteParameter.Value:= fValue;
-	IF fbWriteparameter.Done THEN
-		M_WriteLREAL:= TRUE;
-	END_IF
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Power" Id="{9db91a1a-7adc-09fe-2682-5f77fbb11c72}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Power : BOOL
-VAR_INPUT
-	bOnOff:			BOOL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF bOnOff THEN
+        <ST><![CDATA[fbHome.Execute:= TRUE;
+fbHome.Position:= fPosition;
+fbHome.HomingMode:= eHomingMode;
+fbHome.Options.ClearPositionLag:= bClearPositionLag;
+IF fbHome.Done THEN
 	fbReset.Execute:= TRUE;
-	fbPower.Enable:= TRUE;
-	fbPower.Enable_Negative:= TRUE;
-	fbPower.Enable_Positive:= TRUE;
-	fbPower.Override:= 100.0;
-	fbPower.BufferMode:= MC_BufferMode.MC_Aborting;
-	M_ReadParameterSet();
-	M_ReadComponents();
-	M_Power:= stAxis.Status.ControlLoopClosed;
-ELSE
-	fbPower.Enable:= FALSE;
-	M_Power:= NOT stAxis.Status.ControlLoopClosed;
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_ReadLREAL" Id="{ac8c2ef9-38a7-4edc-89bc-5133d990aec8}" FolderPath="Parameter\">
-      <Declaration><![CDATA[METHOD PUBLIC M_ReadLREAL : BOOL
-VAR_INPUT
-	 eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
-	 fValue:				REFERENCE TO LREAL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbReadParameter.Enable:= TRUE;
-fbReadParameter.ParameterNumber:= eParameterNumber;
-fbReadParameter.ReadMode:= E_ReadMode.READMODE_ONCE;
-IF fbReadParameter.Valid THEN
-	IF __ISVALIDREF(fValue) THEN
-		fValue:= fbReadParameter.Value;
-		M_ReadLREAL:= TRUE;	
-	END_IF
-END_IF]]></ST>
+	M_Home:= TRUE;
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Jog" Id="{b284bdba-d8bb-4f13-9f4d-1d097b28a602}" FolderPath="Motion\">
@@ -364,30 +165,6 @@ ELSIF bNegative AND NOT bPositive THEN
 	fbJog.JogBackwards:= TRUE;
 END_IF
 M_Jog:= fbJog.Active;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Reset" Id="{c865a8cf-0d8c-0102-24d7-1e9a04b62b14}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Reset : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbReset.Execute:= TRUE;		
-M_Reset:= fbReset.Done;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_SetPosition" Id="{cc2005f3-d40c-43e4-b23d-ad375afbfcac}">
-      <Declaration><![CDATA[METHOD PUBLIC M_SetPosition : BOOL
-VAR_INPUT
-	fPosition:					LREAL;
-	bClearPositionLag: 			BOOL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbSetPosition.Execute:= TRUE;
-fbSetPosition.Position:= fPosition;
-fbSetPosition.Options.ClearPositionLag:= bClearPositionLag;
-M_SetPosition:= fbSetPosition.Done;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_MoveAbsolute" Id="{d620f725-4545-008a-12b3-203d5ce66fa9}" FolderPath="Motion\">
@@ -433,6 +210,56 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_MoveRelative" Id="{654b517f-8657-00b1-32c2-f62692e554ae}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_MoveRelative : BOOL
+VAR_INPUT
+	fDistance:				LREAL;
+	fVelocity:				LREAL;
+	fAcceleration:			LREAL;
+	fDeceleration:			LREAL;
+	fJerk:					LREAL;	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbPower.Status THEN
+	fbMoveRelative.Execute:= 			TRUE;
+	fbMoveRelative.Distance:= 			fDistance;
+	fbMoveRelative.Velocity:= 			fVelocity;
+	fbMoveRelative.Acceleration:= 		fAcceleration;
+	fbMoveRelative.Deceleration:= 		fDeceleration;
+	fbMoveRelative.Jerk:= 				fJerk;
+	M_MoveRelative:= 					fbMoveRelative.Done;
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_MoveVelocity" Id="{0af94af4-81a3-0869-12db-9ff6b7bbcb7c}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_MoveVelocity : BOOL
+VAR_INPUT
+	fVelocity:				LREAL;
+	fAcceleration:			LREAL;
+	fDeceleration:			LREAL;
+	fJerk:					LREAL;	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbPower.Status THEN
+	fbMoveVelocity.Execute:= 			TRUE;
+	fbMoveVelocity.Velocity:= 			fVelocity;
+	fbMoveVelocity.Acceleration:= 		fAcceleration;
+	fbMoveVelocity.Deceleration:= 		fDeceleration;
+	fbMoveVelocity.Jerk:= 				fJerk;
+	IF fVelocity >= 0.0 THEN
+		fbMoveVelocity.Direction:= 			MC_Direction.MC_Positive_Direction;
+	ELSE
+		fbMoveVelocity.Direction:= 			MC_Direction.MC_Negative_Direction;	
+	END_IF
+	
+	M_MoveVelocity:= fbMoveVelocity.InVelocity;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_PositionCorrection" Id="{e159e1a2-34f7-4878-8ad9-f231afa9ef1c}">
       <Declaration><![CDATA[METHOD PUBLIC M_PositionCorrection : BOOL
 VAR_INPUT
@@ -446,6 +273,170 @@ ELSE
 	fbPower.Enable:= TRUE;
 	fPositionCorrection:= fPositionCorrection;
 	M_PositionCorrection:= stAxis.Status.ControlLoopClosed;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Power" Id="{9db91a1a-7adc-09fe-2682-5f77fbb11c72}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Power : BOOL
+VAR_INPUT
+	bOnOff:			BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bOnOff THEN
+	fbReset.Execute:= TRUE;
+	fbPower.Enable:= TRUE;
+	fbPower.Enable_Negative:= TRUE;
+	fbPower.Enable_Positive:= TRUE;
+	fbPower.Override:= 100.0;
+	fbPower.BufferMode:= MC_BufferMode.MC_Aborting;
+	M_ReadParameterSet();
+	M_ReadComponents();
+	M_Power:= stAxis.Status.ControlLoopClosed;
+ELSE
+	fbPower.Enable:= FALSE;
+	M_Power:= NOT stAxis.Status.ControlLoopClosed;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ReadBOOL" Id="{02a60cb8-49c4-4a64-a774-516a4a612dd1}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_ReadBOOL : BOOL
+VAR_INPUT
+	 eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	 bValue:				REFERENCE TO BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReadBoolParameter.Enable:= TRUE;
+fbReadBoolParameter.ParameterNumber:= eParameterNumber;
+fbReadBoolParameter.ReadMode:= E_ReadMode.READMODE_ONCE;
+IF fbReadBoolParameter.Valid THEN
+	IF __ISVALIDREF(bValue) THEN
+		bValue:= fbReadBoolParameter.Value;
+		M_ReadBOOL:= TRUE;		
+	END_IF
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ReadComponents" Id="{1fa6fe63-2c8b-4f6e-8c40-5778e559293e}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_ReadComponents : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReadAxisComponents.Execute:= TRUE;
+M_ReadComponents:= fbReadAxisComponents.Done;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ReadLREAL" Id="{ac8c2ef9-38a7-4edc-89bc-5133d990aec8}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_ReadLREAL : BOOL
+VAR_INPUT
+	 eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	 fValue:				REFERENCE TO LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReadParameter.Enable:= TRUE;
+fbReadParameter.ParameterNumber:= eParameterNumber;
+fbReadParameter.ReadMode:= E_ReadMode.READMODE_ONCE;
+IF fbReadParameter.Valid THEN
+	IF __ISVALIDREF(fValue) THEN
+		fValue:= fbReadParameter.Value;
+		M_ReadLREAL:= TRUE;	
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ReadParameterSet" Id="{1bb636e7-d53c-4c4b-91b9-c85f306fed69}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_ReadParameterSet : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReadParameterSet.Execute:= TRUE;
+M_ReadParameterSet:= fbReadParameterSet.Done;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{c865a8cf-0d8c-0102-24d7-1e9a04b62b14}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReset.Execute:= TRUE;		
+M_Reset:= fbReset.Done;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_SetPosition" Id="{cc2005f3-d40c-43e4-b23d-ad375afbfcac}">
+      <Declaration><![CDATA[METHOD PUBLIC M_SetPosition : BOOL
+VAR_INPUT
+	fPosition:					LREAL;
+	bClearPositionLag: 			BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbSetPosition.Execute:= TRUE;
+fbSetPosition.Position:= fPosition;
+fbSetPosition.Options.ClearPositionLag:= bClearPositionLag;
+M_SetPosition:= fbSetPosition.Done;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stop" Id="{55bb621f-dd36-4b44-9fa9-14be755211b0}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_Stop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbStop.Execute:= TRUE;
+M_Stop:=  stAxis.Status.NotMoving;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_WriteBOOL" Id="{3697379d-8d19-4764-bd73-6f9a4dcf9537}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_WriteBOOL : BOOL
+VAR_INPUT
+	eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	bPersistent:			BOOL;
+	bValue:					BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bPersistent THEN
+	fbWriteBoolParameterPersistent.Execute:= TRUE;
+	fbWriteBoolParameterPersistent.ParameterNumber:= eParameterNumber;
+	fbWriteBoolParameterPersistent.Value:= bValue;
+	IF fbWriteBoolParameterPersistent.Done THEN
+		M_WriteBOOL:= TRUE;
+	END_IF
+ELSE
+	fbWriteBoolParameter.Execute:= TRUE;
+	fbWriteBoolParameter.ParameterNumber:= eParameterNumber;
+	fbWriteBoolParameter.Value:= bValue;
+	IF fbWriteBoolParameter.Done THEN
+		M_WriteBOOL:= TRUE;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_WriteLREAL" Id="{792f0875-e60b-4e8d-a418-ada5e45e3f6f}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_WriteLREAL : BOOL
+VAR_INPUT
+	eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	bPersistent:			BOOL;
+	fValue:					LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bPersistent THEN
+	fbWriteParameterPersistent.Execute:= TRUE;
+	fbWriteParameterPersistent.ParameterNumber:= eParameterNumber;
+	fbWriteParameterPersistent.Value:= fValue;
+	IF fbWriteParameterPersistent.Done THEN
+		M_WriteLREAL:= TRUE;
+	END_IF
+ELSE
+	fbWriteParameter.Execute:= TRUE;
+	fbWriteParameter.ParameterNumber:= eParameterNumber;
+	fbWriteParameter.Value:= fValue;
+	IF fbWriteparameter.Done THEN
+		M_WriteLREAL:= TRUE;
+	END_IF
 END_IF]]></ST>
       </Implementation>
     </Method>

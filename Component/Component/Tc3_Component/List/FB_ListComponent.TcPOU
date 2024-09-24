@@ -12,7 +12,7 @@ VAR
 	{IF (defined (release))}
     	{attribute 'hide'}
 	{END_IF}
-	aList:			POINTER TO POINTER TO ARRAY [0..Parameters.nList] OF I_Component:=ADR(pList);
+	aList:			POINTER TO POINTER TO ARRAY [0..24] OF I_Component:=ADR(pList);
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
@@ -110,7 +110,9 @@ END_WHILE
 VAR_INPUT
 	Index: 	DINT;
 END_VAR
-]]></Declaration>
+VAR
+	pTest: 			I_Component:= pList[Index];
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Index
 IF Index <= nLength THEN

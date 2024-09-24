@@ -12,8 +12,11 @@ VAR
 	iParent:			I_Component;				// Parent component
     {attribute 'hide'}
 	fbList:				FB_ListString;				// contains a list with string values
-	stEvent:			ST_Event;					// Event
-	stLastEvent:		ST_Event;					// Last Event
+	stDebug:			ST_Event;					// last debug event
+	stInfo:				ST_Event;					// last info event
+	stWarning:			ST_Event;					// last warning event
+	stStop:				ST_Event;					// last stop event
+	stAbort:			ST_Event;					// last abort event
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
@@ -38,29 +41,27 @@ VAR_INPUT
 	nID:					ULINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= sMessage;
-stEvent.iSource:= iParent;
-stEvent.sInstance:= iParent.P_Info.P_Instance;
-stEvent.sClass:= iParent.P_Info.P_Class;
-stEvent.eEventType:= E_Event.Error;
-stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.nID:= nID;
-stEvent.sDefault:= M_Build(sMessage);
-stEvent.sArguments:= M_Arguments();
-stEvent.stFlags.bActive:= TRUE;
-stEvent.stFlags.bRemove:= FALSE;
+        <ST><![CDATA[stAbort.sMessage:= sMessage;
+stAbort.iSource:= iParent;
+stAbort.sInstance:= iParent.P_Info.P_Instance;
+stAbort.sClass:= iParent.P_Info.P_Class;
+stAbort.eEventType:= E_Event.Error;
+stAbort.nTimestamp:= F_GetSystemTime();
+stAbort.nID:= nID;
+stAbort.sDefault:= M_Build(sMessage);
+stAbort.sArguments:= M_Arguments();
+stAbort.stFlags.bActive:= TRUE;
+stAbort.stFlags.bRemove:= FALSE;
 
 IF iLogger = 0 THEN
-	fbLogger.M_Log(stEvent);
+	M_Log(stAbort);
 ELSE
-	iLogger.M_Log(stEvent);
+	iLogger.M_Log(stAbort);
 END_IF
 
 iParent.M_RequestState(E_RequestState.Abort);
 
-fbObserver.M_Notify(iParent, E_RequestState.Abort);
-
-stLastEvent:= stEvent;]]></ST>
+fbObserver.M_Notify(iParent, E_RequestState.Abort);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_AddBOOL" Id="{55367f5b-ac71-0a63-095c-881721842948}">
@@ -163,82 +164,23 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= sMessage;
-stEvent.iSource:= iParent;
-stEvent.sInstance:= iParent.P_Info.P_Instance;
-stEvent.sClass:= iParent.P_Info.P_Class;
-stEvent.eEventType:= E_Event.Debug;
-stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.nID:= 0;
-stEvent.sDefault:= M_Build(sMessage);
-stEvent.sArguments:= M_Arguments();
-stEvent.stFlags.bActive:= TRUE;
-stEvent.stFlags.bRemove:= TRUE;
+        <ST><![CDATA[stDebug.sMessage:= sMessage;
+stDebug.iSource:= iParent;
+stDebug.sInstance:= iParent.P_Info.P_Instance;
+stDebug.sClass:= iParent.P_Info.P_Class;
+stDebug.eEventType:= E_Event.Debug;
+stDebug.nTimestamp:= F_GetSystemTime();
+stDebug.nID:= 0;
+stDebug.sDefault:= M_Build(sMessage);
+stDebug.sArguments:= M_Arguments();
+stDebug.stFlags.bActive:= TRUE;
+stDebug.stFlags.bRemove:= TRUE;
 
 IF iLogger = 0 THEN
-	fbLogger.M_Log(stEvent);
+	M_Log(stDebug);
 ELSE
-	iLogger.M_Log(stEvent);
+	iLogger.M_Log(stDebug);
 END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Error" Id="{648ad3fe-ab2e-0b8d-0134-eed394027742}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Error
-VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= sMessage;
-stEvent.iSource:= iParent;
-stEvent.sInstance:= iParent.P_Info.P_Instance;
-stEvent.sClass:= iParent.P_Info.P_Class;
-stEvent.eEventType:= E_Event.Error;
-stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.nID:= nID;
-stEvent.sDefault:= M_Build(sMessage);
-stEvent.sArguments:= M_Arguments();
-stEvent.stFlags.bActive:= TRUE;
-stEvent.stFlags.bRemove:= TRUE;
-
-IF iLogger = 0 THEN
-	fbLogger.M_Log(stEvent);
-ELSE
-	iLogger.M_Log(stEvent);
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Hold" Id="{20d0062d-a518-02ec-13ef-e4c8c4295653}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Hold
-VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= sMessage;
-stEvent.iSource:= iParent;
-stEvent.sInstance:= iParent.P_Info.P_Instance;
-stEvent.sClass:= iParent.P_Info.P_Class;
-stEvent.eEventType:= E_Event.Error;
-stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.nID:= nID;
-stEvent.sDefault:= M_Build(sMessage);
-stEvent.sArguments:= M_Arguments();
-stEvent.stFlags.bActive:= TRUE;
-stEvent.stFlags.bRemove:= FALSE;
-
-IF iLogger = 0 THEN
-	fbLogger.M_Log(stEvent);
-ELSE
-	iLogger.M_Log(stEvent);
-END_IF
-
-iParent.M_RequestState(E_RequestState.Hold);
-
-fbObserver.M_Notify(iParent, E_RequestState.Hold);
-
-stLastEvent:= stEvent;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Info" Id="{d9a244f2-1d6f-434f-aab4-cad6aacbb94f}">
@@ -249,23 +191,63 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= sMessage;
-stEvent.iSource:= iParent;
-stEvent.sInstance:= iParent.P_Info.P_Instance;
-stEvent.sClass:= iParent.P_Info.P_Class;
-stEvent.eEventType:= E_Event.Information;
-stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.nID:= nID;
-stEvent.sDefault:= M_Build(sMessage);
-stEvent.sArguments:= M_Arguments();
-stEvent.stFlags.bActive:= TRUE;
-stEvent.stFlags.bRemove:= TRUE;
+        <ST><![CDATA[stInfo.sMessage:= sMessage;
+stInfo.iSource:= iParent;
+stInfo.sInstance:= iParent.P_Info.P_Instance;
+stInfo.sClass:= iParent.P_Info.P_Class;
+stInfo.eEventType:= E_Event.Information;
+stInfo.nTimestamp:= F_GetSystemTime();
+stInfo.nID:= nID;
+stInfo.sDefault:= M_Build(sMessage);
+stInfo.sArguments:= M_Arguments();
+stInfo.stFlags.bActive:= TRUE;
+stInfo.stFlags.bRemove:= TRUE;
 
 IF iLogger = 0 THEN
-	fbLogger.M_Log(stEvent);
+	M_Log(stInfo);
 ELSE
-	iLogger.M_Log(stEvent);
+	iLogger.M_Log(stInfo);
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Log" Id="{4faf2127-0b92-014c-3fdc-3aa74f15a00e}">
+      <Declaration><![CDATA[METHOD PRIVATE M_Log : BOOL
+VAR_INPUT
+	stEvent	: ST_Event;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stop" Id="{20d0062d-a518-02ec-13ef-e4c8c4295653}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Stop
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stStop.sMessage:= sMessage;
+stStop.iSource:= iParent;
+stStop.sInstance:= iParent.P_Info.P_Instance;
+stStop.sClass:= iParent.P_Info.P_Class;
+stStop.eEventType:= E_Event.Error;
+stStop.nTimestamp:= F_GetSystemTime();
+stStop.nID:= nID;
+stStop.sDefault:= M_Build(sMessage);
+stStop.sArguments:= M_Arguments();
+stStop.stFlags.bActive:= TRUE;
+stStop.stFlags.bRemove:= FALSE;
+
+IF iLogger = 0 THEN
+	M_Log(stStop);
+ELSE
+	iLogger.M_Log(stStop);
+END_IF
+
+iParent.M_RequestState(E_RequestState.Stop);
+
+fbObserver.M_Notify(iParent, E_RequestState.Stop);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Warning" Id="{d443b8bb-774e-487e-80a2-79cf66a0376c}">
@@ -276,22 +258,22 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stEvent.sMessage:= sMessage;
-stEvent.iSource:= iParent;
-stEvent.sInstance:= iParent.P_Info.P_Instance;
-stEvent.sClass:= iParent.P_Info.P_Class;
-stEvent.eEventType:= E_Event.Warning;
-stEvent.nTimestamp:= F_GetSystemTime();
-stEvent.nID:= nID;
-stEvent.sDefault:= M_Build(sMessage);
-stEvent.sArguments:= M_Arguments();
-stEvent.stFlags.bActive:= TRUE;
-stEvent.stFlags.bRemove:= TRUE;
+        <ST><![CDATA[stWarning.sMessage:= sMessage;
+stWarning.iSource:= iParent;
+stWarning.sInstance:= iParent.P_Info.P_Instance;
+stWarning.sClass:= iParent.P_Info.P_Class;
+stWarning.eEventType:= E_Event.Warning;
+stWarning.nTimestamp:= F_GetSystemTime();
+stWarning.nID:= nID;
+stWarning.sDefault:= M_Build(sMessage);
+stWarning.sArguments:= M_Arguments();
+stWarning.stFlags.bActive:= TRUE;
+stWarning.stFlags.bRemove:= TRUE;
 
 IF iLogger = 0 THEN
-	fbLogger.M_Log(stEvent);
+	M_Log(stWarning);
 ELSE
-	iLogger.M_Log(stEvent);
+	iLogger.M_Log(stWarning);
 END_IF]]></ST>
       </Implementation>
     </Method>

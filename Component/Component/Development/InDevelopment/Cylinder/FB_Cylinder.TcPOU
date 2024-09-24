@@ -19,15 +19,7 @@ VAR
 	fbTimeout:				TON;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
-    </Implementation>
-    <Method Name="M_Cycle" Id="{1e9e9c3d-3912-0fa8-3236-68f78e1ae73a}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.M_Cycle();
+      <ST><![CDATA[SUPER^();
 
 // Timeout
 fbTimeout();
@@ -36,8 +28,7 @@ fbTimeout.IN:= FALSE;
 // Debounc inputs
 fbDebounceA(bInput:= bInputA);
 fbDebounceB(bInput:= bInputB);]]></ST>
-      </Implementation>
-    </Method>
+    </Implementation>
     <Method Name="M_Disable" Id="{084d4cc3-90c8-03fb-3f3b-46af82c7c547}">
       <Declaration><![CDATA[METHOD PUBLIC M_Disable : BOOL
 VAR_INPUT
@@ -72,7 +63,7 @@ ELSE
 		P_Event.M_AddSTRING(P_Info.P_ID);
 		P_Event.M_AddSTRING(stSettings.sIdA);
 		P_Event.M_AddSTRING(stSettings.sIdB);
-		P_Event.M_Hold('Cylinder %s Logic error Inputs %s, %s are true', 0);
+		P_Event.M_Stop('Cylinder %s Logic error Inputs %s, %s are true', 0);
 	END_IF	
 
 	IF bOutputA THEN
@@ -81,7 +72,7 @@ ELSE
 			IF fbTimeout.Q THEN
 				P_Event.M_AddSTRING(P_Info.P_ID);
 				P_Event.M_AddSTRING(stSettings.sIdA);
-				P_Event.M_Hold('Cylinder %s homeposition not reached %s', 0);				
+				P_Event.M_Stop('Cylinder %s homeposition not reached %s', 0);				
 			END_IF
 		END_IF
 	
@@ -91,7 +82,7 @@ ELSE
 			IF fbTimeout.Q THEN
 				P_Event.M_AddSTRING(P_Info.P_ID);
 				P_Event.M_AddSTRING(stSettings.sIdB);
-				P_Event.M_Hold('Cylinder %s workposition not reached %s', 0);				
+				P_Event.M_Stop('Cylinder %s workposition not reached %s', 0);				
 			END_IF
 		END_IF		
 	END_IF

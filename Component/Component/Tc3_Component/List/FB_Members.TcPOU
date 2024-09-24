@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Members" Id="{cd8da5ab-5393-0aad-280e-8aa1aa48dea2}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Members EXTENDS FB_ListComponent
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Abort" Id="{ca242ed0-a742-02fd-2f25-ec86a9ce81af}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Abort : BOOL (* Return state complete*)
+
+VAR
+	nIndex: DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Abort:= TRUE;
+WHILE nIndex < nLength DO
+	IF M_Index(nIndex).M_RequestState(E_RequestState.Abort) THEN
+		;
+	ELSE
+		M_Abort:= FALSE;
+	END_IF
+
+	nIndex:= nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Attach" Id="{f766bba5-1031-00ce-2c1e-fef5e99d9284}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Attach : BOOL
+VAR_INPUT
+	iParent:	I_Component;
+	iObject: 	I_Component;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Add(iObject);
+iObject.P_Event.P_Logger:= iParent.P_Event.P_Logger;
+iObject.P_Event.P_Observer.M_Attach(iParent);
+M_Attach:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Detach" Id="{a6e34f01-76bf-0e93-0f6e-f335e6f09f85}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Detach : BOOL
+VAR_INPUT
+	iParent:	I_Component;
+	iObject: 	I_Component;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Remove(iObject);
+iObject.P_Event.P_Logger:= 0;
+iObject.P_Event.P_Observer.M_Detach(iParent);
+M_Detach:= True;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{f82c528d-d106-0d47-26b7-c180584df544}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset : BOOL
+
+VAR
+	nIndex: DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[WHILE nIndex < nLength DO
+	M_Index(nIndex).M_RequestState(E_RequestState.Reset);
+	nIndex:= nIndex + 1;
+END_WHILE
+M_Reset:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Start" Id="{ae13c90b-3cbf-07f6-16fc-7e76ef730bbf}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Start : BOOL (* Return state complete*)
+
+VAR
+	nIndex: DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Start:= TRUE;
+WHILE nIndex < nLength DO
+	IF M_Index(nIndex).M_RequestState(E_RequestState.Start) THEN
+		;
+	ELSE
+		M_Start:= FALSE;
+	END_IF
+	
+	nIndex:= nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stop" Id="{e019d36a-59f9-03ae-0272-fef9a290f8db}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Stop : BOOL (* Return state complete*)
+
+VAR
+	nIndex: DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Stop:= TRUE;
+WHILE nIndex < nLength DO
+	IF M_Index(nIndex).M_RequestState(E_RequestState.Stop) THEN
+		;
+	ELSE
+		M_Stop:= FALSE;
+	END_IF
+
+	nIndex:= nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

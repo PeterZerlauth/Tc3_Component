@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <Itf Name="I_Level" Id="{2fbecd23-39f8-0ccf-3cc5-99cfd7eae8ff}">
-    <Declaration><![CDATA[INTERFACE I_Level EXTENDS I_Component
+  <Itf Name="I_Members" Id="{2fbecd23-39f8-0ccf-3cc5-99cfd7eae8ff}">
+    <Declaration><![CDATA[INTERFACE I_Members EXTENDS I_ListComponent
 ]]></Declaration>
     <Method Name="M_Attach" Id="{61682764-95a3-005b-0687-ea823b4a0cdc}">
       <Declaration><![CDATA[METHOD PUBLIC M_Attach : BOOL

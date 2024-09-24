@@ -3,11 +3,11 @@
   <POU Name="FB_AbstractLogger" Id="{e1ce12d2-0f5a-084d-22cb-52e1ac20f2a6}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT FB_AbstractLogger IMPLEMENTS I_Logger
 VAR
+	iNext:						I_Logger;
 	eLogLevel:					E_Event:= E_Event.Verbose;		// Log level for the logger
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://peterzerlauth.com/
-// Abstract Logger as base for all loggers]]></ST>
+      <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
     </Implementation>
     <Method Name="M_Log" Id="{fc617794-ce89-0ddb-20b8-91fea411c68d}">
       <Declaration><![CDATA[METHOD PUBLIC M_Log
@@ -44,6 +44,25 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[eLogLevel:= P_LogLevel;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_Next" Id="{decc2ee7-5b56-0da4-224e-521cbf0cc2ab}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Next : I_Logger]]></Declaration>
+      <Get Name="Get" Id="{8eb27cb5-6bf2-077a-211e-02feeab36ffe}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Next:= iNext;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{da0ea281-1172-0799-075f-2c6d657f9c27}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[iNext:= P_Next;]]></ST>
         </Implementation>
       </Set>
     </Property>

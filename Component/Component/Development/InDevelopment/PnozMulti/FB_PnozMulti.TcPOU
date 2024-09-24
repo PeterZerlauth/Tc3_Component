@@ -12,20 +12,10 @@ VAR
 	fbTimer:				TON:= (PT:= T#1S);
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
-    </Implementation>
-    <Method Name="M_Cycle" Id="{c36119e6-2850-00e2-069f-8f7c6180c420}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.M_Cycle();
-
+      <ST><![CDATA[SUPER^();
 fbTimer();
 fbTimer.IN:= FALSE;]]></ST>
-      </Implementation>
-    </Method>
+    </Implementation>
     <Method Name="M_Resetting" Id="{d89d9997-b896-0e05-066b-9cfd89d8a772}">
       <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL // Return state complete
 VAR_INPUT

@@ -9,7 +9,7 @@ END_VAR
 VAR
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[SUPER^();]]></ST>
     </Implementation>
     <Method Name="M_Aborted" Id="{eeb82b43-bcc8-0c9b-1481-bd5bf2db4bcf}">
       <Declaration><![CDATA[METHOD PROTECTED M_Aborted : BOOL (* Return*)

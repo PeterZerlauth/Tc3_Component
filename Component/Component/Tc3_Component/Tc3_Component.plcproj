@@ -56,7 +56,6 @@
     <Folder Include="Logger" />
     <Folder Include="Module" />
     <Folder Include="Function" />
-    <Folder Include="Level" />
     <Folder Include="Utils" />
     <Folder Include="Object" />
     <Folder Include="Utils\File" />
@@ -110,9 +109,6 @@
     <Compile Include="Component\I_Component.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Component\I_Cycle.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Component\Sequence\E_Sequence.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -129,10 +125,10 @@
     <Compile Include="Function\FB_Function.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Level\FB_Level.TcPOU">
+    <Compile Include="List\FB_Members.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Level\I_Level.TcIO">
+    <Compile Include="List\I_Members.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">
@@ -159,16 +155,10 @@
     <Compile Include="Logger\FB_AbstractLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logger\FB_LoggingProvider.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Logger\FB_TcLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\FB_Logger.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Logger\FB_GlobalLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\I_Logger.TcIO">
@@ -186,14 +176,6 @@
     </Compile>
     <Compile Include="Object\I_Object.TcIO">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Globals.TcGVL">
-      <SubType>Code</SubType>
-      <LinkAlways>true</LinkAlways>
-    </Compile>
-    <Compile Include="Parameters.TcGVL">
-      <SubType>Code</SubType>
-      <LinkAlways>true</LinkAlways>
     </Compile>
     <Compile Include="Utils\Analog\AnalogInput.TcPOU">
       <SubType>Code</SubType>
@@ -254,9 +236,6 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Component\StateMachine.jpg">
-      <SubType>Content</SubType>
-    </Content>
     <None Include="Tc3_Component.tmc">
       <SubType>Content</SubType>
     </None>

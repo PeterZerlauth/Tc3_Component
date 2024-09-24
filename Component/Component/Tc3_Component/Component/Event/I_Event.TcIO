@@ -53,21 +53,6 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Error" Id="{afad8492-19cf-0779-1a83-3ea67e573ec9}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Error
-VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="M_Hold" Id="{bc83aad4-ae26-008e-3b0c-5fc1c7225e6c}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Hold
-VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
-END_VAR]]></Declaration>
-    </Method>
     <Method Name="M_Info" Id="{a0df6aac-21ac-0b65-3426-2421a14ee702}">
       <Declaration><![CDATA[METHOD PUBLIC M_Info
 VAR_INPUT
@@ -75,6 +60,13 @@ VAR_INPUT
 	nID:					ULINT;
 END_VAR
 ]]></Declaration>
+    </Method>
+    <Method Name="M_Stop" Id="{bc83aad4-ae26-008e-3b0c-5fc1c7225e6c}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Stop
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
+END_VAR]]></Declaration>
     </Method>
     <Method Name="M_Warning" Id="{ae861465-4d88-0ffb-03b6-6d69b34da892}">
       <Declaration><![CDATA[METHOD PUBLIC M_Warning

@@ -8,20 +8,14 @@ TYPE E_State :
 (
 	{attribute 'hide'}
 	Undefined		:= 0,
-	Stopped			:= 1,		
-// Start
-	Starting		:= 2,
-	Execute			:= 3,
-	Stopping		:= 4,
-// Hold
-	Holding			:= 6,
-	Holded			:= 7,
-// Abort	
-	Aborting		:= 8,
-	Aborted			:= 9,
-// Reset
-	Resetting		:= 10
-
+	Resetting		:= 1,
+	Idle			:= 2,	
+	Starting		:= 3,
+	Execute			:= 4,
+	Stopping		:= 5,
+	Aborting		:= 6,
+	Stopped			:= 7,	
+	Aborted			:= 8
 );
 END_TYPE
 ]]></Declaration>

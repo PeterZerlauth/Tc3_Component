@@ -7,29 +7,18 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbComponentE0:				FB_ComponentEx;
-	fbComponentE1:				FB_ComponentEx;
-	fbComponentE2:				FB_ComponentEx;
+	fbComponent0:				FB_ComponentEx;
+	fbComponent1:				FB_ComponentEx;
+	fbComponent2:				FB_ComponentEx;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
+      <ST><![CDATA[// https://peterzerlauth.com/
+SUPER^();
+
+fbComponent0();
+fbComponent1();
+fbComponent2();]]></ST>
     </Implementation>
-    <Method Name="M_Cycle" Id="{655447dc-389e-494a-be91-78d8a111b7aa}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
-VAR_INPUT
-END_VAR
-
-VAR
-
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.M_Cycle();
-
-fbComponentE0.M_Cycle();
-fbComponentE1.M_Cycle();
-fbComponentE2.M_Cycle();]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Execute" Id="{0f7f4331-8af5-0744-015a-f65d0021dd06}">
       <Declaration><![CDATA[METHOD PROTECTED M_Execute : bool
 VAR_INPUT
@@ -70,14 +59,12 @@ END_VAR
       <Implementation>
         <ST><![CDATA[M_Initialise:= SUPER^.M_Initialise();
 
-Globals.bSimulation:= TRUE;
-
 P_Info.P_ID:= 'M001';
 
 
-fbLevelE0.M_Attach(fbComponentE0);
-fbLevelE1.M_Attach(fbComponentE1);
-fbLevelE2.M_Attach(fbComponentE2);
+fbMembers.M_Attach(THIS^, fbComponent0);
+fbMembers.M_Attach(THIS^, fbComponent1);
+fbMembers.M_Attach(THIS^, fbComponent2);
 ]]></ST>
       </Implementation>
     </Method>
@@ -95,9 +82,9 @@ ELSIF NOT IO. bEMStop THEN
 	fbEvent.M_Abort('Emergency stop not ok %s', 16);
 ELSIF NOT IO.bDoorsOk THEN
 	fbEvent.M_AddSTRING('BMK3');
-	fbEvent.M_Hold('Door Not OK', 17);	
+	fbEvent.M_Stop('Door Not OK', 17);	
 ELSIF NOT IO.bFuse THEN	
-	fbEvent.M_Hold('Fuse Triped', 18);		
+	fbEvent.M_Stop('Fuse Triped', 18);		
 END_IF]]></ST>
       </Implementation>
     </Method>

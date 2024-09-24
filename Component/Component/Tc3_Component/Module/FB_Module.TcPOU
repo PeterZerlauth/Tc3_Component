@@ -7,31 +7,25 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbLevelE0:					FB_Level;
-	fbLevelE1:					FB_Level;
-	fbLevelE2:					FB_Level;
+	fbMembers:					FB_Members;
 	
-	fbLogging:					FB_LoggingProvider;
 	fbLogger:					FB_Logger;
 	fbTcLogger:					FB_TcLogger;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
-    </Implementation>
-    <Method Name="M_Cycle" Id="{ba6e3712-faea-4bef-b491-24a585067e68}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Cycle
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.M_Cycle();
+      <ST><![CDATA[// https://peterzerlauth.com/
+SUPER^();
 
-fbLevelE0.M_Cycle();
-fbLevelE1.M_Cycle();
-fbLevelE2.M_Cycle();
+fbMembers();
 
 fbLogger();
 fbTcLogger();]]></ST>
+    </Implementation>
+    <Method Name="M_Aborting" Id="{f6e4ce1d-311c-0905-2650-709c43fe3659}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL (* Return*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Aborting:= fbMembers.M_Abort();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Initialise" Id="{d2ecc479-1ed6-0218-1db6-cf2c288ac295}">
@@ -39,16 +33,8 @@ fbTcLogger();]]></ST>
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbEvent.P_Logger:= fbLogging;
-fbLogging.M_Attach(fbLogger);
-fbLogging.M_Attach(fbTcLogger);
-
-fbLevelE0.P_Event.P_Observer.M_Attach(fbLevelE1);
-fbLevelE0.P_Event.P_Logger:= fbLogging;
-fbLevelE1.P_Event.P_Observer.M_Attach(fbLevelE2);
-fbLevelE1.P_Event.P_Logger:= fbLogging;
-fbLevelE2.P_Event.P_Observer.M_Attach(THIS^);
-fbLevelE2.P_Event.P_Logger:= fbLogging;
+        <ST><![CDATA[fbEvent.P_Logger:= fbLogger;
+fbLogger.P_Next:= fbTcLogger;
 
 M_Initialise:= SUPER^.M_Initialise();]]></ST>
       </Implementation>
@@ -68,9 +54,7 @@ END_VAR]]></Declaration>
 			fbEvent.M_Abort('Mode changed form %s to %s', 4);
 		END_IF
 	E_RequestMode.Manual:
-		fbEvent.M_AddSTRING(TO_STRING(eModePrevious));
-		fbEvent.M_AddSTRING(TO_STRING(eMode));
-		fbEvent.M_Debug('Mode changed form %s to %s');
+		fbEvent.M_Info('Manual mode active', 5);
 END_CASE]]></ST>
       </Implementation>
     </Method>
@@ -81,10 +65,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Resetting:= TRUE;
-fbLogging.M_Reset();
-fbLevelE0.M_RequestState(E_RequestState.Reset);
-fbLevelE1.M_RequestState(E_RequestState.Reset);
-fbLevelE2.M_RequestState(E_RequestState.Reset);
+fbLogger.M_Reset();
+fbMembers.M_Reset();
 ]]></ST>
       </Implementation>
     </Method>
@@ -104,8 +86,15 @@ VAR
 	nIndex: DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Starting:= fbLevelE0.M_RequestState(E_RequestState.Start) AND_THEN fbLevelE1.M_RequestState(E_RequestState.Start) AND_THEN fbLevelE2.M_RequestState(E_RequestState.Start); 
+        <ST><![CDATA[M_Starting:= fbMembers.M_Start();
 ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stopping" Id="{de8af25c-ea32-0c0a-12de-b9978a6be2b2}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL (* Return state complete*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Stopping:= fbMembers.M_Stop();]]></ST>
       </Implementation>
     </Method>
   </POU>

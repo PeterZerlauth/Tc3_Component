@@ -12,7 +12,7 @@ VAR
 	{IF (defined (release))}
     	{attribute 'hide'}
 	{END_IF}
-	aList:			POINTER TO POINTER TO ARRAY [0..Parameters.nList] OF I_Object:=ADR(pList);
+	aList:			POINTER TO POINTER TO ARRAY [0..24] OF I_Object:=ADR(pList);
 END_VAR
 ]]></Declaration>
     <Implementation>

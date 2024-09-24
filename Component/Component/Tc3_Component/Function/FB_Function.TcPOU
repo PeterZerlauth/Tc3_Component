@@ -13,19 +13,6 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="M_Cycle" Id="{68dbefba-b941-09a5-1aeb-fb9afe46ed87}">
-      <Declaration><![CDATA[METHOD M_Cycle
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.M_Cycle();
-
-IF bExecution THEN
-	bExecution:= FALSE;
-ELSE
-	;
-END_IF]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Execution" Id="{12c5971b-d812-0b27-32d4-d59131d66127}">
       <Declaration><![CDATA[METHOD PUBLIC M_Execution : BOOL
 VAR_INPUT

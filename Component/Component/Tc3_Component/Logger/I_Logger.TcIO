@@ -17,5 +17,23 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Property Name="P_LogLevel" Id="{78fe5da6-f855-0133-2b38-3aca598b50c6}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_LogLevel : E_Event]]></Declaration>
+      <Get Name="Get" Id="{189db0ed-737b-07d3-0372-214d6b096ed9}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{fc05460a-400a-07a7-3b36-d33e8f88abb9}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="P_Next" Id="{749d939a-c013-00ab-0a78-436ef438db40}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Next : I_Logger]]></Declaration>
+      <Get Name="Get" Id="{4be90bf4-2ad4-06ed-3b1a-9214d0aa43b5}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{aafa81e0-4018-071d-3d06-75da1d9ec88f}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
   </Itf>
 </TcPlcObject>
