@@ -171,9 +171,6 @@
     <Compile Include="Module\I_Module.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Object\FB_Object.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Object\I_Object.TcIO">
       <SubType>Code</SubType>
     </Compile>
@@ -234,11 +231,20 @@
       <DefaultResolution>Tc3_JsonXml, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_JsonXml</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_UnitTest">
+      <DefaultResolution>Tc3_UnitTest, * (Zerlauth)</DefaultResolution>
+      <Namespace>Tc3_UnitTest</Namespace>
+    </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Tc3_Component.tmc">
       <SubType>Content</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <LibraryReference Include="Tc3_Module,3.4.5.0,Beckhoff Automation GmbH">
+      <Namespace>Tc3_Module</Namespace>
+    </LibraryReference>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

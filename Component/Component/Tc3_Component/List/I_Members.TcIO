@@ -1,21 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <Itf Name="I_Members" Id="{2fbecd23-39f8-0ccf-3cc5-99cfd7eae8ff}">
-    <Declaration><![CDATA[INTERFACE I_Members EXTENDS I_ListComponent
-]]></Declaration>
+    <Declaration><![CDATA[INTERFACE I_Members]]></Declaration>
     <Method Name="M_Abort" Id="{1f933af1-4f11-0ecb-08ec-82192c1a612b}">
       <Declaration><![CDATA[METHOD PUBLIC M_Abort : BOOL (* Return state complete*)]]></Declaration>
     </Method>
-    <Method Name="M_Attach" Id="{61682764-95a3-005b-0687-ea823b4a0cdc}">
+    <Method Name="M_Attach" Id="{543e6ceb-65ee-0efc-1fe4-95b58138999e}">
       <Declaration><![CDATA[METHOD PUBLIC M_Attach : BOOL
 VAR_INPUT
+	iParent:	I_Component;
 	iObject: 	I_Component;
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Detach" Id="{fdfd1d32-8dea-096e-262a-fc1130b45f3b}">
+    <Method Name="M_Detach" Id="{a56c8d05-9f85-03e8-06b4-d5828d4232ae}">
       <Declaration><![CDATA[METHOD PUBLIC M_Detach : BOOL
 VAR_INPUT
+	iParent:	I_Component;
 	iObject: 	I_Component;
 END_VAR]]></Declaration>
     </Method>

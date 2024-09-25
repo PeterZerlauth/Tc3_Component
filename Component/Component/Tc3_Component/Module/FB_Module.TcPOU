@@ -105,16 +105,5 @@ IF NOT bHomed THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_HomePostion" Id="{2a1948a9-e2d0-0cfb-34f7-b60cb958ab2a}">
-      <Declaration><![CDATA[PROPERTY P_HomePostion : BOOL]]></Declaration>
-      <Get Name="Get" Id="{ea13e952-2eb3-08f7-0237-b8aa4529a2e5}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_HomePostion:= bHomePosition;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
   </POU>
 </TcPlcObject>

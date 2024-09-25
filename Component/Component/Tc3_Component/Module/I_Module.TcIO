@@ -3,11 +3,5 @@
   <Itf Name="I_Module" Id="{17c5a5c0-e93a-0aed-1dd7-b12ea548c450}">
     <Declaration><![CDATA[INTERFACE I_Module EXTENDS I_Component
 ]]></Declaration>
-    <Property Name="P_HomePostion" Id="{376536bd-34a5-0014-2347-7a15e67a134a}">
-      <Declaration><![CDATA[PROPERTY P_HomePostion : BOOL]]></Declaration>
-      <Get Name="Get" Id="{f3e13d4d-eda9-04fa-0529-09494482f5ac}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
   </Itf>
 </TcPlcObject>

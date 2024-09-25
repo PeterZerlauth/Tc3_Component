@@ -9,7 +9,6 @@ VAR_OUTPUT
 END_VAR
 VAR
 	fbList:					Tc3_Component.FB_ListString;
-	fbObject:				Tc3_Component.FB_Object;
 END_VAR
 ]]></Declaration>
     <Implementation>

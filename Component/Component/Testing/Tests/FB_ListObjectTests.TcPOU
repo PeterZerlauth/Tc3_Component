@@ -9,7 +9,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	fbList:					Tc3_Component.FB_ListObject;
-	fbObject:				Tc3_Component.FB_Object;
+	fbObject:				Tc3_Component.FB_Component;
 	iObject:				Tc3_Component.I_Object:= fbObject;
 END_VAR
 ]]></Declaration>

@@ -63,7 +63,6 @@ END_VAR
 
 P_Info.P_ID:= 'M001';
 
-
 fbMembers.M_Attach(THIS^, fbComponent0);
 fbMembers.M_Attach(THIS^, fbComponent1);
 fbMembers.M_Attach(THIS^, fbComponent2);
@@ -79,7 +78,7 @@ END_VAR
         <ST><![CDATA[IF NOT IO.bOn THEN
 	fbEvent.M_AddSTRING('BMK1');
 	fbEvent.M_Abort('Power not on  %s', 15);
-ELSIF NOT IO.bDoorsOk THEN
+ELSIF NOT IO.bEMStop THEN
 	fbEvent.M_AddSTRING('BMK2');
 	fbEvent.M_Abort('Emergency stop not ok %s', 16);
 ELSIF NOT IO.bDoorsOk THEN
