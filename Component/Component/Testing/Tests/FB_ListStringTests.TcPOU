@@ -10,7 +10,6 @@ END_VAR
 VAR
 	fbList:					Tc3_Component.FB_ListString;
 	fbObject:				Tc3_Component.FB_Object;
-	iObject:				Tc3_Component.I_Object:= fbObject;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -67,7 +66,7 @@ CASE fbTestsuite.P_Testcase OF
 		fbTestsuite.M_Testcase('FB_ListString', T#2S, 'fbList.P_Length', '', E_Testcase.Done);
 		
 	E_Testcase.Done:
-	
+		;
 END_CASE]]></ST>
     </Implementation>
   </POU>

@@ -5,21 +5,11 @@
 VAR
 	iParent:			I_Component;
 	stActual:			ST_Sequence;
-	stSave:				ST_Sequence;
 	fbTimeout:			TON;
 	fbDelay: 			TON;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// https://peterzerlauth.com/
-fbTimeout();
-fbTimeout.IN:= FALSE;
-
-fbDelay();
-fbDelay.IN:= FALSE;
-
-IF iParent.P_State = E_State.Execute THEN
-	stActual:= stSave;
-END_IF]]></ST>
+      <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{9410888f-1e8d-054b-01cb-f8f70c408f51}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
@@ -39,30 +29,35 @@ VAR_INPUT
 	sMessage:				STRING(255);		
 	tTimeout:				TIME;
 	tDelay:					TIME;	
-	bHold:					BOOL;
+	bStop:					BOOL;
 	bReturn:				BOOL;
 	nNumber:				INT;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[stActual.sMessage:= sMessage;
-IF bReturn THEN
-	IF iParent.P_Mode = E_RequestMode.Manual THEN
-		IF bHold THEN
-			iParent.P_Event.M_AddSTRING(sMessage);
-			iParent.P_Event.M_AddINT(stActual.nNumber);
-			iParent.P_Event.M_Stop('fbSequence : %s %s', 0);
+        <ST><![CDATA[CASE iParent.P_Mode OF
+	E_RequestMode.Manual:
+		stActual.sMessage:= 'Manual mode';
+		stActual.nNumber:= E_Sequence.Manual;
+		
+	E_RequestMode.Automatic, E_RequestMode.Semiauto:
+		stActual.sMessage:= sMessage;
+		IF bReturn THEN
+			fbTimeout(IN:= FALSE);
+			fbDelay(IN:= TRUE, PT:= tDelay);
+			if fbDelay.Q then
+				stActual.nNumber:= nNumber;
+				fbDelay(IN:= FALSE);
+			END_IF
+		ELSE
+			fbDelay(IN:= FALSE);
+			fbTimeout(IN:= tTimeout <> T#0S, PT:= tTimeout);
+			IF fbTimeout.Q THEN
+				iParent.P_Event.M_AddTIME(tTimeout);
+				iParent.P_Event.M_Stop('fbSequence timeout: %s', 0);
+			END_IF
 		END_IF
-	END_IF
-	stActual.nNumber:= nNumber;
-ELSE
-	fbTimeout.IN:= tTimeout <> T#0S;
-	fbTimeout.PT:= tTimeout;
-	IF fbTimeout.Q THEN
-		iParent.P_Event.M_AddTIME(tTimeout);
-		iParent.P_Event.M_Stop('fbSequence timeout: %s', 0);		
-	END_IF
-END_IF]]></ST>
+END_CASE]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Reset" Id="{4501245b-63d2-4732-9d5e-f656a322de01}">

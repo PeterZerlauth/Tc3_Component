@@ -55,6 +55,7 @@ CASE eState OF
 		END_CASE		
 		
 	E_State.Idle:
+		M_Running();
 		IF M_Idle() THEN	// return true for next state
 			eState:= E_State.Starting;
 		END_IF
@@ -100,6 +101,7 @@ CASE eState OF
 				eState:= E_State.Stopping;
 				
 			E_RequestState.Abort:
+				fbSequence.M_Reset();
 				eState:= E_State.Aborting;
 
 			ELSE
@@ -115,6 +117,7 @@ CASE eState OF
 		END_IF
 		CASE eStateRequest OF	// Handle command		
 			E_RequestState.Abort:
+				fbSequence.M_Reset();
 				eState:= E_State.Aborting;
 				
 		END_CASE
@@ -127,6 +130,11 @@ CASE eState OF
 		CASE eStateRequest OF	// Handle command
 			E_RequestState.Reset:
 				eState:= E_State.Resetting;
+
+			E_RequestState.Abort:
+				fbSequence.M_Reset();
+				eState:= E_State.Aborting;
+
 		ELSE
 			eStateRequest:= E_RequestState.Undefined;				
 		END_CASE
@@ -303,6 +311,20 @@ CASE eRequest OF
 		ELSE
 			eStateRequest:= eRequest;
 		END_IF
+	
+	E_RequestState.StopCycle:
+		CASE eState OF
+			E_State.Stopped, E_State.Aborted:
+				M_RequestState:= TRUE;
+				
+			E_State.Execute:
+				eStateRequest:= eRequest;
+				
+			E_State.Stopping, E_State.Aborting:
+				;
+			ELSE
+				eStateRequest:= E_RequestState.Stop;
+		END_CASE
 		
 	E_RequestState.Abort:
 		IF eState = E_State.Aborted THEN

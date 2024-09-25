@@ -7,9 +7,10 @@
 
 TYPE E_Sequence :
 (
+	Manual			:= -32767,
 	Start			:= 0,
 	Done			:= 32767
-);
+)INT;
 END_TYPE]]></Declaration>
   </DUT>
 </TcPlcObject>

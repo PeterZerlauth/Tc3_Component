@@ -63,7 +63,7 @@ CASE fbTestsuite.P_Testcase OF
 		fbTestsuite.M_Testcase('FB_Members', T#2S, 'fbList.M_Reset()', '',E_Testcase.Done);
 		
 	E_Testcase.Done:
-	
+		;
 END_CASE]]></ST>
     </Implementation>
   </POU>

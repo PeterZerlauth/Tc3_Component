@@ -67,7 +67,7 @@ CASE fbTestsuite.P_Testcase OF
 		fbTestsuite.M_Testcase('FB_ListObject', T#2S, 'fbList.P_Length', '', E_Testcase.Done);
 		
 	E_Testcase.Done:
-	
+		;
 END_CASE]]></ST>
     </Implementation>
   </POU>

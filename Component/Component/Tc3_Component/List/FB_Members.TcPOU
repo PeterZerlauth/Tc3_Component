@@ -58,6 +58,24 @@ iObject.P_Event.P_Observer.M_Detach(iParent);
 M_Detach:= True;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Mode" Id="{06622676-d17f-00c9-0303-c4ed42551906}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
+METHOD PUBLIC M_Mode : BOOL
+VAR_INPUT
+	eMode:		E_RequestMode;
+END_VAR
+
+VAR
+	nIndex: DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[WHILE nIndex < nLength DO
+	M_Index(nIndex).M_RequestMode(eMode);
+	nIndex:= nIndex + 1;
+END_WHILE
+M_Mode:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Reset" Id="{f82c528d-d106-0d47-26b7-c180584df544}">
       <Declaration><![CDATA[METHOD PUBLIC M_Reset : BOOL
 
