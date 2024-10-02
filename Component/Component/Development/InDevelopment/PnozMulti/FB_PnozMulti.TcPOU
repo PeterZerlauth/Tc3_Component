@@ -3,18 +3,16 @@
   <POU Name="FB_PnozMulti" Id="{2566bc66-8d52-00d5-157e-5f672482545a}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_PnozMulti EXTENDS FB_Component
 VAR_INPUT
-	fbError:				FB_DigitalInput;
 END_VAR
 VAR_OUTPUT
-	fbReset:				FB_DigitalOutput;
 END_VAR
 VAR
-	fbTimer:				TON:= (PT:= T#1S);
+	bOK:					BOOL;
+	bReset:					BOOL;
+	fbReset:				TON:= (PT:= T#1S);
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[SUPER^();
-fbTimer();
-fbTimer.IN:= FALSE;]]></ST>
+      <ST><![CDATA[SUPER^();]]></ST>
     </Implementation>
     <Method Name="M_Resetting" Id="{d89d9997-b896-0e05-066b-9cfd89d8a772}">
       <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL // Return state complete
@@ -23,15 +21,21 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.M_Resetting();
-IF fbError.P_Value THEN
+bReset:= TRUE;
+fbReset(IN:= TRUE, PT:= T#1S);
+IF fbReset.Q THEN
+	bReset:= FALSE;
 	M_Resetting:= TRUE;
-ELSE
-	fbReset.P_Value:= TRUE;
-	fbTimer.IN:= TRUE;
-	IF fbTimer.Q THEN
-		P_Event.M_Abort('Pnoz error not reseted %s', 14);
-		fbReset.P_Value:= FALSE;
-	END_IF
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Running" Id="{aa289b0f-c0aa-08b4-3b31-37d944488f19}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Running
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT bOK THEN
+	P_Event.M_AddSTRING(fbInfo.P_ID);
+	P_Event.M_Abort('PnozMulti no ok Signal (%s)', 0);
 END_IF]]></ST>
       </Implementation>
     </Method>

@@ -67,6 +67,9 @@
     <Compile Include="Component\Event\E_Event.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Component\Event\E_EventType.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Component\Event\FB_Event.TcPOU">
       <SubType>Code</SubType>
     </Compile>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="ST_CylinderOptions" Id="{36157f3e-6abe-0e50-0b19-700e9847ab60}">
+    <Declaration><![CDATA[TYPE ST_CylinderOptions :
+STRUCT
+	sHomePosition:			STRING(25):= '-A1';
+	sWorkPosition:			STRING(25):= '-A2';
+	tDebounce:				TIME:= T#50MS;
+	tStartup:					TIME:= T#0MS;
+	tTimeout:				TIME:= T#5000MS;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

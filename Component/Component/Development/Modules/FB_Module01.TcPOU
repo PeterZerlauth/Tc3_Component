@@ -10,13 +10,19 @@ VAR
 	fbComponent0:				FB_ComponentEx;
 	fbComponent1:				FB_ComponentEx;
 	fbComponent2:				FB_ComponentEx;
+	fbCylinder:					FB_Cylinder;
+	fbPnozMulti:				FB_PnozMulti;
+	fbAxis:						FB_AxisBase;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/
 SUPER^();
 fbComponent0();
 fbComponent1();
-fbComponent2();]]></ST>
+fbComponent2();
+fbCylinder();
+fbPnozMulti();
+fbAxis();]]></ST>
     </Implementation>
     <Method Name="M_Execute" Id="{0f7f4331-8af5-0744-015a-f65d0021dd06}">
       <Declaration><![CDATA[METHOD PROTECTED M_Execute : bool
@@ -66,7 +72,9 @@ P_Info.P_ID:= 'M001';
 fbMembers.M_Attach(THIS^, fbComponent0);
 fbMembers.M_Attach(THIS^, fbComponent1);
 fbMembers.M_Attach(THIS^, fbComponent2);
-]]></ST>
+fbMembers.M_Attach(THIS^, fbCylinder);
+fbMembers.M_Attach(THIS^, fbPnozMulti);
+fbMembers.M_Attach(THIS^, fbAxis);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{eaffebca-5ff2-4f17-be84-3310a9ace22e}">

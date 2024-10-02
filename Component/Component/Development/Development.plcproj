@@ -47,22 +47,28 @@
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
-    <Compile Include="InDevelopment\Axis\FB_McAxis.TcPOU">
+    <Compile Include="InDevelopment\Axis\FB_AxisBase.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InDevelopment\Axis\I_Axis.TcIO">
+    <Compile Include="InDevelopment\Axis\F_NcError.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InDevelopment\Axis\I_AxisBase.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InDevelopment\Cylinder\FB_Cylinder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InDevelopment\Cylinder\ST_CylinderSettings.TcDUT">
+    <Compile Include="InDevelopment\Cylinder\ST_CylinderOptions.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InDevelopment\FB_ComponentEX.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InDevelopment\FB_ComponentAuto.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InDevelopment\FB_DXDT.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InDevelopment\PnozMulti\FB_PnozMulti.TcPOU">
