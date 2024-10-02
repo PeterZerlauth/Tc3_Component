@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_ComponentTests" Id="{9c2d8e9a-6b38-0ce4-1e25-f4086cd07082}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ComponentTests
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+	fbTestsuite:			FB_Testsuite;
+END_VAR
+VAR
+	fbComponent:				Tc3_Component.FB_Component;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbTestsuite.P_Property.M_Add('object', 'FB_Component');
+fbTestsuite.P_Property.M_Add('name', 'Peter Zerlauth');
+
+fbTestsuite();
+
+fbComponent();
+
+CASE fbTestsuite.P_Testcase OF
+	
+	E_Testcase.Start:
+		IF fbComponent.P_State = E_State.Aborted THEN
+			fbComponent.M_RequestState(E_RequestState.Reset);
+		ELSIF	fbComponent.P_State <> E_State.Idle THEN
+			fbComponent.M_RequestState(E_RequestState.Abort);			
+		END_IF
+
+		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Idle), TO_STRING(fbComponent.P_State), 'P_State');
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_RequestState(E_RequestState.Reset)', '', 10);	
+		
+	10:
+		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Start), 'M_RequestState(E_RequestState.Start)');	
+		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Execute), TO_STRING(fbComponent.P_State), 'P_State');
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_RequestState(E_RequestState.Reset)', '', 20);
+		
+	20:
+		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Abort), 'M_RequestState(E_RequestState.Abort)');	
+		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Aborted), TO_STRING(fbComponent.P_State), 'P_State');
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_RequestState(E_RequestState.Abort)', '', 30);
+
+	30:
+		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Reset), 'M_RequestState(E_RequestState.Reset)');	
+		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Idle), TO_STRING(fbComponent.P_State), 'P_State');
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_RequestState(E_RequestState.Reset)', '', 40);
+
+	40:
+		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Start), 'M_RequestState(E_RequestState.Start)');	
+		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Execute), TO_STRING(fbComponent.P_State), 'P_State');
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_RequestState(E_RequestState.Reset)', '', 50);
+		
+	50:
+		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Stop), 'M_RequestState(E_RequestState.Stop)');	
+		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Stopped), TO_STRING(fbComponent.P_State), 'P_State');
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_RequestState(E_RequestState.Stop)', '', 60);
+		
+	60:
+		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Reset), 'M_RequestState(E_RequestState.Reset)');	
+		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Idle), TO_STRING(fbComponent.P_State), 'P_State');
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_RequestState(E_RequestState.Reset)', '', 70);
+		
+	70:
+		fbComponent.P_Event.M_Abort('Abort', 1);
+		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Aborted), TO_STRING(fbComponent.P_State), 'P_State');
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.P_Event.M_Abort(Abort, 1)', '', E_Testcase.Done);		
+		
+		
+	E_Testcase.Done:
+		;
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

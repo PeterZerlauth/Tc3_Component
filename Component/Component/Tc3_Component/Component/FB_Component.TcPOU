@@ -101,7 +101,6 @@ CASE eState OF
 				eState:= E_State.Stopping;
 				
 			E_RequestState.Abort:
-				fbSequence.M_Reset();
 				eState:= E_State.Aborting;
 
 			ELSE
@@ -117,12 +116,12 @@ CASE eState OF
 		END_IF
 		CASE eStateRequest OF	// Handle command		
 			E_RequestState.Abort:
-				fbSequence.M_Reset();
 				eState:= E_State.Aborting;
 				
 		END_CASE
 		
 	E_State.Stopped:
+		M_Running();
 		IF M_Stopped() THEN // return true for next state
 			eState:= E_State.Resetting;
 			eStateRequest:= E_RequestState.Undefined;		
@@ -132,7 +131,6 @@ CASE eState OF
 				eState:= E_State.Resetting;
 
 			E_RequestState.Abort:
-				fbSequence.M_Reset();
 				eState:= E_State.Aborting;
 
 		ELSE
@@ -267,7 +265,8 @@ VAR_INPUT
 	eStatePrevious:					E_State;						// Previous state	
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// State changed event]]></ST>
+        <ST><![CDATA[// State changed event
+fbSequence.M_Reset();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_RequestMode" Id="{8661b760-0fa5-007a-151c-7fe805544fbb}">

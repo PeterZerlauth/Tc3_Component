@@ -14,9 +14,6 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/
 SUPER^();
-
-bHomed S= bHomePosition;
-
 fbComponent0();
 fbComponent1();
 fbComponent2();]]></ST>
@@ -40,7 +37,10 @@ END_VAR]]></Declaration>
 		
 	20:
 		bReturn:= FALSE;
-		fbSequence.M_Await('Step 20', T#1S, T#0S, FALSE, bReturn, E_Sequence.Done);	
+		fbSequence.M_Await('Step 20', T#1S, T#0S, FALSE, bReturn, E_Sequence.Done);
+		IF fbSequence.P_Timeout THEN
+			fbEvent.M_Stop('Overrride timeout error', 0);
+		END_IF
 		
 	E_Sequence.Done:
 		fbSequence.M_Reset();

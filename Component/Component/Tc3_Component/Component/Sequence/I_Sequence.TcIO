@@ -2,8 +2,8 @@
 <TcPlcObject Version="1.1.0.1">
   <Itf Name="I_Sequence" Id="{ab5e2af8-509e-42fb-9956-7609633302ce}">
     <Declaration><![CDATA[INTERFACE I_Sequence EXTENDS I_Object]]></Declaration>
-    <Method Name="M_Await" Id="{4c086c76-e23a-02bc-19a2-d100bd189494}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Await 
+    <Method Name="M_Await" Id="{02f2d100-ec87-06db-3782-6cf3157df90e}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Await : BOOL
 VAR_INPUT
 	sMessage:				STRING(255);		
 	tTimeout:				TIME;
@@ -14,12 +14,14 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Reset" Id="{6ae65845-7a65-086f-09b8-1762ec11889e}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Reset
+    <Method Name="M_Reset" Id="{e251ab4f-9396-0401-239c-77e0cb01bba3}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset : BOOL
+VAR_INPUT
+END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Set" Id="{bcc09950-a8c4-0f56-3714-e531095026ea}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Set
+    <Method Name="M_Set" Id="{afbddb29-0f1f-0aa2-3bbb-96cf1969180d}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Set : BOOL
 VAR_INPUT
 	sMessage:				STRING(255);	
 	nNumber:				INT;
@@ -30,6 +32,12 @@ END_VAR
       <Declaration><![CDATA[
 PROPERTY PUBLIC P_Number : INT]]></Declaration>
       <Get Name="Get" Id="{b1cbf18b-3abe-0f1f-0c64-012ccffcae4c}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="P_Timeout" Id="{96204bf6-b0ef-0952-2be4-8d90d7b4d741}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Timeout : Bool]]></Declaration>
+      <Get Name="Get" Id="{ccee302f-09c9-0f54-187e-24621df9bc60}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>

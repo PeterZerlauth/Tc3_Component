@@ -122,6 +122,9 @@
     <Compile Include="Component\Sequence\ST_Sequence.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Component\Sequence\ST_SequenceOptions.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Function\FB_Function.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -159,6 +162,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\FB_Logger.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Logger\FB_JsonLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\I_Logger.TcIO">
@@ -231,9 +237,11 @@
       <DefaultResolution>Tc3_JsonXml, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_JsonXml</Namespace>
     </PlaceholderReference>
-    <PlaceholderReference Include="Tc3_UnitTest">
-      <DefaultResolution>Tc3_UnitTest, * (Zerlauth)</DefaultResolution>
-      <Namespace>Tc3_UnitTest</Namespace>
+    <PlaceholderReference Include="UML State Chart Types">
+      <DefaultResolution>UML Statechart Types, 4.1.1.0 (3S - Smart Software Solutions GmbH)</DefaultResolution>
+      <Namespace>UML_SC</Namespace>
+      <SystemLibrary>true</SystemLibrary>
+      <ResolverGuid>d9a6b70a-92f0-4827-8ca3-8ce8a61652d9</ResolverGuid>
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
@@ -259,7 +267,7 @@
           <d n="SubKeys" t="Hashtable" />
           <d n="Values" t="Hashtable" ckt="String" cvt="String">
             <v>CurrentUmlCompilerVersion</v>
-            <v>4.2.2.0</v>
+            <v>4.2.1.0</v>
           </d>
         </o>
         <v>{246001F4-279D-43AC-B241-948EB31120E1}</v>

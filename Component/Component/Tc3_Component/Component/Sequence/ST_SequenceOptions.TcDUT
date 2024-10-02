@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="ST_SequenceOptions" Id="{667cd9ec-fa82-0711-299f-39a01fc962f8}">
+    <Declaration><![CDATA[TYPE ST_SequenceOptions :
+STRUCT
+	bSaveOnStopping:		BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

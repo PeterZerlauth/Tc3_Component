@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_JsonLogger" Id="{9c6c26c3-bc31-0ebb-099b-ea585df9fc25}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_JsonLogger EXTENDS FB_AbstractLogger
+VAR 
+	aEvent:						ARRAY [0..nSize - 1] OF ST_Event;
+END_VAR
+VAR CONSTANT 
+	nSize: DINT:= 50; 
+END_VAR ]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
+    </Implementation>
+    <Method Name="M_Find" Id="{600e31e6-a935-0b75-1cf9-1d690c919ad8}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
+VAR_INPUT
+	stEvent:	ST_Event;
+END_VAR
+VAR 
+	nIndex:		DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Find event in buffer
+M_Find := -1;
+WHILE nIndex < nSize - 1 DO
+	IF (aEvent[nIndex].iSource = stEvent.iSource) AND_THEN
+    	(aEvent[nIndex].eEventType = stEvent.eEventType) AND_THEN
+		(aEvent[nIndex].sInstance = stEvent.sInstance) AND_THEN
+		(aEvent[nIndex].sMessage = stEvent.sMessage) THEN
+        M_Find := nIndex;
+        RETURN;
+    END_IF
+	nIndex := nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Log" Id="{e87d4c8a-7e1e-0334-337d-79372d0ee842}">
+      <Declaration><![CDATA[METHOD M_Log
+VAR_INPUT
+	{attribute 'analysis' := '-33'}
+	stEvent	: ST_Event;
+END_VAR
+VAR
+	nIndex:				DINT;
+	sMessage:			STRING(255);
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
+	;
+ELSE
+	IF stEvent.eEventType >= SUPER^.eLogLevel THEN
+		MEMCPY(ADR(aEvent[1]), ADR(aEvent[0]), DINT_TO_UDINT(SIZEOF(ST_Event) * (nSize - 1)));
+		aEvent[0]:= stEvent;
+		sMessage:= Concat(Concat(stEvent.sInstance, ' | '), stEvent.sDefault);
+		CASE stEvent.eEventType OF
+			E_Event.Error:
+				ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR , msgFmtStr := '%s', strArg := sMessage);
+			E_Event.Warning:
+				ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_WARN , msgFmtStr := '%s', strArg := sMessage);
+			E_Event.Information:
+				ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
+			E_Event.Debug:
+				ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT, msgFmtStr := '%s', strArg := sMessage);
+			E_Event.Verbose:
+				ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_HINT , msgFmtStr := '%s', strArg := sMessage);
+		END_CASE
+	END_IF
+END_IF
+
+IF iNext <> 0 THEN
+	iNext.M_Log(stEvent);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{16b38561-956d-0c66-014c-62010f3114f1}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Reset all events
+Memset(ADR(aEvent), 0, SIZEOF(aEvent));
+
+IF iNext <> 0 THEN
+	iNext.M_Reset();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
