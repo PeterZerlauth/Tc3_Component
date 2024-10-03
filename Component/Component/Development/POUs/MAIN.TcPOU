@@ -10,8 +10,7 @@ VAR
 	bAbort:			BOOL;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-fbModule();
+      <ST><![CDATA[fbModule();
 
 IF bReset THEN
 	bReset:= NOT fbModule.M_RequestState(E_RequestState.Reset);

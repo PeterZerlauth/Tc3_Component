@@ -7,7 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	bOK:					BOOL;
+	bOK:					BOOL:= TRUE;
 	bReset:					BOOL;
 	fbReset:				TON:= (PT:= T#1S);
 END_VAR]]></Declaration>

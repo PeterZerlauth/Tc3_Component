@@ -8,15 +8,15 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	sIdentifier:						STRING(25):= 'Identifier';					// Identifier
-	{attribute 'instance-path'} 
-    {attribute 'noinit'}
-    sInstancePath:						STRING(255);									// Instance-Path
-	fbReadSymInfo: 						PLC_ReadSymInfoByNameEx;						// Read symbol infos
-END_VAR
-VAR_STAT
-	nCycle: 							UDINT;											// Cycle counter
-	nTimestamp: 						ULINT;											// Current timestamp
+	sIdentifier:						STRING(25):= 'No_ID_set';		// Identifier
+	{attribute 'instance-path'}                                     	
+    {attribute 'noinit'}                                            	
+    sInstancePath:						STRING(255);					// Instance-Path
+	fbReadSymInfo: 						PLC_ReadSymInfoByNameEx;		// Read symbol infos
+END_VAR                                                             	
+VAR_STAT                                                            	
+	nCycle: 							UDINT;							// Cycle counter
+	fbGetTime:							NT_GetTime;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/
@@ -24,7 +24,7 @@ END_VAR]]></Declaration>
 // Update once for all function blocks
 IF nCycle <> TwinCAT_SystemInfoVarList._TaskInfo[GETCURTASKINDEXEX()].CycleCount THEN
 	nCycle:= TwinCAT_SystemInfoVarList._TaskInfo[GETCURTASKINDEXEX()].CycleCount;
-	nTimestamp:= F_GetSystemTime();
+	fbGetTime(Start:= TRUE);
 END_IF
 
 // Read symbol information
@@ -126,13 +126,13 @@ END_VAR
     <Property Name="P_Timestamp" Id="{a51f1ff9-c398-4582-9d70-e288f1c0d28c}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Timestamp : ULINT]]></Declaration>
+PROPERTY PUBLIC P_Timestamp : DT]]></Declaration>
       <Get Name="Get" Id="{ca050bdc-7777-4205-b941-d6aa9ea30447}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[P_Timestamp:= nTimestamp;]]></ST>
+          <ST><![CDATA[P_Timestamp:= SYSTEMTIME_TO_DT(fbGetTime.TIMESTR);]]></ST>
         </Implementation>
       </Get>
     </Property>

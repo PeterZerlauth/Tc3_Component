@@ -50,7 +50,7 @@
     <Compile Include="InDevelopment\Axis\FB_AxisBase.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InDevelopment\Axis\F_NcError.TcPOU">
+    <Compile Include="InDevelopment\Axis\FB_Error.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InDevelopment\Axis\I_AxisBase.TcIO">

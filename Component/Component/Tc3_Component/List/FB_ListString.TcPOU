@@ -44,7 +44,7 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Object <> '' THEN
+        <ST><![CDATA[IF LEN(Object) <> 0 THEN
 	// First Item
 	IF pList = 0 THEN
 		nLength:= nLength + 1;

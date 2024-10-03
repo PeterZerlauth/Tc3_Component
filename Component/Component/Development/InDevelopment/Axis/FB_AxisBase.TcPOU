@@ -7,7 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	code:			udint:= 16#4071;
+	fbError:						FB_Error;
 	// Structs
 	stAxis:							AXIS_REF;
 	stParameter:					ST_AxisParameterSet;
@@ -30,9 +30,9 @@ VAR
 	fbStop: 						MC_Stop;
 	
 	// Read function blocks
-	fbReadAxisComponents:			MC_ReadAxisComponents;	
+	fbReadAxisComponents:			MC_ReadAxisComponents:= (Execute:= TRUE);	
 	fbReadError: 					MC_ReadAxisError;
-	fbReadParameterSet:				MC_ReadParameterSet;	
+	fbReadParameterSet:				MC_ReadParameterSet:= (Execute:= TRUE);	
 	fbReadBoolParameter:			MC_ReadBoolParameter;
 	fbReadParameter: 				MC_ReadParameter;
 	
@@ -44,7 +44,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[memcpy(adr(stAxis.NcToPlc.ErrorCode), adr(code), sizeof(stAxis.NcToPlc.ErrorCode));
+      <ST><![CDATA[// memcpy(adr(stAxis.NcToPlc.ErrorCode), adr(code), sizeof(stAxis.NcToPlc.ErrorCode));
 SUPER^();
 
 stAxis.ReadStatus();
@@ -338,6 +338,8 @@ M_Reset:= True;]]></ST>
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[fbReset.Execute:= TRUE;
+M_ReadParameterSet();
+M_ReadComponents();
 M_Resetting:= True;]]></ST>
       </Implementation>
     </Method>
@@ -348,55 +350,55 @@ M_Resetting:= True;]]></ST>
         <ST><![CDATA[IF stAxis.NcToPlc.ErrorCode <> 0 THEN
 	IF stAxis.NcToPlc.ErrorCode >= 16#4000 AND stAxis.NcToPlc.ErrorCode <= 16#40FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_AddSTRING(F_NcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('General error (%s: %s)',  0);
+		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
+		P_Event.M_Stop('%s: General error (%s)',  0);
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4100 AND stAxis.NcToPlc.ErrorCode <= 16#41FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_AddSTRING(F_NcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('Channel Errors (%s: %s)',  0);
+		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
+		P_Event.M_Stop('%s: Channel Errors (%s)',  0);
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4200 AND stAxis.NcToPlc.ErrorCode <= 16#42FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_AddSTRING(F_NcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('Group error (%s: %s)',  0);
+		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
+		P_Event.M_Stop('%s: Group error (%s)',  0);
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4300 AND stAxis.NcToPlc.ErrorCode <= 16#43FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_AddSTRING(F_NcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('Axis error (%s: %s)',  0);
+		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
+		P_Event.M_Stop('%s: Axis error (%s)',  0);
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4400 AND stAxis.NcToPlc.ErrorCode <= 16#44FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_AddSTRING(F_NcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('Encoder error (%s: %s)',  0);	
+		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
+		P_Event.M_Stop('%s: Encoder error (%s)',  0);	
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4500 AND stAxis.NcToPlc.ErrorCode <= 16#45FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_AddSTRING(F_NcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('Controller error (%s: %s)',  0);	
+		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
+		P_Event.M_Stop('%s: Controller error (%s)',  0);	
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4600 AND stAxis.NcToPlc.ErrorCode <= 16#46FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_Stop('Drive error (%s: %s)',  0);	
+		P_Event.M_Stop('%s: Drive error (%s)',  0);	
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4A00 AND stAxis.NcToPlc.ErrorCode <= 16#4AFF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_AddSTRING(F_NcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('Table error (%s: %s)',  0);	
+		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
+		P_Event.M_Stop('%s: Table error (%s)',  0);	
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4B00 AND stAxis.NcToPlc.ErrorCode <= 16#4BFF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_AddSTRING(F_NcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('NC PLC error (%s: %s)',  0);	
+		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
+		P_Event.M_Stop('%s: NC PLC error (%s)',  0);	
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4C00 AND stAxis.NcToPlc.ErrorCode <= 16#4CFF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_AddSTRING(F_NcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('Kinematic Transformation (%s: %s)',  0);	
+		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
+		P_Event.M_Stop('%s: Kinematic Transformation (%s)',  0);	
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#8000 AND stAxis.NcToPlc.ErrorCode <= 16#8FFF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_AddSTRING(F_NcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('NC error code extended (%s: %s)',  0);	
+		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
+		P_Event.M_Stop('%s: NC error code extended (%s)',  0);	
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#8100 AND stAxis.NcToPlc.ErrorCode <= 16#81FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_AddSTRING(F_NcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('Bode plot (%s: %s)',  0);
+		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
+		P_Event.M_Stop('%s: Bode plot (%s)',  0);
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#8200 AND stAxis.NcToPlc.ErrorCode <= 16#82FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_AddSTRING(F_NcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('further errors (%s: %s)',  0);
+		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
+		P_Event.M_Stop('%s: further errors (%s)',  0);
 	END_IF
 END_IF]]></ST>
       </Implementation>
@@ -423,8 +425,6 @@ fbPower.Enable_Negative:= TRUE;
 fbPower.Enable_Positive:= TRUE;
 fbPower.Override:= 100.0;
 fbPower.BufferMode:= MC_BufferMode.MC_Aborting;
-M_ReadParameterSet();
-M_ReadComponents();
 M_Starting:= TRUE;]]></ST>
       </Implementation>
     </Method>

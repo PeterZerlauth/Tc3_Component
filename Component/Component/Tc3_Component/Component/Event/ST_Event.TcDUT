@@ -6,7 +6,7 @@ TYPE ST_Event :
 	STRUCT
 		iSource:		I_Component;
 		eEventType:		E_Event;
-		nTimestamp:   	ULINT;
+		tTimestamp:   	DT;
 		nID:			ULINT;
 		sInstance:		STRING(255);
 		sClass:			STRING(255);

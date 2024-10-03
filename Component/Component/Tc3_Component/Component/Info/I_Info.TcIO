@@ -3,6 +3,22 @@
   <Itf Name="I_Info" Id="{62aeab96-2429-49a4-b102-a608a3391a9f}">
     <Declaration><![CDATA[INTERFACE I_Info EXTENDS I_Object
 ]]></Declaration>
+    <Property Name="P_Class" Id="{cbc4d901-48b2-4e97-9d77-884fb0854f2f}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Class : STRING(255)]]></Declaration>
+      <Get Name="Get" Id="{9ab4d9fd-c087-473a-be35-5661f24836f2}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="P_Comment" Id="{f8cad2c1-c823-4908-b22c-bf669c46c6ef}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Comment : STRING(255)]]></Declaration>
+      <Get Name="Get" Id="{83892f6a-bbdf-4950-9818-7b29a5f63cc7}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
     <Property Name="P_ID" Id="{1189c098-5eec-0d68-18e7-7614f6e3884e}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
@@ -22,27 +38,11 @@ PROPERTY PUBLIC P_Instance : STRING(255)]]></Declaration>
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
-    <Property Name="P_Class" Id="{cbc4d901-48b2-4e97-9d77-884fb0854f2f}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Class : STRING(255)]]></Declaration>
-      <Get Name="Get" Id="{9ab4d9fd-c087-473a-be35-5661f24836f2}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
     <Property Name="P_Timestamp" Id="{d32c7dd1-ae0e-4b1a-b50b-ce8720cabd0c}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
 {attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Timestamp : ULINT]]></Declaration>
+PROPERTY PUBLIC P_Timestamp : DT]]></Declaration>
       <Get Name="Get" Id="{e41a45ff-6cea-4e2b-8499-2e70f12a2058}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
-    <Property Name="P_Comment" Id="{f8cad2c1-c823-4908-b22c-bf669c46c6ef}">
-      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
-{attribute 'monitoring' := 'call'}
-PROPERTY PUBLIC P_Comment : STRING(255)]]></Declaration>
-      <Get Name="Get" Id="{83892f6a-bbdf-4950-9818-7b29a5f63cc7}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
