@@ -1341,11 +1341,395 @@ CASE nError OF
 {endregion}
 {region Kinematic Transformation}
 
+	16#4C00:
+		M_GetNcError:= '16#4C00 Transformation failed';
+
+	16#4C01:
+		M_GetNcError:= '16#4C01 Ambiguous solution';
+
+	16#4C02:
+		M_GetNcError:= '16#4C02 Invalid axis position';
+
+	16#4C03:
+		M_GetNcError:= '16#4C03 Invalid dimension';
+
+	16#4C04:
+		M_GetNcError:= '16#4C04 Internal error';
+
+	16#4C05:
+		M_GetNcError:= '16#4C05 Newton iteration failed';
+
+	16#4C06:
+		M_GetNcError:= '16#4C06 Jacobi matrix cannot be inverted';
+
+	16#4C07:
+		M_GetNcError:= '16#4C07 Invalid cascade';
+
+	16#4C08:
+		M_GetNcError:= '16#4C08 Singularity';
+
+	16#4C0B:
+		M_GetNcError:= '16#4C0B No metainfo';
+
+	16#4C13:
+		M_GetNcError:= '16#4C13 NCERR_RBTFRAME_INVALIDWCSTOMCS';
+
+	16#4C20:
+		M_GetNcError:= '16#4C20 Transformation failed';
+
+	16#4C30:
+		M_GetNcError:= '16#4C30 Invalid input frame';
+
+	16#4C50:
+		M_GetNcError:= '16#4C50 Invalid offset';
+
 {endregion}
 {region Bode Return Codes}
 
+	16#8100:
+		M_GetNcError:= '16#8100 Internal error';
+
+	16#8101:
+		M_GetNcError:= '16#8101 Not initialized';
+
+	16#8102:
+		M_GetNcError:= '16#8102 Invalid parameter';
+
+	16#8103:
+		M_GetNcError:= '16#8103 Invalid index offset';
+
+	16#8104:
+		M_GetNcError:= '16#8104 Invalid parameter size';
+
+	16#8105:
+		M_GetNcError:= '16#8105 Invalid start parameter';
+
+	16#8106:
+		M_GetNcError:= '16#8106 Not supported';
+
+	16#8107:
+		M_GetNcError:= '16#8107 Nc axis not enabled';
+
+	16#8108:
+		M_GetNcError:= '16#8108 Nc axis in error state';
+
+	16#8109:
+		M_GetNcError:= '16#8109 IO drive in error state';
+
+	16#810A:
+		M_GetNcError:= '16#810A Nc axis AND IO drive in error state';
+
+	16#810B:
+		M_GetNcError:= '16#810B Invalid drive operation mode active or requested';
+
+	16#810C:
+		M_GetNcError:= '16#810C Invalid context for this command';
+
+	16#810D:
+		M_GetNcError:= '16#810D Missing TCom axis interface';
+
+	16#810E:
+		M_GetNcError:= '16#810E Invalid input cycle counter from IO drive';
+
+	16#810F:
+		M_GetNcError:= '16#810F Position monitoring';
+
+	16#8110:
+		M_GetNcError:= '16#8110 Driver limitations detected';
+
+	16#8111:
+		M_GetNcError:= '16#8111 Life counter monitoring';
+
+	16#8112:
+		M_GetNcError:= '16#8112 WC state error (IO data working counter)';
+
+	16#8113:
+		M_GetNcError:= '16#8113 Reserved';
+
+	16#8114:
+		M_GetNcError:= '16#8114 Reserved';
+
+	16#8115:
+		M_GetNcError:= '16#8115 Reserved';
+
+	16#8116:
+		M_GetNcError:= '16#8116 Reserved';
+	
+	16#8117:
+		M_GetNcError:= '16#8117 Reserved';
+
+	16#8118:
+		M_GetNcError:= '16#8118 Reserved';
+
+	16#8119:
+		M_GetNcError:= '16#8119 Reserved';
+
+	16#811A:
+		M_GetNcError:= '16#811A Reserved';
+
+	16#811B:
+		M_GetNcError:= '16#811B Reserved';
+
+	16#811C:
+		M_GetNcError:= '16#811C Reserved';
+	
+	16#811E:
+		M_GetNcError:= '16#811E Reserved';	
+		
+	16#811F:
+		M_GetNcError:= '16#811F Reserved';
+
 {endregion}
 {region Further Error Codes}
+
+	16#8120:
+		M_GetNcError:= '16#8120 Invalid configuration for Object (e.g. in TwinCAT 3 Engineering (XAE))';
+
+	16#8121:
+		M_GetNcError:= '16#8121 Invalid environment for Object (e.g. TcCom-Objects Hierarchy or missing/faulty Objects)';
+
+	16#8122:
+		M_GetNcError:= '16#8122 Incompatible Driver or Object';
+
+	16#8124:
+		M_GetNcError:= '16#8124 Command execution does not terminate (e. g. MC_Reset does not signal DONE)';
+
+	16#8130:
+		M_GetNcError:= '16#8130 Invalid ObjectID of Communication Target';
+
+	16#8131:
+		M_GetNcError:= '16#8131 Communication Target expects Call in different Context.';
+
+	16#8132:
+		M_GetNcError:= '16#8132 Invalid State of Communication Target';
+
+	16#8134:
+		M_GetNcError:= '16#8134 Communication with Communication Target cannot be established.';
+
+	16#813b:
+		M_GetNcError:= '16#813b Transition Mode is invalid.';
+
+	16#813c:
+		M_GetNcError:= '16#813c BufferMode is invalid.';
+
+	16#813d:
+		M_GetNcError:= '16#813d Only one active Instance of Function Block per Group is allowed.';
+
+	16#813e:
+		M_GetNcError:= '16#813e Command is not allowed in current group state.';
+
+	16#813f:
+		M_GetNcError:= '16#813f Slave cannot synchronize. The slave cannot reach the SlaveSyncPosition with the given dynamics.';
+
+	16#8140:
+		M_GetNcError:= '16#8140 Invalid value for one or more of the dynamic parameters (Acceleration, Deceleration, Jerk)';
+
+	16#8141:
+		M_GetNcError:= '16#8141 IdentInGroup is invalid.';
+
+	16#8142:
+		M_GetNcError:= '16#8142 The number of axes in the group is incompatible with the axes convention.';
+
+	16#8143:
+		M_GetNcError:= '16#8143 Function Block or respective Command is not supported by Target.';
+
+	16#8144:
+		M_GetNcError:= '16#8144 Command queue full. Command queue is completely filled up and cannot accept additional commands until some commands are fully processed.';
+
+	16#8145:
+		M_GetNcError:= '16#8145 Mapping of Cyclic Interface between NC and PLC is missing (e.g. AXIS_REF, AXES_GROUP_REF, ...).';
+
+	16#8146:
+		M_GetNcError:= '16#8146 Invalid Velocity Value. The velocity was not set or the entered value is invalid';
+
+	16#8147:
+		M_GetNcError:= '16#8147 Invalid Coordinate Dimension. The dimension of the set coordinate interpretation does not meet the requirements.';
+
+	16#8148:
+		M_GetNcError:= '16#8148 Invalid Input Value';
+
+	16#8149:
+		M_GetNcError:= '16#8149 Unsupported Dynamics for selected Group Kernel';
+
+	16#814a:
+		M_GetNcError:= '16#814a The programmed position dimension incompatible with the axes convention.';
+
+	16#814b:
+		M_GetNcError:= '16#814b Path buffer is invalid. For example because provided buffer has invalid address or is not big enough.';
+
+	16#814c:
+		M_GetNcError:= '16#814c Path does not contain any element.';
+
+	16#814d:
+		M_GetNcError:= '16#814d Provided Path buffer is too small to store more Path Elements.';
+
+	16#814e:
+		M_GetNcError:= '16#814e Dimension or at least one Value of Transition Parameters is invalid.';
+
+	16#814f:
+		M_GetNcError:= '16#814f Invalid or Incomplete Input Array';
+
+	16#8150:
+		M_GetNcError:= '16#8150 Path length is zero.';
+
+	16#8151:
+		M_GetNcError:= '16#8151 Command is not allowed in current axis state.';
+
+	16#8152:
+		M_GetNcError:= '16#8152 TwinCAT System is shutting down and cannot complete request.';
+
+	16#8153:
+		M_GetNcError:= '16#8153 Configured axes convention and configured axes do not match.';
+
+	16#8154:
+		M_GetNcError:= '16#8154 Invalid Number of ACS Axes. The number of ACS input axes does not match the number of ACS input axes expected by the kinematic transformation.';
+
+	16#8155:
+		M_GetNcError:= '16#8155 Invalid Number of MCS Data. The number of MCS input data does not match the number expected by the kinematic transformation.';
+
+	16#8156:
+		M_GetNcError:= '16#8156 Invalid Value Set for Kinematic Parameters. The numeric value set for the parameter does not reside within the respective definition range.';
+
+	16#8158:
+		M_GetNcError:= '16#8158 The Given ACS Values Cannot be Reached. The given ACS values result in an invalid machine configuration.';
+
+	16#8159:
+		M_GetNcError:= '16#8159 The Set Target Positions Cannot be Reached. The set target positions reside outside the admissible working space.';
+
+	16#815d:
+		M_GetNcError:= '16#815d Discontinuity in ACS axes detected.';
+
+	16#8160:
+		M_GetNcError:= '16#8160 Circle Specification in Path is invalid. The specification of a circle segment in the programmed interpolated path (e.g. via MC_MovePath) has an invalid or ambiguous description. Probably its center cannot be determined reliably.';
+
+	16#8161:
+		M_GetNcError:= '16#8161 Maximum stream lines reached. The maximum number of stream lines is limited. Please refer to function block documentation for details.';
+
+	16#8163:
+		M_GetNcError:= '16#8163 Invalid First Segment. The corresponding element can only be analyzed with a well-defined start point.';
+
+	16#8164:
+		M_GetNcError:= '16#8164 Invalid auxiliary point. The auxiliary point is not well-defined.';
+
+	16#8166:
+		M_GetNcError:= '16#8166 Invalid parameter for GapControlMode. Invalid parameter for GapControlMode, most likely in combination with the group parameter GapControlDirection.';
+
+	16#8167:
+		M_GetNcError:= '16#8167 Group got unsupported Axis Event (e.g. State Change). Group got unsupported Axis Event (e.g. State Change e.g. triggered by a Single Axis Reset).';
+
+	16#8168:
+		M_GetNcError:= '16#8168 Unsupported Compensation Type. The compensation type was either not set or is not supported by the addressed object.';
+
+	16#8169:
+		M_GetNcError:= '16#8169 Master axis does not exist or cannot be used.';
+
+	16#816a:
+		M_GetNcError:= '16#816a Invalid or Missing Tracking Transformation. This error occurs at MC_TrackConveyorBelt if at the CoordTransform input an invalid object ID is used or the object ID points to an object that is not supported as coordinate transformation.';
+
+	16#816b:
+		M_GetNcError:= '16#816b Position is not on Track. Either Track cannot be activated because Actual Position is not on Track, or Target Position is not on Active Track or TrackPart';
+
+	16#816c:
+		M_GetNcError:= '16#816c Axis does not have an activated track.';
+
+	16#816d:
+		M_GetNcError:= '16#816d Invalid Compensation ObjectId. An Object with this ObjectId does not exist or it is not of the right type (has to be a compensation).';
+
+	16#816e:
+		M_GetNcError:= '16#816e Axis is in error because axis was not in Target when InTargetAlarm Timer expired.';
+
+	16#816f:
+		M_GetNcError:= '16#816f Coupling would cause a cyclic dependency of axis (e.g. via MC_GearInPos).';
+
+	16#8170:
+		M_GetNcError:= '16#8170 Axis was not added to an axes group. The command is not valid.';
+
+	16#817f:
+		M_GetNcError:= '16#817f Drive has invalid State.';
+
+	16#8181:
+		M_GetNcError:= '16#8181 Parameter for gap control are invalid with the current configuration. Function block with gap control was issued to an axis that is not in a CA group';
+
+	16#8182:
+		M_GetNcError:= '16#8182 Software position limit violation. Software position limits of at least one axis have been or would have been violated by a command.';
+
+	16#8183:
+		M_GetNcError:= '16#8183 Target position is not reachable. There is no path available to the target position or target position is unreachable in general.';
+
+	16#8185:
+		M_GetNcError:= '16#8185 The mover or one of its relevant coordinates is busy. Either the whole mover or at least of its coordinates relevant to the command are busy.';
+
+	16#8186:
+		M_GetNcError:= '16#8186 A collision has occurred or would occur. Either a collision has occurred or would occur if the command was executed.';
+
+	16#8187:
+		M_GetNcError:= '16#8187 Invalid Track Specification. The geometric extension of this track is incompatible with the already existing geometry of this or the other tracks.';
+
+	16#8188:
+		M_GetNcError:= '16#8188 Command not allowed in track state.';
+
+	16#8189:
+		M_GetNcError:= '16#8189 Invalid Reference passed to Function Block. An invalid reference (or pointer) was used in a function block call. This can happen if a reference type is used before it was initialized.';
+
+	16#818a:
+		M_GetNcError:= '16#818a Path is locked against modifications. The path was locked to further changes. However, it might be resettable.';
+
+	16#818d:
+		M_GetNcError:= '16#818d The specified value AdditionalTurns at the Options input is not allowed. The parameter AdditionalTurns must be zero for the specified value of the parameter Direction';
+
+	16#818e:
+		M_GetNcError:= '16#818e Master/Slave sync position incompatible with sync direction. The given sync positions require the slave moving in a direction which is not allowed while in synchronization phase.';
+
+	16#8191:
+		M_GetNcError:= '16#8191 Unexpected axis state. At least one axis has an unexpected state. This may occur if a group reset is active and an axis error occurs after the respective axis was successfully reset.';
+
+	16#8192:
+		M_GetNcError:= '16#8192 Invalid reference system. The reference system is unknown or invalid for this application.';
+
+	16#8193:
+		M_GetNcError:= '16#8193 Position not in reference system. The position is outside of the specified reference system.';
+
+	16#8194:
+		M_GetNcError:= '16#8194 A previous command is blocking execution. A previous command is still ongoing and simultaneous execution of both commands is impossible.';
+
+	16#8198:
+		M_GetNcError:= '16#8198 Invalid index. The used index does not exist or is invalid.';
+
+	16#8199:
+		M_GetNcError:= '16#8199 Command not allowed. The command is not allowed in the current configuration.';
+
+	16#8F2F:
+		M_GetNcError:= '16#8f2f - Internal Error.';
+
+	16#8f50:
+		M_GetNcError:= '16#8f50 ';
+
+	16#8f56:
+		M_GetNcError:= '16#8f56 Internal Error.';
+
+	16#8f59:
+		M_GetNcError:= '16#8f59 Internal Error.';
+
+	16#8F5C:
+		M_GetNcError:= '16#8f5c - Internal Error.';
+
+	16#8f62:
+		M_GetNcError:= '16#8f62 ';
+
+	16#8f65:
+		M_GetNcError:= '16#8f65 Internal Error.';
+
+	16#8F68:
+		M_GetNcError:= '16#8f68 - Internal Error.';
+
+	16#8fce:
+		M_GetNcError:= '16#8fce ';
+
+	16#8FD0:
+		M_GetNcError:= '16#8fd0 - Internal Error.';
+
+	16#8fff:
+		M_GetNcError:= '16#8fff ';
 
 {endregion}	
 ELSE
