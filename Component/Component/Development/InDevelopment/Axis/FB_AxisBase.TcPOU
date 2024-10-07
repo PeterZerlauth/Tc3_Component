@@ -49,14 +49,15 @@ SUPER^();
 
 stAxis.ReadStatus();
 
-
-
 fbPower(Axis:= stAxis);
 	
 fbReset(Axis:= stAxis);
 fbReset.Execute:= FALSE;
 
 fbJog(Axis:= stAxis);
+IF NOT fbJog.Active THEN
+	fbJog.Mode:= E_JogMode.MC_JOGMODE_STANDARD_SLOW;
+END_IF
 fbJog.JogForward:= FALSE;
 fbJog.JogBackwards:= FALSE;
 
@@ -155,32 +156,14 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Jog" Id="{b284bdba-d8bb-4f13-9f4d-1d097b28a602}" FolderPath="Motion\">
-      <Declaration><![CDATA[METHOD PUBLIC M_Jog : BOOL
-VAR_INPUT
-	bPositive:	BOOL;
-	bNegative:	BOOL;
-	eMode:		E_JogMode;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbJog.Mode:= eMode;
-IF bPositive AND NOT bNegative THEN
-	fbJog.JogForward:= TRUE;
-ELSIF bNegative AND NOT bPositive THEN
-	fbJog.JogBackwards:= TRUE;
-END_IF
-M_Jog:= fbJog.Active;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_MoveAbsolute" Id="{d620f725-4545-008a-12b3-203d5ce66fa9}" FolderPath="Motion\">
       <Declaration><![CDATA[METHOD PUBLIC M_MoveAbsolute : BOOL
 VAR_INPUT
 	fPosition:				LREAL;
 	fVelocity:				LREAL;
-	fAcceleration:			LREAL;
-	fDeceleration:			LREAL;
-	fJerk:					LREAL;	
+	fAcceleration:			LREAL:= 0.0;
+	fDeceleration:			LREAL:= 0.0;
+	fJerk:					LREAL:= 0.0;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -221,9 +204,9 @@ END_IF]]></ST>
 VAR_INPUT
 	fDistance:				LREAL;
 	fVelocity:				LREAL;
-	fAcceleration:			LREAL;
-	fDeceleration:			LREAL;
-	fJerk:					LREAL;	
+	fAcceleration:			LREAL:= 0.0;
+	fDeceleration:			LREAL:= 0.0;
+	fJerk:					LREAL:= 0.0;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -244,9 +227,9 @@ END_IF
       <Declaration><![CDATA[METHOD PUBLIC M_MoveVelocity : BOOL
 VAR_INPUT
 	fVelocity:				LREAL;
-	fAcceleration:			LREAL;
-	fDeceleration:			LREAL;
-	fJerk:					LREAL;	
+	fAcceleration:			LREAL:= 0.0;
+	fDeceleration:			LREAL:= 0.0;
+	fJerk:					LREAL:= 0.0;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -351,54 +334,54 @@ M_Resetting:= True;]]></ST>
 	IF stAxis.NcToPlc.ErrorCode >= 16#4000 AND stAxis.NcToPlc.ErrorCode <= 16#40FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('%s: General error (%s)',  0);
+		P_Event.M_Stop('%s: General error (%s)',  1101);
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4100 AND stAxis.NcToPlc.ErrorCode <= 16#41FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('%s: Channel Errors (%s)',  0);
+		P_Event.M_Stop('%s: Channel Errors (%s)',  1102);
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4200 AND stAxis.NcToPlc.ErrorCode <= 16#42FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('%s: Group error (%s)',  0);
+		P_Event.M_Stop('%s: Group error (%s)',  1103);
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4300 AND stAxis.NcToPlc.ErrorCode <= 16#43FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('%s: Axis error (%s)',  0);
+		P_Event.M_Stop('%s: Axis error (%s)',  1104);
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4400 AND stAxis.NcToPlc.ErrorCode <= 16#44FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('%s: Encoder error (%s)',  0);	
+		P_Event.M_Stop('%s: Encoder error (%s)',  1105);	
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4500 AND stAxis.NcToPlc.ErrorCode <= 16#45FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('%s: Controller error (%s)',  0);	
+		P_Event.M_Stop('%s: Controller error (%s)',  1106);	
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4600 AND stAxis.NcToPlc.ErrorCode <= 16#46FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_Stop('%s: Drive error (%s)',  0);	
+		P_Event.M_Stop('%s: Drive error (%s)',  1107);	
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4A00 AND stAxis.NcToPlc.ErrorCode <= 16#4AFF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('%s: Table error (%s)',  0);	
+		P_Event.M_Stop('%s: Table error (%s)',  1108);	
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4B00 AND stAxis.NcToPlc.ErrorCode <= 16#4BFF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('%s: NC PLC error (%s)',  0);	
+		P_Event.M_Stop('%s: NC PLC error (%s)',  1109);	
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#4C00 AND stAxis.NcToPlc.ErrorCode <= 16#4CFF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('%s: Kinematic Transformation (%s)',  0);	
+		P_Event.M_Stop('%s: Kinematic Transformation (%s)',  1110);	
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#8000 AND stAxis.NcToPlc.ErrorCode <= 16#8FFF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('%s: NC error code extended (%s)',  0);	
+		P_Event.M_Stop('%s: NC error code extended (%s)',  1111);	
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#8100 AND stAxis.NcToPlc.ErrorCode <= 16#81FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('%s: Bode plot (%s)',  0);
+		P_Event.M_Stop('%s: Bode plot (%s)',  1112);
 	ELSIF stAxis.NcToPlc.ErrorCode >= 16#8200 AND stAxis.NcToPlc.ErrorCode <= 16#82FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(fbError.M_GetNcError(stAxis.NcToPlc.ErrorCode));
-		P_Event.M_Stop('%s: further errors (%s)',  0);
+		P_Event.M_Stop('%s: Further errors (%s)',  1113);
 	END_IF
 END_IF]]></ST>
       </Implementation>

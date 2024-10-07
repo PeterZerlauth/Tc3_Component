@@ -7,7 +7,7 @@
 
 TYPE E_Sequence :
 (
-	Manual			:= -32767,
+	Undefined		:= -32767,
 	Start			:= 0,
 	Done			:= 32767
 )INT;

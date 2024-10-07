@@ -9,7 +9,7 @@
     <WriteProductVersion>false</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
     <Name>Testing</Name>
-    <ProgramVersion>3.1.4026.10</ProgramVersion>
+    <ProgramVersion>3.1.4026.11</ProgramVersion>
     <Application>{7e6adb82-bf82-4b15-a4bf-f931472c204d}</Application>
     <TypeSystem>{1257824b-e084-4f81-81ce-2e24704294e1}</TypeSystem>
     <Implicit_Task_Info>{6d6d505d-44f8-41d6-bbad-53842eacdae2}</Implicit_Task_Info>

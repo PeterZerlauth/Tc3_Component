@@ -47,11 +47,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[CASE fbSequence.P_Number OF
 	E_Sequence.Start:
-		bReturn:= TRUE;
+		bReturn:= fbAxis.M_MoveAbsolute(1000.0, 5.0);
 		fbSequence.M_Await('Start 0', T#0S , T#1S, TRUE, bReturn, 10);
 	
 	10:
-		bReturn:= TRUE;
+		bReturn:= fbAxis.M_MoveAbsolute(0.0, 5.0);
 		fbSequence.M_Await('Step 10', T#0S, T#0S, TRUE, bReturn, 20);
 		
 	20:

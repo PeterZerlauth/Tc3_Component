@@ -9,7 +9,7 @@
     <WriteProductVersion>false</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
     <Name>Development</Name>
-    <ProgramVersion>3.1.4026.10</ProgramVersion>
+    <ProgramVersion>3.1.4026.11</ProgramVersion>
     <Application>{d6537351-f4cf-4213-a0c1-49fd662c1aff}</Application>
     <TypeSystem>{05c2f529-7c3f-4b05-8352-c1e5335a7ecc}</TypeSystem>
     <Implicit_Task_Info>{ed143a1a-7022-490c-8393-21e35e3db493}</Implicit_Task_Info>
@@ -66,9 +66,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InDevelopment\FB_ComponentAuto.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="InDevelopment\FB_DXDT.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InDevelopment\PnozMulti\FB_PnozMulti.TcPOU">
@@ -147,6 +144,11 @@
     <None Include="Development.tmc">
       <SubType>Content</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Events.xlsx">
+      <SubType>Content</SubType>
+    </Content>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

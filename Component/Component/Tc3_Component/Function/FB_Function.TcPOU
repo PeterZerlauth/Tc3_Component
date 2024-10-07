@@ -11,18 +11,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[SUPER^();]]></ST>
     </Implementation>
-    <Method Name="M_Execution" Id="{12c5971b-d812-0b27-32d4-d59131d66127}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Execution : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[bExecution:= True;
-M_Execution:= True;
-// @ToDo]]></ST>
-      </Implementation>
-    </Method>
   </POU>
 </TcPlcObject>

@@ -21,244 +21,244 @@ END_VAR
       <Implementation>
         <ST><![CDATA[// https://infosys.beckhoff.com/english.php?content=../content/1033/tcplclib_tc2_utilities/374277003.html&id=
 CASE nError OF
-	16#0:
-		M_GetAdsError:= '16#0 No error';
-	16#1:
-		M_GetAdsError:= '16#1 Internal error';
-	16#2:
-		M_GetAdsError:= '16#2 No real time';
-	16#3:
-		M_GetAdsError:= '16#3 Allocation locked – memory error';
-	16#4:
-		M_GetAdsError:= '16#4 Mailbox full – the ADS message could not be sent Reducing the number of ADS messages per cycle will help';
-	16#5:
-		M_GetAdsError:= '16#5 Wrong HMSG';
-	16#6:
-		M_GetAdsError:= '16#6 Target port not found – ADS server is not started or is not reachable';
-	16#7:
-		M_GetAdsError:= '16#7 Target computer not found – AMS route was not found';
-	16#8:
-		M_GetAdsError:= '16#8 Unknown command ID';
-	16#9:
-		M_GetAdsError:= '16#9 Invalid task ID';
-	16#A:
-		M_GetAdsError:= '16#A No IO';
-	16#B:
-		M_GetAdsError:= '16#B Unknown AMS command';
-	16#C:
-		M_GetAdsError:= '16#C Win32 error';
-	16#D:
-		M_GetAdsError:= '16#D Port not connected';
-	16#E:
-		M_GetAdsError:= '16#E Invalid AMS length';
-	16#F:
-		M_GetAdsError:= '16#F Invalid AMS Net ID';
-	16#10:
-		M_GetAdsError:= '16#10 Installation level is too low –TwinCAT 2 license error';
-	16#11:
-		M_GetAdsError:= '16#11 No debugging available';
-	16#12:
-		M_GetAdsError:= '16#12 Port disabled – TwinCAT system service not started';
-	16#13:
-		M_GetAdsError:= '16#13 Port already connected';
-	16#14:
-		M_GetAdsError:= '16#14 AMS Sync Win32 error';
-	16#15:
-		M_GetAdsError:= '16#15 AMS Sync Timeout';
-	16#16:
-		M_GetAdsError:= '16#16 AMS Sync error';
-	16#17:
-		M_GetAdsError:= '16#17 No index map for AMS Sync available';
-	16#18:
-		M_GetAdsError:= '16#18 Invalid AMS port';
-	16#19:
-		M_GetAdsError:= '16#19 No memory';
-	16#1A:
-		M_GetAdsError:= '16#1A TCP send error';
-	16#1B:
-		M_GetAdsError:= '16#1B Host unreachable';
-	16#1C:
-		M_GetAdsError:= '16#1C Invalid AMS fragment';
-	16#1D:
-		M_GetAdsError:= '16#1D TLS send error – secure ADS connection failed';
-	16#1E:
-		M_GetAdsError:= '16#1E Access denied – secure ADS access denied';
-	16#500:
-		M_GetAdsError:= '16#500 Locked memory cannot be allocated';
-	16#501:
-		M_GetAdsError:= '16#501 The router memory size could not be changed';
-	16#502:
-		M_GetAdsError:= '16#502 The mailbox has reached the maximum number of possible messages';
-	16#503:
-		M_GetAdsError:= '16#503 The Debug mailbox has reached the maximum number of possible messages';
-	16#504:
-		M_GetAdsError:= '16#504 The port type is unknown';
-	16#505:
-		M_GetAdsError:= '16#505 The router is not initialized';
-	16#506:
-		M_GetAdsError:= '16#506 The port number is already assigned';
-	16#507:
-		M_GetAdsError:= '16#507 The port is not registered';
-	16#508:
-		M_GetAdsError:= '16#508 The maximum number of ports has been reached';
-	16#509:
-		M_GetAdsError:= '16#509 The port is invalid';
-	16#50A:
-		M_GetAdsError:= '16#50A The router is not active';
-	16#50B:
-		M_GetAdsError:= '16#50B The mailbox has reached the maximum number for fragmented messages';
-	16#50C:
-		M_GetAdsError:= '16#50C A fragment timeout has occurred';
-	16#50D:
-		M_GetAdsError:= '16#50D The port is removed';
-	16#700:
-		M_GetAdsError:= '16#700 General device error';
-	16#701:
-		M_GetAdsError:= '16#701 Service is not supported by the server';
-	16#702:
-		M_GetAdsError:= '16#702 Invalid index group';
-	16#703:
-		M_GetAdsError:= '16#703 Invalid index offset';
-	16#704:
-		M_GetAdsError:= '16#704 Reading or writing not permitted';
-	16#705:
-		M_GetAdsError:= '16#705 Parameter size not correct';
-	16#706:
-		M_GetAdsError:= '16#706 Invalid data values';
-	16#707:
-		M_GetAdsError:= '16#707 Device is not ready to operate';
-	16#708:
-		M_GetAdsError:= '16#708 Device is busy';
-	16#709:
-		M_GetAdsError:= '16#709 Invalid operating system context This can result from use of ADS blocks in different tasks It may be possible to resolve this through multitasking synchronization in the PLC';
-	16#70A:
-		M_GetAdsError:= '16#70A Insufficient memory';
-	16#70B:
-		M_GetAdsError:= '16#70B Invalid parameter values';
-	16#70C:
-		M_GetAdsError:= '16#70C Not found (files, )';
-	16#70D:
-		M_GetAdsError:= '16#70D Syntax error in file or command';
-	16#70E:
-		M_GetAdsError:= '16#70E Objects do not match';
-	16#70F:
-		M_GetAdsError:= '16#70F Object already exists';
-	16#710:
-		M_GetAdsError:= '16#710 Symbol not found';
-	16#711:
-		M_GetAdsError:= '16#711 Invalid symbol version This can occur due to an online change Create a new handle';
-	16#712:
-		M_GetAdsError:= '16#712 Device (server) is in invalid state';
-	16#713:
-		M_GetAdsError:= '16#713 AdsTransMode not supported';
-	16#714:
-		M_GetAdsError:= '16#714 Notification handle is invalid';
-	16#715:
-		M_GetAdsError:= '16#715 Notification client not registered';
-	16#716:
-		M_GetAdsError:= '16#716 No further handle available';
-	16#717:
-		M_GetAdsError:= '16#717 Notification size too large';
-	16#718:
-		M_GetAdsError:= '16#718 Device not initialized';
-	16#719:
-		M_GetAdsError:= '16#719 Device has a timeout';
-	16#71A:
-		M_GetAdsError:= '16#71A Interface query failed';
-	16#71B:
-		M_GetAdsError:= '16#71B Wrong interface requested';
-	16#71C:
-		M_GetAdsError:= '16#71C Class ID is invalid';
-	16#71D:
-		M_GetAdsError:= '16#71D Object ID is invalid';
-	16#71E:
-		M_GetAdsError:= '16#71E Request pending';
-	16#71F:
-		M_GetAdsError:= '16#71F Request is aborted';
-	16#720:
-		M_GetAdsError:= '16#720 Signal warning';
-	16#721:
-		M_GetAdsError:= '16#721 Invalid array index';
-	16#722:
-		M_GetAdsError:= '16#722 Symbol not active';
-	16#723:
-		M_GetAdsError:= '16#723 Access denied';
-	16#724:
-		M_GetAdsError:= '16#724 Missing license';
-	16#725:
-		M_GetAdsError:= '16#725 License expired';
-	16#726:
-		M_GetAdsError:= '16#726 License exceeded';
-	16#727:
-		M_GetAdsError:= '16#727 Invalid license';
-	16#728:
-		M_GetAdsError:= '16#728 License problem: System ID is invalid';
-	16#729:
-		M_GetAdsError:= '16#729 License not limited in time';
-	16#72A:
-		M_GetAdsError:= '16#72A Licensing problem: time in the future';
-	16#72B:
-		M_GetAdsError:= '16#72B License period too long';
-	16#72C:
-		M_GetAdsError:= '16#72C Exception at system startup';
-	16#72D:
-		M_GetAdsError:= '16#72D License file read twice';
-	16#72E:
-		M_GetAdsError:= '16#72E Invalid signature';
-	16#72F:
-		M_GetAdsError:= '16#72F Invalid certificate';
-	16#730:
-		M_GetAdsError:= '16#730 Public key not known from OEM';
-	16#731:
-		M_GetAdsError:= '16#731 License not valid for this system ID';
-	16#732:
-		M_GetAdsError:= '16#732 Demo license prohibited';
-	16#733:
-		M_GetAdsError:= '16#733 Invalid function ID';
-	16#734:
-		M_GetAdsError:= '16#734 Outside the valid range';
-	16#735:
-		M_GetAdsError:= '16#735 Invalid alignment';
-	16#736:
-		M_GetAdsError:= '16#736 Invalid platform level';
-	16#737:
-		M_GetAdsError:= '16#737 Context – forward to passive level';
-	16#738:
-		M_GetAdsError:= '16#738 Context – forward to dispatch level';
-	16#739:
-		M_GetAdsError:= '16#739 Context – forward to real time';
-	16#740:
-		M_GetAdsError:= '16#740 Client error';
-	16#741:
-		M_GetAdsError:= '16#741 Service contains an invalid parameter';
-	16#742:
-		M_GetAdsError:= '16#742 Polling list is empty';
-	16#743:
-		M_GetAdsError:= '16#743 Var connection already in use';
-	16#744:
-		M_GetAdsError:= '16#744 The called ID is already in use';
-	16#745:
-		M_GetAdsError:= '16#745 Timeout has occurred';
-	16#746:
-		M_GetAdsError:= '16#746 Error in Win32 subsystem';
-	16#747:
-		M_GetAdsError:= '16#747 Invalid client timeout value';
-	16#748:
-		M_GetAdsError:= '16#748 Port not open';
-	16#749:
-		M_GetAdsError:= '16#749 No AMS address';
-	16#750:
-		M_GetAdsError:= '16#750 Internal error in Ads sync';
-	16#751:
-		M_GetAdsError:= '16#751 Hash table overflow';
-	16#752:
-		M_GetAdsError:= '16#752 Key not found in the table';
-	16#753:
-		M_GetAdsError:= '16#753 No symbols in the cache';
-	16#754:
-		M_GetAdsError:= '16#754 Invalid response received';
-	16#755:
-		M_GetAdsError:= '16#755 Sync Port is locked';
+	16#0000:
+		M_GetAdsError:= '16#0000 No error';
+	16#0001:
+		M_GetAdsError:= '16#0001 Internal error';
+	16#0002:
+		M_GetAdsError:= '16#0002 No real time';
+	16#0003:
+		M_GetAdsError:= '16#0003 Allocation locked - memory error';
+	16#0004:
+		M_GetAdsError:= '16#0004 Mailbox full - the ADS message could not be sent Reducing the number of ADS messages per cycle will help';
+	16#0005:
+		M_GetAdsError:= '16#0005 Wrong HMSG';
+	16#0006:
+		M_GetAdsError:= '16#0006 Target port not found - ADS server is not started or is not reachable';
+	16#0007:
+		M_GetAdsError:= '16#0007 Target computer not found - AMS route was not found';
+	16#0008:
+		M_GetAdsError:= '16#0008 Unknown command ID';
+	16#0009:
+		M_GetAdsError:= '16#0009 Invalid task ID';
+	16#000A:
+		M_GetAdsError:= '16#000A No IO';
+	16#000B:
+		M_GetAdsError:= '16#000B Unknown AMS command';
+	16#000C:
+		M_GetAdsError:= '16#000C Win32 error';
+	16#000D:
+		M_GetAdsError:= '16#000D Port not connected';
+	16#000E:
+		M_GetAdsError:= '16#000E Invalid AMS length';
+	16#000F:
+		M_GetAdsError:= '16#000F Invalid AMS Net ID';
+	16#0010:
+		M_GetAdsError:= '16#0010 Installation level is too low - TwinCAT 2 license error';
+	16#0011:
+		M_GetAdsError:= '16#0011 No debugging available';
+	16#0012:
+		M_GetAdsError:= '16#0012 Port disabled - TwinCAT system service not started';
+	16#0013:
+		M_GetAdsError:= '16#0013 Port already connected';
+	16#0014:
+		M_GetAdsError:= '16#0014 AMS Sync Win32 error';
+	16#0015:
+		M_GetAdsError:= '16#0015 AMS Sync Timeout';
+	16#0016:
+		M_GetAdsError:= '16#0016 AMS Sync error';
+	16#0017:
+		M_GetAdsError:= '16#0017 No index map for AMS Sync available';
+	16#0018:
+		M_GetAdsError:= '16#0018 Invalid AMS port';
+	16#0019:
+		M_GetAdsError:= '16#0019 No memory';
+	16#001A:
+		M_GetAdsError:= '16#001A TCP send error';
+	16#001B:
+		M_GetAdsError:= '16#001B Host unreachable';
+	16#001C:
+		M_GetAdsError:= '16#001C Invalid AMS fragment';
+	16#001D:
+		M_GetAdsError:= '16#001D TLS send error - secure ADS connection failed';
+	16#001E:
+		M_GetAdsError:= '16#001E Access denied - secure ADS access denied';
+	16#0500:
+		M_GetAdsError:= '16#0500 Locked memory cannot be allocated';
+	16#0501:
+		M_GetAdsError:= '16#0501 The router memory size could not be changed';
+	16#0502:
+		M_GetAdsError:= '16#0502 The mailbox has reached the maximum number of possible messages';
+	16#0503:
+		M_GetAdsError:= '16#0503 The Debug mailbox has reached the maximum number of possible messages';
+	16#0504:
+		M_GetAdsError:= '16#0504 The port type is unknown';
+	16#0505:
+		M_GetAdsError:= '16#0505 The router is not initialized';
+	16#0506:
+		M_GetAdsError:= '16#0506 The port number is already assigned';
+	16#0507:
+		M_GetAdsError:= '16#0507 The port is not registered';
+	16#0508:
+		M_GetAdsError:= '16#0508 The maximum number of ports has been reached';
+	16#0509:
+		M_GetAdsError:= '16#0509 The port is invalid';
+	16#050A:
+		M_GetAdsError:= '16#050A The router is not active';
+	16#050B:
+		M_GetAdsError:= '16#050B The mailbox has reached the maximum number for fragmented messages';
+	16#050C:
+		M_GetAdsError:= '16#050C A fragment timeout has occurred';
+	16#050D:
+		M_GetAdsError:= '16#050D The port is removed';
+	16#0700:
+		M_GetAdsError:= '16#0700 General device error';
+	16#0701:
+		M_GetAdsError:= '16#0701 Service is not supported by the server';
+	16#0702:
+		M_GetAdsError:= '16#0702 Invalid index group';
+	16#0703:
+		M_GetAdsError:= '16#0703 Invalid index offset';
+	16#0704:
+		M_GetAdsError:= '16#0704 Reading or writing not permitted';
+	16#0705:
+		M_GetAdsError:= '16#0705 Parameter size not correct';
+	16#0706:
+		M_GetAdsError:= '16#0706 Invalid data values';
+	16#0707:
+		M_GetAdsError:= '16#0707 Device is not ready to operate';
+	16#0708:
+		M_GetAdsError:= '16#0708 Device is busy';
+	16#0709:
+		M_GetAdsError:= '16#0709 Invalid operating system context This can result from use of ADS blocks in different tasks It may be possible to resolve this through multitasking synchronization in the PLC';
+	16#070A:
+		M_GetAdsError:= '16#070A Insufficient memory';
+	16#070B:
+		M_GetAdsError:= '16#070B Invalid parameter values';
+	16#070C:
+		M_GetAdsError:= '16#070C Not found (files, )';
+	16#070D:
+		M_GetAdsError:= '16#070D Syntax error in file or command';
+	16#070E:
+		M_GetAdsError:= '16#070E Objects do not match';
+	16#070F:
+		M_GetAdsError:= '16#070F Object already exists';
+	16#0710:
+		M_GetAdsError:= '16#0710 Symbol not found';
+	16#0711:
+		M_GetAdsError:= '16#0711 Invalid symbol version This can occur due to an online change Create a new handle';
+	16#0712:
+		M_GetAdsError:= '16#0712 Device (server) is in invalid state';
+	16#0713:
+		M_GetAdsError:= '16#0713 AdsTransMode not supported';
+	16#0714:
+		M_GetAdsError:= '16#0714 Notification handle is invalid';
+	16#0715:
+		M_GetAdsError:= '16#0715 Notification client not registered';
+	16#0716:
+		M_GetAdsError:= '16#0716 No further handle available';
+	16#0717:
+		M_GetAdsError:= '16#0717 Notification size too large';
+	16#0718:
+		M_GetAdsError:= '16#0718 Device not initialized';
+	16#0719:
+		M_GetAdsError:= '16#0719 Device has a timeout';
+	16#071A:
+		M_GetAdsError:= '16#071A Interface query failed';
+	16#071B:
+		M_GetAdsError:= '16#071B Wrong interface requested';
+	16#071C:
+		M_GetAdsError:= '16#071C Class ID is invalid';
+	16#071D:
+		M_GetAdsError:= '16#071D Object ID is invalid';
+	16#071E:
+		M_GetAdsError:= '16#071E Request pending';
+	16#071F:
+		M_GetAdsError:= '16#071F Request is aborted';
+	16#0720:
+		M_GetAdsError:= '16#0720 Signal warning';
+	16#0721:
+		M_GetAdsError:= '16#0721 Invalid array index';
+	16#0722:
+		M_GetAdsError:= '16#0722 Symbol not active';
+	16#0723:
+		M_GetAdsError:= '16#0723 Access denied';
+	16#0724:
+		M_GetAdsError:= '16#0724 Missing license';
+	16#0725:
+		M_GetAdsError:= '16#0725 License expired';
+	16#0726:
+		M_GetAdsError:= '16#0726 License exceeded';
+	16#0727:
+		M_GetAdsError:= '16#0727 Invalid license';
+	16#0728:
+		M_GetAdsError:= '16#0728 License problem: System ID is invalid';
+	16#0729:
+		M_GetAdsError:= '16#0729 License not limited in time';
+	16#072A:
+		M_GetAdsError:= '16#072A Licensing problem: time in the future';
+	16#072B:
+		M_GetAdsError:= '16#072B License period too long';
+	16#072C:
+		M_GetAdsError:= '16#072C Exception at system startup';
+	16#072D:
+		M_GetAdsError:= '16#072D License file read twice';
+	16#072E:
+		M_GetAdsError:= '16#072E Invalid signature';
+	16#072F:
+		M_GetAdsError:= '16#072F Invalid certificate';
+	16#0730:
+		M_GetAdsError:= '16#0730 Public key not known from OEM';
+	16#0731:
+		M_GetAdsError:= '16#0731 License not valid for this system ID';
+	16#0732:
+		M_GetAdsError:= '16#0732 Demo license prohibited';
+	16#0733:
+		M_GetAdsError:= '16#0733 Invalid function ID';
+	16#0734:
+		M_GetAdsError:= '16#0734 Outside the valid range';
+	16#0735:
+		M_GetAdsError:= '16#0735 Invalid alignment';
+	16#0736:
+		M_GetAdsError:= '16#0736 Invalid platform level';
+	16#0737:
+		M_GetAdsError:= '16#0737 Context - forward to passive level';
+	16#0738:
+		M_GetAdsError:= '16#0738 Context - forward to dispatch level';
+	16#0739:
+		M_GetAdsError:= '16#0739 Context - forward to real time';
+	16#0740:
+		M_GetAdsError:= '16#0740 Client error';
+	16#0741:
+		M_GetAdsError:= '16#0741 Service contains an invalid parameter';
+	16#0742:
+		M_GetAdsError:= '16#0742 Polling list is empty';
+	16#0743:
+		M_GetAdsError:= '16#0743 Var connection already in use';
+	16#0744:
+		M_GetAdsError:= '16#0744 The called ID is already in use';
+	16#0745:
+		M_GetAdsError:= '16#0745 Timeout has occurred';
+	16#0746:
+		M_GetAdsError:= '16#0746 Error in Win32 subsystem';
+	16#0747:
+		M_GetAdsError:= '16#0747 Invalid client timeout value';
+	16#0748:
+		M_GetAdsError:= '16#0748 Port not open';
+	16#0749:
+		M_GetAdsError:= '16#0749 No AMS address';
+	16#0750:
+		M_GetAdsError:= '16#0750 Internal error in Ads sync';
+	16#0751:
+		M_GetAdsError:= '16#0751 Hash table overflow';
+	16#0752:
+		M_GetAdsError:= '16#0752 Key not found in the table';
+	16#0753:
+		M_GetAdsError:= '16#0753 No symbols in the cache';
+	16#0754:
+		M_GetAdsError:= '16#0754 Invalid response received';
+	16#0755:
+		M_GetAdsError:= '16#0755 Sync Port is locked';
 	16#1000:
 		M_GetAdsError:= '16#1000 Internal error in the real-time system';
 	16#1001:

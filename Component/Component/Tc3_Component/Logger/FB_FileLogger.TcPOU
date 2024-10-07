@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_FileLogger" Id="{175a8cb1-dae8-0032-28e0-2fe7643e749e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_FileLogger EXTENDS FB_AbstractLogger
+VAR
+	nLength:					DINT;
+	aEvent:						ARRAY [0..nSize - 1] OF ST_Event;
+	fbFile:						FB_File;
+	sPath:						STRING(255);
+END_VAR	
+VAR CONSTANT 
+	nSize: DINT:= 50; 
+END_VAR 
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// https://peterzerlauth.com/
+fbFile();]]></ST>
+    </Implementation>
+    <Method Name="M_Delete" Id="{e194cfe8-7ea1-0904-2ea4-cb7692c5ac73}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Delete : BOOL
+VAR_INPUT
+	nIndex: 			DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// new Length
+nLength:= nLength -1;
+//pList[nPosition]:= iObject;
+Memcpy(ADR(aEvent[nIndex]), ADR(aEvent[nIndex +1]), SIZEOF(POINTER TO ST_Event) * DINT_TO_UDINT(nSize - nIndex));]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Find" Id="{c3940f0c-0f90-0fa7-1773-9d641a856f9f}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
+VAR_INPUT
+	stEvent:	ST_Event;
+END_VAR
+VAR 
+	nIndex:		DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Find event in buffer
+M_Find := -1;
+WHILE nIndex < nLength DO
+	IF (aEvent[nIndex].iSource = stEvent.iSource) AND_THEN
+    	(aEvent[nIndex].eEventType = stEvent.eEventType) AND_THEN
+		(aEvent[nIndex].sInstance = stEvent.sInstance) AND_THEN
+		(aEvent[nIndex].sMessage = stEvent.sMessage) THEN
+        M_Find := nIndex;
+        RETURN;
+    END_IF
+	nIndex := nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Log" Id="{4e862419-1e3f-0767-1bce-e8d9106b68a2}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Log
+VAR_INPUT
+	stEvent:		ST_Event;
+END_VAR
+VAR
+	nIndex:			DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
+	// Update existing events
+	aEvent[nIndex].sArguments:= stEvent.sArguments;
+	aEvent[nIndex].sDefault:= stEvent.sDefault;
+	aEvent[nIndex].sClass:= stEvent.sClass;
+	aEvent[nIndex].stFlags:= stEvent.stFlags;
+ELSE
+	// add new event
+	aEvent[nLength]:= stEvent;
+	nLength:= nLength + 1;
+END_IF
+
+IF iNext <> 0 THEN
+	iNext.M_Log(stEvent);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{52af7eae-8e44-0ef1-166c-c09304e3ce71}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Reset all events
+nLength:= 0;
+Memset(ADR(aEvent), 0, SIZEOF(aEvent));
+
+IF iNext <> 0 THEN
+	iNext.M_Reset();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

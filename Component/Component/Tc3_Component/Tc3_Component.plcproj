@@ -9,7 +9,7 @@
     <WriteProductVersion>false</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
     <Name>Tc3_Component</Name>
-    <ProgramVersion>3.1.4026.10</ProgramVersion>
+    <ProgramVersion>3.1.4026.11</ProgramVersion>
     <Application>{83dea455-3cb0-4661-8d1a-f0b533fc27b9}</Application>
     <TypeSystem>{8aefb04c-7e59-4770-8677-19ef8ae6a899}</TypeSystem>
     <Implicit_Task_Info>{d555a9a5-7f9b-42d3-922f-d873e8adf078}</Implicit_Task_Info>
@@ -59,8 +59,6 @@
     <Folder Include="Utils" />
     <Folder Include="Object" />
     <Folder Include="Utils\File" />
-    <Folder Include="Utils\Digital" />
-    <Folder Include="Utils\Analog" />
     <Folder Include="Version" />
   </ItemGroup>
   <ItemGroup>
@@ -161,13 +159,13 @@
     <Compile Include="Logger\FB_AbstractLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Logger\FB_FileLogger.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Logger\FB_TcLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\FB_Logger.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Logger\FB_JsonLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\I_Logger.TcIO">
@@ -183,21 +181,6 @@
     <Compile Include="Object\I_Object.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utils\Analog\AnalogInput.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\Analog\AnalogInputREAL.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\Analog\AnalogOutput.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\Analog\I_AnalogChannel.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\FB_ArrayDint.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Utils\FB_Debounce.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -205,18 +188,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utils\File\I_File.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\Digital\FB_DigitalInput.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\Digital\FB_DigitalOutput.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\Digital\I_Channel.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\Digital\I_DigitalChannel.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Version\Global_Version.TcGVL">

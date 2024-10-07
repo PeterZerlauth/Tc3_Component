@@ -8,6 +8,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	fbMembers:					FB_Members;
+	fbFunctions:				FB_Members;
 	fbLogger:					FB_Logger;
 	fbTcLogger:					FB_TcLogger;
 END_VAR]]></Declaration>
@@ -16,15 +17,19 @@ END_VAR]]></Declaration>
 SUPER^();
 
 fbMembers();
+fbFunctions();
 
 fbLogger();
-fbTcLogger();]]></ST>
+fbTcLogger();
+
+]]></ST>
     </Implementation>
     <Method Name="M_Aborting" Id="{f6e4ce1d-311c-0905-2650-709c43fe3659}">
       <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL (* Return*)
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[fbSequence.M_Reset();
+fbFunctions.M_Abort();
 M_Aborting:= fbMembers.M_Abort();]]></ST>
       </Implementation>
     </Method>
@@ -52,10 +57,10 @@ CASE eMode OF
 		IF eModePrevious = E_RequestMode.Manual THEN
 			fbEvent.M_AddSTRING(TO_STRING(eModePrevious));
 			fbEvent.M_AddSTRING(TO_STRING(eMode));
-			fbEvent.M_Abort('Mode changed form %s to %s', 4);
+			fbEvent.M_Abort('Module mode changed form %s to %s', 1002);
 		END_IF
 	E_RequestMode.Manual:
-		fbEvent.M_Info('Manual mode active', 5);
+		;
 END_CASE
 
 ]]></ST>
@@ -92,7 +97,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF eMode = E_RequestMode.Manual THEN
+	fbEvent.M_Info('Module manual mode active', 1003);
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Starting" Id="{1cc97cfa-38a4-0e77-03d9-70ce05bfa7e9}">
@@ -113,5 +121,27 @@ END_VAR]]></Declaration>
         <ST><![CDATA[M_Stopping:= TRUE;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="P_Functions" Id="{5a2f9a0c-b3ab-04c3-1eca-816199248241}">
+      <Declaration><![CDATA[PROPERTY P_Functions : I_Members]]></Declaration>
+      <Get Name="Get" Id="{c5ee8145-7d18-0de1-2e59-95038fd31a55}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Functions:= fbFunctions;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Members" Id="{8e9ce069-f0c6-0416-2447-b07a30a4ac36}">
+      <Declaration><![CDATA[PROPERTY P_Members : I_Members]]></Declaration>
+      <Get Name="Get" Id="{4d710b84-ccea-0bc6-0f59-e014be3b6c00}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Members:= fbMembers;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
   </POU>
 </TcPlcObject>

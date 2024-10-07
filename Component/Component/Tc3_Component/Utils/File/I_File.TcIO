@@ -68,5 +68,11 @@ END_VAR]]></Declaration>
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
+    <Property Name="P_Open" Id="{491f48df-6849-0fe2-1c5f-0d062de3a770}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Open : Bool]]></Declaration>
+      <Get Name="Get" Id="{4e2206d5-4e41-0dda-09c1-04b206db10a1}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
   </Itf>
 </TcPlcObject>

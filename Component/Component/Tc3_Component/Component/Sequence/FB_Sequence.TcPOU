@@ -3,10 +3,10 @@
   <POU Name="FB_Sequence" Id="{4b1aa270-5e63-4fbf-b9b1-b64186ed4cc4}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Sequence IMPLEMENTS I_Sequence
 VAR_OUTPUT
+	bTimeout:			BOOL;
 END_VAR
 VAR
 	iParent:			I_Component;
-	bTimeout:			BOOL;
 	stLast:				ST_Sequence;
 	stActual:			ST_Sequence;
 	fbTimeout:			TON;
@@ -43,7 +43,7 @@ END_VAR
 CASE iParent.P_Mode OF
 	E_RequestMode.Manual:
 		stActual.sMessage:= 'Manual mode';
-		stActual.nNumber:= E_Sequence.Manual;
+		stActual.nNumber:= E_Sequence.Undefined;
 		
 	E_RequestMode.Automatic, E_RequestMode.Semiauto:
 		stActual.sMessage:= sMessage;
@@ -55,6 +55,9 @@ CASE iParent.P_Mode OF
 				stActual.nNumber:= nNumber;
 				stLast:= stActual;
 				fbDelay(IN:= FALSE);
+				IF bStop AND_THEN (iParent.P_Mode = E_RequestMode.Semiauto) THEN
+					iParent.P_Event.M_Stop('Automatic stopped in semiauto', 1000);				
+				END_IF
 			END_IF
 		ELSE
 			fbDelay(IN:= FALSE);
@@ -63,10 +66,10 @@ CASE iParent.P_Mode OF
 				IF bTimeout THEN
 					fbTimeout(IN:= FALSE);
 					bTimeout:= FALSE;
-					iParent.P_Event.M_AddINT(stActual.nNumber);
 					iParent.P_Event.M_AddSTRING(sMessage);
+					iParent.P_Event.M_AddINT(stActual.nNumber);
 					iParent.P_Event.M_AddTIME(tTimeout);
-					iParent.P_Event.M_Stop('fbSequence number: (%s) message: (%s) timeout: (%s)', 0);
+					iParent.P_Event.M_Stop('Timeout(message: %s number: %s time: %s)', 1001);
 				ELSE
 					bTimeout:= TRUE;
 				END_IF

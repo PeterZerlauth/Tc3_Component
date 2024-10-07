@@ -126,19 +126,19 @@ ELSIF bToHomePosition  THEN
 					E_EventType.Information:
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sWorkPosition);
-						P_Event.M_Info('Cylinder Work Positon not left (%s%s)', 0);	
+						P_Event.M_Info('Cylinder Work Positon not left (%s%s)', 1120);	
 					E_EventType.Warning:
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sWorkPosition);
-						P_Event.M_Warning('Cylinder Work Positon not left (%s%s)', 0);						
+						P_Event.M_Warning('Cylinder Work Positon not left (%s%s)', 1120);						
 					E_EventType.Stop:
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sWorkPosition);
-						P_Event.M_Stop('Cylinder Work Positon not left (%s%s)', 0);				
+						P_Event.M_Stop('Cylinder Work Positon not left (%s%s)', 1120);				
 					E_EventType.Abort:				
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sWorkPosition);
-						P_Event.M_Abort('Cylinder Work Positon not left (%s%s)', 0);							
+						P_Event.M_Abort('Cylinder Work Positon not left (%s%s)', 1120);							
 				END_CASE
 
 			ELSIF NOT fbHomePositon.P_Value THEN
@@ -146,19 +146,19 @@ ELSIF bToHomePosition  THEN
 					E_EventType.Information:
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sHomePosition);
-						P_Event.M_Info('Cylinder Home Positon not reached (%s%s)', 0);
+						P_Event.M_Info('Cylinder Home Positon not reached (%s%s)', 1121);
 					E_EventType.Warning:
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sHomePosition);
-						P_Event.M_Warning('Cylinder Home Positon not reached (%s%s)', 0);				
+						P_Event.M_Warning('Cylinder Home Positon not reached (%s%s)', 1121);				
 					E_EventType.Stop:
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sWorkPosition);
-						P_Event.M_Stop('Cylinder Home Positon not reached (%s%s)', 0);		
+						P_Event.M_Stop('Cylinder Home Positon not reached (%s%s)', 1121);		
 					E_EventType.Abort:				
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sHomePosition);
-						P_Event.M_Abort('Cylinder Home Positon not reached (%s%s)', 0);
+						P_Event.M_Abort('Cylinder Home Positon not reached (%s%s)', 1121);
 				END_CASE
 				
 			END_IF
@@ -189,19 +189,19 @@ ELSIF bToWorkPosition  THEN
 					E_EventType.Information:
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sWorkPosition);
-						P_Event.M_Info('Cylinder Work Positon not reached (%s%s)', 0);	
+						P_Event.M_Info('Cylinder Work Positon not reached (%s%s)', 1122);	
 					E_EventType.Warning:
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sWorkPosition);
-						P_Event.M_Warning('Cylinder Work Positon not reached (%s%s)', 0);						
+						P_Event.M_Warning('Cylinder Work Positon not reached (%s%s)', 1122);						
 					E_EventType.Stop:
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sWorkPosition);
-						P_Event.M_Stop('Cylinder Work Positon not reached (%s%s)', 0);				
+						P_Event.M_Stop('Cylinder Work Positon not reached (%s%s)', 1122);				
 					E_EventType.Abort:				
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sWorkPosition);
-						P_Event.M_Abort('Cylinder Work Positon not reached (%s%s)', 0);							
+						P_Event.M_Abort('Cylinder Work Positon not reached (%s%s)', 1122);							
 				END_CASE
 
 			ELSIF fbHomePositon.P_Value THEN
@@ -209,19 +209,19 @@ ELSIF bToWorkPosition  THEN
 					E_EventType.Information:
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sHomePosition);
-						P_Event.M_Info('Cylinder Home Positon not left (%s%s)', 0);
+						P_Event.M_Info('Cylinder Home Positon not left (%s%s)', 1122);
 					E_EventType.Warning:
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sHomePosition);
-						P_Event.M_Warning('Cylinder Home Positon not left (%s%s)', 0);				
+						P_Event.M_Warning('Cylinder Home Positon not left (%s%s)', 1122);				
 					E_EventType.Stop:
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sWorkPosition);
-						P_Event.M_Stop('Cylinder Home Positon not left (%s%s)', 0);		
+						P_Event.M_Stop('Cylinder Home Positon not left (%s%s)', 1122);		
 					E_EventType.Abort:				
 						P_Event.M_AddSTRING(fbInfo.P_ID);
 						P_Event.M_AddSTRING(stOptions.sHomePosition);
-						P_Event.M_Abort('Cylinder Home Positon not left (%s%s)', 0);
+						P_Event.M_Abort('Cylinder Home Positon not left (%s%s)', 1122);
 				END_CASE
 				
 			END_IF

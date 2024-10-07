@@ -62,7 +62,16 @@ CASE fbTestsuite.P_Testcase OF
 	
 	100:
 		fbTestsuite.P_Assert.M_Equals_DINT(fbList.P_Length, 0, 'P_Length');
-		fbTestsuite.M_Testcase('FB_ListString', T#2S, 'fbList.P_Length', '', E_Testcase.Done);
+		fbTestsuite.M_Testcase('FB_ListString', T#2S, 'fbList.P_Length', '', 110);
+		
+	110:	
+		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Add(''), FALSE, 'M_Add("")');
+		fbTestsuite.M_Testcase('FB_ListString', T#2S, 'fbList.M_Add(test)', '', 120);
+
+	120:
+		fbTestsuite.P_Assert.M_Equals_DINT(fbList.P_Length, 0, 'P_Length');
+		fbTestsuite.M_Testcase('FB_ListString', T#2S, 'fbList.P_Length', '', E_Testcase.Done);	
+		
 		
 	E_Testcase.Done:
 		;

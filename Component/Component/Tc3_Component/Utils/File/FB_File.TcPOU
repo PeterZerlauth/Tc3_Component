@@ -119,6 +119,7 @@ if nTemp <> 0 then
 	END_IF
 ELSE
 	IF M_Open(PathName) THEN
+		bOpen:= TRUE;
 		M_Create:= TRUE;
 		nPosition:= 0;
 	END_IF
@@ -251,8 +252,8 @@ END_VAR]]></Declaration>
 	END_IF
 ELSE
 	fbWrite.bExecute:= TRUE;
-	fbRead.pReadBuff:= Value.pValue;
-	fbRead.cbReadLen:= DINT_TO_UDINT(Value.diSize);
+	MEMCPY(ADR(fbWrite.cbWrite), Value.pValue, SIZEOF(POINTER TO BYTE));
+	fbWrite.cbWriteLen:= DINT_TO_UDINT(Value.diSize);
 END_IF
 ]]></ST>
       </Implementation>
@@ -265,6 +266,17 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[P_Error:= nError;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Open" Id="{0b7aedf3-0199-0d02-3ad7-a44b7383a630}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Open : Bool]]></Declaration>
+      <Get Name="Get" Id="{c1c0e264-fe21-0fbb-34b6-93749655f7a1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Open:= fbOpen.hFile <> 0;]]></ST>
         </Implementation>
       </Get>
     </Property>
