@@ -55,7 +55,7 @@ END_VAR]]></Declaration>
 		fbSequence.M_Await('Step 10', T#0S, T#0S, TRUE, bReturn, 20);
 		
 	20:
-		bReturn:= FALSE;
+		bReturn:= TRUE;
 		fbSequence.M_Await('Step 20', T#1S, T#0S, FALSE, bReturn, E_Sequence.Done);
 		IF fbSequence.P_Timeout THEN
 			fbEvent.M_Stop('Overrride timeout error', 0);

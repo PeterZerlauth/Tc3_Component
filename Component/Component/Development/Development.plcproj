@@ -50,10 +50,13 @@
     <Compile Include="InDevelopment\Axis\FB_AxisBase.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InDevelopment\Axis\FB_Error.TcPOU">
+    <Compile Include="InDevelopment\Axis\FB_EL72XX.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InDevelopment\Axis\I_AxisBase.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InDevelopment\Axis\F_TcError.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InDevelopment\Cylinder\FB_Cylinder.TcPOU">
@@ -93,6 +96,10 @@
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderReference Include="Tc2_Drive">
+      <DefaultResolution>Tc2_Drive, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Drive</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_EtherCAT">
       <DefaultResolution>Tc2_EtherCAT, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_EtherCAT</Namespace>
@@ -100,6 +107,10 @@
     <PlaceholderReference Include="Tc2_MC2">
       <DefaultResolution>Tc2_MC2, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_MC2</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_MC2_Drive">
+      <DefaultResolution>Tc2_MC2_Drive, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_MC2_Drive</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
