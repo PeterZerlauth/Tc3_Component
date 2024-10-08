@@ -13,6 +13,7 @@ TYPE ST_Event :
 		sMessage:		STRING(255);
 		sDefault:		STRING(255);
 		sArguments:		STRING(255);
+   		{attribute 'hide'} 
 		stFlags:		ST_EventFlags;
 	END_STRUCT
 END_TYPE]]></Declaration>
