@@ -119,7 +119,6 @@ if nTemp <> 0 then
 	END_IF
 ELSE
 	IF M_Open(PathName) THEN
-		bOpen:= TRUE;
 		M_Create:= TRUE;
 		nPosition:= 0;
 	END_IF

@@ -14,8 +14,7 @@ TYPE E_RequestState :
 	{attribute 'analysis' := '-27'}
     Start       := 2,
 	Stop		:= 4,
-	StopCycle	:= 8,
-	Abort       := 16
+	Abort		:= 8
 );
 END_TYPE]]></Declaration>
   </DUT>

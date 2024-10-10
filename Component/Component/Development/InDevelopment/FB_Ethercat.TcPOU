@@ -22,7 +22,10 @@ END_VAR]]></Declaration>
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// 
-// fbGetSlaveStates(sNetId:= AmsNetID, ADR(a)]]></ST>
+// fbGetSlaveStates(sNetId:= AmsNetID, ADR(a)
+
+M_Execute:= TRUE;
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Starting" Id="{01edd329-ad62-031a-014c-c40cc08b18f9}">

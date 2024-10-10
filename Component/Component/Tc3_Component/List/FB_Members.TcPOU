@@ -42,6 +42,7 @@ END_VAR
         <ST><![CDATA[M_Add(iObject);
 iObject.P_Event.P_Logger:= iParent.P_Event.P_Logger;
 iObject.P_Event.P_Observer.M_Attach(iParent);
+iParent.P_Event.P_Observer.M_Attach(iObject);
 M_Attach:= True;]]></ST>
       </Implementation>
     </Method>

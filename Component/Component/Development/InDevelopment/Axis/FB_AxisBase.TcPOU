@@ -182,7 +182,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[
-]]></ST>
+M_Execute:= stAxis.Status.NotMoving and stAxis.Status.InTargetPosition;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Halt" Id="{4cc16a25-74cd-4585-8a87-63dca814490d}" FolderPath="Motion\">

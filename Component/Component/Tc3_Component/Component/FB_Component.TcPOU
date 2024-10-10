@@ -8,8 +8,8 @@ VAR_OUTPUT
 END_VAR
 VAR
 	fbInfo:							FB_Info;					// Info about function block
-	fbEvent:						FB_Event(THIS^);			// Event creator
-	fbSequence:						FB_Sequence(THIS^);			// Sequence (abort = reset)
+	fbEvent:						FB_Event(THIS^);			// Event Publisher
+	fbSequence:						FB_Sequence(THIS^);			// Sequence
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '1'}
 	eStateRequest:					E_RequestState;				// State command
@@ -26,6 +26,7 @@ VAR
 	eMode:							E_RequestMode;				// Current mode
     {attribute 'hide'}
 	eModePrevious:					E_RequestMode;				// Previous mode
+	bResult:						BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/
@@ -35,13 +36,15 @@ fbSequence();
 
 CASE eState OF
 	E_State.Undefined:
-		IF M_Initialise() THEN	// return true for next state
+		bResult:= M_Initialise();
+		IF bResult THEN	// return true for next state
 			eMode:= E_RequestMode.Automatic;
 			eState:= E_State.Idle;			
 		END_IF
 		
 	E_State.Resetting:
-		IF M_Resetting() THEN // return true for next state
+		bResult:= M_Resetting();
+		IF bResult THEN // return true for next state
 			eState:= E_State.Idle;
 			eStateRequest:= E_RequestState.Undefined;
 		END_IF
@@ -56,7 +59,8 @@ CASE eState OF
 		
 	E_State.Idle:
 		M_Running();
-		IF M_Idle() THEN	// return true for next state
+		bResult:= M_Idle();
+		IF bResult THEN	// return true for next state
 			eState:= E_State.Starting;
 		END_IF
 		CASE eStateRequest OF	// Handle command
@@ -77,7 +81,8 @@ CASE eState OF
 
 	E_State.Starting:
 		M_Running();
-		IF M_Starting() THEN	// return true for next state
+		bResult:= M_Starting();
+		IF bResult THEN	// return true for next state
 			eState:= E_State.Execute;
 			eStateRequest:= E_RequestState.Undefined;
 		END_IF
@@ -93,13 +98,13 @@ CASE eState OF
 
 	E_State.Execute:
 		M_Running();
-		IF M_Execute() THEN // return true for next state
-			eState:= E_State.Stopping;
-		END_IF
+		bResult:= M_Execute();
 		CASE eStateRequest OF	// Handle command
 			E_RequestState.Stop:
-				eState:= E_State.Stopping;
-				
+				IF bResult THEN
+					eState:= E_State.Stopping;				
+				END_IF
+
 			E_RequestState.Abort:
 				eState:= E_State.Aborting;
 
@@ -110,7 +115,8 @@ CASE eState OF
 		
 	E_State.Stopping:
 		M_Running();
-		IF M_Stopping() THEN // return true for next state
+		bResult:= M_Stopping();
+		IF bResult THEN // return true for next state
 			eState:= E_State.Stopped;
 			eStateRequest:= E_RequestState.Undefined;
 		END_IF
@@ -122,7 +128,8 @@ CASE eState OF
 		
 	E_State.Stopped:
 		M_Running();
-		IF M_Stopped() THEN // return true for next state
+		bResult:= M_Stopped();
+		IF bResult THEN // return true for next state
 			eState:= E_State.Resetting;
 			eStateRequest:= E_RequestState.Undefined;		
 		END_IF
@@ -138,13 +145,15 @@ CASE eState OF
 		END_CASE
 		
 	E_State.Aborting:
-		IF M_Aborting() THEN // return true for next state
+		bResult:= M_Aborting();
+		IF bResult THEN // return true for next state
 			eState:= E_State.Aborted;
 			eStateRequest:= E_RequestState.Undefined;
 		END_IF
 		
 	E_State.Aborted:
-		IF M_Aborted() THEN // return true for next state
+		bResult:= M_Aborted(); 
+		IF bResult THEN // return true for next state
 			eState:= E_State.Resetting;
 			eStateRequest:= E_RequestState.Undefined;		
 		END_IF
@@ -310,20 +319,6 @@ CASE eRequest OF
 		ELSE
 			eStateRequest:= eRequest;
 		END_IF
-	
-	E_RequestState.StopCycle:
-		CASE eState OF
-			E_State.Stopped, E_State.Aborted:
-				M_RequestState:= TRUE;
-				
-			E_State.Execute:
-				eStateRequest:= eRequest;
-				
-			E_State.Stopping, E_State.Aborting:
-				;
-			ELSE
-				eStateRequest:= E_RequestState.Stop;
-		END_CASE
 		
 	E_RequestState.Abort:
 		IF eState = E_State.Aborted THEN
