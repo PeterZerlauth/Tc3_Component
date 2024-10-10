@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Contactor" Id="{3074f00e-8b16-0ebb-3711-6232ab11307b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Contactor EXTENDS FB_Component
+VAR_INPUT
+	bInput				AT%I*: BOOL;
+END_VAR
+VAR_OUTPUT
+	bOutput				AT%I*: BOOL;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[super^();]]></ST>
+    </Implementation>
+    <Method Name="M_Running" Id="{5ac8577d-d5f2-03b3-3ca2-4e6ac942f74a}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Running
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bOutput THEN
+	IF bInput  THEN
+		;
+	ELSE
+		P_Event.M_Abort('Feedback wrong state %s', 0);		
+	END_IF
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Starting" Id="{f464c75f-d556-0d94-1910-7b583dbd882e}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL (* Return state complete*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bOutput THEN
+	IF bInput THEN
+		M_Starting:= TRUE;
+	ELSE
+		P_Event.M_Abort('Feedback wrong state %s', 0);
+	END_IF
+ELSE
+	IF bInput THEN
+		P_Event.M_Abort('Feedback wrong state %s', 0);
+	ELSE
+		bOutput:= TRUE;
+	END_IF	
+	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

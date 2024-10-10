@@ -118,7 +118,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Index <= nLength THEN
+        <ST><![CDATA[IF Index < nLength THEN
 	M_Index:= pList[Index];
 ELSE
 	M_Index:= '';

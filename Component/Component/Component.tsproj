@@ -1649,7 +1649,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Development" PrjFilePath="Development\Development.plcproj" TmcFilePath="Development\Development.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{3A7D8E96-D0E6-7DBE-60B5-CF74F8491150}" TmcPath="Development\Development.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{2972D20E-4771-3F1D-CE91-D78B57CE1E4D}" TmcPath="Development\Development.tmc">
 					<Name>Development Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -1669,6 +1669,14 @@ External Setpoint Generation:
 					</Vars>
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>MAIN.fbModule.fbContactor.bInput</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.fbModule.fbContactor.bOutput</Name>
+							<Type>BOOL</Type>
+						</Var>
 						<Var>
 							<Name>MAIN.fbModule.fbCylinder.bInHomePosition</Name>
 							<Type>BOOL</Type>

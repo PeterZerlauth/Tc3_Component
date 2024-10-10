@@ -56,6 +56,9 @@
     <Compile Include="InDevelopment\Axis\F_TcError.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="InDevelopment\Contactor\FB_Contactor.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="InDevelopment\Cylinder\FB_Cylinder.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -87,6 +90,7 @@
     <Folder Include="InDevelopment" />
     <Folder Include="InDevelopment\Axis" />
     <Folder Include="InDevelopment\Cylinder" />
+    <Folder Include="InDevelopment\Contactor" />
     <Folder Include="InDevelopment\PnozMulti" />
     <Folder Include="Modules" />
     <Folder Include="VISUs" />

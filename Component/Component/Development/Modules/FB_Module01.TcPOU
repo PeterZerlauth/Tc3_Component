@@ -9,7 +9,7 @@ END_VAR
 VAR
 	fbComponent0:				FB_ComponentEx;
 	fbComponent1:				FB_ComponentEx;
-	fbComponent2:				FB_ComponentEx;
+	fbContactor:				FB_Contactor;
 	fbCylinder:					FB_Cylinder;
 	fbPnozMulti:				FB_PnozMulti;
 	fbAxis:						FB_AxisBase;
@@ -19,10 +19,12 @@ END_VAR]]></Declaration>
 SUPER^();
 fbComponent0();
 fbComponent1();
-fbComponent2();
+fbContactor();
 fbCylinder();
 fbPnozMulti();
-fbAxis();]]></ST>
+fbAxis();
+
+fbContactor.bInput:= fbContactor.bOutput;]]></ST>
     </Implementation>
     <Method Name="M_Execute" Id="{0f7f4331-8af5-0744-015a-f65d0021dd06}">
       <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL
@@ -67,7 +69,7 @@ P_Info.P_ID:= 'M001';
 
 fbMembers.M_Attach(THIS^, fbComponent0);
 fbMembers.M_Attach(THIS^, fbComponent1);
-fbMembers.M_Attach(THIS^, fbComponent2);
+fbMembers.M_Attach(THIS^, fbContactor);
 fbMembers.M_Attach(THIS^, fbCylinder);
 fbMembers.M_Attach(THIS^, fbPnozMulti);
 fbMembers.M_Attach(THIS^, fbAxis);]]></ST>
