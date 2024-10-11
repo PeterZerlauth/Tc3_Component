@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <Itf Name="I_Members" Id="{2fbecd23-39f8-0ccf-3cc5-99cfd7eae8ff}">
-    <Declaration><![CDATA[INTERFACE I_Members]]></Declaration>
+    <Declaration><![CDATA[INTERFACE I_Members extends I_ListComponent]]></Declaration>
     <Method Name="M_Abort" Id="{1f933af1-4f11-0ecb-08ec-82192c1a612b}">
       <Declaration><![CDATA[METHOD PUBLIC M_Abort : BOOL (* Return state complete*)]]></Declaration>
     </Method>
     <Method Name="M_Attach" Id="{543e6ceb-65ee-0efc-1fe4-95b58138999e}">
       <Declaration><![CDATA[METHOD PUBLIC M_Attach : BOOL
 VAR_INPUT
-	iParent:	I_Component;
-	iObject: 	I_Component;
+	iParent:		I_Component;
+	iComponent: 	I_Component;
 END_VAR
 ]]></Declaration>
     </Method>
@@ -24,7 +24,7 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
 METHOD PUBLIC M_Mode : BOOL
 VAR_INPUT
-	eMode:		E_RequestMode;
+	eMode:		E_Mode;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="M_Reset" Id="{7335da18-63d0-00bd-1129-5875771dd0c7}">

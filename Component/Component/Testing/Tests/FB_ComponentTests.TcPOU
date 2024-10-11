@@ -23,43 +23,43 @@ CASE fbTestsuite.P_Testcase OF
 	
 	E_Testcase.Start:
 		IF fbComponent.P_State = E_State.Aborted THEN
-			fbComponent.M_RequestState(E_RequestState.Reset);
+			fbComponent.M_Request(E_Request.Reset);
 		ELSIF	fbComponent.P_State <> E_State.Idle THEN
-			fbComponent.M_RequestState(E_RequestState.Abort);			
+			fbComponent.M_Request(E_Request.Abort);			
 		END_IF
 
 		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Idle), TO_STRING(fbComponent.P_State), 'P_State');
-		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_RequestState(E_RequestState.Reset)', '', 10);	
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_Request(E_Request.Reset)', '', 10);	
 		
 	10:
-		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Start), 'M_RequestState(E_RequestState.Start)');	
+		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Start), 'M_Request(E_Request.Start)');	
 		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Execute), TO_STRING(fbComponent.P_State), 'P_State');
-		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_RequestState(E_RequestState.Reset)', '', 20);
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_Request(E_Request.Reset)', '', 20);
 		
 	20:
-		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Abort), 'M_RequestState(E_RequestState.Abort)');	
+		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Abort), 'M_Request(E_Request.Abort)');	
 		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Aborted), TO_STRING(fbComponent.P_State), 'P_State');
-		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_RequestState(E_RequestState.Abort)', '', 30);
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_Request(E_Request.Abort)', '', 30);
 
 	30:
-		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Reset), 'M_RequestState(E_RequestState.Reset)');	
+		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Reset), 'M_Request(E_Request.Reset)');	
 		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Idle), TO_STRING(fbComponent.P_State), 'P_State');
-		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_RequestState(E_RequestState.Reset)', '', 40);
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_Request(E_Request.Reset)', '', 40);
 
 	40:
-		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Start), 'M_RequestState(E_RequestState.Start)');	
+		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Start), 'M_Request(E_Request.Start)');	
 		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Execute), TO_STRING(fbComponent.P_State), 'P_State');
-		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_RequestState(E_RequestState.Reset)', '', 50);
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_Request(E_Request.Reset)', '', 50);
 		
 	50:
-		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Stop), 'M_RequestState(E_RequestState.Stop)');	
+		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Stop), 'M_Request(E_Request.Stop)');	
 		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Stopped), TO_STRING(fbComponent.P_State), 'P_State');
-		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_RequestState(E_RequestState.Stop)', '', 60);
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_Request(E_Request.Stop)', '', 60);
 		
 	60:
-		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_RequestState(E_RequestState.Reset), 'M_RequestState(E_RequestState.Reset)');	
+		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, fbComponent.M_Request(E_Request.Reset), 'M_Request(E_Request.Reset)');	
 		fbTestsuite.P_Assert.M_Equals_STRING(TO_STRING(E_State.Idle), TO_STRING(fbComponent.P_State), 'P_State');
-		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_RequestState(E_RequestState.Reset)', '', 70);
+		fbTestsuite.M_Testcase('FB_Component', T#2S, 'fbComponent.M_Request(E_Request.Reset)', '', 70);
 		
 	70:
 		fbComponent.P_Event.M_Abort('Abort', 1);

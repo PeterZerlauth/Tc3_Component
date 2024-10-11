@@ -163,7 +163,7 @@ END_IF]]></ST>
       <Declaration><![CDATA[METHOD M_Notify
 VAR_INPUT
 	iSender:		I_Component;
-	eRequest:		E_RequestState;
+	eRequest:		E_Request;
 END_VAR
 
 VAR

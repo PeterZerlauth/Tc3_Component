@@ -21,7 +21,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Abort:= TRUE;
 WHILE nIndex < nLength DO
-	IF M_Index(nIndex).M_RequestState(E_RequestState.Abort) THEN
+	IF M_Index(nIndex).M_Request(E_Request.Abort) THEN
 		;
 	ELSE
 		M_Abort:= FALSE;
@@ -34,15 +34,15 @@ END_WHILE]]></ST>
     <Method Name="M_Attach" Id="{f766bba5-1031-00ce-2c1e-fef5e99d9284}">
       <Declaration><![CDATA[METHOD PUBLIC M_Attach : BOOL
 VAR_INPUT
-	iParent:	I_Component;
-	iObject: 	I_Component;
+	iParent:		I_Component;
+	iComponent: 	I_Component;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Add(iObject);
-iObject.P_Event.P_Logger:= iParent.P_Event.P_Logger;
-iObject.P_Event.P_Observer.M_Attach(iParent);
-iParent.P_Event.P_Observer.M_Attach(iObject);
+        <ST><![CDATA[M_Add(iComponent);
+iComponent.P_Event.P_Logger:= iParent.P_Event.P_Logger;
+iComponent.P_Event.P_Observer.M_Attach(iParent);
+iParent.P_Event.P_Observer.M_Attach(iComponent);
 M_Attach:= True;]]></ST>
       </Implementation>
     </Method>
@@ -63,7 +63,7 @@ M_Detach:= True;]]></ST>
       <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
 METHOD PUBLIC M_Mode : BOOL
 VAR_INPUT
-	eMode:		E_RequestMode;
+	eMode:		E_Mode;
 END_VAR
 
 VAR
@@ -71,10 +71,31 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[WHILE nIndex < nLength DO
-	M_Index(nIndex).M_RequestMode(eMode);
+	M_Index(nIndex).M_Mode(eMode);
 	nIndex:= nIndex + 1;
 END_WHILE
 M_Mode:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Request" Id="{456140c5-662f-0ac6-30a8-393d1e7f2b51}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Request : BOOL
+VAR_INPUT
+	eRequest:	E_Request;
+END_VAR
+VAR
+	nIndex: DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Request:= TRUE;
+WHILE nIndex < nLength DO
+	IF M_Index(nIndex).M_Request(eRequest) THEN
+		;
+	ELSE
+		M_Request:= FALSE;
+	END_IF
+	
+	nIndex:= nIndex + 1;
+END_WHILE]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Reset" Id="{f82c528d-d106-0d47-26b7-c180584df544}">
@@ -85,7 +106,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[WHILE nIndex < nLength DO
-	M_Index(nIndex).M_RequestState(E_RequestState.Reset);
+	M_Index(nIndex).M_Request(E_Request.Reset);
 	nIndex:= nIndex + 1;
 END_WHILE
 M_Reset:= TRUE;]]></ST>
@@ -100,7 +121,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Start:= TRUE;
 WHILE nIndex < nLength DO
-	IF M_Index(nIndex).M_RequestState(E_RequestState.Start) THEN
+	IF M_Index(nIndex).M_Request(E_Request.Start) THEN
 		;
 	ELSE
 		M_Start:= FALSE;
@@ -119,7 +140,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[M_Stop:= TRUE;
 WHILE nIndex < nLength DO
-	IF M_Index(nIndex).M_RequestState(E_RequestState.Stop) THEN
+	IF M_Index(nIndex).M_Request(E_Request.Stop) THEN
 		;
 	ELSE
 		M_Stop:= FALSE;

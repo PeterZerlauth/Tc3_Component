@@ -20,7 +20,7 @@
     <AutoUpdateUmlProfile>true</AutoUpdateUmlProfile>
     <Released>false</Released>
     <CombineIds>true</CombineIds>
-    <CompilerDefines>release</CompilerDefines>
+    <CompilerDefines>release,VISU_USEPROPERTYINFO</CompilerDefines>
     <DeploymentEvents>
       <Events>
         <Event>
@@ -43,6 +43,9 @@
     <GlobalVersionStructureIncluded>false</GlobalVersionStructureIncluded>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GlobalTextList.TcGTLO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GVLs\IO.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
@@ -75,6 +78,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Modules\FB_Module01.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\FB_Machine.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\FB_Module02.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
@@ -168,7 +177,12 @@
         <o>
           <v n="Name">"{246001F4-279D-43AC-B241-948EB31120E1}"</v>
           <d n="SubKeys" t="Hashtable" />
-          <d n="Values" t="Hashtable" />
+          <d n="Values" t="Hashtable" ckt="String" cvt="Boolean">
+            <v>GeneralPropertySupport</v>
+            <v>True</v>
+            <v>UnicodeStrings</v>
+            <v>False</v>
+          </d>
         </o>
         <v>{29BD8D0C-3586-4548-BB48-497B9A01693F}</v>
         <o>

@@ -59,9 +59,9 @@ ELSE
 	iLogger.M_Log(stAbort);
 END_IF
 
-iParent.M_RequestState(E_RequestState.Abort);
+iParent.M_Request(E_Request.Abort);
 
-fbObserver.M_Notify(iParent, E_RequestState.Abort);]]></ST>
+fbObserver.M_Notify(iParent, E_Request.Abort);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_AddBOOL" Id="{55367f5b-ac71-0a63-095c-881721842948}">
@@ -245,9 +245,9 @@ ELSE
 	iLogger.M_Log(stStop);
 END_IF
 
-iParent.M_RequestState(E_RequestState.Stop);
+iParent.M_Request(E_Request.Stop);
 
-fbObserver.M_Notify(iParent, E_RequestState.Stop);]]></ST>
+fbObserver.M_Notify(iParent, E_Request.Stop);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Warning" Id="{d443b8bb-774e-487e-80a2-79cf66a0376c}">

@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Machine" Id="{3de86606-a9be-0cdd-161e-36bed1c57924}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Machine EXTENDS FB_Module
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// https://peterzerlauth.com/
+
+IF eStateRequest <> E_Request.Undefined THEN
+	fbMembers.M_Request(eStateRequest);
+END_IF
+
+SUPER^();
+
+]]></ST>
+    </Implementation>
+    <Method Name="M_Execute" Id="{45dd9f3e-d6f6-04de-33c0-4769c77fb584}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	bReturn:					BOOL:= TRUE;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Execute:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Initialise" Id="{ad0d5939-de65-0c6c-18a0-06369ab1a63d}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Initialise:= SUPER^.M_Initialise();
+
+fbMembers.M_Attach(THIS^, Main.fbModule2);
+fbMembers.M_Attach(THIS^, Main.fbModule1);
+
+
+P_Info.P_ID:= 'M001';]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Running" Id="{4479401e-3399-0b12-3183-8be8847678ab}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Running
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Starting" Id="{285faf55-e10d-03d6-26f0-866c85f1872d}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Starting:= SUPER^.M_Starting();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stopping" Id="{d97ed520-4549-0067-3e89-5d2dbde992b2}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State Stopping
+M_Stopping:= SUPER^.M_Stopping();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

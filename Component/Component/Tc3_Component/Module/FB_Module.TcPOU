@@ -47,19 +47,19 @@ M_Initialise:= SUPER^.M_Initialise();]]></ST>
     <Method Name="M_OnMode" Id="{549d817a-659a-0f3e-10ea-6f23f3ce8adf}">
       <Declaration><![CDATA[METHOD PROTECTED M_OnMode
 VAR_INPUT
-	eMode:							E_RequestMode;						// Current mode
-	eModePrevious:					E_RequestMode;						// Previous mode	
+	eMode:							E_Mode;						// Current mode
+	eModePrevious:					E_Mode;						// Previous mode	
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[fbMembers.M_Mode(eMode);
 CASE eMode OF
-	E_RequestMode.Semiauto, E_RequestMode.Automatic:
-		IF eModePrevious = E_RequestMode.Manual THEN
+	E_Mode.Semiauto, E_Mode.Automatic:
+		IF eModePrevious = E_Mode.Manual THEN
 			fbEvent.M_AddSTRING(TO_STRING(eModePrevious));
 			fbEvent.M_AddSTRING(TO_STRING(eMode));
 			fbEvent.M_Abort('Module mode changed form %s to %s', 1002);
 		END_IF
-	E_RequestMode.Manual:
+	E_Mode.Manual:
 		;
 END_CASE
 
@@ -97,7 +97,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF eMode = E_RequestMode.Manual THEN
+        <ST><![CDATA[IF eMode = E_Mode.Manual THEN
 	fbEvent.M_Info('Module manual mode active', 1003);
 END_IF
 ]]></ST>

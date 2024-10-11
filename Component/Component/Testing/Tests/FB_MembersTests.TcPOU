@@ -9,7 +9,8 @@ VAR_OUTPUT
 END_VAR
 VAR
 	fbList:					Tc3_Component.FB_Members;
-	fbObject:				Tc3_Component.FB_Component;
+	fbObject1:				Tc3_Component.FB_Component;
+	fbObject2:				Tc3_Component.FB_Component;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -18,7 +19,8 @@ fbTestsuite.P_Property.M_Add('name', 'Peter Zerlauth');
 
 fbTestsuite();
 
-fbObject();
+fbObject1();
+fbObject2();
 
 CASE fbTestsuite.P_Testcase OF
 	
@@ -28,38 +30,40 @@ CASE fbTestsuite.P_Testcase OF
 		fbTestsuite.M_Testcase('FB_Members', T#2S, 'fbList.P_Length', '', 10);	
 		
 	10:
-		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Add(fbObject), TRUE, 'M_Add(fbObject)');
+		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Add(fbObject1), TRUE, 'M_Add(fbObject1)');
+		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Add(fbObject2), TRUE, 'M_Add(fbObject2)');
+		fbTestsuite.P_Assert.M_Equals_DINT(fbList.P_Length, 2, 'P_Length');
 		fbTestsuite.M_Testcase('FB_Members', T#2S, 'fbList.M_Add(fbObject)', '', 20);
 		
 	20:
 		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Start(), 1, 'M_Start()');
-		fbTestsuite.P_Assert.M_Equals_DINT(fbObject.P_State, E_State.Execute, 'P_State');
+		fbTestsuite.P_Assert.M_Equals_DINT(fbObject1.P_State, E_State.Execute, 'P_State');
 		fbTestsuite.M_Testcase('FB_Members', T#2S, 'fbList.M_Start()', '', 30);		
 		
 	30:
 		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Stop(), 1, 'M_Stop()');
-		fbTestsuite.P_Assert.M_Equals_DINT(fbObject.P_State, E_State.Stopped, 'P_State');
+		fbTestsuite.P_Assert.M_Equals_DINT(fbObject1.P_State, E_State.Stopped, 'P_State');
 		fbTestsuite.M_Testcase('FB_Members', T#2S, 'fbList.M_Stop()', '', 40);
 		
 	40:
 
 		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Reset(), 1, 'M_Reset()');
-		fbTestsuite.P_Assert.M_Equals_DINT(fbObject.P_State, E_State.Idle, 'P_State');
+		fbTestsuite.P_Assert.M_Equals_DINT(fbObject1.P_State, E_State.Idle, 'P_State');
 		fbTestsuite.M_Testcase('FB_Members', T#2S, 'fbList.M_Reset()', '', 50);
 		
 	50:
 		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Start(), 1, 'M_Start()');
-		fbTestsuite.P_Assert.M_Equals_DINT(fbObject.P_State, E_State.Execute, 'P_State');
+		fbTestsuite.P_Assert.M_Equals_DINT(fbObject1.P_State, E_State.Execute, 'P_State');
 		fbTestsuite.M_Testcase('FB_Members', T#2S, 'fbList.M_Start()', '', 60);		
 
 	60:
 		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Abort(), 1, 'M_Abort()');
-		fbTestsuite.P_Assert.M_Equals_DINT(fbObject.P_State, E_State.Aborted, 'P_State');
+		fbTestsuite.P_Assert.M_Equals_DINT(fbObject1.P_State, E_State.Aborted, 'P_State');
 		fbTestsuite.M_Testcase('FB_Members', T#2S, 'fbList.M_Abort()', '', 70);
 		
 	70:
 		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Reset(), 1, 'M_Reset()');
-		fbTestsuite.P_Assert.M_Equals_DINT(fbObject.P_State, E_State.Idle, 'P_State');
+		fbTestsuite.P_Assert.M_Equals_DINT(fbObject1.P_State, E_State.Idle, 'P_State');
 		fbTestsuite.M_Testcase('FB_Members', T#2S, 'fbList.M_Reset()', '',E_Testcase.Done);
 		
 	E_Testcase.Done:

@@ -41,11 +41,11 @@ END_VAR
       <Implementation>
         <ST><![CDATA[stActual.sMessage:= sMessage;
 CASE iParent.P_Mode OF
-	E_RequestMode.Manual:
+	E_Mode.Manual:
 		stActual.sMessage:= 'Manual mode';
 		stActual.nNumber:= E_Sequence.Undefined;
 		
-	E_RequestMode.Automatic, E_RequestMode.Semiauto:
+	E_Mode.Automatic, E_Mode.Semiauto:
 		stActual.sMessage:= sMessage;
 		IF bReturn THEN
 			fbTimeout(IN:= FALSE);
@@ -55,7 +55,7 @@ CASE iParent.P_Mode OF
 				stActual.nNumber:= nNumber;
 				stLast:= stActual;
 				fbDelay(IN:= FALSE);
-				IF bStop AND_THEN (iParent.P_Mode = E_RequestMode.Semiauto) THEN
+				IF bStop AND_THEN (iParent.P_Mode = E_Mode.Semiauto) THEN
 					iParent.P_Event.M_Stop('Automatic stopped in semiauto', 1000);				
 				END_IF
 			END_IF
