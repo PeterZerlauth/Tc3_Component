@@ -12,7 +12,7 @@ VAR
 	fbContactor:				FB_Contactor;
 	fbCylinder:					FB_Cylinder;
 	fbPnozMulti:				FB_PnozMulti;
-	fbAxis:						FB_AxisBase;
+	fbAxis:						FB_Axis;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/

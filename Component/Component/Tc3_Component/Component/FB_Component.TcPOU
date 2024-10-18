@@ -18,14 +18,6 @@ VAR
 	eState:							E_State;					// Current state
     {attribute 'hide'}
 	eStatePrevious:					E_State;					// Previous state
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Access' := '1'}
-	eModeRequest:					E_Mode;				// Requested mode
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Access' := '2'}
-	eMode:							E_Mode;				// Current mode
-    {attribute 'hide'}
-	eModePrevious:					E_Mode;				// Previous mode
     {attribute 'hide'}
 	bResult:						BOOL;
 END_VAR]]></Declaration>
@@ -39,7 +31,6 @@ CASE eState OF
 	E_State.Undefined:
 		bResult:= M_Initialise();
 		IF bResult THEN	// return true for next state
-			eMode:= E_Mode.Automatic;
 			eState:= E_State.Idle;			
 		END_IF
 		
@@ -167,17 +158,6 @@ CASE eState OF
 
 END_CASE
 
-
-// Detect mode changes
-IF eModeRequest <> E_Mode.Undefined THEN
-	IF eMode <> eModeRequest THEN
-		eModePrevious:= eMode;
-		eMode:= eModeRequest;
-		M_OnMode(eMode, eModePrevious);
-	END_IF
-END_IF
-eModeRequest:= E_Mode.Undefined;
-
 // Detect state changes
 IF eStatePrevious <> eState THEN
 	M_OnState(eState, eStatePrevious);
@@ -243,21 +223,6 @@ END_VAR
         <ST><![CDATA[M_Initialise:= True;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Mode" Id="{8661b760-0fa5-007a-151c-7fe805544fbb}">
-      <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
-METHOD PUBLIC M_Mode : BOOL
-VAR_INPUT
-	eMode:		E_Mode;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF THIS^.eMode = eMode THEN
-	M_Mode:= TRUE;
-ELSE
-	eModeRequest:= eMode;	
-END_IF	]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Notify" Id="{d8f6f158-ff95-0e77-1e0e-c4742a312f00}">
       <Declaration><![CDATA[METHOD PUBLIC M_Notify
 VAR_INPUT
@@ -271,16 +236,6 @@ M_Request(eRequest);
 
 // Notify all other components in observer
 fbEvent.P_Observer.M_Notify(iSender, eRequest);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_OnMode" Id="{5404d353-f502-0cc7-293b-81200dd1aa4b}">
-      <Declaration><![CDATA[METHOD PROTECTED M_OnMode
-VAR_INPUT
-	eMode:							E_Mode;						// Current mode
-	eModePrevious:					E_Mode;						// Previous mode	
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Mode changed event]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_OnState" Id="{49afef72-99ac-0c9e-2ec3-7701e0509cd3}">
@@ -406,17 +361,6 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[P_Info:= fbInfo;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="P_Mode" Id="{3bb67a0e-6846-07bc-053e-b55a797fa512}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
-      <Get Name="Get" Id="{9d5d15ee-5102-0655-3457-a8f0100c4631}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Mode:= eMode;]]></ST>
         </Implementation>
       </Get>
     </Property>

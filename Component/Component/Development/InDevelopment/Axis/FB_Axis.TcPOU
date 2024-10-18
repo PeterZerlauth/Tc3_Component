@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_AxisBase" Id="{7dc49411-939d-086e-3ba0-db9126827ef0}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_AxisBase EXTENDS FB_Component IMPLEMENTS I_AxisBase
+  <POU Name="FB_Axis" Id="{7dc49411-939d-086e-3ba0-db9126827ef0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Axis EXTENDS FB_Component IMPLEMENTS I_Axis
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -251,9 +251,13 @@ IF stAxis.Status.ControlLoopClosed THEN
 		M_MoveAbsolute:= FALSE;
 	ELSE
 		// Done
-		M_MoveAbsolute:= stAxis.Status.InTargetPosition;
+		M_MoveAbsolute:=  NOT (fbMoveAbsolute1.Active OR  NOT fbMoveAbsolute2.Active);
 	END_IF
 ELSE
+	P_Event.M_AddSTRING(stParameter.sAxisName);
+	P_Event.M_AddREAL(fPosition, 3);
+	P_Event.M_AddREAL(fVelocity, 3);
+	P_Event.M_Info('%s: Not ready for .M_MoveAbsolute(%s, %s)',  1114);
 	M_MoveAbsolute:= FALSE;
 END_IF]]></ST>
       </Implementation>

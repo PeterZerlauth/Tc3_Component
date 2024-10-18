@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Axis" Id="{0aa9fe18-9b82-4dd1-a575-8312f33b257a}">
+    <Declaration><![CDATA[INTERFACE I_Axis
+]]></Declaration>
+    <Method Name="M_Halt" Id="{56bd466f-c3b1-087e-3f66-8ffd7ed61db7}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Halt : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Home" Id="{aaf514ce-728c-0284-2b1f-01d08c72fcdf}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Home : BOOL
+VAR_INPUT
+	fPosition:					LREAL;
+	eHomingMode:				MC_HomingMode;
+	bClearPositionLag: 			BOOL;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_MoveAbsolute" Id="{ce555790-8760-0804-3f57-b6cf71cf5c2e}">
+      <Declaration><![CDATA[METHOD PUBLIC M_MoveAbsolute : BOOL
+VAR_INPUT
+	fPosition:				LREAL;
+	fVelocity:				LREAL;
+	fAcceleration:			LREAL:= 0.0;
+	fDeceleration:			LREAL:= 0.0;
+	fJerk:					LREAL:= 0.0;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_MoveRelative" Id="{86128d76-9d7d-0274-1370-42386a978fe1}">
+      <Declaration><![CDATA[METHOD PUBLIC M_MoveRelative : BOOL
+VAR_INPUT
+	fDistance:				LREAL;
+	fVelocity:				LREAL;
+	fAcceleration:			LREAL:= 0.0;
+	fDeceleration:			LREAL:= 0.0;
+	fJerk:					LREAL:= 0.0;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_MoveVelocity" Id="{d98b52f6-01bb-01c4-2e88-7f8955aa6a9f}">
+      <Declaration><![CDATA[METHOD PUBLIC M_MoveVelocity : BOOL
+VAR_INPUT
+	fVelocity:				LREAL;
+	fAcceleration:			LREAL:= 0.0;
+	fDeceleration:			LREAL:= 0.0;
+	fJerk:					LREAL:= 0.0;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_ReadBOOL" Id="{5ccd1411-1792-0d0f-276e-b18f2de47871}">
+      <Declaration><![CDATA[METHOD PUBLIC M_ReadBOOL : BOOL
+VAR_INPUT
+	 eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	 bValue:				REFERENCE TO BOOL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="M_ReadLREAL" Id="{2454fe6d-ac7b-09ab-0964-969bdfcc67b5}">
+      <Declaration><![CDATA[METHOD PUBLIC M_ReadLREAL : BOOL
+VAR_INPUT
+	 eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	 fValue:				REFERENCE TO LREAL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="M_Reset" Id="{1fda45cf-013c-016e-0f5d-0aa7c9fa52d0}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_SetPosition" Id="{ad7c6875-7dc8-0219-25d6-9601cfb41e56}">
+      <Declaration><![CDATA[METHOD PUBLIC M_SetPosition : BOOL
+VAR_INPUT
+	fPosition:					LREAL;
+	bClearPositionLag: 			BOOL;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Stop" Id="{9af1f194-785f-01a5-3368-231762f6633b}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Stop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_WriteBOOL" Id="{b1fdd5e9-bd7a-0d1c-20a3-211a6e6fef87}">
+      <Declaration><![CDATA[METHOD PUBLIC M_WriteBOOL : BOOL
+VAR_INPUT
+	eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	bPersistent:			BOOL;
+	bValue:					BOOL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="M_WriteLREAL" Id="{d514ec59-6792-06ef-35bb-1c394cecc8b3}">
+      <Declaration><![CDATA[METHOD PUBLIC M_WriteLREAL : BOOL
+VAR_INPUT
+	eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	bPersistent:			BOOL;
+	fValue:					LREAL;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

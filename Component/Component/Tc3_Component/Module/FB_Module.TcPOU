@@ -11,6 +11,14 @@ VAR
 	fbFunctions:				FB_Members;
 	fbLogger:					FB_Logger;
 	fbTcLogger:					FB_TcLogger;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	eModeRequest:					E_Mode:= E_Mode.Automatic;				// Requested mod
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Access' := '2'}
+	eMode:							E_Mode;				// Current mode
+	{attribute 'hide'}
+	eModePrevious:					E_Mode;				// Previous mode
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/
@@ -22,7 +30,15 @@ fbFunctions();
 fbLogger();
 fbTcLogger();
 
-]]></ST>
+// Detect mode changes
+IF eModeRequest <> E_Mode.Undefined THEN
+	IF eMode <> eModeRequest THEN
+		eModePrevious:= eMode;
+		eMode:= eModeRequest;
+		M_OnMode(eMode, eModePrevious);
+	END_IF
+END_IF
+eModeRequest:= E_Mode.Undefined;]]></ST>
     </Implementation>
     <Method Name="M_Aborting" Id="{f6e4ce1d-311c-0905-2650-709c43fe3659}">
       <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL (* Return*)
@@ -44,6 +60,21 @@ fbLogger.P_Next:= fbTcLogger;
 M_Initialise:= SUPER^.M_Initialise();]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Mode" Id="{8661b760-0fa5-007a-151c-7fe805544fbb}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
+METHOD PUBLIC M_Mode : BOOL
+VAR_INPUT
+	eMode:		E_Mode;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF THIS^.eMode = eMode THEN
+	M_Mode:= TRUE;
+ELSE
+	eModeRequest:= eMode;	
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_OnMode" Id="{549d817a-659a-0f3e-10ea-6f23f3ce8adf}">
       <Declaration><![CDATA[METHOD PROTECTED M_OnMode
 VAR_INPUT
@@ -51,8 +82,7 @@ VAR_INPUT
 	eModePrevious:					E_Mode;						// Previous mode	
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbMembers.M_Mode(eMode);
-CASE eMode OF
+        <ST><![CDATA[CASE eMode OF
 	E_Mode.Semiauto, E_Mode.Automatic:
 		IF eModePrevious = E_Mode.Manual THEN
 			fbEvent.M_AddSTRING(TO_STRING(eModePrevious));
@@ -63,7 +93,7 @@ CASE eMode OF
 		;
 END_CASE
 
-]]></ST>
+fbSequence.bStopAfter:= eMode = E_Mode.Semiauto;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_OnState" Id="{55803e9b-fbd2-0edd-3341-a3482ec89edc}">
@@ -140,6 +170,17 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[P_Members:= fbMembers;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Mode" Id="{a773e62d-20bd-0c96-369b-0f3305d57073}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
+      <Get Name="Get" Id="{0b059178-babf-076f-2ccc-02e13582bfc7}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Mode:= eMode;]]></ST>
         </Implementation>
       </Get>
     </Property>

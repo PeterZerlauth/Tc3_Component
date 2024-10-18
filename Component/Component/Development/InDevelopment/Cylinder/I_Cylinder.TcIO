@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Cylinder" Id="{5691ef9a-c151-001d-06ed-45122cd18df6}">
+    <Declaration><![CDATA[INTERFACE I_Cylinder EXTENDS 
+]]></Declaration>
+    <Method Name="M_ToHome" Id="{0a40379f-a803-02e7-3cb2-f1755916c36c}">
+      <Declaration><![CDATA[METHOD PUBLIC M_ToHome : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_ToWork" Id="{c8970675-36bd-03fb-1ee9-a5a0e45d6d84}">
+      <Declaration><![CDATA[METHOD PUBLIC M_ToWork : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="P_Options" Id="{5f73a814-dab4-0254-32c9-6b88a8c76281}">
+      <Declaration><![CDATA[{attribute 'suppress_wrn_C0410'}
+PROPERTY PUBLIC P_Options : REFERENCE TO ST_CylinderOptions]]></Declaration>
+      <Get Name="Get" Id="{777717dc-249e-0236-0906-3c02004be78a}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

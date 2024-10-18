@@ -3,13 +3,6 @@
   <Itf Name="I_Component" Id="{84a5f8f6-b81b-4747-a25d-2c3abe61b573}">
     <Declaration><![CDATA[INTERFACE I_Component EXTENDS I_Observer
 ]]></Declaration>
-    <Method Name="M_Mode" Id="{208c4c43-a103-0c2c-0258-2704597726e6}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Mode : BOOL
-VAR_INPUT
-	eMode:		E_Mode;
-END_VAR
-]]></Declaration>
-    </Method>
     <Method Name="M_Request" Id="{5bce4574-fbb8-4134-a60e-e5f2d429768c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Request : BOOL
 VAR_INPUT
@@ -27,12 +20,6 @@ END_VAR
     <Property Name="P_Info" Id="{e4c55aa1-6e83-089d-307d-057e145ff2a0}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Info : I_Info]]></Declaration>
       <Get Name="Get" Id="{57af0f07-74f8-0d86-3b67-d5a15cd0686a}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
-    <Property Name="P_Mode" Id="{e048b2ce-4d45-02c7-3379-8e81d7ba5300}">
-      <Declaration><![CDATA[PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
-      <Get Name="Get" Id="{ee8b9205-2345-0b77-239a-ffedae0545c4}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>

@@ -3,12 +3,14 @@
   <POU Name="MAIN" Id="{2d4d4998-19ee-0f89-2021-34d743efb262}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	bTest:			BOOL;
 	fbMachine:		FB_Machine;
 	fbModule1:		FB_Module01;
 	fbModule2:		FB_Module02;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbMachine();
+      <ST><![CDATA[bTest:= not bTest;
+fbMachine();
 fbModule1();
 fbModule2();]]></ST>
     </Implementation>

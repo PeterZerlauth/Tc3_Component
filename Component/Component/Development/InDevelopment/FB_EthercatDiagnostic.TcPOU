@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_EthercatDiagnostic" Id="{4742d405-d1cb-49f3-8224-ceacd75d7213}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_EthercatDiagnostic
+VAR_GENERIC CONSTANT
+    nLength				AT%I*:	UINT:= 100;
+END_VAR
+VAR_INPUT
+	AmsNetID					AT%I*: AmsNetID;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR_IN_OUT
+END_VAR
+VAR
+	sNetId:						T_AmsNetId;					// Internal netid as string
+	fbGetMasterState:			FB_EcGetMasterState;		// Get Master State
+	fbGetMasterFrameStatistic:	FB_EcMasterFrameStatistic; 
+	fbGetSlaveAddresses: 		FB_EcGetAllSlaveAddr;		// Get Slave Addresses
+	fbGetAllSlaveStates:		FB_EcGetAllSlaveStates;		// Get Slave States
+	fbGetSlaveCount:			FB_EcGetSlaveCount;
+	fbGetScannedSlaves:			FB_EcGetScannedSlaves;		// Scan Slaves
+	fbGetSlaveIdentity:			FB_EcGetSlaveIdentity;		// Get Slave Identities
+	nState:						INT;
+	aSlaveAdress:				ARRAY[0..nLength-1] OF UINT;
+	aSlaveState:				ARRAY[0..nLength-1] OF ST_EcSlaveState;
+	aSlaveScanned:				ARRAY[0..nLength-1] OF ST_EcSlaveScannedData;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+CASE nState OF
+	0: 
+		sNetId:= F_CreateAmsNetId(AmsNetID);
+		IF sNetId <> '0.0.0.0.0.0' THEN
+			nState:= 10;
+		END_IF
+		
+	10:
+		IF M_GetMasterState() THEN
+			nState:= 20;
+		END_IF
+		
+	20:
+		IF M_GetSlaveAdresses() THEN
+			nState:= 30;
+		END_IF
+		
+	30:
+		IF M_GetScannedSlaves() THEN
+			nState:= 40;
+		END_IF
+		
+	40:
+	
+END_CASE
+
+fbGetMasterState(sNetId:= sNetId);
+fbGetMasterState.bExecute:= FALSE;
+
+fbGetMasterFrameStatistic(sNetId:= sNetId);
+fbGetMasterFrameStatistic.bExecute:= FALSE;
+
+fbGetSlaveAddresses(sNetId:= sNetId);
+fbGetSlaveAddresses.bExecute:= FALSE;
+
+fbGetAllSlaveStates(sNetId:= sNetId);
+fbGetAllSlaveStates.bExecute:= FALSE;
+
+fbGetSlaveCount(sNetId:= sNetId);
+fbGetSlaveCount.bExecute:= FALSE;
+
+fbGetScannedSlaves(sNetId:= sNetId);
+fbGetScannedSlaves.bExecute:= FALSE;
+
+fbGetSlaveIdentity(sNetId:= sNetId);
+fbGetSlaveIdentity.bExecute:= FALSE;
+
+
+]]></ST>
+    </Implementation>
+    <Method Name="M_GetMasterFrameStatistic" Id="{b24006e4-a96f-0c33-349b-b9f576979bbd}">
+      <Declaration><![CDATA[METHOD M_GetMasterFrameStatistic : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbGetMasterFrameStatistic.bExecute THEN
+	IF fbGetMasterFrameStatistic.bBusy THEN
+		;
+	ELSIF fbGetMasterFrameStatistic.bError THEN
+		;
+	ELSE
+		fbGetMasterFrameStatistic.bExecute:= FALSE;
+		M_GetMasterFrameStatistic:= TRUE;
+	END_IF
+
+ELSE
+	fbGetMasterFrameStatistic.bExecute:= TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_GetMasterState" Id="{f1343d41-a1bd-03c1-36ca-34bbf32781c1}">
+      <Declaration><![CDATA[METHOD PROTECTED M_GetMasterState : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbGetMasterState.bExecute THEN
+	IF fbGetMasterState.bBusy THEN
+		;
+	ELSIF fbGetMasterState.bError THEN
+		;
+	ELSE
+		fbGetMasterState.bExecute:= FALSE;
+		M_GetMasterState:= TRUE;
+	END_IF
+
+ELSE
+	fbGetMasterState.bExecute:= TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_GetScannedSlaves" Id="{ebfab304-91b5-02e3-1c62-9aa8d4ff062b}">
+      <Declaration><![CDATA[METHOD PROTECTED M_GetScannedSlaves : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbGetScannedSlaves.bExecute THEN
+	IF fbGetScannedSlaves.bBusy THEN
+		;
+	ELSIF fbGetScannedSlaves.bError THEN
+		;
+	ELSE
+		fbGetScannedSlaves.bExecute:= FALSE;
+		M_GetScannedSlaves:= TRUE;
+	END_IF
+ELSE
+	fbGetScannedSlaves.bExecute:= TRUE;
+	fbGetScannedSlaves.pArrEcScannedSlaveInfo:= ADR(aSlaveScanned);
+	fbGetScannedSlaves.cbBufLen:= SIZEOF(aSlaveScanned);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_GetSlaveAdresses" Id="{ddc64dce-dddc-0f96-21ca-c92576dac96b}">
+      <Declaration><![CDATA[METHOD PROTECTED M_GetSlaveAdresses : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbGetSlaveAddresses.bExecute THEN
+	IF fbGetSlaveAddresses.bBusy THEN
+		;
+	ELSIF fbGetSlaveAddresses.bError THEN
+		;
+	ELSE
+		fbGetSlaveAddresses.bExecute:= FALSE;
+		M_GetSlaveAdresses:= True;
+	END_IF
+
+ELSE
+	fbGetSlaveAddresses.bExecute:= TRUE;
+	fbGetSlaveAddresses.pAddrBuf:= ADR(aSlaveAdress);
+	fbGetSlaveAddresses.cbBufLen:= SIZEOF(aSlaveAdress);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_GetSlaveCount" Id="{2e83a877-147a-06a0-3096-15dab876110b}">
+      <Declaration><![CDATA[METHOD PROTECTED M_GetSlaveCount : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbGetSlaveCount.bExecute THEN
+	IF fbGetSlaveCount.bBusy THEN
+		;
+	ELSIF fbGetSlaveCount.bError THEN
+		;
+	ELSE
+		fbGetSlaveCount.bExecute:= FALSE;
+		M_GetSlaveCount:= TRUE;
+	END_IF
+
+ELSE
+	fbGetSlaveCount.bExecute:= TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_GetSlaveIdentity" Id="{722b53cf-4d84-03ac-122e-93d783ec7b52}">
+      <Declaration><![CDATA[METHOD PROTECTED M_GetSlaveIdentity : BOOL
+VAR_INPUT
+	nSlaveAddress:			UINT;		
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbGetSlaveIdentity.bExecute THEN
+	IF fbGetSlaveIdentity.bBusy AND NOT fbGetSlaveIdentity.bError THEN
+		;
+	ELSE
+		fbGetSlaveIdentity.bExecute:= FALSE;
+		M_GetSlaveIdentity:= TRUE;
+	END_IF
+
+ELSE
+	fbGetSlaveIdentity.bExecute:= TRUE;
+	fbGetSlaveIdentity.nSlaveAddr:= nSlaveAddress;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_GetSlaveStates" Id="{38bbc0ca-2cf8-0aea-06f6-8139f9b6837d}">
+      <Declaration><![CDATA[METHOD PROTECTED M_GetSlaveStates : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbGetAllSlaveStates.bExecute THEN
+	IF fbGetAllSlaveStates.bBusy THEN
+		;
+	ELSIF fbGetAllSlaveStates.bError THEN
+		;
+	ELSE
+		fbGetAllSlaveStates.bExecute:= FALSE;
+		M_GetSlaveStates:= TRUE;
+	END_IF
+
+ELSE
+	fbGetAllSlaveStates.bExecute:= TRUE;
+	fbGetAllSlaveStates.pStateBuf:= ADR(aSlaveState);
+	fbGetAllSlaveStates.cbBufLen:= SIZEOF(aSlaveState);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

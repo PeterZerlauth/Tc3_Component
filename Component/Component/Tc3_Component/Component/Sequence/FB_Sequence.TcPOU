@@ -2,6 +2,9 @@
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Sequence" Id="{4b1aa270-5e63-4fbf-b9b1-b64186ed4cc4}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Sequence IMPLEMENTS I_Sequence
+VAR_INPUT
+	bStopAfter:			BOOL;
+END_VAR
 VAR_OUTPUT
 	bTimeout:			BOOL;
 END_VAR
@@ -40,42 +43,35 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[stActual.sMessage:= sMessage;
-CASE iParent.P_Mode OF
-	E_Mode.Manual:
-		stActual.sMessage:= 'Manual mode';
-		stActual.nNumber:= E_Sequence.Undefined;
-		
-	E_Mode.Automatic, E_Mode.Semiauto:
-		stActual.sMessage:= sMessage;
-		IF bReturn THEN
-			fbTimeout(IN:= FALSE);
-			fbDelay(IN:= TRUE, PT:= tDelay);
-			IF fbDelay.Q THEN
-				M_Await:= TRUE;
-				stActual.nNumber:= nNumber;
-				stLast:= stActual;
-				fbDelay(IN:= FALSE);
-				IF bStop AND_THEN (iParent.P_Mode = E_Mode.Semiauto) THEN
-					iParent.P_Event.M_Stop('Automatic stopped in semiauto', 1000);				
-				END_IF
-			END_IF
-		ELSE
-			fbDelay(IN:= FALSE);
-			fbTimeout(IN:= tTimeout <> T#0S, PT:= tTimeout);
-			IF fbTimeout.Q THEN
-				IF bTimeout THEN
-					fbTimeout(IN:= FALSE);
-					bTimeout:= FALSE;
-					iParent.P_Event.M_AddSTRING(sMessage);
-					iParent.P_Event.M_AddINT(stActual.nNumber);
-					iParent.P_Event.M_AddTIME(tTimeout);
-					iParent.P_Event.M_Stop('Timeout(message: %s number: %s time: %s)', 1001);
-				ELSE
-					bTimeout:= TRUE;
-				END_IF
-			END_IF
+IF bReturn THEN
+	fbTimeout(IN:= FALSE);
+	fbDelay(IN:= TRUE, PT:= tDelay);
+	IF fbDelay.Q THEN
+		M_Await:= TRUE;
+		stActual.nNumber:= nNumber;
+		stLast:= stActual;
+		fbDelay(IN:= FALSE);
+		IF bStop AND bStopAfter THEN
+			iParent.P_Event.M_Stop('Automatic stopped in semiauto', 1000);				
 		END_IF
-END_CASE]]></ST>
+	END_IF
+ELSE
+	fbDelay(IN:= FALSE);
+	fbTimeout(IN:= tTimeout <> T#0S, PT:= tTimeout);
+	IF fbTimeout.Q THEN
+		IF bTimeout THEN
+			fbTimeout(IN:= FALSE);
+			bTimeout:= FALSE;
+			iParent.P_Event.M_AddSTRING(sMessage);
+			iParent.P_Event.M_AddINT(stActual.nNumber);
+			iParent.P_Event.M_AddTIME(tTimeout);
+			iParent.P_Event.M_Stop('Timeout(message: %s number: %s time: %s)', 1001);
+		ELSE
+			bTimeout:= TRUE;
+		END_IF
+	END_IF
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Reset" Id="{36513383-9494-0732-02c6-f9c957e037d9}">

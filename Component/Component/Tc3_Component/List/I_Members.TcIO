@@ -20,13 +20,6 @@ VAR_INPUT
 	iObject: 	I_Component;
 END_VAR]]></Declaration>
     </Method>
-    <Method Name="M_Mode" Id="{771f8ed1-3d36-06da-31b9-43fac9a89313}">
-      <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
-METHOD PUBLIC M_Mode : BOOL
-VAR_INPUT
-	eMode:		E_Mode;
-END_VAR]]></Declaration>
-    </Method>
     <Method Name="M_Reset" Id="{7335da18-63d0-00bd-1129-5875771dd0c7}">
       <Declaration><![CDATA[METHOD PUBLIC M_Reset : BOOL]]></Declaration>
     </Method>

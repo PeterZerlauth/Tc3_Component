@@ -3,6 +3,13 @@
   <Itf Name="I_Module" Id="{17c5a5c0-e93a-0aed-1dd7-b12ea548c450}">
     <Declaration><![CDATA[INTERFACE I_Module EXTENDS I_Component
 ]]></Declaration>
+    <Method Name="M_Mode" Id="{208c4c43-a103-0c2c-0258-2704597726e6}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Mode : BOOL
+VAR_INPUT
+	eMode:		E_Mode;
+END_VAR
+]]></Declaration>
+    </Method>
     <Property Name="P_Functions" Id="{cda7c2c4-bbec-0351-0466-198ffbeaf894}">
       <Declaration><![CDATA[PROPERTY P_Functions : I_Members]]></Declaration>
       <Get Name="Get" Id="{80e844c1-fd2b-068c-2253-e055530cc225}">
@@ -12,6 +19,12 @@
     <Property Name="P_Members" Id="{3166bb86-6c58-0a67-3a86-9a1fc2498fd9}">
       <Declaration><![CDATA[PROPERTY P_Members : I_Members]]></Declaration>
       <Get Name="Get" Id="{94052533-305b-0509-158f-9f2cd34aedf2}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="P_Mode" Id="{e048b2ce-4d45-02c7-3379-8e81d7ba5300}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
+      <Get Name="Get" Id="{ee8b9205-2345-0b77-239a-ffedae0545c4}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
     </Property>
