@@ -9,7 +9,7 @@
     <WriteProductVersion>false</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
     <Name>Tc3_Component</Name>
-    <ProgramVersion>3.1.4026.11</ProgramVersion>
+    <ProgramVersion>3.1.4026.13</ProgramVersion>
     <Application>{83dea455-3cb0-4661-8d1a-f0b533fc27b9}</Application>
     <TypeSystem>{8aefb04c-7e59-4770-8677-19ef8ae6a899}</TypeSystem>
     <Implicit_Task_Info>{d555a9a5-7f9b-42d3-922f-d873e8adf078}</Implicit_Task_Info>
@@ -50,7 +50,7 @@
     <Folder Include="Component" />
     <Folder Include="Component\Event" />
     <Folder Include="Component\Event\Observable" />
-    <Folder Include="Component\Info" />
+    <Folder Include="Component\Reflection" />
     <Folder Include="Component\Sequence" />
     <Folder Include="List" />
     <Folder Include="Logger" />
@@ -101,13 +101,13 @@
     <Compile Include="Component\FB_Component.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Component\Info\FB_Info.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Component\Info\I_Info.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Component\I_Component.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Component\Reflection\FB_Reflection.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Component\Reflection\I_Reflection .TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Component\Sequence\E_Sequence.TcDUT">
@@ -129,10 +129,7 @@
     <Compile Include="Function\FB_Function.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="List\FB_Members.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="List\I_Members.TcIO">
+    <Compile Include="List\FB_Level.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">
@@ -142,6 +139,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\FB_ListString.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="List\I_Level.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\I_ListBase.TcIO">
@@ -156,13 +156,7 @@
     <Compile Include="List\I_ListString.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logger\FB_AbstractLogger.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Logger\FB_FileLogger.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Logger\FB_TcLogger.TcPOU">
+    <Compile Include="Logger\FB_LoggingProvider.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logger\FB_Logger.TcPOU">
@@ -176,6 +170,9 @@
       <ExcludeFromBuild>false</ExcludeFromBuild>
     </Compile>
     <Compile Include="Module\I_Module.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Object\FB_Object.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Object\I_Object.TcIO">

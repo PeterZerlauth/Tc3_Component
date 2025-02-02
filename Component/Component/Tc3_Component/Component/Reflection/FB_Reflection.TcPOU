@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_Info" Id="{eea7efb5-6652-45a3-b451-b5b834049a65}" SpecialFunc="None">
+  <POU Name="FB_Reflection" Id="{eea7efb5-6652-45a3-b451-b5b834049a65}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'reflection'} 
-FUNCTION_BLOCK PUBLIC FB_Info IMPLEMENTS I_Info
+FUNCTION_BLOCK PUBLIC FB_Reflection IMPLEMENTS I_Reflection
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	sIdentifier:						STRING(25):= 'No_ID_set';		// Identifier
+	sIdentifier:						STRING(25):= 'Undefined';		// Identifier
 	{attribute 'instance-path'}                                     	
     {attribute 'noinit'}                                            	
     sInstancePath:						STRING(255);					// Instance-Path
@@ -28,12 +28,12 @@ IF nCycle <> TwinCAT_SystemInfoVarList._TaskInfo[GETCURTASKINDEXEX()].CycleCount
 END_IF
 
 // Read symbol information
-fbReadSymInfo();
 IF NOT fbReadSymInfo.START THEN
 	M_Initialise();
 	fbReadSymInfo.PORT:= TwinCAT_SystemInfoVarList._AppInfo.AdsPort;
 	fbReadSymInfo.START:= TRUE;
-END_IF]]></ST>
+END_IF
+fbReadSymInfo();]]></ST>
     </Implementation>
     <Method Name="M_Initialise" Id="{7bcb89f8-215a-0ea7-2f48-9c7517dad36a}">
       <Declaration><![CDATA[METHOD PROTECTED M_Initialise
@@ -57,7 +57,7 @@ IF nPosition > 0 THEN
     fbReadSymInfo.SYMNAME:= DELETE(fbReadSymInfo.SYMNAME, nPosition - 1 + LEN(sName), 1);
 END_IF
 
-fbReadSymInfo.SYMNAME:= Left(fbReadSymInfo.SYMNAME, LEN(fbReadSymInfo.SYMNAME) - 7);]]></ST>
+fbReadSymInfo.SYMNAME:= Left(fbReadSymInfo.SYMNAME, LEN(fbReadSymInfo.SYMNAME) - LEN('.fbReflection'));]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Class" Id="{149d54ac-7219-431b-bfce-ba7c9704ea45}">

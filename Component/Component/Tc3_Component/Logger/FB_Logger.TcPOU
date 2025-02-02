@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Logger" Id="{fd2ecca2-796f-0c21-1b02-56f5057704fe}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_Logger EXTENDS FB_AbstractLogger
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Logger IMPLEMENTS I_Logger
 VAR
 	nLength:					DINT;
 	aEvent:						ARRAY [0..nSize - 1] OF ST_Event;
@@ -86,10 +86,6 @@ ELSE
 	// add new event
 	aEvent[nLength]:= stEvent;
 	nLength:= nLength + 1;
-END_IF
-
-IF iNext <> 0 THEN
-	iNext.M_Log(stEvent);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -101,10 +97,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[// Reset all events
 nLength:= 0;
 Memset(ADR(aEvent), 0, SIZEOF(aEvent));
-
-IF iNext <> 0 THEN
-	iNext.M_Reset();
-END_IF]]></ST>
+]]></ST>
       </Implementation>
     </Method>
   </POU>

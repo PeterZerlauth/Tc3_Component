@@ -43,10 +43,10 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stAbort.sMessage:= sMessage;
 stAbort.iSource:= iParent;
-stAbort.sInstance:= iParent.P_Info.P_Instance;
-stAbort.sClass:= iParent.P_Info.P_Class;
+stAbort.sInstance:= iParent.P_Reflection.P_Instance;
+stAbort.sClass:= iParent.P_Reflection.P_Class;
 stAbort.eEventType:= E_Event.Error;
-stAbort.tTimestamp:= iParent.P_Info.P_Timestamp;
+stAbort.tTimestamp:= iParent.P_Reflection.P_Timestamp;
 stAbort.nID:= nID;
 stAbort.sDefault:= M_Build(sMessage);
 stAbort.sArguments:= M_Arguments();
@@ -61,7 +61,7 @@ END_IF
 
 iParent.M_Request(E_Request.Abort);
 
-fbObserver.M_Notify(iParent, E_Request.Abort);]]></ST>
+fbObserver.M_Notify(iParent);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_AddBOOL" Id="{55367f5b-ac71-0a63-095c-881721842948}">
@@ -166,10 +166,10 @@ END_VAR
       <Implementation>
         <ST><![CDATA[stDebug.sMessage:= sMessage;
 stDebug.iSource:= iParent;
-stDebug.sInstance:= iParent.P_Info.P_Instance;
-stDebug.sClass:= iParent.P_Info.P_Class;
+stDebug.sInstance:= iParent.P_Reflection.P_Instance;
+stDebug.sClass:= iParent.P_Reflection.P_Class;
 stDebug.eEventType:= E_Event.Debug;
-stDebug.tTimestamp:= iParent.P_Info.P_Timestamp;
+stDebug.tTimestamp:= iParent.P_Reflection.P_Timestamp;
 stDebug.nID:= 0;
 stDebug.sDefault:= M_Build(sMessage);
 stDebug.sArguments:= M_Arguments();
@@ -183,6 +183,32 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_Error" Id="{20d0062d-a518-02ec-13ef-e4c8c4295653}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Error
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stStop.sMessage:= sMessage;
+stStop.iSource:= iParent;
+stStop.sInstance:= iParent.P_Reflection.P_Instance;
+stStop.sClass:= iParent.P_Reflection.P_Class;
+stStop.eEventType:= E_Event.Error;
+stStop.tTimestamp:= iParent.P_Reflection.P_Timestamp;
+stStop.nID:= nID;
+stStop.sDefault:= M_Build(sMessage);
+stStop.sArguments:= M_Arguments();
+stStop.stFlags.bActive:= TRUE;
+stStop.stFlags.bRemove:= FALSE;
+
+IF iLogger = 0 THEN
+	M_Log(stStop);
+ELSE
+	iLogger.M_Log(stStop);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Info" Id="{d9a244f2-1d6f-434f-aab4-cad6aacbb94f}">
       <Declaration><![CDATA[METHOD PUBLIC M_Info
 VAR_INPUT
@@ -193,10 +219,10 @@ END_VAR
       <Implementation>
         <ST><![CDATA[stInfo.sMessage:= sMessage;
 stInfo.iSource:= iParent;
-stInfo.sInstance:= iParent.P_Info.P_Instance;
-stInfo.sClass:= iParent.P_Info.P_Class;
+stInfo.sInstance:= iParent.P_Reflection.P_Instance;
+stInfo.sClass:= iParent.P_Reflection.P_Class;
 stInfo.eEventType:= E_Event.Information;
-stInfo.tTimestamp:= iParent.P_Info.P_Timestamp;
+stInfo.tTimestamp:= iParent.P_Reflection.P_Timestamp;
 stInfo.nID:= nID;
 stInfo.sDefault:= M_Build(sMessage);
 stInfo.sArguments:= M_Arguments();
@@ -220,36 +246,6 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Stop" Id="{20d0062d-a518-02ec-13ef-e4c8c4295653}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Stop
-VAR_INPUT
-	sMessage:				STRING(255);
-	nID:					ULINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[stStop.sMessage:= sMessage;
-stStop.iSource:= iParent;
-stStop.sInstance:= iParent.P_Info.P_Instance;
-stStop.sClass:= iParent.P_Info.P_Class;
-stStop.eEventType:= E_Event.Error;
-stStop.tTimestamp:= iParent.P_Info.P_Timestamp;
-stStop.nID:= nID;
-stStop.sDefault:= M_Build(sMessage);
-stStop.sArguments:= M_Arguments();
-stStop.stFlags.bActive:= TRUE;
-stStop.stFlags.bRemove:= FALSE;
-
-IF iLogger = 0 THEN
-	M_Log(stStop);
-ELSE
-	iLogger.M_Log(stStop);
-END_IF
-
-iParent.M_Request(E_Request.Stop);
-
-fbObserver.M_Notify(iParent, E_Request.Stop);]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Warning" Id="{d443b8bb-774e-487e-80a2-79cf66a0376c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Warning
 VAR_INPUT
@@ -260,10 +256,10 @@ END_VAR
       <Implementation>
         <ST><![CDATA[stWarning.sMessage:= sMessage;
 stWarning.iSource:= iParent;
-stWarning.sInstance:= iParent.P_Info.P_Instance;
-stWarning.sClass:= iParent.P_Info.P_Class;
+stWarning.sInstance:= iParent.P_Reflection.P_Instance;
+stWarning.sClass:= iParent.P_Reflection.P_Class;
 stWarning.eEventType:= E_Event.Warning;
-stWarning.tTimestamp:= iParent.P_Info.P_Timestamp;
+stWarning.tTimestamp:= iParent.P_Reflection.P_Timestamp;
 stWarning.nID:= nID;
 stWarning.sDefault:= M_Build(sMessage);
 stWarning.sArguments:= M_Arguments();

@@ -49,7 +49,7 @@ IF bStop THEN
 	fbEvent.M_AddSTRING('a');
 	fbEvent.M_AddSTRING('b');
 	fbEvent.M_AddSTRING('c');
-	fbEvent.M_Stop('First Error Stop', 7);
+	fbEvent.M_Error('First Error Stop', 7);
 END_IF
 
 IF bInformation THEN

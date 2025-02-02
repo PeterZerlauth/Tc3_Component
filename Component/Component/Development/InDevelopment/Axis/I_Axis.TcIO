@@ -78,12 +78,6 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="M_Stop" Id="{9af1f194-785f-01a5-3368-231762f6633b}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Stop : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
     <Method Name="M_WriteBOOL" Id="{b1fdd5e9-bd7a-0d1c-20a3-211a6e6fef87}">
       <Declaration><![CDATA[METHOD PUBLIC M_WriteBOOL : BOOL
 VAR_INPUT

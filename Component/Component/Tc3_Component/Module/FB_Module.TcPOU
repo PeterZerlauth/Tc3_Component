@@ -7,10 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbMembers:					FB_Members;
-	fbFunctions:				FB_Members;
-	fbLogger:					FB_Logger;
-	fbTcLogger:					FB_TcLogger;
+	fbLogging:					FB_LoggingProvider;
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '1'}
 	eModeRequest:					E_Mode:= E_Mode.Automatic;				// Requested mod
@@ -19,16 +16,15 @@ VAR
 	eMode:							E_Mode;				// Current mode
 	{attribute 'hide'}
 	eModePrevious:					E_Mode;				// Previous mode
+	
+	fbLevel1:					FB_Level;
+	fbLevel2:					FB_Level;
+	fbLevel3:					FB_Level;
+	fbLevel4:					FB_Level;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/
 SUPER^();
-
-fbMembers();
-fbFunctions();
-
-fbLogger();
-fbTcLogger();
 
 // Detect mode changes
 IF eModeRequest <> E_Mode.Undefined THEN
@@ -40,26 +36,6 @@ IF eModeRequest <> E_Mode.Undefined THEN
 END_IF
 eModeRequest:= E_Mode.Undefined;]]></ST>
     </Implementation>
-    <Method Name="M_Aborting" Id="{f6e4ce1d-311c-0905-2650-709c43fe3659}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL (* Return*)
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbSequence.M_Reset();
-fbFunctions.M_Abort();
-M_Aborting:= TRUE;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Initialise" Id="{d2ecc479-1ed6-0218-1db6-cf2c288ac295}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Initialise : BOOL
-VAR_INPUT
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbEvent.P_Logger:= fbLogger;
-fbLogger.P_Next:= fbTcLogger;
-
-M_Initialise:= SUPER^.M_Initialise();]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Mode" Id="{8661b760-0fa5-007a-151c-7fe805544fbb}">
       <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
 METHOD PUBLIC M_Mode : BOOL
@@ -96,83 +72,22 @@ END_CASE
 fbSequence.bStopAfter:= eMode = E_Mode.Semiauto;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_OnState" Id="{55803e9b-fbd2-0edd-3341-a3482ec89edc}">
-      <Declaration><![CDATA[METHOD PROTECTED M_OnState
-VAR_INPUT
-	(* Current state*)
-	eState	: E_State;
-	(* Previous state	*)
-	eStatePrevious	: E_State;
-END_VAR
+    <Method Name="M_Resetting" Id="{2bb3289b-4652-0e64-25bf-a33d29c7e27c}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL (* Return state complete*)
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[M_Resetting:= fbLevel4.M_Request(E_Request.Start)
+			AND_THEN fbLevel3.M_Request(E_Request.Start)
+			AND_THEN fbLevel2.M_Request(E_Request.Start);  ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Resetting" Id="{61e3d89a-8bee-473b-9814-ba7482888f16}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[M_Resetting:= TRUE;
-fbLogger.M_Reset();
-fbMembers.M_Reset();
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Running" Id="{8879f60a-43a4-0568-363b-e25a42eddf0c}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Running
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF eMode = E_Mode.Manual THEN
-	fbEvent.M_Info('Module manual mode active', 1003);
-END_IF
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Starting" Id="{1cc97cfa-38a4-0e77-03d9-70ce05bfa7e9}">
+    <Method Name="M_Starting" Id="{135a0682-e20d-03f7-3967-31f0024ffcc4}">
       <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL (* Return state complete*)
-
-VAR
-	nIndex: DINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[M_Starting:= fbMembers.M_Start();
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Stopping" Id="{de8af25c-ea32-0c0a-12de-b9978a6be2b2}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL (* Return state complete*)
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Stopping:= TRUE;]]></ST>
+        <ST><![CDATA[M_Starting:= fbLevel1.M_Request(E_Request.Start);]]></ST>
       </Implementation>
     </Method>
-    <Property Name="P_Functions" Id="{5a2f9a0c-b3ab-04c3-1eca-816199248241}">
-      <Declaration><![CDATA[PROPERTY P_Functions : I_Members]]></Declaration>
-      <Get Name="Get" Id="{c5ee8145-7d18-0de1-2e59-95038fd31a55}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Functions:= fbFunctions;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
-    <Property Name="P_Members" Id="{8e9ce069-f0c6-0416-2447-b07a30a4ac36}">
-      <Declaration><![CDATA[PROPERTY P_Members : I_Members]]></Declaration>
-      <Get Name="Get" Id="{4d710b84-ccea-0bc6-0f59-e014be3b6c00}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[P_Members:= fbMembers;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Property Name="P_Mode" Id="{a773e62d-20bd-0c96-369b-0f3305d57073}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
       <Get Name="Get" Id="{0b059178-babf-076f-2ccc-02e13582bfc7}">

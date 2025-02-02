@@ -41,9 +41,9 @@ CASE fbTestsuite.P_Testcase OF
 		fbTestsuite.M_Testcase('FB_Members', T#2S, 'fbList.M_Start()', '', 30);		
 		
 	30:
-		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Stop(), 1, 'M_Stop()');
+		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Error(), 1, 'M_Error()');
 		fbTestsuite.P_Assert.M_Equals_DINT(fbObject1.P_State, E_State.Stopped, 'P_State');
-		fbTestsuite.M_Testcase('FB_Members', T#2S, 'fbList.M_Stop()', '', 40);
+		fbTestsuite.M_Testcase('FB_Members', T#2S, 'fbList.M_Error()', '', 40);
 		
 	40:
 

@@ -7,7 +7,6 @@
       <Declaration><![CDATA[METHOD PUBLIC M_Notify
 VAR_INPUT
 	iSender:		I_Component;
-	eRequest:		E_Request;
 END_VAR
 ]]></Declaration>
     </Method>

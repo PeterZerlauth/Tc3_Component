@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <Itf Name="I_Members" Id="{2fbecd23-39f8-0ccf-3cc5-99cfd7eae8ff}">
-    <Declaration><![CDATA[INTERFACE I_Members extends I_ListComponent]]></Declaration>
+  <Itf Name="I_Level" Id="{2fbecd23-39f8-0ccf-3cc5-99cfd7eae8ff}">
+    <Declaration><![CDATA[INTERFACE I_Level extends I_ListComponent]]></Declaration>
     <Method Name="M_Abort" Id="{1f933af1-4f11-0ecb-08ec-82192c1a612b}">
       <Declaration><![CDATA[METHOD PUBLIC M_Abort : BOOL (* Return state complete*)]]></Declaration>
     </Method>
@@ -25,10 +25,6 @@ END_VAR]]></Declaration>
     </Method>
     <Method Name="M_Start" Id="{66f0a26b-a021-0a30-25bb-222d89464134}">
       <Declaration><![CDATA[METHOD PUBLIC M_Start : BOOL (* Return state complete*)]]></Declaration>
-    </Method>
-    <Method Name="M_Stop" Id="{b825322c-1d24-0947-27e6-aec397e7e8ce}">
-      <Declaration><![CDATA[METHOD PUBLIC M_Stop : BOOL (* Return state complete*)
-]]></Declaration>
     </Method>
     <Property Name="P_Length" Id="{8a2135b4-d434-0b40-34a8-c68dbf9ce1b5}">
       <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}

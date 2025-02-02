@@ -6,18 +6,17 @@
 {attribute 'to_string'}
 TYPE E_State :
 (
-	{attribute 'hide'}
-	Undefined		:= 0,
-	Resetting		:= 1,
-	Idle			:= 2,	
-	Starting		:= 3,
-	Execute			:= 4,
-	Stopping		:= 5,
-	Aborting		:= 6,
-	Stopped			:= 7,	
-	Aborted			:= 8
+   	Idle            := 0,  // Idle.
+    Starting        := 1,  // Transitioning to Execute.
+    Execute         := 2,  // Running
+    Completing      := 3,  // Process is finishing.
+    Completed       := 4,  // Process finished successfully.
+    Stopping        := 5,  // Transitioning to Stopped.
+    Stopped         := 6,  // Stopped
+    Aborting        := 7,  // Transitioning to Aborted.
+    Aborted         := 8,  // Aborted.
+    Resetting       := 9   // Transitioning to Idle.
 );
-END_TYPE
-]]></Declaration>
+END_TYPE]]></Declaration>
   </DUT>
 </TcPlcObject>

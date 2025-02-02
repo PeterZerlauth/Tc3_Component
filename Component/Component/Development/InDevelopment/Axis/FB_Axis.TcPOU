@@ -113,7 +113,7 @@ fbReadError(Axis:= stAxis, Enable:= TRUE);]]></ST>
       <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL (* Return*)
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Aborting:= M_Stop();]]></ST>
+        <ST><![CDATA[M_Aborting:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_ErrorID" Id="{1dca32e3-08af-0081-1bda-d9cb19c1acc8}">
@@ -126,54 +126,54 @@ END_VAR
         <ST><![CDATA[IF nErrorCode >= 16#4000 AND nErrorCode <= 16#40FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(F_TcError(nErrorCode));
-		P_Event.M_Stop('%s: General error (%s)',  1101);
+		P_Event.M_Error('%s: General error (%s)',  1101);
 	ELSIF nErrorCode >= 16#4100 AND nErrorCode <= 16#41FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(F_TcError(nErrorCode));
-		P_Event.M_Stop('%s: Channel Errors (%s)',  1102);
+		P_Event.M_Error('%s: Channel Errors (%s)',  1102);
 	ELSIF nErrorCode >= 16#4200 AND nErrorCode <= 16#42FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(F_TcError(nErrorCode));
-		P_Event.M_Stop('%s: Group error (%s)',  1103);
+		P_Event.M_Error('%s: Group error (%s)',  1103);
 	ELSIF nErrorCode >= 16#4300 AND nErrorCode <= 16#43FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(F_TcError(nErrorCode));
-		P_Event.M_Stop('%s: Axis error (%s)',  1104);
+		P_Event.M_Error('%s: Axis error (%s)',  1104);
 	ELSIF nErrorCode >= 16#4400 AND nErrorCode <= 16#44FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(F_TcError(nErrorCode));
-		P_Event.M_Stop('%s: Encoder error (%s)',  1105);	
+		P_Event.M_Error('%s: Encoder error (%s)',  1105);	
 	ELSIF nErrorCode >= 16#4500 AND nErrorCode <= 16#45FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(F_TcError(nErrorCode));
-		P_Event.M_Stop('%s: Controller error (%s)',  1106);	
+		P_Event.M_Error('%s: Controller error (%s)',  1106);	
 	ELSIF nErrorCode >= 16#4600 AND nErrorCode <= 16#46FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
-		P_Event.M_Stop('%s: Drive error (%s)',  1107);	
+		P_Event.M_Error('%s: Drive error (%s)',  1107);	
 	ELSIF nErrorCode >= 16#4A00 AND nErrorCode <= 16#4AFF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(F_TcError(nErrorCode));
-		P_Event.M_Stop('%s: Table error (%s)',  1108);	
+		P_Event.M_Error('%s: Table error (%s)',  1108);	
 	ELSIF nErrorCode >= 16#4B00 AND nErrorCode <= 16#4BFF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(F_TcError(nErrorCode));
-		P_Event.M_Stop('%s: NC PLC error (%s)',  1109);	
+		P_Event.M_Error('%s: NC PLC error (%s)',  1109);	
 	ELSIF nErrorCode >= 16#4C00 AND nErrorCode <= 16#4CFF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(F_TcError(nErrorCode));
-		P_Event.M_Stop('%s: Kinematic Transformation (%s)',  1110);	
+		P_Event.M_Error('%s: Kinematic Transformation (%s)',  1110);	
 	ELSIF nErrorCode >= 16#8000 AND nErrorCode <= 16#8FFF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(F_TcError(nErrorCode));
-		P_Event.M_Stop('%s: NC error code extended (%s)',  1111);	
+		P_Event.M_Error('%s: NC error code extended (%s)',  1111);	
 	ELSIF nErrorCode >= 16#8100 AND nErrorCode <= 16#81FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(F_TcError(nErrorCode));
-		P_Event.M_Stop('%s: Bode plot (%s)',  1112);
+		P_Event.M_Error('%s: Bode plot (%s)',  1112);
 	ELSIF nErrorCode >= 16#8200 AND nErrorCode <= 16#82FF THEN
 		P_Event.M_AddSTRING(stParameter.sAxisName);
 		P_Event.M_AddSTRING(F_TcError(nErrorCode));
-		P_Event.M_Stop('%s: Further errors (%s)',  1113);
+		P_Event.M_Error('%s: Further errors (%s)',  1113);
 	END_IF]]></ST>
       </Implementation>
     </Method>
@@ -421,16 +421,6 @@ fbPower.Enable_Positive:= TRUE;
 fbPower.Override:= 100.0;
 fbPower.BufferMode:= MC_BufferMode.MC_Aborting;
 M_Starting:= TRUE;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="M_Stop" Id="{55bb621f-dd36-4b44-9fa9-14be755211b0}" FolderPath="Motion\">
-      <Declaration><![CDATA[METHOD PUBLIC M_Stop : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbStop.Execute:= TRUE;
-M_Stop:=  stAxis.Status.NotMoving;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Stopping" Id="{81293c6f-7020-000b-2579-f7c1c765f243}">
