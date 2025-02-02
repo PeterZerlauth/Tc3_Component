@@ -5,6 +5,7 @@ have a lightweight and modular Framework.
 
 ## Info
 The concept is working quite stable.\
+I am trying to implement what i have seen so far, and improve it to a usable state.\
 Project is still under heavy development, and without any warranty!\
 There is still a lot of work to do, if somebody have ideas, contributors are welcome!
 
