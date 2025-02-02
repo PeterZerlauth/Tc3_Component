@@ -13,7 +13,11 @@ TYPE E_Request :
 	Reset       := 1,
 	{attribute 'analysis' := '-27'}
     Start       := 2,
+	{attribute 'analysis' := '-27'}
+	Complete	:= 3,
+	{attribute 'analysis' := '-27'}
 	Stop		:= 4,
+	{attribute 'analysis' := '-27'}
 	Abort		:= 8
 );
 END_TYPE]]></Declaration>
