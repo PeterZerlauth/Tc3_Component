@@ -8,8 +8,9 @@ The concept is working quite stable.\
 Project is still under heavy development, and without any warranty!\
 There is still a lot of work to do, if somebody have ideas, contributors are welcome!
 
-## State Machine (FB_Component)
-![State Machine](docs/StateMachine.svg)
+## State Machine (FB_Component MTP)
+![grafik](https://github.com/user-attachments/assets/fcb4d4f4-0330-4bf9-b2e2-e689cceea905)
+
 
 
 ## Class (FB_Component)
