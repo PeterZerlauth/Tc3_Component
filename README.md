@@ -11,11 +11,6 @@ There is still a lot of work to do, if somebody have ideas, contributors are wel
 ## State Machine (FB_Component MTP)
 ![grafik](https://github.com/user-attachments/assets/fcb4d4f4-0330-4bf9-b2e2-e689cceea905)
 
-
-
-## Class (FB_Component)
-[<img src="docs/FB_Component.png" width="250"/>](docs/FB_Component.png)
-
 ## Description
     [x] State Machine
     [x] Command Pattern to change component states
