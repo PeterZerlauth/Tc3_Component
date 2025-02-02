@@ -38,9 +38,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[fbHomePositon(bInput:= bInHomePosition);
 fbWorkPositon(bInput:= bInWorkPosition);
-fbTimeout(PT:= stOptions.tTimeout);
-
-M_Execute:= TRUE;]]></ST>
+fbTimeout(PT:= stOptions.tTimeout);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Starting" Id="{be59c090-c9a2-0f0f-1926-c6952b267171}">

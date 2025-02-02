@@ -1648,7 +1648,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Development" PrjFilePath="Development\Development.plcproj" TmcFilePath="Development\Development.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{04D26323-5340-2C19-F192-DF231E65B8B9}" TmcPath="Development\Development.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{9A34BC30-BCF6-D746-C331-86C6F119CE67}" TmcPath="Development\Development.tmc">
 					<Name>Development Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -1660,10 +1660,6 @@ External Setpoint Generation:
 						<Var>
 							<Name>MAIN.fbModule2.fbCylinder.bToWorkPosition</Name>
 							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbModule2.fbAxis.stAxis.PlcToNc</Name>
-							<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="1">
@@ -1695,10 +1691,6 @@ External Setpoint Generation:
 						<Var>
 							<Name>MAIN.fbModule2.fbCylinder.bInWorkPosition</Name>
 							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.fbModule2.fbAxis.stAxis.NcToPlc</Name>
-							<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 						</Var>
 						<Var>
 							<Name>IO.bDoorsOk</Name>
@@ -1746,6 +1738,18 @@ External Setpoint Generation:
 						<OwnerA Name="OutputSrc" Prefix="TIPC^Development^Development Instance" Type="2">
 							<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Achse 1">
 								<Link VarA="MAIN.fbModule.fbAxis.stAxis.PlcToNc" TypeA="MC.PLCTONC_AXIS_REF" InOutA="1" GuidA="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" VarB="Inputs^FromPlc" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2025-02-02T11:43:34">
+						<OwnerA Name="InputDst" Prefix="TIPC^Development^Development Instance" Type="1">
+							<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Achse 1">
+								<Link VarA="MAIN.fbModule2.fbAxis.stAxis.NcToPlc" TypeA="MC.NCTOPLC_AXIS_REF" InOutA="0" GuidA="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" VarB="Outputs^ToPlc" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+						<OwnerA Name="OutputSrc" Prefix="TIPC^Development^Development Instance" Type="2">
+							<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Achse 1">
+								<Link VarA="MAIN.fbModule2.fbAxis.stAxis.PlcToNc" TypeA="MC.PLCTONC_AXIS_REF" InOutA="1" GuidA="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" VarB="Inputs^FromPlc" RestoreInfo="ANotFound"/>
 							</OwnerB>
 						</OwnerA>
 					</UnrestoredVarLinks>
@@ -1863,14 +1867,9 @@ External Setpoint Generation:
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{05000010-2001-0850-3000-040300205008}" Id="#x02030010" Watchdog="e8030000040000000400000004000000"/>
 		<OwnerA Name="TIPC^Development^Development Instance">
 			<OwnerB Name="TIID^Device 1 (EtherCAT)">
 				<Link VarA="PlcTask Inputs^MAIN.fbMachine.fbEthercatDiagnostic.AmsNetID" VarB="InfoData^AmsNetId"/>
-			</OwnerB>
-			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Achse 1">
-				<Link VarA="PlcTask Inputs^MAIN.fbModule2.fbAxis.stAxis.NcToPlc" VarB="Outputs^ToPlc"/>
-				<Link VarA="PlcTask Outputs^MAIN.fbModule2.fbAxis.stAxis.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

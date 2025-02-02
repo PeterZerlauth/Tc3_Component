@@ -60,8 +60,6 @@ IF bWarning THEN
 	fbEvent.M_Warning('Warning', 13);	
 END_IF
 
-M_Execute:= TRUE;
-
 ]]></ST>
       </Implementation>
     </Method>

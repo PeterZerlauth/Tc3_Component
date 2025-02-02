@@ -7,12 +7,12 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	fbReflection:							FB_Reflection;					// Info about function block
+	fbReflection:					FB_Reflection;					// Info about function block
 	fbEvent:						FB_Event(THIS^);			// Event Publisher
 	fbSequence:						FB_Sequence(THIS^);			// Sequence
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '1'}
-	eStateRequest:					E_Request;				// State command
+	eStateRequest:					E_Request;					// State command
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '2'}
 	eState:							E_State;					// Current state
@@ -191,7 +191,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[M_Aborted:= False;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Aborting" Id="{5420cd8c-8440-0133-17b0-cfc9fa3a226e}" FolderPath="State\">
@@ -200,8 +200,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// State Aborting
-M_Aborting:= TRUE;
+        <ST><![CDATA[M_Aborting:= TRUE;
 ]]></ST>
       </Implementation>
     </Method>
@@ -229,7 +228,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Execute:= TRUE;]]></ST>
+        <ST><![CDATA[M_Execute:= False;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Idle" Id="{f81e94c9-4b34-0591-0431-3c8c41c7dc3f}" FolderPath="State\">
@@ -238,7 +237,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[M_Idle:= False;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_OnState" Id="{49afef72-99ac-0c9e-2ec3-7701e0509cd3}">
@@ -297,23 +296,21 @@ END_CASE]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Resetting" Id="{9e5fa12d-dc9f-0271-3ab1-62fbd4e3c4cb}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL // Return state complete
+      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL // Return
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// State Resetting
-M_Resetting:= True;]]></ST>
+        <ST><![CDATA[M_Resetting:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Starting" Id="{7b4cc2a9-4be8-0ad5-3afd-3314d7249ec2}" FolderPath="State\">
-      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL // Return state complete
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL // Return
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// State Starting
-M_Starting:= True;]]></ST>
+        <ST><![CDATA[M_Starting:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Stopped" Id="{415168e7-f2ee-0214-0037-987f9ecb70ed}" FolderPath="State\">
@@ -322,7 +319,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[M_Stopped:= False;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Stopping" Id="{752f6f5c-84eb-0065-086e-87701d5b75a9}" FolderPath="State\">
@@ -331,8 +328,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// State Stopping
-M_Stopping:= True;]]></ST>
+        <ST><![CDATA[M_Stopping:= True;]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Event" Id="{4af7c41c-ce75-074c-247b-1e9cde87d3d0}">

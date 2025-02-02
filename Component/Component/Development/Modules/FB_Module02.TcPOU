@@ -7,12 +7,11 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	fbPnozMulti:				FB_PnozMulti;
 	fbComponent0:				FB_ComponentEx;
 	fbComponent1:				FB_ComponentEx;
 	fbContactor:				FB_Contactor;
 	fbCylinder:					FB_Cylinder;
-	fbPnozMulti:				FB_PnozMulti;
-	fbAxis:						FB_Axis;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/
@@ -22,7 +21,6 @@ fbComponent1();
 fbContactor();
 fbCylinder();
 fbPnozMulti();
-fbAxis();
 
 fbContactor.bInput:= fbContactor.bOutput;]]></ST>
     </Implementation>
@@ -36,11 +34,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[CASE fbSequence.P_Number OF
 	E_Sequence.Start:
-		bReturn:= fbAxis.M_MoveAbsolute(100.0, 5.0);
+		bReturn:= TRUE;
 		fbSequence.M_Await('Start 0', T#0S , T#1S, TRUE, bReturn, 10);
 	
 	10:
-		bReturn:= fbAxis.M_MoveAbsolute(0.0, 5.0);
+		bReturn:= TRUE;
 		fbSequence.M_Await('Step 10', T#0S, T#0S, TRUE, bReturn, 20);
 		
 	20:
@@ -52,9 +50,23 @@ END_VAR]]></Declaration>
 		
 	E_Sequence.Done:
 		fbSequence.M_Reset();
-		M_Execute:= TRUE;
 
 END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Idle" Id="{68b2e8eb-c718-0ade-0688-6a32403d9271}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Idle : BOOL (* Return*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbLevel4.M_Add(fbPnozMulti);
+
+fbLevel3.M_Add(fbComponent0);
+fbLevel3.M_Add(fbComponent1);
+
+fbLevel2.M_Add(fbPnozMulti);
+fbLevel2.M_Add(fbContactor);
+
+fbLevel1.M_Add(fbCylinder);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Starting" Id="{9658bef1-b0ab-0b28-221c-efa0bb28574e}">
