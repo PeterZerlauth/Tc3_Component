@@ -1648,7 +1648,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{CA670005-3ECB-4357-9DAE-97E5B57F46CE}" Name="Development" PrjFilePath="Development\Development.plcproj" TmcFilePath="Development\Development.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{9A34BC30-BCF6-D746-C331-86C6F119CE67}" TmcPath="Development\Development.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{5A10899B-BB0D-6DB0-A779-EEAD8F0B4A7B}" TmcPath="Development\Development.tmc">
 					<Name>Development Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -1673,6 +1673,14 @@ External Setpoint Generation:
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
+							<Name>IO.bDoorsOk</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>IO.bFuse</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
 							<Name>MAIN.fbMachine.fbEthercatDiagnostic.AmsNetID</Name>
 							<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
 						</Var>
@@ -1690,14 +1698,6 @@ External Setpoint Generation:
 						</Var>
 						<Var>
 							<Name>MAIN.fbModule2.fbCylinder.bInWorkPosition</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>IO.bDoorsOk</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>IO.bFuse</Name>
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>

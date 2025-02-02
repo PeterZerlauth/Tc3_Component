@@ -29,14 +29,14 @@ END_IF
 
 // Read symbol information
 IF NOT fbReadSymInfo.START THEN
-	M_Initialise();
+	M_GetInstance();
 	fbReadSymInfo.PORT:= TwinCAT_SystemInfoVarList._AppInfo.AdsPort;
 	fbReadSymInfo.START:= TRUE;
 END_IF
 fbReadSymInfo();]]></ST>
     </Implementation>
-    <Method Name="M_Initialise" Id="{7bcb89f8-215a-0ea7-2f48-9c7517dad36a}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Initialise
+    <Method Name="M_GetInstance" Id="{7bcb89f8-215a-0ea7-2f48-9c7517dad36a}">
+      <Declaration><![CDATA[METHOD PROTECTED M_GetInstance
 VAR_INPUT
 END_VAR
 VAR

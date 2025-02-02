@@ -8,6 +8,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	fbLogging:					FB_LoggingProvider;
+	fbLogger:					FB_Logger;
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '1'}
 	eModeRequest:					E_Mode:= E_Mode.Automatic;				// Requested mod
@@ -36,6 +37,13 @@ IF eModeRequest <> E_Mode.Undefined THEN
 END_IF
 eModeRequest:= E_Mode.Undefined;]]></ST>
     </Implementation>
+    <Method Name="M_Idle" Id="{53713e89-9f8a-0ca1-3503-bec2867bc268}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Idle : BOOL (* Return*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbLogging.M_Add(fbLogger);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Mode" Id="{8661b760-0fa5-007a-151c-7fe805544fbb}">
       <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
 METHOD PUBLIC M_Mode : BOOL
@@ -85,7 +93,8 @@ fbSequence.bStopAfter:= eMode = E_Mode.Semiauto;]]></ST>
       <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL (* Return state complete*)
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Starting:= fbLevel1.M_Request(E_Request.Start);]]></ST>
+        <ST><![CDATA[
+M_Starting:= fbLevel1.M_Request(E_Request.Start);]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Mode" Id="{a773e62d-20bd-0c96-369b-0f3305d57073}">
