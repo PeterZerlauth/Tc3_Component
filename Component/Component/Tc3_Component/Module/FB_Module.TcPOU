@@ -8,7 +8,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	fbLogging:					FB_LoggingProvider;
-	fbLogger:					FB_Logger;
+	fbLogger:					FB_Logger<20>;
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Access' := '1'}
 	eModeRequest:					E_Mode:= E_Mode.Automatic;				// Requested mod
@@ -85,7 +85,9 @@ fbLevel4.fbList.M_Add(fbLevel1);
 fbLevel3.fbList.M_Add(fbLevel2);
 fbLevel3.fbList.M_Add(fbLevel1);
 
-fbLevel2.fbList.M_Add(fbLevel1);]]></ST>
+fbLevel2.fbList.M_Add(fbLevel1);
+
+fbEvent.fbObserver.M_Attach(fbLevel1);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Mode" Id="{8661b760-0fa5-007a-151c-7fe805544fbb}">

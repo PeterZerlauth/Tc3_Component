@@ -169,10 +169,10 @@ VAR
 	nIndex: 		DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Prevent Infinite loop from callbacks
+        <ST><![CDATA[iParent.M_Request(E_Request.Abort);
 WHILE nIndex < nLength DO
 	IF pList[nIndex] <> iSender THEN
-		pList[nIndex].P_Event.P_Observer.M_Notify(iSender);	
+		pList[nIndex].P_Event.P_Observer.M_Notify(iParent);	
 	END_IF
 	nIndex:= nIndex + 1; 
 END_WHILE]]></ST>

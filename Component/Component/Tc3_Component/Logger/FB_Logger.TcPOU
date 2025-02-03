@@ -1,22 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Logger" Id="{fd2ecca2-796f-0c21-1b02-56f5057704fe}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_Logger IMPLEMENTS I_Logger
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Logger VAR_GENERIC CONSTANT nMaxLength: UINT := 10; END_VAR IMPLEMENTS I_Logger
 VAR
 	nLength:					DINT;
-	aEvent:						ARRAY [0..nSize - 1] OF ST_Event;
+	aEvent:						ARRAY [0..nMaxLength - 1] OF ST_Event;
 	nIndex: 					DINT;
-    {attribute 'hide'}
 	nTimestamp: 				ULINT;
 END_VAR	
-VAR CONSTANT 
-	nSize: DINT:= 50; 
-END_VAR 
+
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/
 // Execute each secound
-IF nTimestamp < F_GetSystemTime() THEN
+IF nTimestamp <= F_GetSystemTime() THEN
 	nTimestamp:= F_GetSystemTime() + 10000000;
 	nIndex:= 0;
 	WHILE nIndex < nLength DO
@@ -29,8 +26,7 @@ IF nTimestamp < F_GetSystemTime() THEN
 		END_IF
 		nIndex := nIndex + 1;
 	END_WHILE
-END_IF
-]]></ST>
+END_IF]]></ST>
     </Implementation>
     <Method Name="M_Delete" Id="{f3be1f6f-20c3-0e2d-3ceb-b9f0f6d0978c}">
       <Declaration><![CDATA[METHOD PUBLIC M_Delete : BOOL
@@ -41,7 +37,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[// new Length
 nLength:= nLength -1;
 //pList[nPosition]:= iObject;
-Memcpy(ADR(aEvent[nIndex]), ADR(aEvent[nIndex +1]), SIZEOF(POINTER TO ST_Event) * DINT_TO_UDINT(nSize - nIndex));]]></ST>
+Memcpy(ADR(aEvent[nIndex]), ADR(aEvent[nIndex +1]), SIZEOF(POINTER TO ST_Event) * DINT_TO_UDINT(nMaxLength - nIndex));]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Find" Id="{7446ea89-7013-0042-2993-bd13114e3454}">

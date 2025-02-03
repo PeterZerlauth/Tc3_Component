@@ -72,6 +72,8 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[WHILE nIndex < fbList.nLength DO
     fbList.M_Index(nIndex).P_Event.P_Logger:= fbEvent.P_Logger;
+	fbList.M_Index(nIndex).P_Event.P_Observer.M_Attach(THIS^);
+	fbEvent.fbObserver.M_Attach(fbList.M_Index(nIndex));
 	nIndex := nIndex + 1;
 END_WHILE]]></ST>
       </Implementation>

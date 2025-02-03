@@ -511,6 +511,18 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Property Name="P_Sequence" Id="{cbc13e31-79ab-065b-2937-0c8e094270ad}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Sequence : I_Sequence
+]]></Declaration>
+      <Get Name="Get" Id="{dc33c7a0-5128-0126-1cd1-354ef18b5411}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Sequence:= fbSequence;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="P_State" Id="{b623cabe-ac07-05b3-3398-a07000fa3104}">
       <Declaration><![CDATA[PROPERTY PUBLIC P_State : E_State]]></Declaration>
       <Get Name="Get" Id="{f9b2e5f6-eb20-00e6-39d5-99b5e96a63c5}">
