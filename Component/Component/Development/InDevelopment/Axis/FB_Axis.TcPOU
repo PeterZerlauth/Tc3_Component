@@ -113,7 +113,7 @@ fbReadError(Axis:= stAxis, Enable:= TRUE);]]></ST>
       <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL (* Return*)
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Aborting:= True;]]></ST>
+        <ST><![CDATA[M_Aborting:= TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_ErrorID" Id="{1dca32e3-08af-0081-1bda-d9cb19c1acc8}">
@@ -376,7 +376,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[fbReset.Execute:= TRUE;		
-M_Reset:= True;]]></ST>
+M_Reset:= TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Resetting" Id="{6185ea78-ea9b-020b-2b27-7a7cd3160303}">
@@ -386,7 +386,7 @@ M_Reset:= True;]]></ST>
         <ST><![CDATA[fbReset.Execute:= TRUE;
 M_ReadParameterSet();
 M_ReadComponents();
-M_Resetting:= True;]]></ST>
+M_Resetting:= TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Running" Id="{c158c48c-8927-0c61-1bb2-b9d18642570b}">

@@ -6,16 +6,22 @@
 {attribute 'to_string'}
 TYPE E_State :
 (
-   	Idle            := 0,  // Idle.
-    Starting        := 1,  // Transitioning to Execute.
-    Execute         := 2,  // Running
-    Completing      := 3,  // Process is finishing.
-    Completed       := 4,  // Process finished successfully.
-    Stopping        := 5,  // Transitioning to Stopped.
-    Stopped         := 6,  // Stopped
-    Aborting        := 7,  // Transitioning to Aborted.
-    Aborted         := 8,  // Aborted.
-    Resetting       := 9   // Transitioning to Idle.
+   	Idle            := 0,
+    Starting        := 1,
+    Execute         := 2,
+	Pausing			:= 3,
+	Paused			:= 4,
+	Resuming		:= 5,
+	Holding			:= 6,
+	Held			:= 7,
+	Unholding		:= 8,
+    Completing      := 9,
+    Completed       := 10,
+    Stopping        := 11,
+    Stopped         := 12,
+    Aborting        := 13,
+    Aborted         := 14,
+    Resetting       := 15
 );
 END_TYPE]]></Declaration>
   </DUT>

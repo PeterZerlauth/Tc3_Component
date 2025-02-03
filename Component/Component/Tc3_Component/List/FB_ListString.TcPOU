@@ -4,23 +4,18 @@
     <Declaration><![CDATA[{attribute 'no_explicit_call' := 'do not call this POU directly'} 
 FUNCTION_BLOCK FB_ListString IMPLEMENTS I_ListString
 VAR
-	{IF (defined (release))}
-    	{attribute 'hide'}
-	{END_IF}
-	nLength:		INT;
 	pList: 			POINTER TO STRING(255);
 	{IF (defined (release))}
     	{attribute 'hide'}
 	{END_IF}
 	aList:			POINTER TO POINTER TO ARRAY [0..24] OF STRING(255):=ADR(pList);
 END_VAR
-(*!<example> This sample shows how to use the function block</c>.
-
-The following code can be used to add string variable
-<code>fbList.M_Add('string item');</code>
-
-
-</example>*)]]></Declaration>
+VAR_OUTPUT
+	{IF (defined (release))}
+    	{attribute 'hide'}
+	{END_IF}
+	nLength:		INT;	
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
     </Implementation>
@@ -87,7 +82,7 @@ END_IF]]></ST>
 	nLength:= 0;
 	__DELETE(pList);
 END_IF
-M_Clear:= True;]]></ST>
+M_Clear:= TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Find" Id="{a0712017-1bd6-4a85-bce4-d78b95058f43}">

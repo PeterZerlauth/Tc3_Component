@@ -80,7 +80,7 @@ END_IF]]></ST>
 	nLength:= 0;
 	__DELETE(pList);
 END_IF
-M_Clear:= True;]]></ST>
+M_Clear:= TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Find" Id="{37f499ab-a90c-0435-0594-f330a6c37cb8}">

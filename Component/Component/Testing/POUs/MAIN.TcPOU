@@ -15,7 +15,7 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF bInitialise THEN
-	bInitialise:= False;
+	bInitialise:= FALSE;
 	fbTestsuites.M_Add(fbListObject.fbTestsuite);
 	fbTestsuites.M_Add(fbListComponent.fbTestsuite);
 	fbTestsuites.M_Add(fbListString.fbTestsuite);

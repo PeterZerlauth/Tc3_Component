@@ -55,6 +55,7 @@
     <Folder Include="List" />
     <Folder Include="Logger" />
     <Folder Include="Module" />
+    <Folder Include="Level" />
     <Folder Include="Utils" />
     <Folder Include="Object" />
     <Folder Include="Utils\File" />
@@ -122,7 +123,7 @@
     <Compile Include="Component\Sequence\ST_SequenceOptions.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="List\FB_Level.TcPOU">
+    <Compile Include="Level\FB_Level.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\FB_ListComponent.TcPOU">
@@ -132,9 +133,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\FB_ListString.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="List\I_Level.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="List\I_ListBase.TcIO">

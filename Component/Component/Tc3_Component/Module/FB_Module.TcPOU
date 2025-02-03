@@ -27,6 +27,11 @@ END_VAR]]></Declaration>
       <ST><![CDATA[// https://peterzerlauth.com/
 SUPER^();
 
+fbLevel1();
+fbLevel2();
+fbLevel3();
+fbLevel4();
+
 // Detect mode changes
 IF eModeRequest <> E_Mode.Undefined THEN
 	IF eMode <> eModeRequest THEN
@@ -37,11 +42,50 @@ IF eModeRequest <> E_Mode.Undefined THEN
 END_IF
 eModeRequest:= E_Mode.Undefined;]]></ST>
     </Implementation>
+    <Method Name="M_Aborting" Id="{1929bb83-c65f-09d2-2a22-b68806b0f4ac}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL (* Return*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Aborting:= 	fbLevel4.M_Request(E_Request.Abort) AND
+ 				fbLevel3.M_Request(E_Request.Abort) AND
+				fbLevel2.M_Request(E_Request.Abort) AND
+				fbLevel1.M_Request(E_Request.Abort);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Completing" Id="{933fd6f1-4c4e-026e-3128-520b64ab76d5}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL (* Return*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Completing:= 	fbLevel2.M_Request(E_Request.Complete) AND
+				fbLevel1.M_Request(E_Request.Complete);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Holding" Id="{ab8a9dd6-7378-063d-2340-22d0380b9c11}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Holding : BOOL (* Return*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Holding:= fbLevel1.M_Request(E_Request.Hold);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Idle" Id="{53713e89-9f8a-0ca1-3503-bec2867bc268}">
       <Declaration><![CDATA[METHOD PROTECTED M_Idle : BOOL (* Return*)
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbLogging.M_Add(fbLogger);]]></ST>
+        <ST><![CDATA[fbLogging.M_Add(fbLogger);
+
+fbLevel4.P_Event.P_Logger:= fbLogging;
+fbLevel3.P_Event.P_Logger:= fbLogging;
+fbLevel2.P_Event.P_Logger:= fbLogging;
+fbLevel1.P_Event.P_Logger:= fbLogging;
+
+fbLevel4.fbList.M_Add(fbLevel3);
+fbLevel4.fbList.M_Add(fbLevel2);
+fbLevel4.fbList.M_Add(fbLevel1);
+
+fbLevel3.fbList.M_Add(fbLevel2);
+fbLevel3.fbList.M_Add(fbLevel1);
+
+fbLevel2.fbList.M_Add(fbLevel1);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Mode" Id="{8661b760-0fa5-007a-151c-7fe805544fbb}">
@@ -75,26 +119,45 @@ END_VAR]]></Declaration>
 		END_IF
 	E_Mode.Manual:
 		;
-END_CASE
-
-fbSequence.bStopAfter:= eMode = E_Mode.Semiauto;]]></ST>
+END_CASE]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Resetting" Id="{2bb3289b-4652-0e64-25bf-a33d29c7e27c}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL (* Return state complete*)
+    <Method Name="M_Resetting" Id="{dd412173-49e2-0d05-1622-bbd0077f06b6}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL (* Return*)
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[M_Resetting:= fbLevel4.M_Request(E_Request.Start)
-			AND_THEN fbLevel3.M_Request(E_Request.Start)
-			AND_THEN fbLevel2.M_Request(E_Request.Start);  ]]></ST>
+        <ST><![CDATA[M_Resetting:= 	fbLevel4.M_Request(E_Request.Reset) AND
+ 				fbLevel3.M_Request(E_Request.Reset) AND
+				fbLevel2.M_Request(E_Request.Reset) AND
+				fbLevel1.M_Request(E_Request.Reset);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="M_Starting" Id="{135a0682-e20d-03f7-3967-31f0024ffcc4}">
-      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL (* Return state complete*)
+    <Method Name="M_Starting" Id="{6fe2f334-328e-0cdd-0d07-134e9af3083f}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL
+VAR_INPUT
+END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[
-M_Starting:= fbLevel1.M_Request(E_Request.Start);]]></ST>
+        <ST><![CDATA[M_Starting:= 	fbLevel4.M_Request(E_Request.Start) AND_THEN
+ 				fbLevel3.M_Request(E_Request.Start) AND_THEN
+				fbLevel2.M_Request(E_Request.Start) AND_THEN
+				fbLevel1.M_Request(E_Request.Start);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stopping" Id="{36c858d8-accc-01ae-0f5b-a1e3f137f544}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL (* Return state complete*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Stopping:= 	fbLevel3.M_Request(E_Request.Stop) AND
+				fbLevel2.M_Request(E_Request.Stop) AND
+				fbLevel1.M_Request(E_Request.Stop);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Unholding" Id="{c789b877-5992-021d-0162-14767b04eb92}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Unholding : BOOL (* Return*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Unholding:= fbLevel1.M_Request(E_Request.Start);]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Mode" Id="{a773e62d-20bd-0c96-369b-0f3305d57073}">

@@ -156,7 +156,7 @@ END_VAR
 		;
 	ELSE
 		fbGetSlaveAddresses.bExecute:= FALSE;
-		M_GetSlaveAdresses:= True;
+		M_GetSlaveAdresses:= TRUE;
 	END_IF
 
 ELSE

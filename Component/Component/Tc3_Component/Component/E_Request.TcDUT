@@ -14,9 +14,13 @@ TYPE E_Request :
 	{attribute 'analysis' := '-27'}
     Start       := 2,
 	{attribute 'analysis' := '-27'}
-	Complete	:= 3,
+	Pause		:= 4,
 	{attribute 'analysis' := '-27'}
-	Stop		:= 4,
+	Hold		:= 5,
+	{attribute 'analysis' := '-27'}
+	Complete	:= 6,
+	{attribute 'analysis' := '-27'}
+	Stop		:= 7,
 	{attribute 'analysis' := '-27'}
 	Abort		:= 8
 );

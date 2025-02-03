@@ -5,10 +5,11 @@
     <Method Name="M_Await" Id="{02f2d100-ec87-06db-3782-6cf3157df90e}">
       <Declaration><![CDATA[METHOD PUBLIC M_Await : BOOL
 VAR_INPUT
-	sMessage:				STRING(255);		
+	sMessage:				STRING(255);
+	nID:					ULINT;
 	tTimeout:				TIME;
 	tDelay:					TIME;	
-	bStop:					BOOL;
+	bPause:					BOOL;
 	bReturn:				BOOL;
 	nNumber:				INT;
 END_VAR

@@ -4,15 +4,17 @@
     <Declaration><![CDATA[{attribute 'no_explicit_call' := 'do not call this POU directly'} 
 FUNCTION_BLOCK FB_ListComponent IMPLEMENTS I_ListComponent
 VAR
-	{IF (defined (release))}
-    	{attribute 'hide'}
-	{END_IF}
-	nLength:		INT;
 	pList: 			POINTER TO I_Component;
 	{IF (defined (release))}
     	{attribute 'hide'}
 	{END_IF}
 	aList:			POINTER TO POINTER TO ARRAY [0..24] OF I_Component:=ADR(pList);
+END_VAR
+VAR_OUTPUT
+	{IF (defined (release))}
+    	{attribute 'hide'}
+	{END_IF}
+	nLength:		INT;	
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// https://peterzerlauth.com/]]></ST>
