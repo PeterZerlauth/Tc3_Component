@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_ListElement" Id="{ab8205a2-82ac-4799-980f-541526123c48}">
+    <Declaration><![CDATA[INTERFACE I_ListElement Extends I_ListBase
+]]></Declaration>
+    <Method Name="M_Add" Id="{31416f6e-5c2d-4ce2-873c-dc73b1cfa758}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Add : BOOL
+VAR_INPUT
+	iObject: 	I_Element;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="M_Find" Id="{9f020047-7fe7-44c3-b7ac-d3f89fe85683}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
+VAR_INPUT
+	iObject: 	I_Element;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="M_Index" Id="{aa739692-a960-4472-8c48-c3bba57fc92f}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Index : I_Element
+VAR_INPUT
+	Index: 	DINT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="M_Remove" Id="{6961a1f7-e686-48a7-b56a-c7aec47523ba}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Remove : BOOL
+VAR_INPUT
+	iObject: 	I_Element;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

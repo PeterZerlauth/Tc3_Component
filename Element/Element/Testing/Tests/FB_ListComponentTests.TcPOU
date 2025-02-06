@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_ListComponentTests" Id="{24dc75d0-29c8-053a-0392-03a21f30d4d0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ListComponentTests EXTENDS 
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+	fbTestsuite:			FB_Testsuite;
+END_VAR
+VAR
+	fbList:					Tc3_Component.FB_ListComponent;
+	fbObject:				Tc3_Component.FB_Component;
+	iObject:				Tc3_Component.I_Element:= fbObject;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbTestsuite.P_Property.M_Add('object', 'FB_ListComponent');
+fbTestsuite.P_Property.M_Add('name', 'Peter Zerlauth');
+
+fbTestsuite();
+
+CASE fbTestsuite.P_Testcase OF
+	
+	E_Testcase.Start:
+		fbTestsuite.P_Assert.M_Equals_DINT(fbList.P_Length, 0, 'P_Length');
+		fbTestsuite.M_Testcase('FB_ListComponent', T#2S, 'fbList.P_Length', '', 10);	
+		
+	10:
+		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Add(fbObject), TRUE, 'M_Add(fbObject)');
+		fbTestsuite.M_Testcase('FB_ListComponent', T#2S, 'fbList.M_Add(fbObject)', '', 20);
+		
+	20:
+		fbTestsuite.P_Assert.M_Equals_DINT(fbList.P_Length, 1, 'P_Length');
+		fbTestsuite.M_Testcase('FB_ListComponent', T#2S, 'fbList.P_Length', '', 30);		
+		
+	30:
+		fbTestsuite.P_Assert.M_Equals_DINT(fbList.M_Find(fbObject), 0, 'M_Find');
+		fbTestsuite.M_Testcase('FB_ListComponent', T#2S, 'fbList.M_Find(fbObject)', '', 40);
+		
+	40:
+
+		fbTestsuite.P_Assert.M_Equals_BOOL(TRUE, __QUERYINTERFACE(fbList.M_Index(0), iObject), 'M_Index');
+		fbTestsuite.M_Testcase('FB_ListComponent', T#2S, 'fbList.M_Index(1)', '', 50);
+		
+	50:
+		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Remove(fbObject), TRUE, 'M_Remove');
+		fbTestsuite.M_Testcase('FB_ListComponent', T#2S, 'fbList.M_Remove(fbObject', '', 60);		
+
+	60:
+		fbTestsuite.P_Assert.M_Equals_DINT(fbList.P_Length, 0, 'P_Length');
+		fbTestsuite.M_Testcase('FB_ListComponent', T#2S, 'fbList.P_Length', '', 70);
+		
+	70:
+		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Add(fbObject), TRUE, 'M_Add(fbObject)');
+		fbTestsuite.M_Testcase('FB_ListComponent', T#2S, 'fbList.M_Add(fbObject)', '', 80);
+
+	80:
+		fbTestsuite.P_Assert.M_Equals_DINT(fbList.P_Length, 1, 'P_Length');
+		fbTestsuite.M_Testcase('FB_ListComponent', T#2S, 'fbList.P_Length', '', 90);
+		
+	90:
+		fbTestsuite.P_Assert.M_Equals_BOOL(fbList.M_Clear(), TRUE, 'M_Clear()');
+		fbTestsuite.M_Testcase('FB_ListComponent', T#2S, 'fbList.M_Clear()', '', 100);		
+	
+	100:
+		fbTestsuite.P_Assert.M_Equals_DINT(fbList.P_Length, 0, 'P_Length');
+		fbTestsuite.M_Testcase('FB_ListComponent', T#2S, 'fbList.P_Length', '', E_Testcase.Done);
+		
+	E_Testcase.Done:
+		;
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

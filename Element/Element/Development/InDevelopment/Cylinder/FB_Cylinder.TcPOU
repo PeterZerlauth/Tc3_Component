@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Cylinder" Id="{0e789de7-7fe2-0204-3f8e-57ce5ee55d5b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Cylinder EXTENDS FB_Element
+VAR_INPUT
+	eEventType:				E_EventType:= E_EventType.Stop;
+	stOptions:				ST_CylinderOptions;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	bInHomePosition			AT%I*:		BOOL;
+	bInWorkPosition			AT%I*:		BOOL;
+	bToHomePosition			AT%Q*:		BOOL;
+	bToWorkPosition			AT%Q*:		BOOL;
+	fbHomePositon:			FB_Debounce;
+	fbWorkPositon:			FB_Debounce;
+	fbStarup:				TON;
+	fbTimeout:				TON;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();]]></ST>
+    </Implementation>
+    <Method Name="M_Aborting" Id="{3c0a106b-b413-0c2b-059d-2f348bb6c534}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL (* Return*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bToHomePosition:= FALSE;
+bToWorkPosition:= FALSE;
+M_Aborting:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Execute" Id="{3442fc22-050d-094c-015a-424104d580c9}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbHomePositon(bInput:= bInHomePosition);
+fbWorkPositon(bInput:= bInWorkPosition);
+fbTimeout(PT:= stOptions.tTimeout);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Starting" Id="{be59c090-c9a2-0f0f-1926-c6952b267171}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF SUPER^.M_Starting() THEN
+	fbHomePositon.tTime:= stOptions.tDebounce;
+	fbWorkPositon.tTime:= stOptions.tDebounce;
+	// Check positons
+	IF bToHomePosition AND bToWorkPosition THEN
+		IF stOptions.tStartup <> T#0S THEN
+			fbStarup(In:= TRUE, PT:= stOptions.tStartup);
+			IF fbStarup.Q THEN
+				fbStarup(In:= FALSE);
+				bToHomePosition:= FALSE;
+				bToWorkPosition:= FALSE;
+				M_Starting:= TRUE;		
+			END_IF
+		ELSE
+			M_Starting:= TRUE;	
+		END_IF
+	ELSIF bToHomePosition THEN
+		IF NOT bInHomePosition THEN
+			P_Event.M_AddSTRING(fbReflection.P_ID);
+			P_Event.M_AddSTRING(stOptions.sHomePosition);
+			P_Event.M_Error('Cylinder not in Home Positon (%s-%s)', 0);
+		ELSIF bInWorkPosition THEN
+			P_Event.M_AddSTRING(fbReflection.P_ID);
+			P_Event.M_AddSTRING(stOptions.sWorkPosition);
+			P_Event.M_Error('Cylinder in Work Positon (%s-%s)', 0);
+		ELSE
+			M_Starting:= TRUE;	
+		END_IF
+	ELSIF bToWorkPosition THEN
+		IF NOT bInWorkPosition THEN
+			P_Event.M_AddSTRING(fbReflection.P_ID);
+			P_Event.M_AddSTRING(stOptions.sWorkPosition);
+			P_Event.M_Error('Cylinder not in Work Positon (%s-%s)', 0);				
+		ELSIF bInHomePosition THEN
+			P_Event.M_AddSTRING(fbReflection.P_ID);
+			P_Event.M_AddSTRING(stOptions.sHomePosition);
+			P_Event.M_Error('Cylinder not in Home Positon (%s-%s)', 0);
+		ELSE
+			M_Starting:= TRUE;	
+		END_IF
+	ELSE
+		IF bInWorkPosition THEN
+			bToWorkPosition:= TRUE;
+			M_Starting:= TRUE;
+		ELSIF bInHomePosition THEN
+			bToHomePosition:= TRUE;
+			M_Starting:= TRUE;
+		ELSIF stOptions.tStartup <> T#0S THEN		
+			bToHomePosition:= TRUE;
+			bToWorkPosition:= TRUE;
+		ELSE
+			M_Starting:= TRUE;
+		END_IF
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ToHome" Id="{e25a0059-ac3f-0fc7-183d-9c8c2fedf38c}">
+      <Declaration><![CDATA[METHOD PUBLIC M_ToHome : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bToWorkPosition THEN
+	fbTimeout(IN:= FALSE);
+	bToHomePosition:= TRUE;
+	bToWorkPosition:= FALSE;
+
+ELSIF bToHomePosition  THEN
+	IF NOT fbWorkPositon.P_Value AND fbHomePositon.P_Value THEN
+		M_ToHome:= TRUE;
+	ELSE
+		fbTimeout.IN:= TRUE;
+		IF fbTimeout.Q THEN
+			IF fbWorkPositon.P_Value THEN
+				CASE eEventType OF
+					E_EventType.Information:
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sWorkPosition);
+						P_Event.M_Info('Cylinder Work Positon not left (%s%s)', 1120);	
+					E_EventType.Warning:
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sWorkPosition);
+						P_Event.M_Warning('Cylinder Work Positon not left (%s%s)', 1120);						
+					E_EventType.Stop:
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sWorkPosition);
+						P_Event.M_Error('Cylinder Work Positon not left (%s%s)', 1120);				
+					E_EventType.Abort:				
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sWorkPosition);
+						P_Event.M_Abort('Cylinder Work Positon not left (%s%s)', 1120);							
+				END_CASE
+
+			ELSIF NOT fbHomePositon.P_Value THEN
+				CASE eEventType OF
+					E_EventType.Information:
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sHomePosition);
+						P_Event.M_Info('Cylinder Home Positon not reached (%s%s)', 1121);
+					E_EventType.Warning:
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sHomePosition);
+						P_Event.M_Warning('Cylinder Home Positon not reached (%s%s)', 1121);				
+					E_EventType.Stop:
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sWorkPosition);
+						P_Event.M_Error('Cylinder Home Positon not reached (%s%s)', 1121);		
+					E_EventType.Abort:				
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sHomePosition);
+						P_Event.M_Abort('Cylinder Home Positon not reached (%s%s)', 1121);
+				END_CASE
+				
+			END_IF
+		END_IF
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ToWork" Id="{f6a4519f-a033-0321-07a0-e77d6b54d36a}">
+      <Declaration><![CDATA[METHOD PUBLIC M_ToWork : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bToHomePosition THEN
+	fbTimeout(IN:= FALSE);
+	bToHomePosition:= FALSE;
+	bToWorkPosition:= TRUE;	
+
+ELSIF bToWorkPosition  THEN
+	IF fbWorkPositon.P_Value AND NOT fbHomePositon.P_Value THEN
+		M_ToWork:= TRUE;
+	ELSE
+		fbTimeout.IN:= TRUE;
+		IF fbTimeout.Q THEN
+			IF NOT fbWorkPositon.P_Value THEN
+				CASE eEventType OF
+					E_EventType.Information:
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sWorkPosition);
+						P_Event.M_Info('Cylinder Work Positon not reached (%s%s)', 1122);	
+					E_EventType.Warning:
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sWorkPosition);
+						P_Event.M_Warning('Cylinder Work Positon not reached (%s%s)', 1122);						
+					E_EventType.Stop:
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sWorkPosition);
+						P_Event.M_Error('Cylinder Work Positon not reached (%s%s)', 1122);				
+					E_EventType.Abort:				
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sWorkPosition);
+						P_Event.M_Abort('Cylinder Work Positon not reached (%s%s)', 1122);							
+				END_CASE
+
+			ELSIF fbHomePositon.P_Value THEN
+				CASE eEventType OF
+					E_EventType.Information:
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sHomePosition);
+						P_Event.M_Info('Cylinder Home Positon not left (%s%s)', 1122);
+					E_EventType.Warning:
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sHomePosition);
+						P_Event.M_Warning('Cylinder Home Positon not left (%s%s)', 1122);				
+					E_EventType.Stop:
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sWorkPosition);
+						P_Event.M_Error('Cylinder Home Positon not left (%s%s)', 1122);		
+					E_EventType.Abort:				
+						P_Event.M_AddSTRING(fbReflection.P_ID);
+						P_Event.M_AddSTRING(stOptions.sHomePosition);
+						P_Event.M_Abort('Cylinder Home Positon not left (%s%s)', 1122);
+				END_CASE
+				
+			END_IF
+		END_IF
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Options" Id="{e36a7ccd-2016-0de5-3888-ff7d218b5f47}">
+      <Declaration><![CDATA[{attribute 'suppress_wrn_C0410'}
+PROPERTY PUBLIC P_Options : REFERENCE TO ST_CylinderOptions]]></Declaration>
+      <Get Name="Get" Id="{42d7fca6-98d0-0422-2538-b20afcaaa99e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Options ref= stOptions;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

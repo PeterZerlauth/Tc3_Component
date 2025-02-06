@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Event" Id="{59616103-7f2e-4b6f-81bd-583969a36d28}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Event IMPLEMENTS I_Event
+VAR_INPUT
+	fbObserver:			FB_Observable;				// Observer
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	{IF (defined (release))}
+    	{attribute 'hide'}
+	{END_IF}
+	iLogger:			I_Logger;					// Event logger
+	{IF (defined (release))}
+    	{attribute 'hide'}
+	{END_IF}
+	iParent:			I_Element;					// Parent component
+	{IF (defined (release))}
+    	{attribute 'hide'}
+	{END_IF}
+	fbList:				FB_ListString;				// contains a list with string values
+	stDebug:			ST_Event;					// last debug event
+	stInfo:				ST_Event;					// last info event
+	stWarning:			ST_Event;					// last warning event
+	stError:			ST_Event;					// last stop event
+	stAbort:			ST_Event;					// last abort event
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// https://peterzerlauth.com/
+fbObserver();]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{be23ffcc-529d-4010-ace3-b17baed191a5}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	iParent:			I_Element;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.iParent:= iParent;
+fbObserver.iParent:= iParent;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Abort" Id="{a968dc5e-d8ee-079a-0799-c81d1c9d2558}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Abort
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stAbort.sMessage:= sMessage;
+stAbort.iSource:= iParent;
+stAbort.sInstance:= iParent.P_Reflection.P_Instance;
+stAbort.sClass:= iParent.P_Reflection.P_Class;
+stAbort.eEventType:= E_Event.Error;
+stAbort.tTimestamp:= iParent.P_Reflection.P_Timestamp;
+stAbort.nID:= nID;
+stAbort.sDefault:= M_Build(sMessage);
+stAbort.sArguments:= M_Arguments();
+stAbort.stFlags.bActive:= TRUE;
+stAbort.stFlags.bRemove:= FALSE;
+
+IF iLogger = 0 THEN
+	M_Log(stAbort);
+ELSE
+	iLogger.M_Log(stAbort);
+END_IF
+
+fbObserver.M_Notify(iParent);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_AddBOOL" Id="{55367f5b-ac71-0a63-095c-881721842948}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddBOOL : I_Event
+VAR_INPUT
+	Value: 	bool;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Add(BOOL_TO_STRING(Value));
+M_AddBOOL:= THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_AddINT" Id="{77c01fd5-65e9-07ed-2cff-a79b9d444c15}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddINT : I_Event
+VAR_INPUT
+	Value: 	LINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Add(LINT_TO_STRING(Value));
+M_AddINT:= THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_AddREAL" Id="{b0c25678-4933-0839-34f0-c4eb0def69fb}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddREAL : I_Event
+VAR_INPUT
+	Value: 	Lreal;
+	Decimals: INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Add(LREAL_TO_FMTSTR(Value, Decimals, TRUE));
+M_AddREAL:= THIS^;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_AddSTRING" Id="{8ae81d27-cb47-01bb-2b19-fe8608e777a8}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddSTRING : I_Event
+VAR_INPUT
+	Value: STRING(255);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Add(Value);
+M_AddSTRING:= THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_AddTIME" Id="{a7c2a656-d860-0eb9-0cff-1e8b5b1d8573}">
+      <Declaration><![CDATA[METHOD PUBLIC M_AddTIME : I_Event
+VAR_INPUT
+	Value: 	TIME;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbList.M_Add(TIME_TO_STRING(Value));
+M_AddTIME:= THIS^;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Arguments" Id="{70779266-7b36-4bce-9e6f-049e951fd75a}">
+      <Declaration><![CDATA[METHOD INTERNAL M_Arguments : STRING(255)
+VAR_INPUT
+END_VAR
+VAR
+	nIndex:			INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[WHILE nIndex < fbList. P_Length DO
+	M_Arguments:= Concat(Concat(M_Arguments, fbList.M_Index(nIndex)), '$N');
+	nIndex:= nIndex + 1;
+END_WHILE
+
+fbList.M_Clear();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Build" Id="{c94cd0c6-56df-0b94-2d8d-b10a55caeb26}">
+      <Declaration><![CDATA[METHOD INTERNAL M_Build : STRING(255)
+VAR_INPUT
+	sMessage:		STRING(255);
+END_VAR
+VAR
+	nIndex:		   	DINT;
+	nPosition: 		INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nPosition:= Find(sMessage, '%s');
+WHILE nPosition <> 0 DO
+	sMessage:= Replace(sMessage, fbList.M_Index(nIndex), 2, nPosition);
+	nPosition:= Find(sMessage, '%s');
+	nIndex:= nIndex + 1;
+END_WHILE
+M_Build:= sMessage;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Debug" Id="{0a2b992b-2a4a-0251-0210-713b326debf6}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Debug
+VAR_INPUT
+	sMessage:				STRING(255);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stDebug.sMessage:= sMessage;
+stDebug.iSource:= iParent;
+stDebug.sInstance:= iParent.P_Reflection.P_Instance;
+stDebug.sClass:= iParent.P_Reflection.P_Class;
+stDebug.eEventType:= E_Event.Debug;
+stDebug.tTimestamp:= iParent.P_Reflection.P_Timestamp;
+stDebug.nID:= 0;
+stDebug.sDefault:= M_Build(sMessage);
+stDebug.sArguments:= M_Arguments();
+stDebug.stFlags.bActive:= TRUE;
+stDebug.stFlags.bRemove:= TRUE;
+
+IF iLogger = 0 THEN
+	M_Log(stDebug);
+ELSE
+	iLogger.M_Log(stDebug);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Error" Id="{20d0062d-a518-02ec-13ef-e4c8c4295653}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Error
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stError.sMessage:= sMessage;
+stError.iSource:= iParent;
+stError.sInstance:= iParent.P_Reflection.P_Instance;
+stError.sClass:= iParent.P_Reflection.P_Class;
+stError.eEventType:= E_Event.Error;
+stError.tTimestamp:= iParent.P_Reflection.P_Timestamp;
+stError.nID:= nID;
+stError.sDefault:= M_Build(sMessage);
+stError.sArguments:= M_Arguments();
+stError.stFlags.bActive:= TRUE;
+stError.stFlags.bRemove:= FALSE;
+
+IF iLogger = 0 THEN
+	M_Log(stError);
+ELSE
+	iLogger.M_Log(stError);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Info" Id="{d9a244f2-1d6f-434f-aab4-cad6aacbb94f}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Info
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stInfo.sMessage:= sMessage;
+stInfo.iSource:= iParent;
+stInfo.sInstance:= iParent.P_Reflection.P_Instance;
+stInfo.sClass:= iParent.P_Reflection.P_Class;
+stInfo.eEventType:= E_Event.Information;
+stInfo.tTimestamp:= iParent.P_Reflection.P_Timestamp;
+stInfo.nID:= nID;
+stInfo.sDefault:= M_Build(sMessage);
+stInfo.sArguments:= M_Arguments();
+stInfo.stFlags.bActive:= TRUE;
+stInfo.stFlags.bRemove:= TRUE;
+
+IF iLogger = 0 THEN
+	M_Log(stInfo);
+ELSE
+	iLogger.M_Log(stInfo);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Log" Id="{4faf2127-0b92-014c-3fdc-3aa74f15a00e}">
+      <Declaration><![CDATA[METHOD PRIVATE M_Log : BOOL
+VAR_INPUT
+	stEvent	: ST_Event;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Warning" Id="{d443b8bb-774e-487e-80a2-79cf66a0376c}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Warning
+VAR_INPUT
+	sMessage:				STRING(255);
+	nID:					ULINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[stWarning.sMessage:= sMessage;
+stWarning.iSource:= iParent;
+stWarning.sInstance:= iParent.P_Reflection.P_Instance;
+stWarning.sClass:= iParent.P_Reflection.P_Class;
+stWarning.eEventType:= E_Event.Warning;
+stWarning.tTimestamp:= iParent.P_Reflection.P_Timestamp;
+stWarning.nID:= nID;
+stWarning.sDefault:= M_Build(sMessage);
+stWarning.sArguments:= M_Arguments();
+stWarning.stFlags.bActive:= TRUE;
+stWarning.stFlags.bRemove:= TRUE;
+
+IF iLogger = 0 THEN
+	M_Log(stWarning);
+ELSE
+	iLogger.M_Log(stWarning);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Logger" Id="{7db5ebbd-2df4-0da4-1172-1f7f59531c54}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY P_Logger : I_Logger]]></Declaration>
+      <Get Name="Get" Id="{c30909c8-bc71-0c3f-2d6b-a056f1f6fe1b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Logger:= iLogger;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{69321800-5ac3-0207-1f07-4cc88412ab84}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[iLogger:= P_Logger;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="P_Observer" Id="{5a2ea21c-aedb-0c6a-2f12-df08356b98aa}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY PUBLIC P_Observer : I_Observable]]></Declaration>
+      <Get Name="Get" Id="{a355a491-866b-0089-1d02-e50cef149847}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Observer:= fbObserver;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

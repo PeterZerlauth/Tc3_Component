@@ -1,0 +1,484 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Axis" Id="{7dc49411-939d-086e-3ba0-db9126827ef0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Axis EXTENDS FB_Element IMPLEMENTS I_Axis
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+	stAxis:							AXIS_REF;
+END_VAR
+VAR
+	stParameter:					ST_AxisParameterSet;
+	stComponents:					ST_AxisComponents;
+	
+	// General
+	fbPower: 						MC_Power;
+	fbReset: 						MC_Reset;
+	fbHome: 						MC_Home;
+
+	// Motion function blocks
+	fbJog:							MC_Jog;
+	fbSetPosition: 					MC_SetPosition;
+	fbMoveAbsolute: 				REFERENCE TO MC_MoveAbsolute := fbMoveAbsolute1;
+	fbMoveAbsolute1: 				MC_MoveAbsolute;
+	fbMoveAbsolute2: 				MC_MoveAbsolute;
+	fbMoveVelocity: 				MC_MoveVelocity;
+	fbMoveRelative: 				MC_MoveRelative;
+	fbHalt: 						MC_Halt;
+	fbStop: 						MC_Stop;
+	
+	// Read function blocks
+	fbReadAxisComponents:			MC_ReadAxisComponents:= (Execute:= TRUE);	
+	fbReadError: 					MC_ReadAxisError;
+	fbReadParameterSet:				MC_ReadParameterSet:= (Execute:= TRUE);	
+	fbReadBoolParameter:			MC_ReadBoolParameter;
+	fbReadParameter: 				MC_ReadParameter;
+	
+	// Write function blocks                            		
+	fbWriteBoolParameter: 			MC_WriteBoolParameter;
+	fbWriteBoolParameterPersistent: MC_WriteBoolParameterPersistent;
+	fbWriteParameter: 				MC_WriteParameter;
+	fbWriteParameterPersistent: 	MC_WriteParameterPersistent;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// memcpy(adr(stAxis.NcToPlc.ErrorCode), adr(code), sizeof(stAxis.NcToPlc.ErrorCode));
+SUPER^();
+
+stAxis.ReadStatus();
+
+fbPower(Axis:= stAxis);
+	
+fbReset(Axis:= stAxis);
+fbReset.Execute:= FALSE;
+
+fbJog(Axis:= stAxis);
+IF NOT fbJog.Active THEN
+	fbJog.Mode:= E_JogMode.MC_JOGMODE_STANDARD_SLOW;
+END_IF
+fbJog.JogForward:= FALSE;
+fbJog.JogBackwards:= FALSE;
+
+fbHome(Axis:= stAxis);
+fbHome.Execute:= FALSE;
+	
+fbSetPosition(Axis:= stAxis);
+fbSetPosition.Execute:= FALSE;
+
+fbMoveAbsolute1(Axis:= stAxis);
+fbMoveAbsolute1.Execute:= FALSE;
+	
+fbMoveAbsolute2(Axis:= stAxis);
+fbMoveAbsolute2.Execute:= FALSE;
+	
+fbMoveRelative(Axis:= stAxis);
+fbMoveRelative.Execute:= FALSE;
+	
+fbMoveVelocity(Axis:= stAxis);
+fbMoveVelocity.Execute:= FALSE;
+
+fbHalt(Axis:= stAxis);
+fbHalt.Execute:= FALSE;
+	
+fbStop(Axis:= stAxis);
+fbStop.Execute:= FALSE;
+	
+fbReadBoolParameter(Axis:= stAxis);
+fbReadBoolParameter.Enable:= FALSE;
+
+fbWriteBoolParameter(Axis:= stAxis);
+fbWriteBoolParameter.Execute:= FALSE;
+
+fbWriteBoolParameterPersistent(Axis:= stAxis);
+fbWriteBoolParameterPersistent.Execute:= FALSE;
+
+fbReadParameter(Axis:= stAxis);
+fbReadParameter.Enable:= FALSE;
+	
+fbWriteParameter(Axis:= stAxis);
+fbWriteParameter.Execute:= FALSE;
+
+fbWriteParameterPersistent(Axis:= stAxis);
+fbWriteParameterPersistent.Execute:= FALSE;
+	
+fbReadParameterSet(Parameter:=stParameter, Axis:= stAxis);
+fbReadParameterSet.Execute:= FALSE;
+
+fbReadAxisComponents(AxisComponents:= stComponents, Axis:= stAxis);
+fbReadError(Axis:= stAxis, Enable:= TRUE);]]></ST>
+    </Implementation>
+    <Folder Name="Motion" Id="{35718791-19fd-46a5-b6e2-dfab848a97c3}" />
+    <Folder Name="Parameter" Id="{0e484f89-9995-4abb-9390-f90862e0e610}" />
+    <Method Name="M_Aborting" Id="{e5182636-ccd9-0319-0a41-9bc67ce29f87}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL (* Return*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Aborting:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ErrorID" Id="{1dca32e3-08af-0081-1bda-d9cb19c1acc8}">
+      <Declaration><![CDATA[METHOD PROTECTED M_ErrorID
+VAR_INPUT
+	nErrorCode : UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nErrorCode >= 16#4000 AND nErrorCode <= 16#40FF THEN
+		P_Event.M_AddSTRING(stParameter.sAxisName);
+		P_Event.M_AddSTRING(F_TcError(nErrorCode));
+		P_Event.M_Error('%s: General error (%s)',  1101);
+	ELSIF nErrorCode >= 16#4100 AND nErrorCode <= 16#41FF THEN
+		P_Event.M_AddSTRING(stParameter.sAxisName);
+		P_Event.M_AddSTRING(F_TcError(nErrorCode));
+		P_Event.M_Error('%s: Channel Errors (%s)',  1102);
+	ELSIF nErrorCode >= 16#4200 AND nErrorCode <= 16#42FF THEN
+		P_Event.M_AddSTRING(stParameter.sAxisName);
+		P_Event.M_AddSTRING(F_TcError(nErrorCode));
+		P_Event.M_Error('%s: Group error (%s)',  1103);
+	ELSIF nErrorCode >= 16#4300 AND nErrorCode <= 16#43FF THEN
+		P_Event.M_AddSTRING(stParameter.sAxisName);
+		P_Event.M_AddSTRING(F_TcError(nErrorCode));
+		P_Event.M_Error('%s: Axis error (%s)',  1104);
+	ELSIF nErrorCode >= 16#4400 AND nErrorCode <= 16#44FF THEN
+		P_Event.M_AddSTRING(stParameter.sAxisName);
+		P_Event.M_AddSTRING(F_TcError(nErrorCode));
+		P_Event.M_Error('%s: Encoder error (%s)',  1105);	
+	ELSIF nErrorCode >= 16#4500 AND nErrorCode <= 16#45FF THEN
+		P_Event.M_AddSTRING(stParameter.sAxisName);
+		P_Event.M_AddSTRING(F_TcError(nErrorCode));
+		P_Event.M_Error('%s: Controller error (%s)',  1106);	
+	ELSIF nErrorCode >= 16#4600 AND nErrorCode <= 16#46FF THEN
+		P_Event.M_AddSTRING(stParameter.sAxisName);
+		P_Event.M_Error('%s: Drive error (%s)',  1107);	
+	ELSIF nErrorCode >= 16#4A00 AND nErrorCode <= 16#4AFF THEN
+		P_Event.M_AddSTRING(stParameter.sAxisName);
+		P_Event.M_AddSTRING(F_TcError(nErrorCode));
+		P_Event.M_Error('%s: Table error (%s)',  1108);	
+	ELSIF nErrorCode >= 16#4B00 AND nErrorCode <= 16#4BFF THEN
+		P_Event.M_AddSTRING(stParameter.sAxisName);
+		P_Event.M_AddSTRING(F_TcError(nErrorCode));
+		P_Event.M_Error('%s: NC PLC error (%s)',  1109);	
+	ELSIF nErrorCode >= 16#4C00 AND nErrorCode <= 16#4CFF THEN
+		P_Event.M_AddSTRING(stParameter.sAxisName);
+		P_Event.M_AddSTRING(F_TcError(nErrorCode));
+		P_Event.M_Error('%s: Kinematic Transformation (%s)',  1110);	
+	ELSIF nErrorCode >= 16#8000 AND nErrorCode <= 16#8FFF THEN
+		P_Event.M_AddSTRING(stParameter.sAxisName);
+		P_Event.M_AddSTRING(F_TcError(nErrorCode));
+		P_Event.M_Error('%s: NC error code extended (%s)',  1111);	
+	ELSIF nErrorCode >= 16#8100 AND nErrorCode <= 16#81FF THEN
+		P_Event.M_AddSTRING(stParameter.sAxisName);
+		P_Event.M_AddSTRING(F_TcError(nErrorCode));
+		P_Event.M_Error('%s: Bode plot (%s)',  1112);
+	ELSIF nErrorCode >= 16#8200 AND nErrorCode <= 16#82FF THEN
+		P_Event.M_AddSTRING(stParameter.sAxisName);
+		P_Event.M_AddSTRING(F_TcError(nErrorCode));
+		P_Event.M_Error('%s: Further errors (%s)',  1113);
+	END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Execute" Id="{4ba9940e-a621-0fbe-3e27-7ef2e99b6b73}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL (* Return*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+M_Execute:= stAxis.Status.NotMoving and stAxis.Status.InTargetPosition;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Halt" Id="{4cc16a25-74cd-4585-8a87-63dca814490d}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_Halt : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbHalt.Execute:= TRUE;
+M_Halt:= stAxis.Status.NotMoving;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Home" Id="{07120cca-6a59-06c1-3fea-8c3d8aa8e99a}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_Home : BOOL
+VAR_INPUT
+	fPosition:					LREAL;
+	eHomingMode:				MC_HomingMode;
+	bClearPositionLag: 			BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbHome.Execute:= TRUE;
+fbHome.Position:= fPosition;
+fbHome.HomingMode:= eHomingMode;
+fbHome.Options.ClearPositionLag:= bClearPositionLag;
+IF fbHome.Done THEN
+	fbReset.Execute:= TRUE;
+	M_Home:= TRUE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_MoveAbsolute" Id="{d620f725-4545-008a-12b3-203d5ce66fa9}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_MoveAbsolute : BOOL
+VAR_INPUT
+	fPosition:				LREAL;
+	fVelocity:				LREAL;
+	fAcceleration:			LREAL:= 0.0;
+	fDeceleration:			LREAL:= 0.0;
+	fJerk:					LREAL:= 0.0;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Axis redy?
+IF stAxis.Status.ControlLoopClosed THEN
+	// input changed?
+	IF fPosition <> fbMoveAbsolute.Position OR_ELSE fVelocity <> fbMoveAbsolute.Velocity OR_ELSE fbMoveAbsolute.Acceleration <> fbMoveAbsolute.Acceleration OR_ELSE fDeceleration <> fbMoveAbsolute.Deceleration OR_ELSE fJerk <> fbMoveAbsolute.Jerk THEN
+		IF NOT fbMoveAbsolute1.Busy THEN
+			// select axis 1
+			fbMoveAbsolute:= fbMoveAbsolute1;
+		ELSIF NOT fbMoveAbsolute2.Busy THEN
+			// select axis 2
+			fbMoveAbsolute:= fbMoveAbsolute2;
+		ELSE
+			// command blocked
+			M_MoveAbsolute:= FALSE;
+			RETURN;
+		END_IF
+		// take values
+		fbMoveAbsolute.Execute:= 		TRUE;
+		fbMoveAbsolute.Position:= 		fPosition;
+		fbMoveAbsolute.Velocity:= 		fVelocity;
+		fbMoveAbsolute.Acceleration:= 	fAcceleration;
+		fbMoveAbsolute.Deceleration:= 	fDeceleration;
+		fbMoveAbsolute.Jerk:= 			fJerk;
+		M_MoveAbsolute:= FALSE;
+	ELSE
+		// Done
+		M_MoveAbsolute:=  NOT (fbMoveAbsolute1.Active OR  NOT fbMoveAbsolute2.Active);
+	END_IF
+ELSE
+	P_Event.M_AddSTRING(stParameter.sAxisName);
+	P_Event.M_AddREAL(fPosition, 3);
+	P_Event.M_AddREAL(fVelocity, 3);
+	P_Event.M_Info('%s: Not ready for .M_MoveAbsolute(%s, %s)',  1114);
+	M_MoveAbsolute:= FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_MoveRelative" Id="{654b517f-8657-00b1-32c2-f62692e554ae}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_MoveRelative : BOOL
+VAR_INPUT
+	fDistance:				LREAL;
+	fVelocity:				LREAL;
+	fAcceleration:			LREAL:= 0.0;
+	fDeceleration:			LREAL:= 0.0;
+	fJerk:					LREAL:= 0.0;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbPower.Status THEN
+	fbMoveRelative.Execute:= 			TRUE;
+	fbMoveRelative.Distance:= 			fDistance;
+	fbMoveRelative.Velocity:= 			fVelocity;
+	fbMoveRelative.Acceleration:= 		fAcceleration;
+	fbMoveRelative.Deceleration:= 		fDeceleration;
+	fbMoveRelative.Jerk:= 				fJerk;
+	M_MoveRelative:= 					fbMoveRelative.Done;
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_MoveVelocity" Id="{0af94af4-81a3-0869-12db-9ff6b7bbcb7c}" FolderPath="Motion\">
+      <Declaration><![CDATA[METHOD PUBLIC M_MoveVelocity : BOOL
+VAR_INPUT
+	fVelocity:				LREAL;
+	fAcceleration:			LREAL:= 0.0;
+	fDeceleration:			LREAL:= 0.0;
+	fJerk:					LREAL:= 0.0;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fbPower.Status THEN
+	fbMoveVelocity.Execute:= 			TRUE;
+	fbMoveVelocity.Velocity:= 			fVelocity;
+	fbMoveVelocity.Acceleration:= 		fAcceleration;
+	fbMoveVelocity.Deceleration:= 		fDeceleration;
+	fbMoveVelocity.Jerk:= 				fJerk;
+	IF fVelocity >= 0.0 THEN
+		fbMoveVelocity.Direction:= 			MC_Direction.MC_Positive_Direction;
+	ELSE
+		fbMoveVelocity.Direction:= 			MC_Direction.MC_Negative_Direction;	
+	END_IF
+	
+	M_MoveVelocity:= fbMoveVelocity.InVelocity;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ReadBOOL" Id="{02a60cb8-49c4-4a64-a774-516a4a612dd1}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_ReadBOOL : BOOL
+VAR_INPUT
+	 eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	 bValue:				REFERENCE TO BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReadBoolParameter.Enable:= TRUE;
+fbReadBoolParameter.ParameterNumber:= eParameterNumber;
+fbReadBoolParameter.ReadMode:= E_ReadMode.READMODE_ONCE;
+IF fbReadBoolParameter.Valid THEN
+	IF __ISVALIDREF(bValue) THEN
+		bValue:= fbReadBoolParameter.Value;
+		M_ReadBOOL:= TRUE;		
+	END_IF
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ReadComponents" Id="{1fa6fe63-2c8b-4f6e-8c40-5778e559293e}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_ReadComponents : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReadAxisComponents.Execute:= TRUE;
+M_ReadComponents:= fbReadAxisComponents.Done;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ReadLREAL" Id="{ac8c2ef9-38a7-4edc-89bc-5133d990aec8}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_ReadLREAL : BOOL
+VAR_INPUT
+	 eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	 fValue:				REFERENCE TO LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReadParameter.Enable:= TRUE;
+fbReadParameter.ParameterNumber:= eParameterNumber;
+fbReadParameter.ReadMode:= E_ReadMode.READMODE_ONCE;
+IF fbReadParameter.Valid THEN
+	IF __ISVALIDREF(fValue) THEN
+		fValue:= fbReadParameter.Value;
+		M_ReadLREAL:= TRUE;	
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ReadParameterSet" Id="{1bb636e7-d53c-4c4b-91b9-c85f306fed69}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_ReadParameterSet : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReadParameterSet.Execute:= TRUE;
+M_ReadParameterSet:= fbReadParameterSet.Done;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{c865a8cf-0d8c-0102-24d7-1e9a04b62b14}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReset.Execute:= TRUE;		
+M_Reset:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Resetting" Id="{6185ea78-ea9b-020b-2b27-7a7cd3160303}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL (* Return state complete*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbReset.Execute:= TRUE;
+M_ReadParameterSet();
+M_ReadComponents();
+M_Resetting:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Running" Id="{c158c48c-8927-0c61-1bb2-b9d18642570b}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Running
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF stAxis.NcToPlc.ErrorCode <> 0 THEN
+	M_ErrorID(stAxis.NcToPlc.ErrorCode);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_SetPosition" Id="{cc2005f3-d40c-43e4-b23d-ad375afbfcac}">
+      <Declaration><![CDATA[METHOD PUBLIC M_SetPosition : BOOL
+VAR_INPUT
+	fPosition:					LREAL;
+	bClearPositionLag: 			BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbSetPosition.Execute:= TRUE;
+fbSetPosition.Position:= fPosition;
+fbSetPosition.Options.ClearPositionLag:= bClearPositionLag;
+M_SetPosition:= fbSetPosition.Done;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Starting" Id="{7d99d4f3-189c-0f90-32ad-310ad25ac65b}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL (* Return state complete*)]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbPower.Enable:= TRUE;
+fbPower.Enable_Negative:= TRUE;
+fbPower.Enable_Positive:= TRUE;
+fbPower.Override:= 100.0;
+fbPower.BufferMode:= MC_BufferMode.MC_Aborting;
+M_Starting:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stopping" Id="{81293c6f-7020-000b-2579-f7c1c765f243}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL (* Return state complete*)
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Stopping:= M_Halt();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_WriteBOOL" Id="{3697379d-8d19-4764-bd73-6f9a4dcf9537}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_WriteBOOL : BOOL
+VAR_INPUT
+	eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	bPersistent:			BOOL;
+	bValue:					BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bPersistent THEN
+	fbWriteBoolParameterPersistent.Execute:= TRUE;
+	fbWriteBoolParameterPersistent.ParameterNumber:= eParameterNumber;
+	fbWriteBoolParameterPersistent.Value:= bValue;
+	IF fbWriteBoolParameterPersistent.Done THEN
+		M_WriteBOOL:= TRUE;
+	END_IF
+ELSE
+	fbWriteBoolParameter.Execute:= TRUE;
+	fbWriteBoolParameter.ParameterNumber:= eParameterNumber;
+	fbWriteBoolParameter.Value:= bValue;
+	IF fbWriteBoolParameter.Done THEN
+		M_WriteBOOL:= TRUE;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_WriteLREAL" Id="{792f0875-e60b-4e8d-a418-ada5e45e3f6f}" FolderPath="Parameter\">
+      <Declaration><![CDATA[METHOD PUBLIC M_WriteLREAL : BOOL
+VAR_INPUT
+	eParameterNumber:		MC_AxisParameter;		// MC_AxisParameter
+	bPersistent:			BOOL;
+	fValue:					LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bPersistent THEN
+	fbWriteParameterPersistent.Execute:= TRUE;
+	fbWriteParameterPersistent.ParameterNumber:= eParameterNumber;
+	fbWriteParameterPersistent.Value:= fValue;
+	IF fbWriteParameterPersistent.Done THEN
+		M_WriteLREAL:= TRUE;
+	END_IF
+ELSE
+	fbWriteParameter.Execute:= TRUE;
+	fbWriteParameter.ParameterNumber:= eParameterNumber;
+	fbWriteParameter.Value:= fValue;
+	IF fbWriteparameter.Done THEN
+		M_WriteLREAL:= TRUE;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,559 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Element" Id="{3beb4649-c557-0131-2fab-e053b34b5bbf}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Element IMPLEMENTS I_Element
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	fbReflection:					FB_Reflection;					// Info about function block
+	fbEvent:						FB_Event(THIS^);			// Event Publisher
+	fbSequence:						FB_Sequence(THIS^);			// Sequence
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	eStateRequest:					E_Request;					// State command
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Access' := '2'}
+	eState:							E_State;					// Current state
+    {attribute 'hide'}
+	eStatePrevious:					E_State;					// Previous state
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Essential functions for event handling
+fbReflection();
+fbEvent();
+fbSequence();
+
+// State machine logic
+CASE eState OF
+
+    // Idle state
+    E_State.Idle:
+        IF M_Idle() THEN
+            eState := E_State.Starting;
+        END_IF
+
+        CASE eStateRequest OF
+            E_Request.Start:
+                eState := E_State.Starting;
+            E_Request.Stop:
+                eState := E_State.Stopping;
+            E_Request.Abort:
+                eState := E_State.Aborting;
+            ELSE
+                eStateRequest := E_Request.Undefined;
+        END_CASE
+
+    // Starting state
+    E_State.Starting:
+        IF  M_Starting() THEN
+            eState := E_State.Execute;
+            eStateRequest := E_Request.Undefined;
+        END_IF
+        
+        // Handle external requests
+        CASE eStateRequest OF
+            E_Request.Stop:
+                eState := E_State.Stopping;
+            E_Request.Abort:
+                eState := E_State.Aborting;
+        END_CASE
+
+    // Execute state
+    E_State.Execute:
+		IF M_Execute() THEN
+        	eState := E_State.Completing;
+		END_IF
+ 
+        CASE eStateRequest OF
+			E_Request.Pause:
+                eState := E_State.Pausing;
+			E_Request.Hold:
+                eState := E_State.Holding;
+            E_Request.Stop:
+                eState := E_State.Stopping;
+            E_Request.Abort:
+                eState := E_State.Aborting;
+            ELSE
+                eStateRequest := E_Request.Undefined;
+        END_CASE
+
+    // Pausing state
+    E_State.Pausing:
+		IF M_Pausing() THEN
+        	eState := E_State.Paused;
+		END_IF
+		
+	    CASE eStateRequest OF
+			E_Request.Hold:
+                eState := E_State.Holding;
+            E_Request.Stop:
+                eState := E_State.Stopping;
+            E_Request.Abort:
+                eState := E_State.Aborting;
+            ELSE
+                eStateRequest := E_Request.Undefined;
+        END_CASE
+	
+    // Paused state
+    E_State.Paused:
+		IF M_Paused() THEN
+        	eState := E_State.Resuming;
+		END_IF
+
+	    CASE eStateRequest OF
+            E_Request.Start:
+                eState := E_State.Resuming;	
+			E_Request.Hold:
+                eState := E_State.Holding;
+            E_Request.Stop:
+                eState := E_State.Stopping;
+            E_Request.Abort:
+                eState := E_State.Aborting;
+            ELSE
+                eStateRequest := E_Request.Undefined;
+        END_CASE
+		
+    // Resuming state
+    E_State.Resuming:
+		IF M_Resuming() THEN
+        	eState := E_State.Execute;
+		END_IF
+	
+	    CASE eStateRequest OF
+			E_Request.Hold:
+                eState := E_State.Holding;
+            E_Request.Stop:
+                eState := E_State.Stopping;
+            E_Request.Abort:
+                eState := E_State.Aborting;
+            ELSE
+                eStateRequest := E_Request.Undefined;
+        END_CASE
+
+    // Holding state
+    E_State.Holding:
+		IF M_Holding() THEN
+        	eState := E_State.Held;
+		END_IF
+	
+	    CASE eStateRequest OF
+            E_Request.Stop:
+                eState := E_State.Stopping;
+            E_Request.Abort:
+                eState := E_State.Aborting;
+            ELSE
+                eStateRequest := E_Request.Undefined;
+        END_CASE
+	
+    // Held state
+    E_State.Held:
+		IF M_Held() THEN
+        	eState := E_State.Unholding;
+		END_IF
+
+	    CASE eStateRequest OF
+            E_Request.Start:
+                eState := E_State.Unholding;			
+            E_Request.Stop:
+                eState := E_State.Stopping;
+            E_Request.Abort:
+                eState := E_State.Aborting;
+            ELSE
+                eStateRequest := E_Request.Undefined;
+        END_CASE
+		
+    // Unholding state
+    E_State.Unholding:
+		IF M_Held() THEN
+        	eState := E_State.Execute;
+		END_IF
+
+	    CASE eStateRequest OF
+            E_Request.Stop:
+                eState := E_State.Stopping;
+            E_Request.Abort:
+                eState := E_State.Aborting;
+            ELSE
+                eStateRequest := E_Request.Undefined;
+        END_CASE
+		
+    // Completing state
+    E_State.Completing:
+        IF M_Completing() THEN
+            eState := E_State.Completed;
+            eStateRequest := E_Request.Undefined;
+        END_IF
+        
+        CASE eStateRequest OF
+		    E_Request.Stop:
+                eState := E_State.Stopping;
+            E_Request.Abort:
+                eState := E_State.Aborting;
+        END_CASE
+		
+    // Completed state
+    E_State.Completed:
+        IF M_Completed() THEN
+            eState := E_State.Resetting;
+            eStateRequest := E_Request.Undefined;
+        END_IF	
+		
+    // Stopping state
+    E_State.Stopping:
+        IF M_Stopping() THEN
+            eState := E_State.Stopped;
+            eStateRequest := E_Request.Undefined;
+        END_IF
+        
+        CASE eStateRequest OF
+            E_Request.Abort:
+                eState := E_State.Aborting;
+        END_CASE
+
+    // Stopped state: Waits for reset command
+    E_State.Stopped:
+        IF M_Stopped() THEN
+            eState := E_State.Resetting;
+            eStateRequest := E_Request.Undefined;
+        END_IF
+        
+        // Handle reset or abort requests
+        CASE eStateRequest OF
+            E_Request.Reset:
+                eState := E_State.Resetting;
+            E_Request.Abort:
+                eState := E_State.Aborting;
+            ELSE
+                eStateRequest := E_Request.Undefined;
+        END_CASE
+
+    // Aborting state
+    E_State.Aborting:
+        IF M_Aborting() THEN
+            eState := E_State.Aborted;
+            eStateRequest := E_Request.Undefined;
+        END_IF
+
+    // Aborted state: Awaiting reset command
+    E_State.Aborted:
+        IF M_Aborted() THEN
+            eState := E_State.Resetting;
+            eStateRequest := E_Request.Undefined;
+        END_IF
+        
+        // Handle reset request
+        CASE eStateRequest OF
+            E_Request.Reset:
+                eState := E_State.Resetting;
+            ELSE
+                eStateRequest := E_Request.Undefined;
+        END_CASE
+		
+	// Resetting state
+    E_State.Resetting:
+        IF M_Resetting() THEN
+            eState := E_State.Idle;
+            eStateRequest := E_Request.Undefined;
+        END_IF
+
+        CASE eStateRequest OF
+            E_Request.Stop:
+                eState := E_State.Stopping;
+            E_Request.Abort:
+                eState := E_State.Aborting;
+			ELSE
+                eStateRequest := E_Request.Undefined;
+        END_CASE
+
+END_CASE
+
+// Detect state transitions and trigger event callback
+IF eStatePrevious <> eState THEN
+    M_OnState(eState, eStatePrevious);
+    eStatePrevious := eState;
+END_IF
+]]></ST>
+    </Implementation>
+    <Folder Name="State" Id="{ca15ba5f-c875-08b1-19c6-3566ddf8fed6}" />
+    <Method Name="FB_init" Id="{badf4989-5758-03ee-2097-25283f2924c2}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL:= TRUE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Aborted" Id="{f47ae709-6b97-0869-103e-462a949d9bd1}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborted : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Aborted:= FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Aborting" Id="{5420cd8c-8440-0133-17b0-cfc9fa3a226e}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Aborting : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Aborting:= TRUE;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Completed" Id="{a7223eeb-937e-0932-34bf-74539565cf99}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completed : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Completed:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Completing" Id="{25962ce0-1492-0d73-2226-fd61bbb69809}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Completing : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Completing:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Execute" Id="{0a26e879-26ba-0448-077b-265f6eb411a3}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Execute:= FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Held" Id="{3eb1bd72-7318-0d3b-1f3f-9b7408c154b7}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Held : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Held:= FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Holding" Id="{d71d2ed6-a745-0f6b-11de-eb98aa2dc078}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Holding : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Holding:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Idle" Id="{f81e94c9-4b34-0591-0431-3c8c41c7dc3f}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Idle : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Idle:= FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_OnState" Id="{49afef72-99ac-0c9e-2ec3-7701e0509cd3}">
+      <Declaration><![CDATA[METHOD Protected M_OnState
+VAR_INPUT
+	eState:							E_State;						// Current state
+	eStatePrevious:					E_State;						// Previous state	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// State changed event
+fbSequence.M_Reset();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Paused" Id="{af93fe51-82b0-01fc-36d1-065ebef69e3e}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Paused : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Paused:= FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Pausing" Id="{047bd37f-d40d-0811-1910-5880ce08bec6}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Pausing : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Pausing:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Request" Id="{bdd740c0-4464-0c1b-399c-16ea1aed66b8}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
+METHOD PUBLIC M_Request : BOOL
+VAR_INPUT
+	eRequest:	E_Request;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Request component states / Command Pattern
+CASE eRequest OF
+	E_Request.Undefined:
+		M_Request:= TRUE;
+		
+	E_Request.Start:
+		IF eState = E_State.Execute THEN
+			M_Request:= TRUE;
+		ELSE
+			eStateRequest:= eRequest;				
+		END_IF
+		
+	E_Request.Hold:
+		IF eState = E_State.Held THEN
+			M_Request:= TRUE;
+		ELSE
+			eStateRequest:= eRequest;
+		END_IF
+		
+	E_Request.Pause:
+		IF eState = E_State.Paused THEN
+			M_Request:= TRUE;
+		ELSE
+			eStateRequest:= eRequest;
+		END_IF
+		
+	E_Request.Complete:
+		IF eState = E_State.Completed THEN
+			M_Request:= TRUE;
+		ELSE
+			eStateRequest:= eRequest;
+		END_IF
+		
+	E_Request.Stop:
+		IF eState = E_State.Stopped THEN
+			M_Request:= TRUE;
+		ELSE
+			eStateRequest:= eRequest;
+		END_IF
+		
+	E_Request.Abort:
+		IF eState = E_State.Aborted THEN
+			M_Request:= TRUE;
+		ELSE
+			eStateRequest:= eRequest;
+		END_IF
+
+	E_Request.Reset:
+		IF eState < E_State.Stopped THEN
+			M_Request:= TRUE;
+		ELSE
+			eStateRequest:= eRequest;			
+		END_IF
+		
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Resetting" Id="{9e5fa12d-dc9f-0271-3ab1-62fbd4e3c4cb}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resetting : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Resetting:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Resuming" Id="{4a5a1b07-4dd5-0bfe-0095-7b8affb07790}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Resuming : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Resuming:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Starting" Id="{7b4cc2a9-4be8-0ad5-3afd-3314d7249ec2}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Starting : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Starting:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stopped" Id="{415168e7-f2ee-0214-0037-987f9ecb70ed}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopped : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Stopped:= FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Stopping" Id="{752f6f5c-84eb-0065-086e-87701d5b75a9}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Stopping : BOOL // Return state complete
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Stopping:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Unholding" Id="{62631f5e-7fee-0a51-3c7f-fed42b83b75d}" FolderPath="State\">
+      <Declaration><![CDATA[METHOD PROTECTED M_Unholding : BOOL // Return
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Unholding:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Event" Id="{4af7c41c-ce75-074c-247b-1e9cde87d3d0}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Event : I_Event
+]]></Declaration>
+      <Get Name="Get" Id="{581dbbf1-1871-0bc4-2167-11bb575e35b8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Event:= fbEvent;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Reflection" Id="{1f2686a8-22c2-03c1-3b18-3cdd0f1b6158}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Reflection : I_Reflection]]></Declaration>
+      <Get Name="Get" Id="{80d9a233-1863-0529-037a-9eeb24a670c8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Reflection:= fbReflection;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Sequence" Id="{cbc13e31-79ab-065b-2937-0c8e094270ad}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Sequence : I_Sequence
+]]></Declaration>
+      <Get Name="Get" Id="{dc33c7a0-5128-0126-1cd1-354ef18b5411}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Sequence:= fbSequence;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_State" Id="{b623cabe-ac07-05b3-3398-a07000fa3104}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_State : E_State]]></Declaration>
+      <Get Name="Get" Id="{f9b2e5f6-eb20-00e6-39d5-99b5e96a63c5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_State:= eState;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

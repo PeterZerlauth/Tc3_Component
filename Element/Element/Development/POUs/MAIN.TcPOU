@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="MAIN" Id="{2d4d4998-19ee-0f89-2021-34d743efb262}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	bTest:				BOOL;
+	fbMachine:			FB_Machine;
+	fbModule1:			FB_Module01;
+	fbModule2:			FB_Module02;
+	
+	fbComponent1:		FB_ComponentT;
+	fbComponent2:		FB_ComponentT;	
+	bInit: 				BOOL:= TRUE;
+	exceptionCode: 		__SYSTEM.ExceptionCode;
+	exception: 			__SYSTEM.ExceptionCode;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[bTest:= NOT bTest;
+
+__TRY
+	fbMachine();
+	fbModule1();
+	fbModule2();
+
+
+	fbComponent1();
+	fbComponent2();
+__CATCH(exceptionCode)
+ exception:= exceptionCode;
+__ENDTRY
+
+
+
+
+IF bInit THEN
+	bInit:= False;
+	fbComponent1.P_Event.P_Observer.M_Attach(fbComponent2);
+	fbComponent2.P_Event.P_Observer.M_Attach(fbComponent1);
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

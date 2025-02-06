@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_ComponentT" Id="{735f813a-3349-0a60-30db-82124ffd38eb}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ComponentT EXTENDS FB_Element
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	bAbort: BOOL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[super^();]]></ST>
+    </Implementation>
+    <Method Name="M_Execute" Id="{2088ebc2-7f48-06a1-0627-bd98553609ee}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Execute : BOOL (* Return*)
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF bAbort THEN
+	P_Event.M_Abort('msg', 0);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

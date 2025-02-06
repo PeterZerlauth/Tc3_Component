@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Module" Id="{17c5a5c0-e93a-0aed-1dd7-b12ea548c450}">
+    <Declaration><![CDATA[INTERFACE I_Module EXTENDS I_Element
+]]></Declaration>
+    <Method Name="M_Mode" Id="{208c4c43-a103-0c2c-0258-2704597726e6}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Mode : BOOL
+VAR_INPUT
+	eMode:		E_Mode;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="P_Mode" Id="{e048b2ce-4d45-02c7-3379-8e81d7ba5300}">
+      <Declaration><![CDATA[PROPERTY PUBLIC P_Mode : E_Mode]]></Declaration>
+      <Get Name="Get" Id="{ee8b9205-2345-0b77-239a-ffedae0545c4}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>
