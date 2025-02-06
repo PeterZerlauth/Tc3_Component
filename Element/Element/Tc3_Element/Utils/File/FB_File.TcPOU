@@ -187,23 +187,39 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF fbOpen.bExecute THEN
-	IF fbOpen.bError THEN
-		nError:= fbOpen.nErrId;
-		fbOpen.bExecute:= FALSE;
-	ELSIF fbOpen.bBusy THEN
-		;
-	ELSE
-		fbRead.hFile:= fbOpen.hFile;
-		fbWrite.hFile:= fbOpen.hFile;
-		fbClose.hFile:= fbOpen.hFile;
-		fbOpen.bExecute:= FALSE;
-		M_Open:= TRUE;
-	END_IF	
+        <ST><![CDATA[// Check if the file open should be executed
+IF fbOpen.bExecute THEN
+    // Check the file opening process
+    IF fbOpen.bError THEN
+        // Store the error ID and stop the execution
+        nError:= fbOpen.nErrId;
+        fbOpen.bExecute:= FALSE;
+        
+    // If the process is still busy, do nothing and wait
+    ELSIF fbOpen.bBusy THEN
+        ;
+        
+    // If the file has been successfully opened
+    ELSIF fbOpen.hFile <> 0 THEN    
+        // Assign the file handle
+        fbRead.hFile:= fbOpen.hFile;
+        fbWrite.hFile:= fbOpen.hFile;
+        fbClose.hFile:= fbOpen.hFile;
+        fbOpen.bExecute:= FALSE;
+        // File is open
+        M_Open:= TRUE;
+    END_IF    
 ELSE
-	fbOpen.bExecute:= TRUE;
-	fbOpen.sPathName:= PathName;
-	fbOpen.nMode:= (FOPEN_MODEAPPEND OR FOPEN_MODEPLUS OR FOPEN_MODETEXT);
+    // If the file handle is invalid (e.g., the file is not open)
+    IF fbOpen.hFile = 0 THEN
+        // file is open
+        M_Open:= TRUE;    
+    ELSE
+        // Start the file opening process with the specified path and mode
+        fbOpen.bExecute:= TRUE;
+        fbOpen.sPathName:= PathName;
+        fbOpen.nMode:= (FOPEN_MODEAPPEND OR FOPEN_MODEPLUS OR FOPEN_MODETEXT);    
+    END_IF
 END_IF
 ]]></ST>
       </Implementation>

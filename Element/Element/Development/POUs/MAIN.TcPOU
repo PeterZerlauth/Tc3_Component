@@ -40,7 +40,8 @@ IF bInit THEN
 END_IF
 
 
-fbFileLogger();]]></ST>
+fbFileLogger();
+]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
