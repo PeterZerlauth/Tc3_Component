@@ -1,25 +1,40 @@
 # Tc3_Element
-A library for TwinCAT 3 (4026) which is using design patterns to standardize machine control software.\
-The goal are to code reliable Software in a short time,\
-have a lightweight and modular Framework.
 
-## Info
-The concept is working quite stable.\
-I am trying to implement what i have seen so far, and improve it to a usable state.\
-Project is still under heavy development, and without any warranty!\
-There is still a lot of work to do, if somebody have ideas, contributors are welcome!
+**Tc3_Element** is a **TwinCAT 3 (4026) library** that utilizes **design patterns** to standardize machine control software.
 
-## State Machine (FB_Component MTP)
-![grafik](https://github.com/user-attachments/assets/fcb4d4f4-0330-4bf9-b2e2-e689cceea905)
+The goal is to develop **reliable software** in a **shorter time** while maintaining a **lightweight** and **modular** framework.
 
-## Description
-    [x] State Machine
-    [x] Command Pattern to change component states
-    [x] Observer Pattern to Notify state changes
-    [x] Eventlogger
-    [x] Sequence Manager
-    [x] Module to handle Components
+---
 
-[#####-----]
+## Info  
 
-## Code 
+The core concept is already **functioning stably**.  
+I am continuously refining and implementing ideas to bring it to a **fully usable state**.  
+
+> ⚠ **This project is still under heavy development and comes without any warranty.**  
+
+There is still a lot of work to do.  
+If you have ideas or want to contribute, **pull requests are welcome!** 🚀  
+
+---
+
+## State Machine (FB_Element implements the Module-Type-Package state machine)  
+
+![State Machine Diagram](https://github.com/user-attachments/assets/fcb4d4f4-0330-4bf9-b2e2-e689cceea905)  
+
+---
+
+## Features  
+
+- ✅ **State Machine** for managing component lifecycles  
+- ✅ **Command Pattern** to control component states  
+- ✅ **Observer Pattern** for state change notifications  
+- ✅ **Event Logger** for debugging and diagnostics  
+- ✅ **Sequence Manager** for orchestrating component behavior  
+- ✅ **Modular Component Handling** for flexibility and scalability  
+
+---
+
+## Code  
+
+_(More details and examples coming soon...)_  
