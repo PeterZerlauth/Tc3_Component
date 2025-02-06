@@ -1,4 +1,4 @@
-# Tc3_Component
+# Tc3_Element
 A library for TwinCAT 3 (4026) which is using design patterns to standardize machine control software.\
 The goal are to code reliable Software in a short time,\
 have a lightweight and modular Framework.
