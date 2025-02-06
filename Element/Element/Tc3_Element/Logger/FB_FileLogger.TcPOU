@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_FileLogger" Id="{6c90a797-1500-0c0a-24c5-fd5295074525}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_FileLogger VAR_GENERIC CONSTANT nMaxLength: UINT := 10; END_VAR IMPLEMENTS I_Logger
+VAR_INPUT
+	sPathName:					STRING;
+END_VAR
+VAR
+	nLength:					DINT;
+	aEvent:						ARRAY [0..nMaxLength - 1] OF ST_Event;
+	fbFile:						FB_File;
+	bWriteLine: BOOL;
+END_VAR	
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// https://peterzerlauth.com/
+
+fbFile();
+
+IF fbFile.P_Open THEN
+	;
+ELSE
+	fbFile.M_Create(sPathName);
+END_IF
+
+IF bWriteLine THEN
+	bWriteLine:= NOT fbFile.M_AppendLine('Test');
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="M_Delete" Id="{b177098c-f698-01c6-37e0-2fb007b123d9}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Delete : BOOL
+VAR_INPUT
+	nIndex: 			DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// new Length
+nLength:= nLength -1;
+//pList[nPosition]:= iObject;
+Memcpy(ADR(aEvent[nIndex]), ADR(aEvent[nIndex +1]), SIZEOF(POINTER TO ST_Event) * DINT_TO_UDINT(nMaxLength - nIndex));]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Find" Id="{66995db1-c3ec-0405-06b5-c0a3e36efe91}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Find : DINT
+VAR_INPUT
+	stEvent:	ST_Event;
+END_VAR
+VAR 
+	nIndex:		DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Find event in buffer
+M_Find := -1;
+WHILE nIndex < nLength DO
+	IF (aEvent[nIndex].iSource = stEvent.iSource) AND_THEN
+    	(aEvent[nIndex].eEventType = stEvent.eEventType) AND_THEN
+		(aEvent[nIndex].sInstance = stEvent.sInstance) AND_THEN
+		(aEvent[nIndex].sMessage = stEvent.sMessage) THEN
+        M_Find := nIndex;
+        RETURN;
+    END_IF
+	nIndex := nIndex + 1;
+END_WHILE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Log" Id="{01f9b2ef-2960-0714-3db4-4d9847033dda}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Log
+VAR_INPUT
+	stEvent:		ST_Event;
+END_VAR
+VAR
+	nIndex:			DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (nIndex:=  M_Find(stEvent)) >= 0 THEN
+	// Update existing events
+	aEvent[nIndex].sArguments:= stEvent.sArguments;
+	aEvent[nIndex].sDefault:= stEvent.sDefault;
+	aEvent[nIndex].sClass:= stEvent.sClass;
+	aEvent[nIndex].stFlags:= stEvent.stFlags;
+	
+ELSE
+	// add new event
+	aEvent[nLength]:= stEvent;
+	nLength:= nLength + 1;
+	
+// 	fbFile.M_AppendLine(stEvent.eEventType
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Reset" Id="{b989d2d4-aadd-0126-3d93-7e5511bc2475}">
+      <Declaration><![CDATA[METHOD PUBLIC M_Reset
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Reset all events
+nLength:= 0;
+Memset(ADR(aEvent), 0, SIZEOF(aEvent));
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

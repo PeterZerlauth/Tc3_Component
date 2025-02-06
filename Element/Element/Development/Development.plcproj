@@ -137,9 +137,9 @@
       <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Utilities</Namespace>
     </PlaceholderReference>
-    <PlaceholderReference Include="Tc3_Component">
-      <DefaultResolution>Tc3_Component, * (Zerlauth)</DefaultResolution>
-      <Namespace>Tc3_Component</Namespace>
+    <PlaceholderReference Include="Tc3_Element">
+      <DefaultResolution>Tc3_Element, * (Zerlauth)</DefaultResolution>
+      <Namespace>Tc3_Element</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_IPCDiag">
       <DefaultResolution>Tc3_IPCDiag, * (Beckhoff Automation GmbH)</DefaultResolution>

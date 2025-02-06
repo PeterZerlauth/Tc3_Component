@@ -45,7 +45,7 @@ END_VAR]]></Declaration>
 		fbWrite.bExecute:= FALSE;
 	END_IF
 ELSE
-	fbWrite.bExecute:= TRUE;
+	fbWrite.bExecute:= TRUE
 	fbWrite.pWriteBuff:= ADR(Text);
 	fbWrite.cbWriteLen:= INT_TO_UDINT(Len(Text));
 END_IF

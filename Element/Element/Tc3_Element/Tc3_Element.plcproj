@@ -147,6 +147,9 @@
     <Compile Include="List\I_ListString.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Logger\FB_FileLogger.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Logger\FB_LoggingProvider.TcPOU">
       <SubType>Code</SubType>
     </Compile>
