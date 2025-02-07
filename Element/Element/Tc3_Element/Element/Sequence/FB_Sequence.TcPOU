@@ -69,13 +69,13 @@ IF bReturn THEN
         
         // Reset delay
         fbDelay(IN := FALSE);  
-        IF bHeld THEN  
-            // Request a hold operation to the parent  
-            iParent.M_Request(E_Request.Hold);  
-        ELSIF bPause THEN  
-            // Request a pause operation to the parent  
-            iParent.M_Request(E_Request.Pause);  
-        END_IF  
+//         IF bHeld THEN  
+//             // Request a hold operation to the parent  
+//             iParent.M_Request(E_Request.Hold);  
+//         ELSIF bPause THEN  
+//             // Request a pause operation to the parent  
+//             iParent.M_Request(E_Request.Pause);  
+//         END_IF  
     END_IF  
 
 ELSE  

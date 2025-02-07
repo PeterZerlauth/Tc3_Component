@@ -28,12 +28,109 @@ fbSequence();
 // State machine logic
 CASE eState OF
 
-    // Idle state
+    // Idle state:
     E_State.Idle:
         IF M_Idle() THEN
             eState := E_State.Starting;
         END_IF
 
+    // Starting state:
+    E_State.Starting:
+        IF M_Starting() THEN
+            eState := E_State.Execute;
+        END_IF
+
+    // Execute state:
+    E_State.Execute:
+        IF M_Execute() THEN
+            eState := E_State.Completing;
+        END_IF
+
+    // Pausing state:
+    E_State.Pausing:
+        IF M_Pausing() THEN
+            eState := E_State.Paused;
+        END_IF
+
+    // Paused state:
+    E_State.Paused:
+        IF M_Paused() THEN
+            eState := E_State.Resuming;
+        END_IF
+
+    // Resuming state:
+    E_State.Resuming:
+        IF M_Resuming() THEN
+            eState := E_State.Execute;
+        END_IF
+
+    // Holding state:
+    E_State.Holding:
+        IF M_Holding() THEN
+            eState := E_State.Held;
+        END_IF
+
+    // Held state:
+    E_State.Held:
+        IF M_Held() THEN
+            eState := E_State.Unholding;
+        END_IF
+
+    // Unholding state:
+    E_State.Unholding:
+        IF M_Held() THEN
+            eState := E_State.Execute;
+        END_IF
+
+    // Completing state:
+    E_State.Completing:
+        IF M_Completing() THEN
+            eState := E_State.Completed;
+        END_IF
+
+    // Completed state:
+    E_State.Completed:
+        IF M_Completed() THEN
+            eState := E_State.Resetting;
+        END_IF
+
+    // Stopping state:
+    E_State.Stopping:
+        IF M_Stopping() THEN
+            eState := E_State.Stopped;
+        END_IF
+
+    // Stopped state:
+    E_State.Stopped:
+        IF M_Stopped() THEN
+            eState := E_State.Resetting;
+        END_IF
+
+    // Aborting state:
+    E_State.Aborting:
+        IF M_Aborting() THEN
+            eState := E_State.Aborted;
+        END_IF
+
+    // Aborted state:
+    E_State.Aborted:
+        IF M_Aborted() THEN
+            eState := E_State.Resetting;
+        END_IF
+
+    // Resetting state:
+    E_State.Resetting:
+        IF M_Resetting() THEN
+            eState := E_State.Idle;
+        END_IF
+
+END_CASE
+
+// handle state requests
+CASE eState OF
+
+    // Idle state:
+    E_State.Idle:
         CASE eStateRequest OF
             E_Request.Start:
                 eState := E_State.Starting;
@@ -41,18 +138,10 @@ CASE eState OF
                 eState := E_State.Stopping;
             E_Request.Abort:
                 eState := E_State.Aborting;
-            ELSE
-                eStateRequest := E_Request.Undefined;
         END_CASE
 
-    // Starting state
+    // Starting state:
     E_State.Starting:
-        IF  M_Starting() THEN
-            eState := E_State.Execute;
-            eStateRequest := E_Request.Undefined;
-        END_IF
-        
-        // Handle external requests
         CASE eStateRequest OF
             E_Request.Stop:
                 eState := E_State.Stopping;
@@ -60,234 +149,140 @@ CASE eState OF
                 eState := E_State.Aborting;
         END_CASE
 
-    // Execute state
+    // Execute state:
     E_State.Execute:
-		IF M_Execute() THEN
-        	eState := E_State.Completing;
-		END_IF
- 
         CASE eStateRequest OF
-			E_Request.Pause:
+            E_Request.Pause:
                 eState := E_State.Pausing;
-			E_Request.Hold:
+            E_Request.Hold:
                 eState := E_State.Holding;
             E_Request.Stop:
                 eState := E_State.Stopping;
             E_Request.Abort:
                 eState := E_State.Aborting;
-            ELSE
-                eStateRequest := E_Request.Undefined;
         END_CASE
 
-    // Pausing state
+    // Pausing state:
     E_State.Pausing:
-		IF M_Pausing() THEN
-        	eState := E_State.Paused;
-		END_IF
-		
-	    CASE eStateRequest OF
-			E_Request.Hold:
+        CASE eStateRequest OF
+            E_Request.Hold:
                 eState := E_State.Holding;
             E_Request.Stop:
                 eState := E_State.Stopping;
             E_Request.Abort:
                 eState := E_State.Aborting;
-            ELSE
-                eStateRequest := E_Request.Undefined;
         END_CASE
-	
-    // Paused state
+
+    // Paused state:
     E_State.Paused:
-		IF M_Paused() THEN
-        	eState := E_State.Resuming;
-		END_IF
-
-	    CASE eStateRequest OF
+        CASE eStateRequest OF
             E_Request.Start:
-                eState := E_State.Resuming;	
-			E_Request.Hold:
+                eState := E_State.Resuming;
+            E_Request.Hold:
                 eState := E_State.Holding;
             E_Request.Stop:
                 eState := E_State.Stopping;
             E_Request.Abort:
                 eState := E_State.Aborting;
-            ELSE
-                eStateRequest := E_Request.Undefined;
         END_CASE
-		
-    // Resuming state
+
+    // Resuming state:
     E_State.Resuming:
-		IF M_Resuming() THEN
-        	eState := E_State.Execute;
-		END_IF
-	
-	    CASE eStateRequest OF
-			E_Request.Hold:
+        CASE eStateRequest OF
+            E_Request.Hold:
                 eState := E_State.Holding;
             E_Request.Stop:
                 eState := E_State.Stopping;
             E_Request.Abort:
                 eState := E_State.Aborting;
-            ELSE
-                eStateRequest := E_Request.Undefined;
         END_CASE
 
-    // Holding state
+    // Holding state:
     E_State.Holding:
-		IF M_Holding() THEN
-        	eState := E_State.Held;
-		END_IF
-	
-	    CASE eStateRequest OF
+        CASE eStateRequest OF
             E_Request.Stop:
                 eState := E_State.Stopping;
             E_Request.Abort:
                 eState := E_State.Aborting;
-            ELSE
-                eStateRequest := E_Request.Undefined;
         END_CASE
-	
-    // Held state
+
+    // Held state:
     E_State.Held:
-		IF M_Held() THEN
-        	eState := E_State.Unholding;
-		END_IF
-
-	    CASE eStateRequest OF
+        CASE eStateRequest OF
             E_Request.Start:
-                eState := E_State.Unholding;			
+                eState := E_State.Unholding;
             E_Request.Stop:
                 eState := E_State.Stopping;
             E_Request.Abort:
                 eState := E_State.Aborting;
-            ELSE
-                eStateRequest := E_Request.Undefined;
         END_CASE
-		
-    // Unholding state
+
+    // Unholding state:
     E_State.Unholding:
-		IF M_Held() THEN
-        	eState := E_State.Execute;
-		END_IF
-
-	    CASE eStateRequest OF
+        CASE eStateRequest OF
             E_Request.Stop:
                 eState := E_State.Stopping;
             E_Request.Abort:
                 eState := E_State.Aborting;
-            ELSE
-                eStateRequest := E_Request.Undefined;
         END_CASE
-		
-    // Completing state
+
+    // Completing state:
     E_State.Completing:
-        IF M_Completing() THEN
-            eState := E_State.Completed;
-            eStateRequest := E_Request.Undefined;
-        END_IF
-        
-        CASE eStateRequest OF
-		    E_Request.Stop:
-                eState := E_State.Stopping;
-            E_Request.Abort:
-                eState := E_State.Aborting;
-        END_CASE
-		
-    // Completed state
-    E_State.Completed:
-        IF M_Completed() THEN
-            eState := E_State.Resetting;
-            eStateRequest := E_Request.Undefined;
-        END_IF	
-		
-    // Stopping state
-    E_State.Stopping:
-        IF M_Stopping() THEN
-            eState := E_State.Stopped;
-            eStateRequest := E_Request.Undefined;
-        END_IF
-        
-        CASE eStateRequest OF
-            E_Request.Abort:
-                eState := E_State.Aborting;
-        END_CASE
-
-    // Stopped state: Waits for reset command
-    E_State.Stopped:
-        IF M_Stopped() THEN
-            eState := E_State.Resetting;
-            eStateRequest := E_Request.Undefined;
-        END_IF
-        
-        // Handle reset or abort requests
-        CASE eStateRequest OF
-            E_Request.Reset:
-                eState := E_State.Resetting;
-            E_Request.Abort:
-                eState := E_State.Aborting;
-            ELSE
-                eStateRequest := E_Request.Undefined;
-        END_CASE
-
-    // Aborting state
-    E_State.Aborting:
-        IF M_Aborting() THEN
-            eState := E_State.Aborted;
-            eStateRequest := E_Request.Undefined;
-        END_IF
-
-    // Aborted state: Awaiting reset command
-    E_State.Aborted:
-        IF M_Aborted() THEN
-            eState := E_State.Resetting;
-            eStateRequest := E_Request.Undefined;
-        END_IF
-        
-        // Handle reset request
-        CASE eStateRequest OF
-            E_Request.Reset:
-                eState := E_State.Resetting;
-            ELSE
-                eStateRequest := E_Request.Undefined;
-        END_CASE
-		
-	// Resetting state
-    E_State.Resetting:
-        IF M_Resetting() THEN
-            eState := E_State.Idle;
-            eStateRequest := E_Request.Undefined;
-        END_IF
-
         CASE eStateRequest OF
             E_Request.Stop:
                 eState := E_State.Stopping;
             E_Request.Abort:
                 eState := E_State.Aborting;
-			ELSE
-                eStateRequest := E_Request.Undefined;
+        END_CASE
+
+    // Completed state:
+    E_State.Completed:
+
+    // Stopping state:
+    E_State.Stopping:
+        CASE eStateRequest OF
+            E_Request.Abort:
+                eState := E_State.Aborting;
+        END_CASE
+
+    // Stopped state:
+    E_State.Stopped:
+        CASE eStateRequest OF
+            E_Request.Reset:
+                eState := E_State.Resetting;
+            E_Request.Abort:
+                eState := E_State.Aborting;
+        END_CASE
+
+    // Aborting state:
+	E_State.Aborting:
+	
+    // Aborted state:
+    E_State.Aborted:
+        CASE eStateRequest OF
+            E_Request.Reset:
+                eState := E_State.Resetting;
+        END_CASE
+
+    // Resetting state:
+    E_State.Resetting:
+        CASE eStateRequest OF
+            E_Request.Stop:
+                eState := E_State.Stopping;
+            E_Request.Abort:
+                eState := E_State.Aborting;
         END_CASE
 
 END_CASE
+eStateRequest := E_Request.Undefined;
 
 // Detect state transitions and trigger event callback
 IF eStatePrevious <> eState THEN
     M_OnState(eState, eStatePrevious);
     eStatePrevious := eState;
-END_IF
-]]></ST>
+END_IF]]></ST>
     </Implementation>
     <Folder Name="State" Id="{ca15ba5f-c875-08b1-19c6-3566ddf8fed6}" />
-    <Method Name="FB_init" Id="{badf4989-5758-03ee-2097-25283f2924c2}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL:= TRUE;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="M_Aborted" Id="{f47ae709-6b97-0869-103e-462a949d9bd1}" FolderPath="State\">
       <Declaration><![CDATA[METHOD PROTECTED M_Aborted : BOOL // Return
 VAR_INPUT
@@ -398,61 +393,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Request component states / Command Pattern
-CASE eRequest OF
-	E_Request.Undefined:
-		M_Request:= TRUE;
-		
-	E_Request.Start:
-		IF eState = E_State.Execute THEN
-			M_Request:= TRUE;
-		ELSE
-			eStateRequest:= eRequest;				
-		END_IF
-		
-	E_Request.Hold:
-		IF eState = E_State.Held THEN
-			M_Request:= TRUE;
-		ELSE
-			eStateRequest:= eRequest;
-		END_IF
-		
-	E_Request.Pause:
-		IF eState = E_State.Paused THEN
-			M_Request:= TRUE;
-		ELSE
-			eStateRequest:= eRequest;
-		END_IF
-		
-	E_Request.Complete:
-		IF eState = E_State.Completed THEN
-			M_Request:= TRUE;
-		ELSE
-			eStateRequest:= eRequest;
-		END_IF
-		
-	E_Request.Stop:
-		IF eState = E_State.Stopped THEN
-			M_Request:= TRUE;
-		ELSE
-			eStateRequest:= eRequest;
-		END_IF
-		
-	E_Request.Abort:
-		IF eState = E_State.Aborted THEN
-			M_Request:= TRUE;
-		ELSE
-			eStateRequest:= eRequest;
-		END_IF
-
-	E_Request.Reset:
-		IF eState < E_State.Stopped THEN
-			M_Request:= TRUE;
-		ELSE
-			eStateRequest:= eRequest;			
-		END_IF
-		
-END_CASE]]></ST>
+        <ST><![CDATA[// Request element states
+eStateRequest:= eRequest;
+M_Request:= True;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Resetting" Id="{9e5fa12d-dc9f-0271-3ab1-62fbd4e3c4cb}" FolderPath="State\">

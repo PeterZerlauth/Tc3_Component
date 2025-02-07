@@ -6,6 +6,7 @@
 {attribute 'to_string'}
 TYPE E_State :
 (
+    Resetting       := -1,
    	Idle            := 0,
     Starting        := 1,
     Execute         := 2,
@@ -20,9 +21,9 @@ TYPE E_State :
     Stopping        := 11,
     Stopped         := 12,
     Aborting        := 13,
-    Aborted         := 14,
-    Resetting       := 15
-);
+    Aborted         := 14
+
+)INT;
 END_TYPE]]></Declaration>
   </DUT>
 </TcPlcObject>
